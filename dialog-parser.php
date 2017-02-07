@@ -1,74 +1,74 @@
 <?php
-$arquivo = file('scripts/1.txt');
+$file = file('scripts/1.txt');
 
-// Separando script em seções
-$numero = -1;
-$secoes = $secoes_blocos = array();
-foreach($arquivo as $linha){
-	$checkMudouDialogo = preg_match('/\{\{[0-9]+\}\}/', $linha);
-	if($checkMudouDialogo){
-		$expressao = preg_match('/\{\{[0-9]+\}\}/', $linha, $resultados);
-		$numero = str_replace(array('{', '}'), '', $resultados[0]);
-		$numero = (int)$numero;
+// Separating strings in sections
+$number = -1;
+$sections = $sections_blocks = array();
+foreach($file as $line){
+	$checkDialogueChanged = preg_match('/\{\{[0-9]+\}\}/', $line);
+	if($checkDialogueChanged){
+		$expression = preg_match('/\{\{[0-9]+\}\}/', $line, $results);
+		$number = str_replace(array('{', '}'), '', $results[0]);
+		$number = (int)$number;
 	}
 	
-	if($numero > -1){
-		$linha = str_replace('{{' . $numero . '}}', '', $linha);
+	if($number > -1){
+		$line = str_replace('{{' . $number . '}}', '', $line);
 		
-		if(!isset($secoes[$numero])){
-			$secoes[$numero] = $linha;
+		if(!isset($sections[$number])){
+			$sections[$number] = $line;
 		} else {
-			$secoes[$numero] .= $linha;
+			$sections[$number] .= $line;
 		}
 	}
 }
 
 $tag = false;
-$texto_tag = '';
+$tag_text = '';
 $i = 0;
 
-// Percorrendo seções, de modo a separá-los em blocos
-foreach($secoes as $numero=>$secao){
-	$array_secao = str_split($secao);
+// Iterating into sections to separate them into blocks
+foreach($sections as $number=>$section){
+	$chars_section = str_split($section);
 	
-	// Percorrendo seção atual, caractere a caractere
-	foreach($array_secao as $caractere){
-		if($caractere == '{'){
+	// Iterating current section, char by char
+	foreach($chars_section as $char){
+		if($char == '{'){
 			$tag = true;
-		} elseif($caractere == '}'){
+		} elseif($char == '}'){
 			$tag = false;
 		}
 		
-		if(!isset($secoes_blocos[$numero])){
-			$secoes_blocos[$numero] = array();
+		if(!isset($sections_blocks[$number])){
+			$sections_blocks[$number] = array();
 		}
-		if(!isset($secoes_blocos[$numero][$i])){
-			$secoes_blocos[$numero][$i] = $caractere;
+		if(!isset($sections_blocks[$number][$i])){
+			$sections_blocks[$number][$i] = $char;
 		} else {
-			$secoes_blocos[$numero][$i] .= $caractere;
+			$sections_blocks[$number][$i] .= $char;
 		}
 		
 		if($tag){
-			if($caractere != '{'){
-				$texto_tag .= $caractere;
+			if($char != '{'){
+				$tag_text .= $char;
 			}
 		} else {
-			$checkQuebraDetectada = in_array($texto_tag, array('p', 'nextpage_button', 'nextpage_nobutton'));
-			if($checkQuebraDetectada){
+			$checkBreakDetected = in_array($tag_text, array('p', 'nextpage_button', 'nextpage_nobutton'));
+			if($checkBreakDetected){
 				$i++;
 			}
-			$texto_tag = '';
+			$tag_text = '';
 		}
 	}
 }
 
-foreach($secoes_blocos as $numero=>$blocos){
+foreach($sections_blocks as $number=>$blocks){
 	?>
-	<h1>{{<?php echo $numero ?>}}</h1>
+	<h1>{{<?php echo $number ?>}}</h1>
 	<?php
-	foreach($blocos as $bloco){
+	foreach($blocks as $block){
 		?>
-		<p style='border: 1px solid #444'><?php echo $bloco ?></p>
+		<p style='border: 1px solid #444'><?php echo $block ?></p>
 		<?php
 	}
 }
