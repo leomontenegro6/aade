@@ -1,0 +1,102 @@
+#sandbox-preview{
+	width: 400px;
+	height: 240px;
+	background: url('../img/background1.png');
+	position: relative;
+}
+#sandbox-preview div.character-name{
+	position: absolute;
+	bottom: 81px;
+	left: 48px;
+	color: white;	
+	font-size: 13px;
+	/*letter-spacing: 2px;*/
+}
+#sandbox-preview div.text-window{
+	position: absolute;
+	bottom: 4px;
+	left: 42px;
+	width: 316px;
+	height: 76px;
+	color: #dedede;
+	padding-top: 6px;
+	padding-left: 10px;
+	font-size: 18px;
+	line-height: 1.275;
+}
+div.text-window span.letter{
+	display: inline-block;
+	width: 19px;
+	height: 19px;
+	background: url('../img/font.png');
+	background-position: 0 0;
+}
+div.text-window span.letter.space{
+	background-position: 0 0;
+	width: 9px;
+}
+/* Font sprites */
+div.text-window span.letter.A{ width: 11px; background-position: -305px -665px; }
+div.text-window span.letter.B{ width: 11px; background-position: -324px -665px; }
+div.text-window span.letter.C{ width: 12px; background-position: -343px -665px; }
+div.text-window span.letter.D{ width: 11px; background-position: -362px -665px; }
+div.text-window span.letter.E{ width: 9px; background-position: -381px -665px; }
+div.text-window span.letter.F{ width: 9px; background-position: -400px -665px; }
+div.text-window span.letter.G{ width: 12px; background-position: -419px -665px; }
+div.text-window span.letter.H{ width: 12px; background-position: -438px -665px; }
+div.text-window span.letter.I{ width: 3px; background-position: -457px -665px; }
+div.text-window span.letter.J{ width: 10px; background-position: -476px -665px; }
+div.text-window span.letter.K{ width: 11px; background-position: -495px -665px; }
+div.text-window span.letter.L{ width: 10px; background-position: -514px -665px; }
+div.text-window span.letter.M{ width: 12px; background-position: -533px -665px; }
+div.text-window span.letter.N{ width: 11px; background-position: -552px -665px; }
+div.text-window span.letter.O{ width: 12px; background-position: -571px -665px; }
+div.text-window span.letter.P{ width: 10px; background-position: -590px -665px; }
+div.text-window span.letter.Q{ width: 12px; background-position: -609px -665px; }
+div.text-window span.letter.R{ width: 11px; background-position: -628px -665px; }
+div.text-window span.letter.S{ width: 10px; background-position: -647px -665px; }
+div.text-window span.letter.T{ width: 12px; background-position: -666px -665px; }
+div.text-window span.letter.U{ width: 12px; background-position: -685px -665px; }
+div.text-window span.letter.V{ width: 11px; background-position: -704px -665px; }
+div.text-window span.letter.W{ width: 10px; background-position: -723px -665px; }
+div.text-window span.letter.X{ width: 10px; background-position: -742px -665px; }
+div.text-window span.letter.Y{ width: 10px; background-position: -761px -665px; }
+div.text-window span.letter.Z{ width: 10px; background-position: -780px -665px; }
+div.text-window span.letter.open-square-brackets{ width: 7px; background-position: -21px -19px; }
+div.text-window span.letter.close-square-brackets{ width: 7px; background-position: -39px -19px; }
+div.text-window span.letter.a{ width: 9px; background-position: -856px -665px; }
+div.text-window span.letter.b{ width: 10px; background-position: -875px -665px; }
+div.text-window span.letter.c{ width: 9px; background-position: -894px -665px; }
+div.text-window span.letter.d{ width: 10px; background-position: -913px -665px; }
+div.text-window span.letter.e{ width: 8px; background-position: -932px -665px; }
+div.text-window span.letter.f{ width: 7px; background-position: -951px -665px; }
+div.text-window span.letter.g{ width: 9px; background-position: -970px -665px; }
+div.text-window span.letter.h{ width: 9px; background-position: -989px -665px; }
+div.text-window span.letter.i{ width: 3px; background-position: -1px -684px; }
+div.text-window span.letter.j{ width: 6px; background-position: -20px -684px; }
+div.text-window span.letter.k{ width: 9px; background-position: -39px -684px; }
+div.text-window span.letter.l{ width: 3px; background-position: -58px -684px; }
+div.text-window span.letter.m{ width: 13px; background-position: -77px -684px; }
+div.text-window span.letter.n{ width: 9px; background-position: -96px -684px; }
+div.text-window span.letter.o{ width: 10px; background-position: -115px -684px; }
+div.text-window span.letter.p{ width: 10px; background-position: -134px -684px; }
+div.text-window span.letter.q{ width: 9px; background-position: -153px -684px; }
+div.text-window span.letter.r{ width: 6px; background-position: -172px -684px; }
+div.text-window span.letter.s{ width: 8px; background-position: -191px -684px; }
+div.text-window span.letter.t{ width: 7px; background-position: -210px -684px; }
+div.text-window span.letter.u{ width: 9px; background-position: -229px -684px; }
+div.text-window span.letter.v{ width: 9px; background-position: -248px -684px; }
+div.text-window span.letter.w{ width: 13px; background-position: -267px -684px; }
+div.text-window span.letter.x{ width: 10px; background-position: -286px -684px; }
+div.text-window span.letter.y{ width: 9px; background-position: -305px -684px; }
+div.text-window span.letter.z{ width: 10px; background-position: -324px -684px; }
+
+/* Rules for mobile devices */
+@media (max-width: 480px) {
+	#header ul.title, #header ul.title>li{
+		display: inline-block;
+	}
+	#header ul.about{
+		float: right;
+	}
+}
