@@ -17,7 +17,7 @@ function aadp(){
 		var text = $field.val();
 		var tag = false;
 		
-		if(textType == 'p'){
+		if(textType == 'c'){
 			var $divCharacterName = $divPreview.children('div.character-name');
 			$divCharacterName.html(text);
 		} else if(textType == 't'){
@@ -50,6 +50,16 @@ function aadp(){
 		}
 	}
 	
+	this.updateBackgrounds = function(field){
+		var $field = $(field);
+		var $divSandboxPreview = $('#sandbox-preview');
+		var $imgComparativeImage = $('#sandbox-comparative-image');
+		
+		var value = $field.val();
+		$divSandboxPreview.css('background', "url('img/" + value + ".png')");
+		$imgComparativeImage.attr('src', 'img/' + value + '_filled.png');
+	}
+	
 	this.formatChar = function(char){
 		var charTable = {
 			// Symbols
@@ -60,7 +70,7 @@ function aadp(){
 			':': 'colon', ';': 'semicolon', '<': 'less-than', '=': 'equal',
 			'>': 'greater-than', '?': 'interrogation', '©': 'copyright',
 			'[': 'open-square-brackets', ']': 'close-square-brackets',
-			'_': 'underscore', '´': 'acute-accent', '¡': 'inverted-exclamation',
+			'_': 'underscore', '¡': 'inverted-exclamation',
 			'¿': 'inverted-interrogation', 'º': 'o-ordinal', 'ª': 'a-ordinal',
 			
 			// Numbers

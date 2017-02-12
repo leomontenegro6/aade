@@ -61,14 +61,29 @@ foreach($sections as $number=>$section){
 		}
 	}
 }
-
-foreach($sections_blocks as $number=>$blocks){
-	?>
-	<h1>{{<?php echo $number ?>}}</h1>
-	<?php
-	foreach($blocks as $block){
-		?>
-		<p style='border: 1px solid #444'><?php echo $block ?></p>
-		<?php
-	}
-}
+?>
+<table>
+	<thead>
+		<tr>
+			<th>Seção</th>
+			<th>Bloco</th>
+			<th>Prévia</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach($sections_blocks as $number=>$blocks){ ?>
+			<?php foreach($blocks as $block){ ?>
+				<tr>
+					<td>{{<?php echo $number ?>}}</td>
+					<td><?php echo $block ?></td>
+					<td>---</td>
+				</tr>
+			<?php } ?>
+		<?php } ?>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="3"></td>
+		</tr>
+	</tfoot>
+</table>

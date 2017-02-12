@@ -1,7 +1,7 @@
 #sandbox-preview{
 	width: 400px;
 	height: 240px;
-	background: url('../img/background1.png');
+	background: url('../img/judge.png');
 	position: relative;
 }
 #sandbox-preview div.character-name{
