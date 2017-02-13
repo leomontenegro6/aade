@@ -1,0 +1,4 @@
+# Scripts em bash e arquivos de lote
+# para auxiliar no processo de commit
+*.sh
+*.bat
