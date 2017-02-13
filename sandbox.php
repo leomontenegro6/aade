@@ -3,6 +3,7 @@ $images = array(
 	'judge'=>'Juíz',
 	'phoenix_objecting'=>'Veríssimo protestando',
 	'miles_argumenting'=>'Spada argumentando',
+	'butz_scorning'=>'Vário desdenhando',
 	'alphabet_test'=>'Teste de alfabetos',
 	'accent_test'=>'Teste de acentos'
 );
