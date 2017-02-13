@@ -8,14 +8,88 @@ function aadp(){
 	//this.prop = 0;
 	
 	// Methods
-	this.updatePreview = function(field, previewFieldId, textType){
-		if(typeof textType == 'undefined') textType == 't';
+	this.readScriptFile = function(field){
+		var $dialogParserTab = $('#dialog-parser-tab');
+		
+		var ajax = new XMLHttpRequest();
+		ajax.open("POST", "dialog-parser.php", true);
+		
+		var formData = new FormData();
+		formData.append('script-file', field.files[0]);
+		
+		ajax.onreadystatechange = function(){
+			if (ajax.readyState == 4 && ajax.status == 200) {
+				var response = ajax.responseText;
+				$dialogParserTab.html(response);
+				
+				aadp.instantiatePaginationDialogParsing();
+			}
+		}
+		
+		var x = ajax.send(formData);
+	}
+	
+	this.instantiatePaginationDialogParsing = function(){
+		var $dialogParserTable = $('#dialog-parser-table');
+		
+		if($dialogParserTable.length == 0){
+			return;
+		}
+		
+		// Instantiation
+		var that = this;
+		var object = $dialogParserTable.on('draw.dt', function(){
+			var $tbody = $dialogParserTable.children('tbody');
+			$tbody.children('tr').each(function(){
+				var $tr = $(this);
+				var $textareaTextField = $tr.find('textarea.text-field');
+				var $divDialogPreview = $tr.find('div.dialog-preview');
+				
+				var previewFieldId = $divDialogPreview.attr('id');
+				
+				that.updatePreview($textareaTextField, previewFieldId, 't', false);
+			})
+		}).DataTable({
+			'autoWidth': true,
+			'lengthMenu': [1, 2, 3, 5, 7, 10, 15],
+			'pageLength': 5,
+			'order': [],
+			'language': {
+				'sEmptyTable': 'Nenhum registro encontrado',
+				'sInfo': '',
+				'sInfoEmpty': '(Sem resultados)',
+				'sInfoFiltered': '',
+				'sInfoPostFix': '',
+				'sInfoThousands': '.',
+				'sLengthMenu': 'Exibir: _MENU_',
+				'sLoadingRecords': 'Carregando...<br />Por favor, aguarde!',
+				'sProcessing': 'Processando...<br />Por favor, aguarde!',
+				'sZeroRecords': 'Nenhum registro encontrado',
+				'sSearch': 'Pesquisar:',
+				'oPaginate': {
+					'sFirst': '<span class="glyphicon glyphicon-step-backward"></span>',
+					'sPrevious': '<span class="glyphicon glyphicon-backward"></span>',
+					'sNext': '<span class="glyphicon glyphicon-forward"></span>',
+					'sLast': '<span class="glyphicon glyphicon-step-forward"></span>'
+				},
+				'oAria': {
+					'sSortAscending': ': Ordenar colunas de forma ascendente',
+					'sSortDescending': ': Ordenar colunas de forma descendente'
+				}
+			}
+		});
+	}
+	
+	this.updatePreview = function(field, previewFieldId, textType, sandbox){
+		if(typeof textType == 'undefined') textType = 't';
+		if(typeof sandbox == 'undefined') sandbox = true;
 		
 		var $field = $(field);
 		var $divPreview = $('#' + previewFieldId);
 		
 		var text = $field.val();
 		var tag = false;
+		var tagText = '';
 		
 		if(textType == 'c'){
 			var $divCharacterName = $divPreview.children('div.character-name');
@@ -27,7 +101,7 @@ function aadp(){
 			for (var i = 0, size = text.length; i < size; i++) {
 				var char = text[i];
 				
-				if(char == '\n'){
+				if(sandbox && char == '\n'){
 					$divTextWindow.append('<br />');
 					continue;
 				}
@@ -35,29 +109,37 @@ function aadp(){
 				if(char == "{"){
 					tag = true;
 				} else if(char == "}"){
-					char = '';
 					tag = false;
-				} else {
-					char = this.formatChar(char);
 				}
 				
-				if(!tag && char != ''){
-					$divTextWindow.append(
-						$('<span />').addClass('letter ' + char).html('&nbsp;')
-					);
+				if(tag){
+					if(char != '{'){
+						tagText += char;
+					}
+				} else {
+					if(tagText == 'b'){
+						$divTextWindow.append('<br />');
+					} else if(char != '}' && char != '\n'){
+						var newChar = this.formatChar(char);
+
+						$divTextWindow.append(
+							$('<span />').addClass('letter ' + newChar).html('&nbsp;')
+						);
+					}
+					tagText = '';
 				}
 			}
 		}
 	}
 	
-	this.updateBackgrounds = function(field){
+	this.updateBackgroundsSandbox = function(field){
 		var $field = $(field);
-		var $divSandboxPreview = $('#sandbox-preview');
+		var $divSandboxPreview = $('#sandbox');
 		var $imgComparativeImage = $('#sandbox-comparative-image');
 		
 		var value = $field.val();
-		$divSandboxPreview.css('background', "url('img/" + value + ".png')");
-		$imgComparativeImage.attr('src', 'img/' + value + '_filled.png');
+		$divSandboxPreview.css('background', "url('images/" + value + ".png')");
+		$imgComparativeImage.attr('src', 'images/' + value + '_filled.png');
 	}
 	
 	this.formatChar = function(char){

@@ -1,10 +1,16 @@
-#sandbox-preview{
+.dialog-preview{
 	width: 400px;
 	height: 240px;
-	background: url('../img/judge.png');
+	background: url('../images/judge.png');
 	position: relative;
 }
-#sandbox-preview div.character-name{
+.dialog-preview.text-only{
+	width: 320px;
+	height: 80px;
+	background: url('../images/dialog_box.png');
+	display: inline-block;
+}
+.dialog-preview div.character-name{
 	position: absolute;
 	bottom: 81px;
 	left: 48px;
@@ -12,7 +18,7 @@
 	font-size: 13px;
 	/*letter-spacing: 2px;*/
 }
-#sandbox-preview div.text-window{
+.dialog-preview div.text-window{
 	position: absolute;
 	bottom: 4px;
 	left: 42px;
@@ -23,12 +29,16 @@
 	padding-left: 10px;
 	font-size: 18px;
 	line-height: 1.275;
+	white-space: nowrap;
+}
+.dialog-preview.text-only div.text-window{
+	left: 0;
 }
 div.text-window span.letter{
 	display: inline-block;
 	width: 19px;
 	height: 19px;
-	background: url('../img/font.png');
+	background: url('../images/font.png');
 	background-position: 0 0;
 }
 /* Font sprites */
@@ -96,7 +106,7 @@ div.text-window span.letter.S{ width: 10px; background-position: -647px -665px; 
 div.text-window span.letter.T{ width: 12px; background-position: -666px -665px; }
 div.text-window span.letter.U{ width: 12px; background-position: -685px -665px; }
 div.text-window span.letter.V{ width: 11px; background-position: -704px -665px; }
-div.text-window span.letter.W{ width: 10px; background-position: -723px -665px; }
+div.text-window span.letter.W{ width: 13px; background-position: -723px -665px; }
 div.text-window span.letter.X{ width: 10px; background-position: -742px -665px; }
 div.text-window span.letter.Y{ width: 10px; background-position: -761px -665px; }
 div.text-window span.letter.Z{ width: 10px; background-position: -780px -665px; }
@@ -182,7 +192,7 @@ div.text-window span.letter.u-diaeresis{ width: 9px; background-position: -153px
 div.text-window span.letter.n-circumflex{ width: 9px; background-position: -115px -76px; }
 div.text-window span.letter.y-diaeresis{ width: 9px; background-position: -191px -57px; }
 
-div.text-window span.letter.unknown{ width: 19px; background-position: -571px -19px; }
+div.text-window span.letter.unknown{ width: 19px !important; background-position: -571px -19px !important; }
 
 /* Rules for mobile devices */
 @media (max-width: 480px) {

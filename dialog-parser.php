@@ -1,5 +1,17 @@
 <?php
-$file = file('scripts/1.txt');
+$name = $_FILES['script-file']['name'];
+$path = $_FILES['script-file']['tmp_name'];
+$extension = explode('.', $name);
+$extension = strtolower(end($extension));
+
+if($extension != 'txt'){
+	die('Formato inválido.');
+}
+if(!file_exists($path)){
+	die('Erro ao carregar arquivo transferido para o servidor.');
+}
+
+$file = file($path);
 
 // Separating strings in sections
 $number = -1;
@@ -62,28 +74,45 @@ foreach($sections as $number=>$section){
 	}
 }
 ?>
-<table>
+<table id="dialog-parser-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
 	<thead>
 		<tr>
 			<th>Seção</th>
+			<th>Número</th>
 			<th>Bloco</th>
 			<th>Prévia</th>
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach($sections_blocks as $number=>$blocks){ ?>
-			<?php foreach($blocks as $block){ ?>
+		<?php
+		$total_dialog_blocks = 0;
+		$total_sections = 0;
+		foreach($sections_blocks as $section=>$blocks){
+			$total_sections++;
+			foreach($blocks as $block){
+				$total_dialog_blocks++;
+				
+				$dialogId = "s{$section}-b{$total_dialog_blocks}-dialog";
+				?>
 				<tr>
-					<td>{{<?php echo $number ?>}}</td>
-					<td><?php echo $block ?></td>
-					<td>---</td>
+					<td>{{<?php echo $section ?>}}</td>
+					<td><?php echo $total_dialog_blocks ?></td>
+					<td><textarea class="form-control text-field" rows="5" cols="100" onkeyup="aadp.updatePreview(this, '<?php echo $dialogId ?>', 't', false)"><?php echo $block ?></textarea></td>
+					<td>
+						<div id="<?php echo $dialogId ?>" class="dialog-preview text-only">
+							<div class="text-window"></div>
+						</div>
+					</td>
 				</tr>
-			<?php } ?>
-		<?php } ?>
+			<?php
+			}
+		} ?>
 	</tbody>
 	<tfoot>
 		<tr>
-			<td colspan="3"></td>
+			<td colspan="4">
+				Total de seções: <?php echo $total_sections ?> - Total de diálogos: <?php echo $total_dialog_blocks ?>
+			</td>
 		</tr>
 	</tfoot>
 </table>

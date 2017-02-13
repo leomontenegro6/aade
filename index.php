@@ -27,9 +27,12 @@
 		<meta name="msapplication-square310x310logo" content="favicons/mstile-310x310.png" />
 		
 		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/dataTables.bootstrap.min.css">
 		<link rel="stylesheet" href="css/css.css?<?php echo filemtime('css/css.css') ?>">
 		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/html2canvas.js"></script>
 		<script type="text/javascript" src="js/aadp.js?<?php echo filemtime('js/aadp.js') ?>"></script>
 		<script type="text/javascript">
@@ -71,13 +74,13 @@
 		</nav>
 		<div class="container-fluid">
 			<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active"><a href="#dialog-parser" aria-controls="dialog-parser" role="tab" data-toggle="tab">Interpretador de Diálogos</a></li>
-				<li role="presentation"><a href="#sandbox" aria-controls="sandbox" role="tab" data-toggle="tab">Sandbox</a></li>
+				<li role="presentation" class="active"><a href="#dialog-parser-tab" aria-controls="dialog-parser-tab" role="tab" data-toggle="tab">Interpretador de Diálogos</a></li>
+				<li role="presentation"><a href="#sandbox-tab" aria-controls="sandbox-tab" role="tab" data-toggle="tab">Sandbox</a></li>
 			</ul>
 
 			<div class="tab-content">
-				<div role="tabpanel" class="tab-pane active" id="dialog-parser"><?php include('dialog-parser.php') ?></div>
-				<div role="tabpanel" class="tab-pane" id="sandbox"><?php include('sandbox.php') ?></div>
+				<div role="tabpanel" class="tab-pane active" id="dialog-parser-tab"><?php include('dialog-file-form.php') ?></div>
+				<div role="tabpanel" class="tab-pane" id="sandbox-tab"><?php include('sandbox.php') ?></div>
 			</div>
 		</div>
 	</body>
