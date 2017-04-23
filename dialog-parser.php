@@ -91,13 +91,13 @@ foreach($sections as $number=>$section){
 			$total_sections++;
 			foreach($blocks as $block){
 				$total_dialog_blocks++;
-				
+
 				$dialogId = "s{$section}-b{$total_dialog_blocks}-dialog";
 				?>
 				<tr>
 					<td>{{<?php echo $section ?>}}</td>
 					<td><?php echo $total_dialog_blocks ?></td>
-					<td><textarea class="form-control text-field" rows="5" cols="100" onkeyup="aadp.updatePreview(this, '<?php echo $dialogId ?>', 't', false)"><?php echo $block ?></textarea></td>
+					<td><textarea class="form-control text-field" name="dialog[<?php echo $section ?>][<?php echo $total_dialog_blocks ?>]" rows="5" cols="100" onkeyup="aade.updatePreview(this, '<?php echo $dialogId ?>', 't', false)"><?php echo $block ?></textarea></td>
 					<td>
 						<div id="<?php echo $dialogId ?>" class="dialog-preview text-only">
 							<div class="text-window"></div>
@@ -112,7 +112,12 @@ foreach($sections as $number=>$section){
 		<tr>
 			<td colspan="4">
 				Total de seções: <?php echo $total_sections ?> - Total de diálogos: <?php echo $total_dialog_blocks ?>
+				<button class="btn btn-primary pull-right" title="Gerar script após as edições" type="button" onclick="aade.generateScript()">
+					<span class="glyphicon glyphicon-file"></span>
+					Gerar Script
+				</button>
 			</td>
 		</tr>
 	</tfoot>
 </table>
+<form id="dialog-parser-form" action="dialog-file-generate.php" method="post" target="_blank"></form>

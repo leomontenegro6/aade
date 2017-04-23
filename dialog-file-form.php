@@ -3,7 +3,7 @@
 		<div class="panel panel-default">
 			<div class="form-group">
 				<label for="file-field" class="control-label">Arquivo:</label>
-				<input type="file" id="file-field" name="script-file" onchange="aadp.readScriptFile(this)" />
+				<input type="file" id="file-field" name="script-file" onchange="aade.readScriptFile(this)" />
 				<p class="help-block">
 					Carregue no campo acima um script do "Ace Attorney Trilogy",
 					gerado pela tool do <i>onepiecefreak</i>.

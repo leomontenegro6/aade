@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Pré-visualizador de Diálogos do Ace Attorney</title>
+		<title>Editor de Diálogos do Ace Attorney</title>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 		
@@ -34,10 +34,10 @@
 		<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/html2canvas.js"></script>
-		<script type="text/javascript" src="js/aadp.js?<?php echo filemtime('js/aadp.js') ?>"></script>
+		<script type="text/javascript" src="js/aade.js?<?php echo filemtime('js/aade.js') ?>"></script>
 		<script type="text/javascript">
 			$(function(){
-				aadp.setDefaultValuesSandboxField("Juíz", "Sua conduta durante este\njulgamento decidirá o\ndestino de seu cliente.");
+				aade.setDefaultValuesSandboxField("Juíz", "Sua conduta durante este\njulgamento decidirá o\ndestino de seu cliente.");
 			})
 		</script>
 	</head>
@@ -54,17 +54,17 @@
 						<li>
 							<a class="navbar-brand" href="#">
 								<span class="hidden-xs">
-									Pré-visualizador de Diálogos do Ace Attorney v0.1
+									Editor de Diálogos do Ace Attorney v0.1
 								</span>
 								<span class="visible-xs">
-									PDAA v0.1
+									EDAA v0.1
 								</span>
 							</a>
 						</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right about">
 						<li>
-							<a class="navbar-brand" href="https://github.com/leomontenegro6/aaig" title="Sobre este programa" target="_blank">
+							<a class="navbar-brand" href="https://github.com/leomontenegro6/aade" title="Sobre este programa" target="_blank">
 								<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
 							</a>
 						</li>
@@ -81,6 +81,17 @@
 			<div class="tab-content">
 				<div role="tabpanel" class="tab-pane active" id="dialog-parser-tab"><?php include('dialog-file-form.php') ?></div>
 				<div role="tabpanel" class="tab-pane" id="sandbox-tab"><?php include('sandbox.php') ?></div>
+			</div>
+			
+			<div class="modal" id="loading-indicator" tabindex="-1" role="dialog" aria-labelledby="loadingIndicator">
+				<div class="modal-dialog modal-sm" role="document">
+					<div class="modal-content">
+						<div class="modal-body text-center">
+							<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+							Carregando...
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>

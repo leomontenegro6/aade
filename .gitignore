@@ -2,3 +2,4 @@
 # para auxiliar no processo de commit
 *.sh
 *.bat
+/nbproject/private/

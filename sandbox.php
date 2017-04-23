@@ -14,22 +14,22 @@ $images = array(
 			<div class="panel-body">
 				<div class="form-group">
 					<label for="sandbox-character-field" class="control-label">Personagem:</label>
-					<input type="text" id="sandbox-character-field" class="form-control" onkeyup="aadp.updatePreview(this, 'sandbox', 'c')" />
+					<input type="text" id="sandbox-character-field" class="form-control" onkeyup="aade.updatePreview(this, 'sandbox', 'c')" />
 				</div>
 				<div class="form-group">
 					<label for="sandbox-text-field" class="control-label">Texto:</label>
-					<textarea id="sandbox-text-field" class="form-control" rows="3" onkeyup="aadp.updatePreview(this, 'sandbox', 't')"></textarea>
+					<textarea id="sandbox-text-field" class="form-control" rows="3" onkeyup="aade.updatePreview(this, 'sandbox', 't')"></textarea>
 				</div>
 				<div class="form-group">
 					<label for="sandbox-background-field" class="control-label">Plano de Fundo:</label>
-					<select id="sandbox-background-field" class="form-control" onchange="aadp.updateBackgroundsSandbox(this)">
+					<select id="sandbox-background-field" class="form-control" onchange="aade.updateBackgroundsSandbox(this)">
 						<?php foreach($images as $image=>$name){ ?>
 							<option value="<?php echo $image ?>"><?php echo $name ?></option>
 						<?php } ?>
 					</select>
 				</div>
 				<button type="button" class="btn btn-primary"
-					onclick="aadp.renderImageOnBrowser('sandbox-character-field', 'sandbox-text-field', 'sandbox')">
+					onclick="aade.renderImageOnBrowser('sandbox-character-field', 'sandbox-text-field', 'sandbox')">
 					<span class="glyphicon glyphicon-picture"></span>
 					Gerar Imagem
 				</button>

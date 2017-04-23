@@ -1,3 +1,3 @@
-# Pré-Visualizador de Diálogos do Ace Attorney
+# Editor de Diálogos do Ace Attorney
 
 **TODO**

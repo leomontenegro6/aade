@@ -1,8 +1,8 @@
-/* Javascript library containing methods related to Ace Attorney Dialogue Previewer
+/* Javascript library containing methods related to Ace Attorney Dialogue Editor
  * 
  */
 
-function aadp(){
+function aade(){
 	
 	// Properties
 	//this.prop = 0;
@@ -17,12 +17,17 @@ function aadp(){
 		var formData = new FormData();
 		formData.append('script-file', field.files[0]);
 		
+		this.showLoadingIndicator();
+		
+		var that = this;
 		ajax.onreadystatechange = function(){
 			if (ajax.readyState == 4 && ajax.status == 200) {
 				var response = ajax.responseText;
 				$dialogParserTab.html(response);
 				
-				aadp.instantiatePaginationDialogParsing();
+				that.instantiatePaginationDialogParsing();
+				
+				that.hideLoadingIndicator();
 			}
 		}
 		
@@ -132,6 +137,33 @@ function aadp(){
 		}
 	}
 	
+	this.generateScript = function(){
+		var $dialogParserForm = $('#dialog-parser-form');
+		var $dialogParserTable = $('#dialog-parser-table');
+		
+		var tableObject = $dialogParserTable.DataTable();
+		var that = this;
+		that.showLoadingIndicator();
+		
+		setTimeout(function(){
+			$( tableObject.rows().nodes() ).find('textarea').each(function(){
+				var $textarea = $(this);
+
+				$textarea.clone().appendTo( $dialogParserForm );
+			});
+			$dialogParserForm.submit().html('');
+			that.hideLoadingIndicator();
+		}, 500);
+	}
+	
+	this.showLoadingIndicator = function(){
+		$('#loading-indicator').modal('show');
+	}
+	
+	this.hideLoadingIndicator = function(){
+		$('#loading-indicator').modal('hide');
+	}
+	
 	this.updateBackgroundsSandbox = function(field){
 		var $field = $(field);
 		var $divSandboxPreview = $('#sandbox');
@@ -233,4 +265,4 @@ function aadp(){
 }
 
 // Instantiating objct for class above
-var aadp = new aadp();
+var aade = new aade();
