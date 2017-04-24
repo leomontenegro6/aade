@@ -55,6 +55,7 @@ function aade(){
 				that.updatePreview($textareaTextField, previewFieldId, 't', false);
 			})
 		}).DataTable({
+			'ordering': false,
 			'autoWidth': true,
 			'lengthMenu': [1, 2, 3, 5, 7, 10, 15],
 			'pageLength': 5,
@@ -130,6 +131,23 @@ function aade(){
 						$divTextWindow.append(
 							$('<span />').addClass('letter ' + newChar).html('&nbsp;')
 						);
+					} else if(!sandbox && tagText.startsWith('name:')){
+						var tmp = tagText.split(':');
+						var code = parseInt(tmp.pop(), 10);
+						
+						var name;
+						if(code == 512){
+							name = 'Roberto';
+						} else if(code == 1792){
+							name = 'Amélia';
+						} else if(code == 6400){
+							name = 'Vário';
+						} else {
+							name = '???';
+						}
+						
+						var $divCharacterName = $divPreview.children('div.character-name');
+						$divCharacterName.html(name);
 					}
 					tagText = '';
 				}
@@ -151,7 +169,7 @@ function aade(){
 
 				$textarea.clone().appendTo( $dialogParserForm );
 			});
-			$dialogParserForm.submit().html('');
+			$dialogParserForm.submit().children('textarea').remove();
 			that.hideLoadingIndicator();
 		}, 500);
 	}

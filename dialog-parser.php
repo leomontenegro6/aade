@@ -1,8 +1,10 @@
 <?php
-$name = $_FILES['script-file']['name'];
+$filename = $_FILES['script-file']['name'];
 $path = $_FILES['script-file']['tmp_name'];
-$extension = explode('.', $name);
-$extension = strtolower(end($extension));
+
+$extension = explode('.', $filename);
+$extension = strtolower( end($extension) );
+$filename_without_extension = str_replace('.' . $extension, '', $filename);
 
 if($extension != 'txt'){
 	die('Formato inválido.');
@@ -87,19 +89,26 @@ foreach($sections as $number=>$section){
 		<?php
 		$total_dialog_blocks = 0;
 		$total_sections = 0;
-		foreach($sections_blocks as $section=>$blocks){
+		foreach($sections_blocks as $section_number=>$blocks){
 			$total_sections++;
-			foreach($blocks as $block){
+			foreach($blocks as $block_number=>$block){
 				$total_dialog_blocks++;
-
-				$dialogId = "s{$section}-b{$total_dialog_blocks}-dialog";
+				
+				$textareaName = "dialog[{$section_number}][{$block_number}]";
+				$dialogId = "s{$section_number}-b{$total_dialog_blocks}-dialog";
+				
+				$block = rtrim($block);
 				?>
 				<tr>
-					<td>{{<?php echo $section ?>}}</td>
+					<td>{{<?php echo $section_number ?>}}</td>
 					<td><?php echo $total_dialog_blocks ?></td>
-					<td><textarea class="form-control text-field" name="dialog[<?php echo $section ?>][<?php echo $total_dialog_blocks ?>]" rows="5" cols="100" onkeyup="aade.updatePreview(this, '<?php echo $dialogId ?>', 't', false)"><?php echo $block ?></textarea></td>
+					<td class="formFields">
+						<textarea class="form-control text-field" name="<?php echo $textareaName ?>" rows="5" cols="100"
+							onkeyup="aade.updatePreview(this, '<?php echo $dialogId ?>', 't', false)"><?php echo $block ?></textarea>		
+					</td>
 					<td>
 						<div id="<?php echo $dialogId ?>" class="dialog-preview text-only">
+							<div class="character-name"></div>
 							<div class="text-window"></div>
 						</div>
 					</td>
@@ -120,4 +129,6 @@ foreach($sections as $number=>$section){
 		</tr>
 	</tfoot>
 </table>
-<form id="dialog-parser-form" action="dialog-file-generate.php" method="post" target="_blank"></form>
+<form id="dialog-parser-form" action="dialog-file-generate.php" method="post" target="_blank">
+	<input type="hidden" name="filename" value="<?php echo $filename_without_extension ?>" />
+</form>

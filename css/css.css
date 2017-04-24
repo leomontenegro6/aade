@@ -24,6 +24,7 @@
 	height: 80px;
 	background: url('../images/dialog_box.png');
 	display: inline-block;
+	margin-top: 15px;
 }
 .dialog-preview div.character-name{
 	position: absolute;
@@ -45,6 +46,14 @@
 	font-size: 18px;
 	line-height: 1.275;
 	white-space: nowrap;
+}
+.dialog-preview.text-only div.character-name{
+	left: 0;
+	width: 61px;
+	height: 21px;
+	background: url('../images/charname_box.png');
+	padding-left: 6px;
+	padding-top: 2px;
 }
 .dialog-preview.text-only div.text-window{
 	left: 0;
