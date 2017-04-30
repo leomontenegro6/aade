@@ -98,6 +98,7 @@ foreach($sections as $number=>$section){
 			<th>Número</th>
 			<th>Bloco</th>
 			<th>Prévia</th>
+			<th>Ações</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -127,6 +128,12 @@ foreach($sections as $number=>$section){
 							<div class="character-name" data-character-code="<?php echo $characterCode ?>"></div>
 							<div class="text-window"></div>
 						</div>
+					</td>
+					<td>
+						<button class="btn btn-success copy-clipboard" title="Copiar para área de transferência"
+							data-clipboard-text="teste">
+							<span class="glyphicon glyphicon-copy"></span>
+						</button>
 					</td>
 				</tr>
 			<?php

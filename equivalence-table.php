@@ -20,11 +20,11 @@ $characters_codes = aade::getEquivalenceTable();
 						<td><?php echo $code ?></td>
 						<td>
 							<input type="text" name="character[<?php echo $code ?>][original_name]"
-								value="<?php echo $character['original'] ?>" class="form-control" data-default="true" />
+								value="<?php echo $character['original'] ?>" class="form-control original-name" data-default="true" />
 						</td>
 						<td>
 							<input type="text" name="character[<?php echo $code ?>][adapted_name]"
-								value="<?php echo $character['adapted'] ?>" class="form-control" data-default="true" />
+								value="<?php echo $character['adapted'] ?>" class="form-control adapted-name" data-default="true" />
 						</td>
 					</tr>
 				<?php } ?>

@@ -31,12 +31,15 @@ require_once('utils/aade.php');
 		
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/dataTables.bootstrap.min.css">
+		<link rel="stylesheet" href="css/jquery.highlighttextarea.min.css">
 		<link rel="stylesheet" href="css/css.css?<?php echo filemtime('css/css.css') ?>">
 		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/html2canvas.js"></script>
+		<script type="text/javascript" src="js/jquery.highlighttextarea.min.js"></script>
+		<script type="text/javascript" src="js/clipboard.min.js"></script>
 		<script type="text/javascript" src="js/aade.js?<?php echo filemtime('js/aade.js') ?>"></script>
 		<script type="text/javascript">
 			$(function(){

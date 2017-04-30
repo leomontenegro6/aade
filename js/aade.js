@@ -45,16 +45,22 @@ function aade(){
 		// Instantiation
 		var that = this;
 		var object = $dialogParserTable.on('draw.dt', function(){
+			// Ondraw event
 			var $tbody = $dialogParserTable.children('tbody');
 			$tbody.children('tr').each(function(){
 				var $tr = $(this);
 				var $textareaTextField = $tr.find('textarea.text-field');
 				var $divDialogPreview = $tr.find('div.dialog-preview');
+				var $buttonCopyClipboard = $tr.find('button.copy-clipboard');
 				
 				var previewFieldId = $divDialogPreview.attr('id');
 				
 				that.updatePreview($textareaTextField, previewFieldId, 't', false);
-			})
+				that.instantiateCopyClipboardButton($buttonCopyClipboard[0], $textareaTextField);
+			});
+			
+			var $textareas = $tbody.find('textarea.text-field');
+			that.highlightWordsTextareas($textareas);
 		}).DataTable({
 			'ordering': false,
 			'autoWidth': true,
@@ -84,6 +90,50 @@ function aade(){
 					'sSortDescending': ': Ordenar colunas de forma descendente'
 				}
 			}
+		});
+	}
+	
+	this.highlightWordsTextareas = function(textareas){
+		var $textareas = $(textareas);
+		var $equivalenceTable = $('#equivalence-table')
+		var $inputsAdaptedNames = $equivalenceTable.find('input.adapted-name');
+		
+		var names = [];
+		$inputsAdaptedNames.each(function(){
+			names.push(this.value);
+		});
+		
+		$textareas.highlightTextarea({
+			'words': [{
+				'color': 'lightsalmon',
+				'words': ['{(.+?)}']
+			}, {
+				'color': 'khaki',
+				'words': names
+			}]
+		});
+	}
+	
+	this.instantiateCopyClipboardButton = function(button, textarea){
+		var $textarea = $(textarea);
+		var $button = $(button);
+		
+		var texto = $textarea.val();
+		texto = texto.replace(/{(.*?)}/g, '').replace(/\n/g, ' ');
+		
+		$button.attr('data-clipboard-text', texto).popover({
+			'title': '',
+			'content': 'Copiado com sucesso',
+			'placement': 'left'
+		});
+		
+		var clipboard = new Clipboard(button);
+		
+		clipboard.on('success', function(e) {
+			$button.popover('show');
+			setTimeout(function(){
+				$button.popover('hide');
+			}, 3000);
 		});
 	}
 	
@@ -147,11 +197,11 @@ function aade(){
 							var tmp = tagText.split(':');
 							var colorCode = parseInt(tmp.pop(), 10);
 							if(colorCode == 1){
-								this.lastColor = 'color-green';
+								this.lastColor = 'color-orange';
 							} else if(colorCode == 2){
 								this.lastColor = 'color-blue';
 							} else if(colorCode == 3){
-								this.lastColor = 'color-orange';
+								this.lastColor = 'color-green';
 							} else {
 								this.lastColor = '';
 							}
