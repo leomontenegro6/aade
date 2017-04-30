@@ -5,7 +5,8 @@
 function aade(){
 	
 	// Properties
-	//this.prop = 0;
+	this.lastName = '???';
+	this.lastColor = '';
 	
 	// Methods
 	this.readScriptFile = function(field){
@@ -95,6 +96,7 @@ function aade(){
 		
 		var text = $field.val();
 		var tag = false;
+		var hasNameTag = false;
 		var tagText = '';
 		
 		if(textType == 'c'){
@@ -102,6 +104,7 @@ function aade(){
 			$divCharacterName.html(text);
 		} else if(textType == 't'){
 			var $divTextWindow = $divPreview.children('div.text-window');
+			var $divCharacterName = $divPreview.children('div.character-name');
 			$divTextWindow.html('');
 			
 			for (var i = 0, size = text.length; i < size; i++) {
@@ -123,35 +126,76 @@ function aade(){
 						tagText += char;
 					}
 				} else {
+					// Tags for all contexts
 					if(tagText == 'b'){
 						$divTextWindow.append('<br />');
 					} else if(char != '}' && char != '\n'){
 						var newChar = this.formatChar(char);
 
 						$divTextWindow.append(
-							$('<span />').addClass('letter ' + newChar).html('&nbsp;')
+							$('<span />').addClass('letter ' + newChar + ' ' + this.lastColor).html('&nbsp;')
 						);
-					} else if(!sandbox && tagText.startsWith('name:')){
-						var tmp = tagText.split(':');
-						var code = parseInt(tmp.pop(), 10);
-						
-						var name;
-						if(code == 512){
-							name = 'Roberto';
-						} else if(code == 1792){
-							name = 'Amélia';
-						} else if(code == 6400){
-							name = 'Vário';
-						} else {
-							name = '???';
+					} else if(!sandbox){
+						// Specific tags for dialog parsing
+						if(tagText.startsWith('name:')){
+							hasNameTag = true;
+
+							var tmp = tagText.split(':');
+							var characterCode = parseInt(tmp.pop(), 10);
+							this.lastName = this.getName(characterCode, true);
+						} else if(tagText.startsWith('color:')){
+							var tmp = tagText.split(':');
+							var colorCode = parseInt(tmp.pop(), 10);
+							if(colorCode == 1){
+								this.lastColor = 'color-green';
+							} else if(colorCode == 2){
+								this.lastColor = 'color-blue';
+							} else if(colorCode == 3){
+								this.lastColor = 'color-orange';
+							} else {
+								this.lastColor = '';
+							}
+						} else if(tagText.startsWith('center_text:')){
+							var tmp = tagText.split(':');
+							var centerCode = parseInt(tmp.pop(), 10);
+							if(centerCode == 1){
+								$divTextWindow.addClass('centered');
+							} else {
+								$divTextWindow.removeClass('centered');
+							}
 						}
-						
-						var $divCharacterName = $divPreview.children('div.character-name');
-						$divCharacterName.html(name);
 					}
 					tagText = '';
 				}
 			}
+			
+			if(!sandbox){
+				if(!hasNameTag){
+					var code_server = $divCharacterName.attr('data-character-code');
+					this.lastName = this.getName(code_server, true);
+				}
+				
+				$divCharacterName.html(this.lastName);
+			}
+		}
+	}
+	
+	this.getName = function(code, adapted){
+		if(typeof adapted == 'undefined') adapted = false;
+		
+		var $equivalenceTable = $('#equivalence-table');
+		var $tbodyEquivalenceTable = $equivalenceTable.children('tbody');
+		var $inputName;
+		if(adapted){
+			$inputName = $tbodyEquivalenceTable.find("[name='character[" + code + "][adapted_name]']");
+		} else {
+			$inputName = $tbodyEquivalenceTable.find("[name='character[" + code + "][original_name]']");
+		}
+		
+		if($inputName.length > 0){
+			return $inputName.val();
+		} else {
+			return '???';
 		}
 	}
 	

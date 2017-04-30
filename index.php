@@ -1,3 +1,6 @@
+<?php
+require_once('utils/aade.php');
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -74,12 +77,29 @@
 		</nav>
 		<div class="container-fluid">
 			<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active"><a href="#dialog-parser-tab" aria-controls="dialog-parser-tab" role="tab" data-toggle="tab">Interpretador de Diálogos</a></li>
-				<li role="presentation"><a href="#sandbox-tab" aria-controls="sandbox-tab" role="tab" data-toggle="tab">Sandbox</a></li>
+				<li role="presentation" class="active">
+					<a href="#dialog-parser-tab" aria-controls="dialog-parser-tab" role="tab" data-toggle="tab">
+						<span class="glyphicon glyphicon-text-size"></span>
+						Tradutor de Diálogos
+					</a>
+				</li>
+				<li role="presentation">
+					<a href="#equivalence-table-tab" aria-controls="equivalence-table-tab" role="tab" data-toggle="tab">
+						<span class="glyphicon glyphicon-duplicate"></span>
+						Tabela de Equivalência
+					</a>
+				</li>
+				<li role="presentation">
+					<a href="#sandbox-tab" aria-controls="sandbox-tab" role="tab" data-toggle="tab">
+						<span class="glyphicon glyphicon-inbox"></span>
+						Sandbox
+					</a>
+				</li>
 			</ul>
 
 			<div class="tab-content">
 				<div role="tabpanel" class="tab-pane active" id="dialog-parser-tab"><?php include('dialog-file-form.php') ?></div>
+				<div role="tabpanel" class="tab-pane" id="equivalence-table-tab"><?php include('equivalence-table.php') ?></div>
 				<div role="tabpanel" class="tab-pane" id="sandbox-tab"><?php include('sandbox.php') ?></div>
 			</div>
 			

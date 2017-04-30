@@ -47,6 +47,9 @@
 	line-height: 1.275;
 	white-space: nowrap;
 }
+.dialog-preview div.text-window.centered{
+	text-align: center;
+}
 .dialog-preview.text-only div.character-name{
 	left: 0;
 	width: 61px;
@@ -217,6 +220,19 @@ div.text-window span.letter.n-circumflex{ width: 9px; background-position: -115p
 div.text-window span.letter.y-diaeresis{ width: 9px; background-position: -191px -57px; }
 
 div.text-window span.letter.unknown{ width: 19px !important; background-position: -571px -19px !important; }
+
+div.text-window span.letter.color-blue{
+	-webkit-filter: invert(25%) sepia() saturate(8000%) hue-rotate(220deg);
+	filter: invert(25%) sepia() saturate(8000%) hue-rotate(220deg);
+}
+div.text-window span.letter.color-orange{
+	-webkit-filter: invert(25%) sepia() saturate(7000%) hue-rotate(0);
+	filter: invert(25%) sepia() saturate(7000%) hue-rotate(0);
+}
+div.text-window span.letter.color-green{
+	-webkit-filter: invert(25%) sepia() saturate(1000%) hue-rotate(779deg);
+	filter: invert(25%) sepia() saturate(1000%) hue-rotate(779deg);
+}
 
 /* Rules for mobile devices */
 @media (max-width: 480px) {

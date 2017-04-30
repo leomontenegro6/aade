@@ -1,4 +1,6 @@
 <?php
+require_once('utils/aade.php');
+
 $filename = $_FILES['script-file']['name'];
 $path = $_FILES['script-file']['tmp_name'];
 
@@ -38,7 +40,7 @@ foreach($file as $line){
 }
 
 $tag = false;
-$tag_text = '';
+$character_code = $tag_text = '';
 $i = 0;
 
 // Iterating into sections to separate them into blocks
@@ -57,9 +59,15 @@ foreach($sections as $number=>$section){
 			$sections_blocks[$number] = array();
 		}
 		if(!isset($sections_blocks[$number][$i])){
-			$sections_blocks[$number][$i] = $char;
+			$sections_blocks[$number][$i] = array();
+		}
+		if(!isset($sections_blocks[$number][$i]['character_code'])){
+			$sections_blocks[$number][$i]['character_code'] = $character_code;
+		}
+		if(!isset($sections_blocks[$number][$i]['text'])){
+			$sections_blocks[$number][$i]['text'] = $char;
 		} else {
-			$sections_blocks[$number][$i] .= $char;
+			$sections_blocks[$number][$i]['text'] .= $char;
 		}
 		
 		if($tag){
@@ -67,6 +75,13 @@ foreach($sections as $number=>$section){
 				$tag_text .= $char;
 			}
 		} else {
+			if(aade::startsWith($tag_text, 'name:')){
+				$tmp = explode(':', $tag_text);
+				$character_code = trim( end($tmp) );
+				
+				$sections_blocks[$number][$i]['character_code'] = $character_code;
+			}
+			
 			$checkBreakDetected = in_array($tag_text, array('p', 'nextpage_button', 'nextpage_nobutton'));
 			if($checkBreakDetected){
 				$i++;
@@ -97,18 +112,19 @@ foreach($sections as $number=>$section){
 				$textareaName = "dialog[{$section_number}][{$block_number}]";
 				$dialogId = "s{$section_number}-b{$total_dialog_blocks}-dialog";
 				
-				$block = rtrim($block);
+				$text = rtrim($block['text']);
+				$characterCode = $block['character_code'];
 				?>
 				<tr>
 					<td>{{<?php echo $section_number ?>}}</td>
 					<td><?php echo $total_dialog_blocks ?></td>
 					<td class="formFields">
 						<textarea class="form-control text-field" name="<?php echo $textareaName ?>" rows="5" cols="100"
-							onkeyup="aade.updatePreview(this, '<?php echo $dialogId ?>', 't', false)"><?php echo $block ?></textarea>		
+							onkeyup="aade.updatePreview(this, '<?php echo $dialogId ?>', 't', false)"><?php echo $text ?></textarea>		
 					</td>
 					<td>
 						<div id="<?php echo $dialogId ?>" class="dialog-preview text-only">
-							<div class="character-name"></div>
+							<div class="character-name" data-character-code="<?php echo $characterCode ?>"></div>
 							<div class="text-window"></div>
 						</div>
 					</td>
