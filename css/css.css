@@ -12,7 +12,16 @@
 	from { transform: scale(1) rotate(0deg);}
 	to { transform: scale(1) rotate(360deg);}
 }
-
+div.dataTables_length, div.dataTables_filter{
+	display: inline-block;
+}
+div.dataTables_filter{
+	margin-left: 5px;
+}
+td.form-fields textarea.text-field{
+	width: 640px;
+	height: 115px;
+}
 .dialog-preview{
 	width: 400px;
 	height: 240px;
@@ -60,6 +69,10 @@
 }
 .dialog-preview.text-only div.text-window{
 	left: 0;
+}
+.dialog-preview.text-only div.btn-group{
+	top: -22px;
+	left: 65px;
 }
 div.text-window span.letter{
 	display: inline-block;
@@ -241,5 +254,14 @@ div.text-window span.letter.color-green{
 	}
 	#header ul.about{
 		float: right;
+	}
+	div.dataTables_wrapper div.col-sm-12{
+		padding: 0;
+	}
+	td.form-fields textarea.text-field{
+		width: 300px;
+	}
+	td.form-fields, td.preview-conteiners{
+		padding: 0 !important;
 	}
 }

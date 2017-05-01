@@ -91,14 +91,33 @@ foreach($sections as $number=>$section){
 	}
 }
 ?>
+<div id="global-actions-dropdown" class="dropdown pull-right">
+	<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		Arquivo
+		<span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu">
+		<li>
+			<a href="#" onclick="aade.showScriptConfigSettings()">
+				<span class="glyphicon glyphicon-cog"></span>
+				Configurações
+			</a>
+		</li>
+		<li>
+			<a href="#" onclick="aade.generateScript()">
+				<span class="glyphicon glyphicon-file"></span>
+				Salvar Script
+			</a>
+		</li>
+	</ul>
+</div>
 <table id="dialog-parser-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
 	<thead>
 		<tr>
-			<th>Seção</th>
-			<th>Número</th>
+			<th class="hidden-xs">Seção</th>
+			<th class="hidden-xs">Número</th>
 			<th>Bloco</th>
-			<th>Prévia</th>
-			<th>Ações</th>
+			<th class="hidden-xs">Prévia</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -117,23 +136,51 @@ foreach($sections as $number=>$section){
 				$characterCode = $block['character_code'];
 				?>
 				<tr>
-					<td>{{<?php echo $section_number ?>}}</td>
-					<td><?php echo $total_dialog_blocks ?></td>
-					<td class="formFields">
-						<textarea class="form-control text-field" name="<?php echo $textareaName ?>" rows="5" cols="100"
+					<td class="hidden-xs">{{<?php echo $section_number ?>}}</td>
+					<td class="hidden-xs"><?php echo $total_dialog_blocks ?></td>
+					<td class="form-fields">
+						<div class="row visible-xs">
+							<div class="col-xs-4">
+								<b>Seção:</b> {{<?php echo $section_number ?>}}<br />
+								<b>Número:</b> <?php echo $total_dialog_blocks ?>
+							</div>
+							<div class="col-xs-8">
+								<div class="btn-group btn-group-sm" role="group" aria-label="Ações">
+									<button class="btn btn-primary" onclick="aade.showPreviewOnMobile(this)">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</div>
+							</div>
+						</div>
+						<textarea class="form-control text-field" name="<?php echo $textareaName ?>"
 							onkeyup="aade.updatePreview(this, '<?php echo $dialogId ?>', 't', false)"><?php echo $text ?></textarea>		
 					</td>
-					<td>
+					<td class="preview-conteiners hidden-xs">
+						<div class="row visible-xs" style="padding-bottom: 5px">
+							<div class="col-xs-4">
+								<b>Seção:</b> {{<?php echo $section_number ?>}}<br />
+								<b>Número:</b> <?php echo $total_dialog_blocks ?>
+							</div>
+							<div class="col-xs-8">
+								<div class="btn-group btn-group-sm" role="group" aria-label="Ações">
+									<button class="btn btn-primary" onclick="aade.showPreviewOnMobile(this)">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+									<button class="btn btn-success copy-clipboard">
+										<span class="glyphicon glyphicon-copy"></span>
+									</button>
+								</div>
+							</div>
+						</div>
 						<div id="<?php echo $dialogId ?>" class="dialog-preview text-only">
 							<div class="character-name" data-character-code="<?php echo $characterCode ?>"></div>
+							<div class="btn-group btn-group-xs hidden-xs" role="group" aria-label="Ações Mobile">
+								<button class="btn btn-success copy-clipboard" tabindex="-1">
+									<span class="glyphicon glyphicon-copy"></span>
+								</button>
+							</div>
 							<div class="text-window"></div>
 						</div>
-					</td>
-					<td>
-						<button class="btn btn-success copy-clipboard" title="Copiar para área de transferência"
-							data-clipboard-text="teste">
-							<span class="glyphicon glyphicon-copy"></span>
-						</button>
 					</td>
 				</tr>
 			<?php
@@ -144,10 +191,6 @@ foreach($sections as $number=>$section){
 		<tr>
 			<td colspan="4">
 				Total de seções: <?php echo $total_sections ?> - Total de diálogos: <?php echo $total_dialog_blocks ?>
-				<button class="btn btn-primary pull-right" title="Gerar script após as edições" type="button" onclick="aade.generateScript()">
-					<span class="glyphicon glyphicon-file"></span>
-					Gerar Script
-				</button>
 			</td>
 		</tr>
 	</tfoot>

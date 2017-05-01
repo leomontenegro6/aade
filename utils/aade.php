@@ -40,7 +40,7 @@ class aade{
 			),
 			6656=>array(
 				'original'=>'Sahwit',
-				'adapted'=>'Levisso'
+				'adapted'=>'Vitudo'
 			)
 		);
 	}

@@ -44,29 +44,50 @@ function aade(){
 		
 		// Instantiation
 		var that = this;
-		var object = $dialogParserTable.on('draw.dt', function(){
-			// Ondraw event
-			var $tbody = $dialogParserTable.children('tbody');
-			$tbody.children('tr').each(function(){
-				var $tr = $(this);
-				var $textareaTextField = $tr.find('textarea.text-field');
-				var $divDialogPreview = $tr.find('div.dialog-preview');
-				var $buttonCopyClipboard = $tr.find('button.copy-clipboard');
+		var object = $dialogParserTable.on({
+			// Table draw event
+			'draw.dt': function(){
+				var $tbody = $dialogParserTable.children('tbody');
+				$tbody.children('tr').each(function(){
+					var $tr = $(this);
+					var $textareaTextField = $tr.find('textarea.text-field');
+					var $divDialogPreview = $tr.find('div.dialog-preview');
+					var $buttonsCopyClipboard = $tr.find('button.copy-clipboard');
+
+					var previewFieldId = $divDialogPreview.attr('id');
+
+					that.updatePreview($textareaTextField, previewFieldId, 't', false);
+					that.instantiateCopyClipboardButtons($buttonsCopyClipboard, $textareaTextField);
+				});
+
+				var $textareas = $tbody.find('textarea.text-field');
+				that.highlightWordsTextareas($textareas);
+			},
+			// Pagination change event
+			'page.dt': function(){
+				var info = object.page.info();
+				var currentPage = (info.page + 1);
+				var previousPage;
+				if($dialogParserTable.is("[data-current-page]")){
+					previousPage = parseInt($dialogParserTable.attr('data-current-page'), 10);
+				} else {
+					previousPage = currentPage;
+				}
+				$dialogParserTable.attr('data-current-page', currentPage);
 				
-				var previewFieldId = $divDialogPreview.attr('id');
-				
-				that.updatePreview($textareaTextField, previewFieldId, 't', false);
-				that.instantiateCopyClipboardButton($buttonCopyClipboard[0], $textareaTextField);
-			});
-			
-			var $textareas = $tbody.find('textarea.text-field');
-			that.highlightWordsTextareas($textareas);
+				if(currentPage < previousPage){
+					that.lastColor = '';
+				}
+			}
 		}).DataTable({
 			'ordering': false,
 			'autoWidth': true,
 			'lengthMenu': [1, 2, 3, 5, 7, 10, 15],
 			'pageLength': 5,
 			'order': [],
+			"dom":  "<'row'<'col-sm-6'lf><'col-sm-6 global-actions'>>" +
+					"<'row'<'col-sm-12'tr>>" +
+					"<'row'<'col-sm-5'i><'col-sm-7'p>>",
 			'language': {
 				'sEmptyTable': 'Nenhum registro encontrado',
 				'sInfo': '',
@@ -91,6 +112,10 @@ function aade(){
 				}
 			}
 		});
+		
+		var $dropdownGlobalActions = $('#global-actions-dropdown');
+		var $divGlobalActions = $('div.global-actions');
+		$dropdownGlobalActions.appendTo( $divGlobalActions );
 	}
 	
 	this.highlightWordsTextareas = function(textareas){
@@ -110,31 +135,58 @@ function aade(){
 			}, {
 				'color': 'khaki',
 				'words': names
+			}, {
+				'color': 'lightblue',
+				'words': ['{b}']
 			}]
 		});
 	}
 	
-	this.instantiateCopyClipboardButton = function(button, textarea){
+	this.instantiateCopyClipboardButtons = function(buttons, textarea){
+		var $buttons = $(buttons);
 		var $textarea = $(textarea);
+		
+		$buttons.each(function(){
+			var $button = $(this);
+			
+			$button.tooltip({
+				'trigger': 'click',
+				'placement': 'right'
+			});
+
+			var clipboard = new Clipboard(this, {
+				'text': function(){
+					var texto = $textarea.val();
+					texto = texto.replace(/{(.*?)}/g, '').replace(/\n/g, ' ');
+					return texto;
+				}
+			});
+
+			clipboard.on('success', function(e) {
+				$button.attr('data-original-title', 'Copiado para a área de transferência').tooltip('show');
+				setTimeout(function(){
+					$button.tooltip('hide');
+				}, 3000);
+			});
+		})
+	}
+	
+	this.showPreviewOnMobile = function(button){
 		var $button = $(button);
+		var $tr = $button.closest('tr');
+		var $tdFormFields = $tr.find('td.form-fields');
+		var $tdPreviewConteiners = $tr.find('td.preview-conteiners');
+		var $textarea = $tdFormFields.find('textarea');
 		
-		var texto = $textarea.val();
-		texto = texto.replace(/{(.*?)}/g, '').replace(/\n/g, ' ');
+		if($tdPreviewConteiners.hasClass('visible-xs')){
+			$tdFormFields.removeClass('hidden-xs').addClass('visible-xs');
+			$tdPreviewConteiners.removeClass('visible-xs').addClass('hidden-xs');
+		} else {
+			$tdFormFields.removeClass('visible-xs').addClass('hidden-xs');
+			$tdPreviewConteiners.removeClass('hidden-xs').addClass('visible-xs');
+		}
 		
-		$button.attr('data-clipboard-text', texto).popover({
-			'title': '',
-			'content': 'Copiado com sucesso',
-			'placement': 'left'
-		});
-		
-		var clipboard = new Clipboard(button);
-		
-		clipboard.on('success', function(e) {
-			$button.popover('show');
-			setTimeout(function(){
-				$button.popover('hide');
-			}, 3000);
-		});
+		$textarea.trigger('keyup');
 	}
 	
 	this.updatePreview = function(field, previewFieldId, textType, sandbox){
@@ -249,6 +301,10 @@ function aade(){
 		}
 	}
 	
+	this.showScriptConfigSettings = function(){
+		console.log('TODO');
+	}
+	
 	this.generateScript = function(){
 		var $dialogParserForm = $('#dialog-parser-form');
 		var $dialogParserTable = $('#dialog-parser-table');
@@ -266,6 +322,47 @@ function aade(){
 			$dialogParserForm.submit().children('textarea').remove();
 			that.hideLoadingIndicator();
 		}, 500);
+	}
+	
+	this.addCharacterEquivalenceTable = function(){
+		var code = prompt('Digite o código do personagem');
+		if(code == null){
+			return;
+		}
+		
+		var $equivalenceTable = $('#equivalence-table');
+		var $tbody = $equivalenceTable.children('tbody');
+		var codes = [];
+
+		$tbody.find('td.code').each(function(){
+			var code = this.innerHTML;
+			codes.push(code);
+		});
+		
+		if($.inArray(code, codes) !== -1){
+			alert('Esse código já está sendo usado.');
+			return;
+		}
+		
+		var that = this;
+		that.showLoadingIndicator();
+
+		$.get( "equivalence-table-add.php", {
+			"code": code,
+			"character[original]": '',
+			"character[adapted]": ''
+		}, function(html) {
+			that.hideLoadingIndicator();
+			$tbody.append(html);
+			
+			$tbody.find("input[name='character[" + code + "][original_name]']").focus();
+		});
+	}
+	
+	this.removeCharacterEquivalenceTable = function(button){
+		var $button = $(button);
+		var $tr = $button.closest('tr');
+		$tr.remove();
 	}
 	
 	this.showLoadingIndicator = function(){

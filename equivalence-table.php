@@ -12,23 +12,25 @@ $characters_codes = aade::getEquivalenceTable();
 					<th>Código</th>
 					<th>Nome Original</th>
 					<th>Nome Adaptado</th>
+					<th width="50">&nbsp;</th>
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($characters_codes as $code=>$character){ ?>
-					<tr>
-						<td><?php echo $code ?></td>
-						<td>
-							<input type="text" name="character[<?php echo $code ?>][original_name]"
-								value="<?php echo $character['original'] ?>" class="form-control original-name" data-default="true" />
-						</td>
-						<td>
-							<input type="text" name="character[<?php echo $code ?>][adapted_name]"
-								value="<?php echo $character['adapted'] ?>" class="form-control adapted-name" data-default="true" />
-						</td>
-					</tr>
-				<?php } ?>
+				<?php
+				foreach($characters_codes as $code=>$character){
+					include('equivalence-table-add.php');
+				}
+				?>
 			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="100%">
+						<button type="button" class="btn btn-success pull-right" onclick="aade.addCharacterEquivalenceTable(this)">
+							<span class="glyphicon glyphicon-plus"></span>
+						</button>
+					</td>
+				</tr>
+			</tfoot>
 		</table>
 	</div>
 </div>
