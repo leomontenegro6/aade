@@ -106,16 +106,10 @@ require_once('utils/aade.php');
 				<div role="tabpanel" class="tab-pane" id="sandbox-tab"><?php include('sandbox.php') ?></div>
 			</div>
 			
-			<div class="modal" id="loading-indicator" tabindex="-1" role="dialog" aria-labelledby="loadingIndicator">
-				<div class="modal-dialog modal-sm" role="document">
-					<div class="modal-content">
-						<div class="modal-body text-center">
-							<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
-							Carregando...
-						</div>
-					</div>
-				</div>
-			</div>
+			<?php
+			include('modal-loading.php');
+			include('modal-config.php');
+			?>
 		</div>
 	</body>
 </html>

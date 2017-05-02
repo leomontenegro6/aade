@@ -126,12 +126,16 @@ function aade(){
 	
 	this.highlightWordsTextareas = function(textareas){
 		var $textareas = $(textareas);
-		var $equivalenceTable = $('#equivalence-table')
+		var $equivalenceTable = $('#equivalence-table');
+		var $inputsOriginalNames = $equivalenceTable.find('input.original-name');
 		var $inputsAdaptedNames = $equivalenceTable.find('input.adapted-name');
 		
-		var names = [];
+		var originalNames = [], adaptedNames = [];
+		$inputsOriginalNames.each(function(){
+			originalNames.push(this.value);
+		});
 		$inputsAdaptedNames.each(function(){
-			names.push(this.value);
+			adaptedNames.push(this.value);
 		});
 		
 		$textareas.highlightTextarea({
@@ -139,8 +143,11 @@ function aade(){
 				'color': 'lightsalmon',
 				'words': ['{(.+?)}']
 			}, {
+				'color': 'lightgreen',
+				'words': originalNames
+			}, {
 				'color': 'khaki',
-				'words': names
+				'words': adaptedNames
 			}, {
 				'color': 'lightblue',
 				'words': ['{b}']
@@ -308,7 +315,7 @@ function aade(){
 	}
 	
 	this.showScriptConfigSettings = function(){
-		console.log('TODO');
+		$('#config-settings').modal('show');
 	}
 	
 	this.generateScript = function(){
