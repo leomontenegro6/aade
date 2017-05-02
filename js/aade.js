@@ -113,9 +113,15 @@ function aade(){
 			}
 		});
 		
+		// Moving global actions menu inside table wrapper
 		var $dropdownGlobalActions = $('#global-actions-dropdown');
 		var $divGlobalActions = $('div.global-actions');
 		$dropdownGlobalActions.appendTo( $divGlobalActions );
+		
+		// Asking user to save script before exiting
+		$(window).on("beforeunload", function() { 
+			return 'Há um arquivo aberto na aba "Tradutor de Diálogos". É recomendável salvá-lo antes de sair.\nTem certeza que quer continuar?'; 
+		});
 	}
 	
 	this.highlightWordsTextareas = function(textareas){
@@ -157,7 +163,7 @@ function aade(){
 			var clipboard = new Clipboard(this, {
 				'text': function(){
 					var texto = $textarea.val();
-					texto = texto.replace(/{(.*?)}/g, '').replace(/\n/g, ' ');
+					texto = $.trim( texto.replace(/{(.*?)}/g, '').replace(/\n/g, ' ') );
 					return texto;
 				}
 			});
