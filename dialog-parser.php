@@ -112,8 +112,14 @@ foreach($sections as $section_number=>$section){
 			</a>
 		</li>
 		<li>
-			<a href="#" onclick="aade.generateScript()">
-				<span class="glyphicon glyphicon-file"></span>
+			<a href="#" onclick="aade.previewScript()">
+				<span class="glyphicon glyphicon-search"></span>
+				Gerar Prévia do Script
+			</a>
+		</li>
+		<li>
+			<a href="#" onclick="aade.saveScript()">
+				<span class="glyphicon glyphicon-save-file"></span>
 				Salvar Script
 			</a>
 		</li>

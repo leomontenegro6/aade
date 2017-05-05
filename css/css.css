@@ -12,6 +12,10 @@
 	from { transform: scale(1) rotate(0deg);}
 	to { transform: scale(1) rotate(360deg);}
 }
+#text-preview textarea{
+	height: 300px;
+	resize: none;
+}
 #dialog-parser-table{
 	width: 100%;
 	border-collapse: collapse;
@@ -270,6 +274,9 @@ div.text-window span.letter.color-green{
 	}
 	#header ul.about{
 		float: right;
+	}
+	#text-preview textarea{
+		height: 200px;
 	}
 	div.dataTables_wrapper div.col-sm-12{
 		padding: 0;

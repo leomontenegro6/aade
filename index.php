@@ -61,10 +61,10 @@ require_once('utils/aade.php');
 						<li>
 							<a class="navbar-brand" href="#">
 								<span class="hidden-xs">
-									Editor de Diálogos do Ace Attorney v0.1.1
+									Editor de Diálogos do Ace Attorney v0.2
 								</span>
 								<span class="visible-xs">
-									EDAA v0.1.1
+									EDAA v0.2
 								</span>
 							</a>
 						</li>
@@ -110,6 +110,7 @@ require_once('utils/aade.php');
 			<?php
 			include('modal-loading.php');
 			include('modal-config.php');
+			include('modal-text-preview.php');
 			?>
 		</div>
 	</body>

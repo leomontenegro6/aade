@@ -324,6 +324,21 @@ function aade(){
 		}
 	}
 	
+	this.showTextPreview = function(scriptText){
+		var $divTextPreview = $('#text-preview');
+		var $textareaPreview = $divTextPreview.find('textarea');
+		
+		$divTextPreview.on({
+			'shown.bs.modal': function(){
+				$textareaPreview.val(scriptText);
+			},
+			'hidden.bs.modal': function(){
+				$textareaPreview.val('');
+			}
+		});
+		$divTextPreview.modal('show');
+	}
+	
 	this.showScriptConfigSettings = function(){
 		$('#config-settings').modal('show');
 	}
@@ -349,17 +364,15 @@ function aade(){
 		var $dialogParserTable = $('#dialog-parser-table');
 		var tableObject = $dialogParserTable.DataTable();
 		
-		var $trClone = $tr.clone();
-		tableObject.row.add($trClone).draw();
-		
 		var currentOrder = parseFloat( $tr.find('.order').first().html() );
-		var currentSection = ( $tr.find('.order').first().html() ).replace(/[{}]/g, '');
+		var currentSection = ( $tr.find('.section').first().html() ).replace(/[{}]/g, '');
 		var currentBlockNumber = parseFloat( $tr.find('.block-number').first().html() );
 		
-		var newOrder = currentOrder + 0.01;
-		var newBlockNumber = currentBlockNumber + 0.01;
-		var newDialogId = 's' + currentSection + '-' + (newOrder.toString().replace('.', '_')) + '-dialog';
+		var newOrder = (currentOrder + 0.01).toFixed(2);
+		var newBlockNumber = (currentBlockNumber + 0.01).toFixed(2);
+		var newDialogId = 's' + currentSection + '-' + (newOrder.toString().replace(/\./g, '_')) + '-dialog';
 		
+		var $trClone = $tr.clone();
 		var $newTdFormFields = $trClone.children('td.form-fields');
 		var $newTextarea = $newTdFormFields.find('textarea');
 		var $newTdPreviewConteiners = $trClone.children('td.preview-conteiners');
@@ -377,18 +390,21 @@ function aade(){
 		
 		$newTdFormFields.find('div.highlightTextarea').remove();
 		$newTdFormFields.append($newTextarea[0].outerHTML);
-		$newTdFormFields.find('textarea').val('{b}');
+		$newTdFormFields.find('textarea').val('{p}');
 		
 		$newDivDialogPreview.attr('id', newDialogId);
-		if( $newButtonGroups.children('btn.remove-block').length == 0 ){
-			var $newButtonRemoveDialogBlock = $('<button />').addClass('btn btn-danger remove-block').attr({
-				'tabindex': '-1',
-				'title': 'Remover bloco de diálogo',
-				'onclick': 'aade.removeDialogBlock(this)'
-			}).html('<span class="glyphicon glyphicon-minus"></span>');
-			
-			$newButtonGroups.append($newButtonRemoveDialogBlock[0].outerHTML);
-		}
+		$newButtonGroups.children('button.remove-block').remove();
+		var $newButtonRemoveDialogBlock = $('<button />').addClass('btn btn-danger remove-block').attr({
+			'tabindex': '-1',
+			'title': 'Remover bloco de diálogo',
+			'onclick': 'aade.removeDialogBlock(this)'
+		}).html('<span class="glyphicon glyphicon-minus"></span>');
+
+		$newButtonGroups.append($newButtonRemoveDialogBlock[0].outerHTML);
+		
+		tableObject.row.add($trClone).draw();
+		
+		this.incrementTotalDialogsFooter();
 	}
 	
 	this.removeDialogBlock = function(button){
@@ -398,38 +414,55 @@ function aade(){
 		var tableObject = $dialogParserTable.DataTable();
 		
 		tableObject.row($tr).remove().draw();
+		
+		this.decrementTotalDialogsFooter();
 	}
 	
-	this.generateScript = function(){
+	this.incrementTotalDialogsFooter = function(){
 		var $dialogParserTable = $('#dialog-parser-table');
+		var $tfoot = $dialogParserTable.children('tfoot');
+		var $spanTotalDialogBlocks = $tfoot.find('span.total-dialog-blocks');
+		var total = parseInt($spanTotalDialogBlocks.html(), 10);
 		
-		var filename = $dialogParserTable.attr('data-filename');
-		var tableObject = $dialogParserTable.DataTable();
+		total++;
+		
+		$spanTotalDialogBlocks.html(total);
+	}
+	
+	this.decrementTotalDialogsFooter = function(){
+		var $dialogParserTable = $('#dialog-parser-table');
+		var $tfoot = $dialogParserTable.children('tfoot');
+		var $spanTotalDialogBlocks = $tfoot.find('span.total-dialog-blocks');
+		var total = parseInt($spanTotalDialogBlocks.html(), 10);
+		
+		total--;
+		
+		$spanTotalDialogBlocks.html(total);
+	}
+	
+	this.previewScript = function(){
 		var that = this;
 		that.showLoadingIndicator();
 		
 		setTimeout(function(){
-			var scriptText = '';
-			var scriptSections = [];
+			var scriptText = that.generateScriptText();
 			
-			$( tableObject.rows().nodes() ).find('textarea').sort(function(a, b){
-				// Sort all textareas by id attribute, to avoid messing
-				// with the order of dialogues
-				return parseFloat( $(a).attr('data-order') ) - parseFloat( $(b).attr('data-order') );
-			}).each(function(){
-				var $textarea = $(this);
-				var section = $textarea.attr('data-section');
-				var text = $textarea.val();
-				
-				var checkSectionInserted = ($.inArray(section, scriptSections) !== -1);
-				if(!checkSectionInserted){
-					scriptSections.push(section);
-					
-					scriptText += ('\n\n{{' + section + '}}\n');
-				}
-				
-				scriptText += (text + '\n');
-			});
+			that.hideLoadingIndicator();
+			
+			that.showTextPreview(scriptText);
+		}, 500);
+	}
+	
+	this.saveScript = function(){
+		var $dialogParserTable = $('#dialog-parser-table');
+		
+		var that = this;
+		that.showLoadingIndicator();
+		
+		setTimeout(function(){
+			var scriptText = that.generateScriptText();
+			
+			var filename = $dialogParserTable.attr('data-filename');
 			var file = new Blob([scriptText], {type: "text/plain;charset=utf-8"});
 			
 			var data = new Date();
@@ -440,6 +473,35 @@ function aade(){
 			saveAs(file, filename);
 			that.hideLoadingIndicator();
 		}, 500);
+	}
+	
+	this.generateScriptText = function(){
+		var $dialogParserTable = $('#dialog-parser-table');
+		var tableObject = $dialogParserTable.DataTable();
+		
+		var scriptText = '';
+		var scriptSections = [];
+
+		$( tableObject.rows().nodes() ).find('textarea.text-field').sort(function(a, b){
+			// Sort all textareas by id attribute, to avoid messing
+			// with the order of dialogues
+			return parseFloat( $(a).attr('data-order') ) - parseFloat( $(b).attr('data-order') );
+		}).each(function(){
+			var $textarea = $(this);
+			var section = $textarea.attr('data-section');
+			var text = $textarea.val();
+
+			var checkSectionInserted = ($.inArray(section, scriptSections) !== -1);
+			if(!checkSectionInserted){
+				scriptSections.push(section);
+
+				scriptText += ('\n\n{{' + section + '}}\n');
+			}
+
+			scriptText += (text + '\n');
+		});
+		
+		return scriptText;
 	}
 	
 	this.addCharacterEquivalenceTable = function(){
