@@ -22,7 +22,7 @@ $images = aade::getSandboxBackgroundImages();
 			</select>
 		</div>
 		<button type="button" class="btn btn-primary"
-			onclick="aade.renderImageOnBrowser('sandbox-character-field', 'sandbox-text-field', 'sandbox')">
+			onclick="aade.renderSandboxImageOnBrowser('sandbox-character-field', 'sandbox-text-field', 'sandbox')">
 			<span class="glyphicon glyphicon-picture"></span>
 			Gerar Imagem
 		</button>

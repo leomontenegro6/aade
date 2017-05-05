@@ -5,6 +5,7 @@
 function aade(){
 	
 	// Properties
+	this.nameType = 'a';
 	this.lastName = '???';
 	this.lastColor = '';
 	
@@ -80,11 +81,10 @@ function aade(){
 				}
 			}
 		}).DataTable({
-			'ordering': false,
+			'order': [[0, 'asc']],
 			'autoWidth': true,
 			'lengthMenu': [1, 2, 3, 5, 7, 10, 15],
 			'pageLength': 5,
-			'order': [],
 			"dom":  "<'row'<'col-sm-6'lf><'col-sm-6 global-actions'>>" +
 					"<'row'<'col-sm-12'tr>>" +
 					"<'row'<'col-sm-5'i><'col-sm-7'p>>",
@@ -138,20 +138,31 @@ function aade(){
 			adaptedNames.push(this.value);
 		});
 		
-		$textareas.highlightTextarea({
-			'words': [{
-				'color': 'lightsalmon',
-				'words': ['{(.+?)}']
-			}, {
-				'color': 'lightgreen',
-				'words': originalNames
-			}, {
-				'color': 'khaki',
-				'words': adaptedNames
-			}, {
-				'color': 'lightblue',
-				'words': ['{b}']
-			}]
+		$textareas.each(function(){
+			var $textarea = $(this);
+			var $tdFormFields = $textarea.closest('td.form-fields');
+			
+			if($textarea.is("[data-highlight-instantiated='true']")){
+				$textarea.appendTo($tdFormFields);
+				$tdFormFields.find('div.highlightTextarea').remove();
+				delete $textarea.data()['highlighter'];
+			}
+			
+			$textarea.highlightTextarea({
+				'words': [{
+					'color': 'lightsalmon',
+					'words': ['{(.+?)}']
+				}, {
+					'color': 'lightgreen',
+					'words': originalNames
+				}, {
+					'color': 'khaki',
+					'words': adaptedNames
+				}, {
+					'color': 'lightblue',
+					'words': ['{b}']
+				}]
+			}).attr('data-highlight-instantiated', 'true');
 		});
 	}
 	
@@ -164,7 +175,7 @@ function aade(){
 			
 			$button.tooltip({
 				'trigger': 'click',
-				'placement': 'right'
+				'placement': 'top'
 			});
 
 			var clipboard = new Clipboard(this, {
@@ -257,7 +268,7 @@ function aade(){
 
 							var tmp = tagText.split(':');
 							var characterCode = parseInt(tmp.pop(), 10);
-							this.lastName = this.getName(characterCode, true);
+							this.lastName = this.getName(characterCode);
 						} else if(tagText.startsWith('color:')){
 							var tmp = tagText.split(':');
 							var colorCode = parseInt(tmp.pop(), 10);
@@ -287,7 +298,7 @@ function aade(){
 			if(!sandbox){
 				if(!hasNameTag){
 					var code_server = $divCharacterName.attr('data-character-code');
-					this.lastName = this.getName(code_server, true);
+					this.lastName = this.getName(code_server);
 				}
 				
 				$divCharacterName.html(this.lastName);
@@ -295,13 +306,12 @@ function aade(){
 		}
 	}
 	
-	this.getName = function(code, adapted){
-		if(typeof adapted == 'undefined') adapted = false;
-		
+	this.getName = function(code){
 		var $equivalenceTable = $('#equivalence-table');
 		var $tbodyEquivalenceTable = $equivalenceTable.children('tbody');
 		var $inputName;
-		if(adapted){
+		
+		if(this.nameType == 'a'){
 			$inputName = $tbodyEquivalenceTable.find("[name='character[" + code + "][adapted_name]']");
 		} else {
 			$inputName = $tbodyEquivalenceTable.find("[name='character[" + code + "][original_name]']");
@@ -318,21 +328,116 @@ function aade(){
 		$('#config-settings').modal('show');
 	}
 	
+	this.changeDefaultNameTypes = function(radio){
+		var $radio = $(radio);
+		
+		var nameType = $radio.val();
+		this.nameType = nameType;
+		
+		this.updatePreviewVisibleTextareas();
+	}
+	
+	this.updatePreviewVisibleTextareas = function(){
+		var $dialogParserTable = $('#dialog-parser-table');
+		var $textareas = $dialogParserTable.find('textarea');
+		$textareas.trigger('keyup');
+	}
+	
+	this.addNewDialogBlock = function(button){
+		var $button = $(button);
+		var $tr = $button.closest('tr');
+		var $dialogParserTable = $('#dialog-parser-table');
+		var tableObject = $dialogParserTable.DataTable();
+		
+		var $trClone = $tr.clone();
+		tableObject.row.add($trClone).draw();
+		
+		var currentOrder = parseFloat( $tr.find('.order').first().html() );
+		var currentSection = ( $tr.find('.order').first().html() ).replace(/[{}]/g, '');
+		var currentBlockNumber = parseFloat( $tr.find('.block-number').first().html() );
+		
+		var newOrder = currentOrder + 0.01;
+		var newBlockNumber = currentBlockNumber + 0.01;
+		var newDialogId = 's' + currentSection + '-' + (newOrder.toString().replace('.', '_')) + '-dialog';
+		
+		var $newTdFormFields = $trClone.children('td.form-fields');
+		var $newTextarea = $newTdFormFields.find('textarea');
+		var $newTdPreviewConteiners = $trClone.children('td.preview-conteiners');
+		var $newDivDialogPreview = $newTdPreviewConteiners.children('div.dialog-preview');
+		var $newButtonGroups = $newTdPreviewConteiners.find('div.btn-group');
+		
+		$trClone.find('.order').html(newOrder);
+		$trClone.find('.block-number').html(newBlockNumber);
+		
+		$newTextarea.removeAttr('onkeyup data-highlight-instantiated').attr({
+			'data-order': newOrder,
+			'data-block': newBlockNumber,
+			'onkeyup': "aade.updatePreview(this, '" + newDialogId + "', 't', false)"
+		});
+		
+		$newTdFormFields.find('div.highlightTextarea').remove();
+		$newTdFormFields.append($newTextarea[0].outerHTML);
+		$newTdFormFields.find('textarea').val('{b}');
+		
+		$newDivDialogPreview.attr('id', newDialogId);
+		if( $newButtonGroups.children('btn.remove-block').length == 0 ){
+			var $newButtonRemoveDialogBlock = $('<button />').addClass('btn btn-danger remove-block').attr({
+				'tabindex': '-1',
+				'title': 'Remover bloco de diálogo',
+				'onclick': 'aade.removeDialogBlock(this)'
+			}).html('<span class="glyphicon glyphicon-minus"></span>');
+			
+			$newButtonGroups.append($newButtonRemoveDialogBlock[0].outerHTML);
+		}
+	}
+	
+	this.removeDialogBlock = function(button){
+		var $button = $(button);
+		var $tr = $button.closest('tr');
+		var $dialogParserTable = $('#dialog-parser-table');
+		var tableObject = $dialogParserTable.DataTable();
+		
+		tableObject.row($tr).remove().draw();
+	}
+	
 	this.generateScript = function(){
-		var $dialogParserForm = $('#dialog-parser-form');
 		var $dialogParserTable = $('#dialog-parser-table');
 		
+		var filename = $dialogParserTable.attr('data-filename');
 		var tableObject = $dialogParserTable.DataTable();
 		var that = this;
 		that.showLoadingIndicator();
 		
 		setTimeout(function(){
-			$( tableObject.rows().nodes() ).find('textarea').each(function(){
+			var scriptText = '';
+			var scriptSections = [];
+			
+			$( tableObject.rows().nodes() ).find('textarea').sort(function(a, b){
+				// Sort all textareas by id attribute, to avoid messing
+				// with the order of dialogues
+				return parseFloat( $(a).attr('data-order') ) - parseFloat( $(b).attr('data-order') );
+			}).each(function(){
 				var $textarea = $(this);
-
-				$textarea.clone().appendTo( $dialogParserForm );
+				var section = $textarea.attr('data-section');
+				var text = $textarea.val();
+				
+				var checkSectionInserted = ($.inArray(section, scriptSections) !== -1);
+				if(!checkSectionInserted){
+					scriptSections.push(section);
+					
+					scriptText += ('\n\n{{' + section + '}}\n');
+				}
+				
+				scriptText += (text + '\n');
 			});
-			$dialogParserForm.submit().children('textarea').remove();
+			var file = new Blob([scriptText], {type: "text/plain;charset=utf-8"});
+			
+			var data = new Date();
+			data = new Date(data.getTime() - (data.getTimezoneOffset() * 60000)).toJSON();
+			data = data.slice(0, 19).replace(/T/g, '-').replace(/:/g, '-');
+			filename += '-' + data + '.txt';
+			
+			saveAs(file, filename);
 			that.hideLoadingIndicator();
 		}, 500);
 	}
@@ -357,19 +462,19 @@ function aade(){
 			return;
 		}
 		
-		var that = this;
-		that.showLoadingIndicator();
-
-		$.get( "equivalence-table-add.php", {
-			"code": code,
-			"character[original]": '',
-			"character[adapted]": ''
-		}, function(html) {
-			that.hideLoadingIndicator();
-			$tbody.append(html);
-			
-			$tbody.find("input[name='character[" + code + "][original_name]']").focus();
-		});
+		var $clonedTr = $tbody.find('tr').last().clone();
+		var $tdCode = $clonedTr.find('td.code');
+		var $inputOriginalName = $clonedTr.find('input.original-name');
+		var $inputAdaptedName = $clonedTr.find('input.adapted-name');
+		var $buttonRemove = $clonedTr.find('button');
+		
+		$tdCode.html(code);
+		$inputOriginalName.attr('name', 'character[' + code + '][original_name]').val('');
+		$inputAdaptedName.attr('name', 'character[' + code + '][adapted_name]').val('');
+		$buttonRemove.removeAttr('disabled');
+		
+		$clonedTr.appendTo($tbody);
+		$inputOriginalName.focus();
 	}
 	
 	this.removeCharacterEquivalenceTable = function(button){
@@ -463,7 +568,7 @@ function aade(){
 		$textField.val(text).trigger('keyup');
 	}
 	
-	this.renderImageOnBrowser = function(characterFieldId, textFieldId, previewFieldId, callback){
+	this.renderSandboxImageOnBrowser = function(characterFieldId, textFieldId, previewFieldId, callback){
 		var $characterField = $('#' + characterFieldId);
 		var $textField = $('#' + textFieldId);
 		var $previewField = $('#' + previewFieldId);
@@ -471,7 +576,7 @@ function aade(){
 		var filename = ( $characterField.val() + '-' + $textField.val() ).replace(/\n/g, ' ');
 		
 		html2canvas($previewField, {
-			onrendered: function(canvas) {
+			'onrendered': function(canvas) {
 				var a = document.createElement('a');
 				a.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 				a.download = filename + '.png';
@@ -481,6 +586,40 @@ function aade(){
 				$a.remove();
 				
 				if(callback) callback();
+			}
+		});
+	}
+	
+	this.renderPreviewImageOnBrowser = function(button){
+		var $button = $(button);
+		var $tdPreviewConteiners = $button.closest('td.preview-conteiners');
+		var $previewField = $tdPreviewConteiners.children('div.dialog-preview');
+		var $btnGroup = $previewField.children('div.btn-group');
+		var $td = $button.closest('td.preview-conteiners');
+		
+		var previewFieldId = $previewField.attr('id');
+		var filename = 'preview-' + previewFieldId;
+		
+		$btnGroup.hide();
+		html2canvas($td, {
+			'onrendered': function(canvas) {
+				var width = 320, height = 104;
+				var ctx = canvas.getContext('2d');
+				var imageData = ctx.getImageData(7, 2, width, height);
+				
+				canvas.width = width;
+				canvas.height = height;
+				ctx.putImageData(imageData, 0, 0);
+				
+				var a = document.createElement('a');
+				a.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+				a.download = filename + '.png';
+				var $a = $(a);
+				$('body').append($a);
+				a.click();
+				$a.remove();
+				
+				$btnGroup.show();
 			}
 		});
 	}

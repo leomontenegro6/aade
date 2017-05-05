@@ -21,7 +21,7 @@ require_once('utils/aade.php');
 		<link rel="icon" type="image/png" href="favicons/favicon-32x32.png" sizes="32x32" />
 		<link rel="icon" type="image/png" href="favicons/favicon-16x16.png" sizes="16x16" />
 		<link rel="icon" type="image/png" href="favicons/favicon-128.png" sizes="128x128" />
-		<meta name="application-name" content="&nbsp;"/>
+		<meta name="application-name" content="&nbsp;" />
 		<meta name="msapplication-TileColor" content="#FFFFFF" />
 		<meta name="msapplication-TileImage" content="favicons/mstile-144x144.png" />
 		<meta name="msapplication-square70x70logo" content="favicons/mstile-70x70.png" />
@@ -40,6 +40,7 @@ require_once('utils/aade.php');
 		<script type="text/javascript" src="js/html2canvas.js"></script>
 		<script type="text/javascript" src="js/jquery.highlighttextarea.min.js"></script>
 		<script type="text/javascript" src="js/clipboard.min.js"></script>
+		<script type="text/javascript" src="js/FileSaver.min.js"></script>
 		<script type="text/javascript" src="js/aade.js?<?php echo filemtime('js/aade.js') ?>"></script>
 		<script type="text/javascript">
 			$(function(){
@@ -60,10 +61,10 @@ require_once('utils/aade.php');
 						<li>
 							<a class="navbar-brand" href="#">
 								<span class="hidden-xs">
-									Editor de Diálogos do Ace Attorney v0.1
+									Editor de Diálogos do Ace Attorney v0.1.1
 								</span>
 								<span class="visible-xs">
-									EDAA v0.1
+									EDAA v0.1.1
 								</span>
 							</a>
 						</li>

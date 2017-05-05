@@ -41,11 +41,11 @@ foreach($file as $line){
 
 $tag = false;
 $character_code = $tag_text = '';
-$i = 0;
 
 // Iterating into sections to separate them into blocks
-foreach($sections as $number=>$section){
+foreach($sections as $section_number=>$section){
 	$chars_section = str_split($section);
+	$block_number = 1;
 	
 	// Iterating current section, char by char
 	foreach($chars_section as $char){
@@ -55,19 +55,22 @@ foreach($sections as $number=>$section){
 			$tag = false;
 		}
 		
-		if(!isset($sections_blocks[$number])){
-			$sections_blocks[$number] = array();
+		if(!isset($sections_blocks[$section_number])){
+			$sections_blocks[$section_number] = array();
 		}
-		if(!isset($sections_blocks[$number][$i])){
-			$sections_blocks[$number][$i] = array();
+		if(!isset($sections_blocks[$section_number][$block_number])){
+			$sections_blocks[$section_number][$block_number] = array();
 		}
-		if(!isset($sections_blocks[$number][$i]['character_code'])){
-			$sections_blocks[$number][$i]['character_code'] = $character_code;
+		if(!isset($sections_blocks[$section_number][$block_number]['character_code'])){
+			$sections_blocks[$section_number][$block_number]['character_code'] = $character_code;
 		}
-		if(!isset($sections_blocks[$number][$i]['text'])){
-			$sections_blocks[$number][$i]['text'] = $char;
+		if(!isset($sections_blocks[$section_number][$block_number]['text'])){
+			$sections_blocks[$section_number][$block_number]['text'] = $char;
 		} else {
-			$sections_blocks[$number][$i]['text'] .= $char;
+			$sections_blocks[$section_number][$block_number]['text'] .= $char;
+		}
+		if(!isset($sections_blocks[$section_number][$block_number]['has_endjmp'])){
+			$sections_blocks[$section_number][$block_number]['has_endjmp'] = false;
 		}
 		
 		if($tag){
@@ -79,12 +82,17 @@ foreach($sections as $number=>$section){
 				$tmp = explode(':', $tag_text);
 				$character_code = trim( end($tmp) );
 				
-				$sections_blocks[$number][$i]['character_code'] = $character_code;
+				$sections_blocks[$section_number][$block_number]['character_code'] = $character_code;
+			}
+			
+			$checkHasEndJump = ($tag_text == 'endjmp');
+			if($checkHasEndJump){
+				$sections_blocks[$section_number][$block_number]['has_endjmp'] = true;
 			}
 			
 			$checkBreakDetected = in_array($tag_text, array('p', 'nextpage_button', 'nextpage_nobutton'));
 			if($checkBreakDetected){
-				$i++;
+				$block_number++;
 			}
 			$tag_text = '';
 		}
@@ -111,9 +119,10 @@ foreach($sections as $number=>$section){
 		</li>
 	</ul>
 </div>
-<table id="dialog-parser-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+<table id="dialog-parser-table" class="table table-striped table-bordered" data-filename="<?php echo $filename_without_extension ?>">
 	<thead>
 		<tr>
+			<th class="hidden-xs">Ordem</th>
 			<th class="hidden-xs">Seção</th>
 			<th class="hidden-xs">Número</th>
 			<th>Bloco</th>
@@ -129,55 +138,79 @@ foreach($sections as $number=>$section){
 			foreach($blocks as $block_number=>$block){
 				$total_dialog_blocks++;
 				
-				$textareaName = "dialog[{$section_number}][{$block_number}]";
+				$textareaOrder = $total_dialog_blocks;
 				$dialogId = "s{$section_number}-b{$total_dialog_blocks}-dialog";
 				
 				$text = rtrim($block['text']);
 				$characterCode = $block['character_code'];
+				$checkHasEndJump = $block['has_endjmp'];
 				?>
 				<tr>
-					<td class="hidden-xs">{{<?php echo $section_number ?>}}</td>
-					<td class="hidden-xs"><?php echo $total_dialog_blocks ?></td>
+					<td class="hidden-xs order"><?php echo $total_dialog_blocks ?></td>
+					<td class="hidden-xs section">{{<?php echo $section_number ?>}}</td>
+					<td class="hidden-xs block-number"><?php echo $block_number ?></td>
 					<td class="form-fields">
 						<div class="row visible-xs">
 							<div class="col-xs-4">
-								<b>Seção:</b> {{<?php echo $section_number ?>}}<br />
-								<b>Número:</b> <?php echo $total_dialog_blocks ?>
+								<b>Ordem:</b> <span class="order"><?php echo $total_dialog_blocks ?></span><br />
+								<b>Seção:</b> <span class="section">{{<?php echo $section_number ?>}}</span><br />
+								<b>Número:</b> <span class="block-number"><?php echo $block_number ?></span>
 							</div>
 							<div class="col-xs-8">
 								<div class="btn-group btn-group-sm" role="group" aria-label="Ações">
-									<button class="btn btn-primary" onclick="aade.showPreviewOnMobile(this)">
+									<button class="btn btn-info" onclick="aade.showPreviewOnMobile(this)">
 										<span class="glyphicon glyphicon-search"></span>
 									</button>
 								</div>
 							</div>
 						</div>
-						<textarea class="form-control text-field" name="<?php echo $textareaName ?>"
+						<textarea class="form-control text-field" data-order="<?php echo $textareaOrder ?>"
+							data-section="<?php echo $section_number ?>" data-block="<?php echo $block_number ?>"
 							onkeyup="aade.updatePreview(this, '<?php echo $dialogId ?>', 't', false)"><?php echo $text ?></textarea>		
 					</td>
 					<td class="preview-conteiners hidden-xs">
 						<div class="row visible-xs" style="padding-bottom: 5px">
 							<div class="col-xs-4">
-								<b>Seção:</b> {{<?php echo $section_number ?>}}<br />
-								<b>Número:</b> <?php echo $total_dialog_blocks ?>
+								<b>Ordem:</b> <span class="order"><?php echo $total_dialog_blocks ?></span><br />
+								<b>Seção:</b> <span class="section">{{<?php echo $section_number ?>}}</span><br />
+								<b>Número:</b> <span class="block-number"><?php echo $block_number ?></span>
 							</div>
 							<div class="col-xs-8">
 								<div class="btn-group btn-group-sm" role="group" aria-label="Ações">
-									<button class="btn btn-primary" onclick="aade.showPreviewOnMobile(this)">
+									<button class="btn btn-info" onclick="aade.showPreviewOnMobile(this)">
 										<span class="glyphicon glyphicon-search"></span>
 									</button>
-									<button class="btn btn-success copy-clipboard">
+									<button class="btn btn-warning copy-clipboard">
 										<span class="glyphicon glyphicon-copy"></span>
 									</button>
+									<button class="btn btn-primary render-image" onclick="aade.renderPreviewImageOnBrowser(this)">
+										<span class="glyphicon glyphicon-picture"></span>
+									</button>
+									<?php if(!$checkHasEndJump){ ?>
+									<button class="btn btn-success add-new-block" tabindex="-1" title="Adicionar novo bloco de diálogo"
+										onclick="aade.addNewDialogBlock(this)">
+										<span class="glyphicon glyphicon-plus"></span>
+									</button>
+								<?php } ?>
 								</div>
 							</div>
 						</div>
 						<div id="<?php echo $dialogId ?>" class="dialog-preview text-only">
 							<div class="character-name" data-character-code="<?php echo $characterCode ?>"></div>
 							<div class="btn-group btn-group-xs hidden-xs" role="group" aria-label="Ações Mobile">
-								<button class="btn btn-success copy-clipboard" tabindex="-1">
+								<button class="btn btn-warning copy-clipboard" tabindex="-1">
 									<span class="glyphicon glyphicon-copy"></span>
 								</button>
+								<button class="btn btn-primary render-image" tabindex="-1" title="Gerar Imagem"
+									onclick="aade.renderPreviewImageOnBrowser(this)">
+									<span class="glyphicon glyphicon-picture"></span>
+								</button>
+								<?php if(!$checkHasEndJump){ ?>
+									<button class="btn btn-success add-new-block" tabindex="-1" title="Adicionar novo bloco de diálogo"
+										onclick="aade.addNewDialogBlock(this)">
+										<span class="glyphicon glyphicon-plus"></span>
+									</button>
+								<?php } ?>
 							</div>
 							<div class="text-window"></div>
 						</div>
@@ -189,12 +222,9 @@ foreach($sections as $number=>$section){
 	</tbody>
 	<tfoot>
 		<tr>
-			<td colspan="4">
-				Total de seções: <?php echo $total_sections ?> - Total de diálogos: <?php echo $total_dialog_blocks ?>
+			<td colspan="5">
+				Total de seções: <?php echo $total_sections ?> - Total de diálogos: <span class="total-dialog-blocks"><?php echo $total_dialog_blocks ?></span>
 			</td>
 		</tr>
 	</tfoot>
 </table>
-<form id="dialog-parser-form" action="dialog-file-generate.php" method="post" target="_blank">
-	<input type="hidden" name="filename" value="<?php echo $filename_without_extension ?>" />
-</form>

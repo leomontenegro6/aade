@@ -12,6 +12,10 @@
 	from { transform: scale(1) rotate(0deg);}
 	to { transform: scale(1) rotate(360deg);}
 }
+#dialog-parser-table{
+	width: 100%;
+	border-collapse: collapse;
+}
 div.dataTables_length, div.dataTables_filter{
 	display: inline-block;
 }
@@ -247,7 +251,19 @@ div.text-window span.letter.color-green{
 	filter: invert(25%) sepia() saturate(1000%) hue-rotate(779deg);
 }
 
-/* Rules for mobile devices */
+/* Rules for middle devices (md) */
+@media (min-width: 992px) and (max-width: 1199px) {
+	td.form-fields textarea.text-field{
+		width: 320px;
+	}
+}
+
+/* Rules for small devices (sm) */
+@media (min-width: 768px) and (max-width: 991px) {
+	
+}
+
+/* Rules for extra-small devices (xs) */
 @media (max-width: 480px) {
 	#header ul.title, #header ul.title>li{
 		display: inline-block;
