@@ -5,19 +5,21 @@
 function aade(){
 	
 	// Properties
-	this.nameType = 'a';
+	this.nameType = 'o';
 	this.lastName = '???';
 	this.lastColor = '';
 	
 	// Methods
-	this.readScriptFile = function(field){
+	this.readScriptFile = function(dialogFileForm){
+		var $dialogFileForm = $(dialogFileForm);
+		var $fileField = $('#file-field');
 		var $dialogParserTab = $('#dialog-parser-tab');
 		
 		var ajax = new XMLHttpRequest();
 		ajax.open("POST", "dialog-parser.php", true);
 		
 		var formData = new FormData();
-		formData.append('script-file', field.files[0]);
+		formData.append('script-file', $fileField[0].files[0]);
 		
 		this.showLoadingIndicator();
 		
@@ -34,6 +36,8 @@ function aade(){
 		}
 		
 		var x = ajax.send(formData);
+		
+		return false;
 	}
 	
 	this.instantiatePaginationDialogParsing = function(){
@@ -341,6 +345,12 @@ function aade(){
 	
 	this.showScriptConfigSettings = function(){
 		$('#config-settings').modal('show');
+		
+		if(this.nameType == 'o'){
+			$('#name-type-original').prop('checked', true);
+		} else {
+			$('#name-type-adapted').prop('checked', true);
+		}
 	}
 	
 	this.changeDefaultNameTypes = function(radio){
@@ -402,7 +412,7 @@ function aade(){
 
 		$newButtonGroups.append($newButtonRemoveDialogBlock[0].outerHTML);
 		
-		tableObject.row.add($trClone).draw();
+		tableObject.row.add($trClone).draw(false);
 		
 		this.incrementTotalDialogsFooter();
 	}
@@ -413,7 +423,7 @@ function aade(){
 		var $dialogParserTable = $('#dialog-parser-table');
 		var tableObject = $dialogParserTable.DataTable();
 		
-		tableObject.row($tr).remove().draw();
+		tableObject.row($tr).remove().draw(false);
 		
 		this.decrementTotalDialogsFooter();
 	}
