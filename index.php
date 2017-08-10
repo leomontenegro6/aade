@@ -62,10 +62,10 @@ require_once('utils/aade.php');
 						<li>
 							<a class="navbar-brand" href="#">
 								<span class="hidden-xs">
-									Editor de Diálogos do Ace Attorney v0.2
+									Editor de Diálogos do Ace Attorney v0.3
 								</span>
 								<span class="visible-xs">
-									EDAA v0.2
+									EDAA v0.3
 								</span>
 							</a>
 						</li>

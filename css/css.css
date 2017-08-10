@@ -69,7 +69,7 @@ td.form-fields textarea.text-field{
 }
 .dialog-preview.text-only div.character-name{
 	left: 0;
-	width: 61px;
+	width: 85px;
 	height: 21px;
 	background: url('../images/charname_box.png');
 	padding-left: 6px;
@@ -80,7 +80,7 @@ td.form-fields textarea.text-field{
 }
 .dialog-preview.text-only div.btn-group{
 	top: -22px;
-	left: 65px;
+	left: 89px;
 }
 div.text-window span.letter{
 	display: inline-block;

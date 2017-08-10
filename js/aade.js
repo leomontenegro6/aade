@@ -481,7 +481,7 @@ function aade(){
 			data = data.slice(0, 19).replace(/T/g, '-').replace(/:/g, '-');
 			filename += '-' + data + '.txt';
 			
-			saveAs(file, filename);
+			saveAs(file, filename, true);
 			that.hideLoadingIndicator();
 		}, 500);
 	}
