@@ -89,6 +89,7 @@ function aade(){
 			'autoWidth': true,
 			'lengthMenu': [1, 2, 3, 5, 7, 10, 15],
 			'pageLength': 5,
+			'pagingType': 'input',
 			"dom":  "<'row'<'col-sm-6'lf><'col-sm-6 global-actions'>>" +
 					"<'row'<'col-sm-12'tr>>" +
 					"<'row'<'col-sm-5'i><'col-sm-7'p>>",

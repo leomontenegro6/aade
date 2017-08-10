@@ -255,6 +255,50 @@ div.text-window span.letter.color-green{
 	filter: invert(25%) sepia() saturate(1000%) hue-rotate(779deg);
 }
 
+div.paging_input{
+	margin-bottom: 5px !important;
+}
+
+div.paging_input span.paginate_button{
+	border: 1px solid #ddd;
+	padding: 6px 12px;
+	cursor: pointer;
+	color: #337ab7;
+}
+div.paging_input span.paginate_button:hover{
+	color: #23527c;
+	background-color: #eee;
+	border-color: #ddd;
+}
+div.paging_input span.paginate_button:active{
+	outline: 2px solid #999;
+}
+div.paging_input span.paginate_button.first{
+	border-radius: 3px 0px 0px 3px;
+	border-right: 0;
+}
+div.paging_input span.paginate_button.previous{
+	margin-right: 3px;
+}
+div.paging_input span.paginate_page,
+div.paging_input span.paginate_of{
+	color: #666;
+}
+div.paging_input span.paginate_button.next{
+	margin-left: 3px;
+}
+div.paging_input span.paginate_button.last{
+	border-left: 0;
+	border-radius: 0 3px 3px 0;
+}
+div.paging_input span.paginate_button.disabled{
+	color: #777;
+	cursor: not-allowed;
+	background-color: #fff;
+	border-color: #ddd;
+	outline: none;
+}
+
 /* Rules for middle devices (md) */
 @media (min-width: 992px) and (max-width: 1199px) {
 	td.form-fields textarea.text-field{
