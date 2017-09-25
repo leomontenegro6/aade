@@ -6,20 +6,32 @@ function aade(){
 	
 	// Properties
 	this.nameType = 'o';
+	this.invalidateLargeLines = true;
 	this.lastName = '???';
 	this.lastColor = '';
+	this.equivalenceTable = {};
 	
 	// Methods
 	this.readScriptFile = function(dialogFileForm){
 		var $dialogFileForm = $(dialogFileForm);
-		var $fileField = $('#file-field');
+		var $radioFileOrigin = $('#file-origin:checked');
+		var $inputFileField = $('#file-field');
+		var $radioFileItemList = $("[name='file-item-list']:checked");
 		var $dialogParserTab = $('#dialog-parser-tab');
+		
+		var file_origin = $radioFileOrigin.val();
+		var file_item_list = $radioFileItemList.val();
 		
 		var ajax = new XMLHttpRequest();
 		ajax.open("POST", "dialog-parser.php", true);
 		
 		var formData = new FormData();
-		formData.append('script-file', $fileField[0].files[0]);
+		formData.append('file-origin', file_origin);
+		if(file_origin == 'f'){
+			formData.append('script-file', $inputFileField[0].files[0]);
+		} else {
+			formData.append('file-item-list', file_item_list);
+		}
 		
 		this.showLoadingIndicator();
 		
@@ -164,8 +176,11 @@ function aade(){
 					'color': 'khaki',
 					'words': adaptedNames
 				}, {
-					'color': 'lightblue',
+					'color': 'aquamarine',
 					'words': ['{b}']
+				}, {
+					'color': 'lightblue',
+					'words': ['{wait: [0-9]*}']
 				}]
 			}).attr('data-highlight-instantiated', 'true');
 		});
@@ -307,6 +322,14 @@ function aade(){
 				}
 				
 				$divCharacterName.html(this.lastName);
+				
+				// Analysing current block
+				var returnAnalysis = this.analyseScriptBlock($divTextWindow);
+				if(returnAnalysis !== true){
+					$divTextWindow.closest('div.dialog-preview').addClass('invalid');
+				} else {
+					$divTextWindow.closest('div.dialog-preview').removeClass('invalid');
+				}
 			}
 		}
 	}
@@ -352,6 +375,53 @@ function aade(){
 		} else {
 			$('#name-type-adapted').prop('checked', true);
 		}
+		if(this.invalidateLargeLines){
+			$('#invalidate-large-lines-true').prop('checked', true);
+		} else {
+			$('#invalidate-large-lines-false').prop('checked', true);
+		}
+	}
+	
+	this.hideScriptConfigSettings = function(){
+		$('#config-settings').modal('hide');
+	}
+	
+	this.showScriptAnalysisSettings = function(){
+		$('#analysis-settings').modal('show');
+		if(this.invalidateLargeLines){
+			$('#analysis-invalidate-large-lines-true').prop('checked', true);
+		} else {
+			$('#analysis-invalidate-large-lines-false').prop('checked', true);
+		}
+	}
+	
+	this.hideScriptAnalysisSettings = function(){
+		$('#analysis-settings').modal('hide');
+	}
+	
+	this.toggleFileOrigin = function(radio){
+		var $radio = $(radio);
+		var $inputFileField = $('#file-field');
+		var $divFileList = $('#file-list');
+		
+		var fileOrigin = $radio.val();
+		if(fileOrigin == 'f'){
+			$inputFileField.removeAttr('disabled').attr('required', 'required');
+			$divFileList.hide().find("[type='radio']").prop('checked', false).removeAttr('required');
+			$divFileList.find("label.btn-primary").removeClass('btn-primary').addClass('btn-default');
+		} else {
+			$inputFileField.attr('disabled', 'disabled').removeAttr('required');
+			$divFileList.show().find("[type='radio']").attr('required', 'required');
+		}
+	}
+	
+	this.selectFileFromList = function(radio){
+		var $radio = $(radio);
+		var $label = $("label[for='" + $radio.attr('id') + "']");
+		var $divFileList = $('#file-list');
+		
+		$divFileList.find('div.col').find('label.btn').removeClass('btn-primary').addClass('btn-default');
+		$label.addClass('btn-primary').removeClass('btn-default');
 	}
 	
 	this.changeDefaultNameTypes = function(radio){
@@ -361,6 +431,13 @@ function aade(){
 		this.nameType = nameType;
 		
 		this.updatePreviewVisibleTextareas();
+	}
+	
+	this.toggleLargeLinesInvalidation = function(radio){
+		var $radio = $(radio);
+		var invalidateLargeLines = $radio.val();
+		
+		this.invalidateLargeLines = (invalidateLargeLines == 'true');
 	}
 	
 	this.updatePreviewVisibleTextareas = function(){
@@ -515,6 +592,192 @@ function aade(){
 		return scriptText;
 	}
 	
+	this.analyzeScript = function(){
+		var $dialogParserTable = $('#dialog-parser-table');
+		var tableObject = $dialogParserTable.DataTable();
+		
+		var total_pages = tableObject.page.info().pages;
+		
+		this.hideScriptAnalysisSettings();
+		this.showLoadingIndicator();
+		var that = this;
+		
+		setTimeout(function(){
+			var checkLineBiggerThanBlock = false;
+			var checkMoreThan32Chars = false;
+			var returnAnalysis = true;
+			var $divInvalidTextWindow;
+			var message = '';
+
+			for(var page=0; page<total_pages; page++){
+				tableObject.page(page).draw(false);
+				$dialogParserTable.find('div.text-window').each(function(){
+					var $divTextWindow = $(this);
+					returnAnalysis = that.analyseScriptBlock($divTextWindow);
+					
+					if(returnAnalysis !== true){
+						$divInvalidTextWindow = returnAnalysis.invalidBlock;
+						message = returnAnalysis.message;
+						return false;
+					}
+				});
+
+				if(returnAnalysis !== true){
+					break;
+				}
+			}
+			that.hideLoadingIndicator();
+			
+			if(returnAnalysis !== true){
+				$divInvalidTextWindow.closest('div.dialog-preview').addClass('invalid');
+				that.showPopoverInvalidBlock($divInvalidTextWindow, message);
+			} else {
+				alert('Script OK!');
+			}
+		}, 500);
+	}
+	
+	this.analyseScriptBlock = function(divTextWindow){
+		var $divTextWindow = $(divTextWindow);
+		var block_width = $divTextWindow.outerWidth();
+
+		var checkLineBiggerThanBlock = false;
+		var checkMoreThan32Chars = false;
+		var $divInvalidBlock;
+
+		var line_width = 10;
+		var characters_per_line = 0;
+		var that = this;
+
+		$divTextWindow.children('*').each(function(){
+			var $elem = $(this);
+
+			if($elem.is('span.letter')){
+				line_width += $elem.width();
+				characters_per_line++;
+			} else if($elem.is('br')){
+				line_width = 10;
+				characters_per_line = 0;
+			}
+
+			if(line_width > block_width){
+				checkLineBiggerThanBlock = true;
+				$divInvalidBlock = $divTextWindow;
+			}
+			if((that.invalidateLargeLines) && (characters_per_line > 32)){
+				checkMoreThan32Chars = true;
+				$divInvalidBlock = $divTextWindow;
+			}
+		});
+		
+		if(checkLineBiggerThanBlock){
+			return {
+				'invalidBlock': $divInvalidBlock,
+				'message': 'Largura da linha ultrapassa limite do bloco!'
+			}
+		} else if(checkMoreThan32Chars){
+			return {
+				'invalidBlock': $divInvalidBlock,
+				'message': 'Contém linhas com mais de 32 caracteres!'
+			}
+		} else {
+			return true;
+		}
+	}
+	
+	this.showPopoverInvalidBlock = function(element, message){
+		var $template = $("<div />").addClass('popover danger').attr('role', 'tooltip').append(
+			$('<div />').addClass('arrow')
+		).append(
+			$('<h3 />').addClass('popover-title')
+		).append(
+			$('<div />').addClass('popover-content')
+		);
+		
+		element.popover({
+			'html': true,
+			'placement': 'auto left',
+			'template': $template,
+			'content': message,
+			'delay': 200,
+			'trigger': 'manual'	
+		});
+		element.popover('show');
+		
+		element.add($template).click(function(){
+			element.closest('div.dialog-preview').removeClass('invalid');
+			element.popover('hide');
+		});
+	}
+	
+	this.hidePopoverInvalidBlock = function(element){
+		element.popover('hide');
+	}
+	
+	this.loadEquivalenceTable = function(game){
+		if(game == ''){
+			return;
+		}
+		
+		var that = this;
+		$.getScript('js/aade.et.' + game + '.js', function(){
+			var $tableEquivalenceTable = $('#equivalence-table');
+			var $tbody = $tableEquivalenceTable.children('tbody');
+			
+			$tbody.children('tr.default').remove();
+			var $firstTr = $tbody.children('tr').first();
+			
+			for(var code in that.equivalenceTable){
+				var name = that.equivalenceTable[code];
+				var originalName = name.original;
+				var adaptedName = name.adapted;
+				
+				var $newTr = $('<tr />').addClass('default').append(
+					$('<td />').addClass('code').html(code)
+				).append(
+					$('<td />').append(
+						$('<input />').attr({
+							'type': 'text',
+							'name': 'character[' + code + '][original_name]',
+							'placeholder': 'Digite o nome original'
+						}).val(originalName).addClass('form-control original-name').on({
+							'keyup': aade.updatePreviewVisibleTextareas
+						})
+					)
+				).append(
+					$('<td />').append(
+						$('<input />').attr({
+							'type': 'text',
+							'name': 'character[' + code + '][adapted_name]',
+							'placeholder': 'Digite o nome adaptado'
+						}).val(adaptedName).addClass('form-control adapted-name').on({
+							'keyup': aade.updatePreviewVisibleTextareas
+						})
+					)
+				).append(
+					$('<td />').append(
+						$('<button />').attr({
+							'type': 'button',
+							'onclick': 'aade.removeCharacterEquivalenceTable(this)',
+							'disabled': 'disabled'
+						}).addClass('btn btn-danger').html(
+							$('<span />').addClass('glyphicon glyphicon-remove')
+						)
+					)
+				);
+				
+				var $element;
+				if($firstTr.length > 0){
+					$firstTr.before($newTr);
+				} else {
+					$tbody.append($newTr)
+				}
+			}
+			
+			that.updatePreviewVisibleTextareas();
+		})
+	}
+	
 	this.addCharacterEquivalenceTable = function(){
 		var code = prompt('Digite o código do personagem');
 		if(code == null){
@@ -535,7 +798,7 @@ function aade(){
 			return;
 		}
 		
-		var $clonedTr = $tbody.find('tr').last().clone();
+		var $clonedTr = $tbody.find('tr').last().clone().removeClass('default');
 		var $tdCode = $clonedTr.find('td.code');
 		var $inputOriginalName = $clonedTr.find('input.original-name');
 		var $inputAdaptedName = $clonedTr.find('input.adapted-name');

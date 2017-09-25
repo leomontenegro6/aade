@@ -45,6 +45,7 @@ require_once('utils/aade.php');
 		<script type="text/javascript" src="js/aade.js?<?php echo filemtime('js/aade.js') ?>"></script>
 		<script type="text/javascript">
 			$(function(){
+				aade.loadEquivalenceTable('aa1');
 				aade.setDefaultValuesSandboxField("Juíz", "Sua conduta durante este\njulgamento decidirá o\ndestino de seu cliente.");
 			})
 		</script>
@@ -62,10 +63,10 @@ require_once('utils/aade.php');
 						<li>
 							<a class="navbar-brand" href="#">
 								<span class="hidden-xs">
-									Editor de Diálogos do Ace Attorney v0.3
+									Editor de Diálogos do Ace Attorney v0.4
 								</span>
 								<span class="visible-xs">
-									EDAA v0.3
+									EDAA v0.4
 								</span>
 							</a>
 						</li>
@@ -110,6 +111,7 @@ require_once('utils/aade.php');
 			
 			<?php
 			include('modal-loading.php');
+			include('modal-analysis.php');
 			include('modal-config.php');
 			include('modal-text-preview.php');
 			?>

@@ -1,10 +1,17 @@
 <?php
 require_once('utils/aade.php');
-
-$characters_codes = aade::getEquivalenceTable();
 ?>
 <div class="panel panel-default">
 	<div class="panel-body">
+		<div class="form-group">
+			<label for="equivalence-table-field" class="control-label">Tabela de Equivalência:</label>
+			<select id="equivalence-table-field" name="equivalence-table-field" class="form-control"
+				onchange="aade.loadEquivalenceTable(this.value)">
+				<option value="aa1">Phoenix Wright Ace Attorney (AA1)</option>
+				<option value="aa2">Phoenix Wright Ace Attorney - Justice For All (AA2)</option>
+				<option value="aa3">Phoenix Wright Ace Attorney - Trials and Tribulations (AA3)</option>
+			</select>
+		</div>
 		<table id="equivalence-table" class="table table-bordered table-hover table-striped">
 			<caption>Personagens</caption>
 			<thead>
@@ -15,26 +22,7 @@ $characters_codes = aade::getEquivalenceTable();
 					<th width="50">&nbsp;</th>
 				</tr>
 			</thead>
-			<tbody>
-				<?php foreach($characters_codes as $code=>$character){ ?>
-					<tr>
-						<td class="code"><?php echo $code ?></td>
-						<td>
-							<input type="text" name="character[<?php echo $code ?>][original_name]" placeholder="Digite o nome original"
-								value="<?php echo $character['original'] ?>" class="form-control original-name" onkeyup="aade.updatePreviewVisibleTextareas()" />
-						</td>
-						<td>
-							<input type="text" name="character[<?php echo $code ?>][adapted_name]" placeholder="Digite o nome adaptado"
-								value="<?php echo $character['adapted'] ?>" class="form-control adapted-name" onkeyup="aade.updatePreviewVisibleTextareas()" />
-						</td>
-						<td>
-							<button type="button" class="btn btn-danger" onclick="aade.removeCharacterEquivalenceTable(this)" disabled>
-								<span class="glyphicon glyphicon-remove"></span>
-							</button>
-						</td>
-					</tr>
-				<?php } ?>
-			</tbody>
+			<tbody></tbody>
 			<tfoot>
 				<tr>
 					<td colspan="100%">

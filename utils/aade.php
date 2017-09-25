@@ -32,7 +32,7 @@ class aade{
 			),
 			1536=>array(
 				'original'=>'Alarm Clock',
-				'adapted'=>'Alarme'
+				'adapted'=>'Despertador'
 			),
 			1792=>array(
 				'original'=>'Mia',

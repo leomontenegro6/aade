@@ -2,26 +2,67 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<div class="form-group">
-				<label for="file-field" class="control-label">Arquivo*:</label>
-				<input type="file" id="file-field" name="script-file" required />
-			</div>
-			<div class="form-group">
-					<label for="nomes1" class="control-label">Nomes da Tabela de Equivalência:</label>
-					<div class="radio">
-						<label>
-							<input type="radio" name="name-type" id="name-type-original" value="o"
-								onchange="aade.changeDefaultNameTypes(this)" checked />
-							Originais
-						</label>
+				<label for="teste" class="control-label">Arquivo*:</label>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="radio">
+							<label>
+								<input type="radio" name="file-origin" id="file-origin-input" value="f"
+									onchange="aade.toggleFileOrigin(this)" checked />
+								Fazer upload no campo abaixo
+							</label>
+							<input type="file" id="file-field" name="script-file" required />
+						</div>
 					</div>
-					<div class="radio">
-						<label>
-							<input type="radio" name="name-type" id="name-type-adapted" value="a"
-								onchange="aade.changeDefaultNameTypes(this)" />
-							Adaptados
-						</label>
+					<div class="col-sm-6">
+						<div class="radio">
+							<label>
+								<input type="radio" name="file-origin" id="file-origin-select" value="s"
+									onchange="aade.toggleFileOrigin(this)" />
+								Escolher arquivo na lista abaixo
+							</label>
+							<br />
+							<div id="file-list" style="display: none">
+								<?php
+								$files = glob('scripts/*.txt');
+								foreach($files as $i=>$file){
+									$filename = str_replace('scripts/', '', $file);
+									?>
+									<div class="col">
+										<input type="radio" name="file-item-list" id="file-item-list-<?php echo $i ?>"
+											value="<?php echo $file ?>"
+											onclick="aade.selectFileFromList(this)" />
+										<div class="btn-group">
+											<label for="file-item-list-<?php echo $i ?>" class="btn btn-default">
+												<span class="content"><?php echo $filename ?></span>
+											</label>
+										</div>
+									</div>
+									<?php
+								}
+								?>
+							</div>
+						</div>
 					</div>
 				</div>
+			</div>
+			<div class="form-group">
+				<label for="nomes1" class="control-label">Nomes da Tabela de Equivalência:</label>
+				<div class="radio">
+					<label>
+						<input type="radio" name="name-type" id="name-type-original" value="o"
+							onchange="aade.changeDefaultNameTypes(this)" checked />
+						Originais
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="name-type" id="name-type-adapted" value="a"
+							onchange="aade.changeDefaultNameTypes(this)" />
+						Adaptados
+					</label>
+				</div>
+			</div>
 			<p class="help-block">* Campo obrigatório</p>
 			<button type="submit" class="btn btn-primary">
 				<span class="glyphicon glyphicon-upload" aria-hidden="true"></span>

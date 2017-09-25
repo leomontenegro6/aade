@@ -1,0 +1,123 @@
+
+
+{{1}}
+{bop}{person: 0 0 0}{bg: 4095}{bgcolor: 257 1 31}{wait: 7}{name: 0}{hidetextbox: 0}{0x74}{p}{bop}{fademusic: 23 0}{0x26: 1}{wait: 30}{speed: 10}{0x30: 2}{center_text: 1}{color: 3}
+August 3, 9:47 AM{b}
+District Court{b}
+Defendant Lobby No. 2{color: 0}{p}{hidetextbox: 1}{center_text: 0}{speed: 255}{music: 8 0}{wait: 30}{0x26: 0}{bgcolor: 513 1 31}{wait: 7}{person: 0 0 0}{bg: 2}{bgcolor: 258 1 31}{wait: 15}{wait: 30}{hidetextbox: 0}{name: 512}{shake: 30 0}{color: 2}
+(Boy am I nervous!){color: 0}{p}{hidetextbox: 1}{wait: 45}{name: 1792}{hidetextbox: 0}{bgcolor: 769 8 31}
+Wright!{p}{hidetextbox: 1}{wait: 35}{personvanish: 3 2}{person: 7 77 77}{wait: 32}{wait: 35}{name: 512}{hidetextbox: 0}{sound: 17 1}{bgcolor: 769 8 31}
+Oh, {wait: 10}
+h-{wait: 8}
+hiya, {shake: 30 0}
+Chief.{p}{person: 7 78 77}{name: 1792}
+Whew, {wait: 25}
+I'm glad I made it on{b}
+time.{p}{person: 7 78 77}{name: 1792}
+Well,{wait: 16}
+ I have to say Phoenix,{wait: 16}{b}
+I'm impressed!{p}{person: 7 80 79}
+Not everyone takes on a{b}
+murder trial right off{b}
+the bat like this.{p}
+It says a lot about you...{b}{wait: 25}
+and your client as well.{p}{person: 7 79 79}{name: 512}
+Um... thanks.{p}{wait: 30}
+Actually, it's because{wait: 5}{b}
+I owe him a favor.{p}{speed: 255}{person: 7 81 81}{name: 1792}{sound: 17 1}{bgcolor: 769 8 31}
+A favor?{p}{person: 7 82 81}
+You mean, you knew the{b}
+defendant before this case?{p}{person: 7 81 81}{name: 512}
+Yes.{p}
+Actually, I kind of owe {b}
+my current job to him.{p}
+He's one of the reasons{b}{wait: 5}
+I became an attorney.{p}{person: 7 80 79}{name: 1792}
+Well, that's news to me!{p}{person: 7 77 77}{name: 512}
+I want to help him out{b}
+any way I can!{p}
+I just... really want to help{b}
+him. I owe him that much.{p}{wait: 15}{person: 7 81 81}{name: 0}{shake: 30 1}{0x23: 8 0}{sound: 105 1}{bgcolor: 769 8 31}{name: 256}{color: 3}
+(It's over!){color: 0}{p}{person: 7 81 81}{shake: 30 1}{sound: 105 1}{name: 256}{bgcolor: 769 8 31}{color: 3}
+(My life, everything,{b}
+it's all over!){color: 0}{p}{name: 1792}
+...{p}{speed: 255}{person: 7 82 81}
+Is that {wait: 15}
+your client{b}
+screaming over there?{p}{person: 7 77 77}{name: 512}{shake: 30 0}
+Yeah... it's him.{p}{name: 0}{shake: 30 1}{sound: 105 1}{name: 256}{bgcolor: 769 8 31}{color: 3}
+(Death! Despair! Ohhhh!){p}{person: 7 81 81}{shake: 30 1}{sound: 105 1}{bgcolor: 769 8 31}
+(I'm gonna do it,{wait: 10}{b}{shake: 30 2}{bgcolor: 769 8 31}
+I'm gonna {bgcolor: 769 8 31}
+die!!!){color: 0}{p}{person: 7 82 81}{name: 1792}
+It sounds like{b}
+he wants to die...{p}{speed: 255}{person: 7 81 81}{name: 512}{person: 7 79 79}
+Um,{wait: 12}{speed: 6}
+ yeah. *sigh*{speed: 255}{nextpage_button}{name: 0}{hidetextbox: 1}{personvanish: 4 1}{wait: 16}{personvanish: 3 1}{person: 25 201 201}{wait: 16}{sound: 14 1}{name: 6400}{person: 25 202 201}{hidetextbox: 0}
+Nick!!!{music: 255 60}{p}{person: 25 201 201}{name: 512}
+Hey.{wait: 15}{b}
+Hey {shake: 30 0}
+there, Larry.{p}{person: 25 223 222}{name: 6400}{shake: 30 1}{sound: 105 1}{bgcolor: 769 8 31}{speed: 2}
+Dude,{wait: 17}
+ I'm so guilty!!{wait: 20}{b}
+Tell them I'm guilty!!!{p}{sound: 105 1}{bgcolor: 769 8 31}{shake: 30 0}
+Gimme the death sentence!{wait: 20}{b}
+I ain't afraid to die!{p}{person: 25 222 222}{name: 512}{speed: 3}
+What!?{wait: 25}{b}
+What's wrong,{wait: 12}
+ Larry?{p}{person: 25 202 201}{name: 6400}{bgcolor: 769 8 31}{shake: 30 0}{speed: 5}
+Oh,{wait: 16}
+ it's all over... {b}{wait: 25}{speed: 8}
+I...{wait: 16}
+ {speed: 5}
+I'm finished. {wait: 25}{speed: 2}
+Finished!{p}
+I can't live in a world{b}
+without her!{wait: 20}
+ I can't!{p}{speed: 8}
+Who... {wait: 25}{speed: 255}
+who took her away{b}
+from me, Nick? {wait: 20}
+Who did this!?{p}{shake: 30 1}{sound: 105 1}{bgcolor: 769 8 31}
+Aww,{wait: 10}
+ Nick,{wait: 16}
+ ya gotta tell me!{b}{wait: 25}
+Who took my baby away!?{p}{person: 25 201 201}{name: 512}{speed: 8}{color: 2}
+(Hmm... {wait: 30}{speed: 6}
+The person responsible{b}
+for your girlfriend's death?){p}{speed: 5}
+(The newspapers say{b}{wait: 20}{speed: 5}
+it was{wait: 16}
+ {color: 1}{sound: 14 1}
+you{color: 2}
+...){speed: 255}{color: 0}{nextpage_button}{hidetextbox: 1}{wait: 35}{speed: 255}{0x26: 1}{bgcolor: 516 1 31}{wait: 25}{fademusic: 0 120}{wait: 30}{person: 0 0 0}{bg: 4095}{name: 0}{bgcolor: 257 1 31}{wait: 7}{0x26: 0}{name: 512}{hidetextbox: 0}
+My name is Phoenix Wright.{p}
+Here's the story:{p}
+My first case is{b}
+a fairly simple one.{nextpage_button}{hidetextbox: 1}{bgcolor: 513 1 31}{wait: 7}{bg: 34}{animation: 60 1}{bgcolor: 258 1 31}{wait: 15}{wait: 90}{hidetextbox: 0}
+A young woman was killed{b}
+in her apartment.{wait: 5}{p}
+The guy they arrested was{b}
+the unlucky sap dating her:{nextpage_button}{hidetextbox: 1}{bgcolor: 513 1 31}{wait: 7}{animation: 60 0}{person: 25 222 222}{bg: 4095}{bgcolor: 257 8 31}{wait: 1}{hidetextbox: 0}{speed: 8}
+Larry Butz...{wait: 45}{speed: 255}
+ my best{b}
+friend since grade school.{p}
+Our school had a saying:{wait: 25}{b}{speed: 5}
+"{color: 1}
+When something smells,{wait: 15}{b}
+it's usually the Butz.{color: 0}
+"{speed: 255}{p}{person: 25 201 201}
+In the 23 years I've known{b}
+him, it's usually been true.{p}
+He has a knack for getting{b}
+himself in trouble.{p}
+One thing I can say though:{b}{wait: 30}
+it's usually not his fault.{b}
+He just has terrible luck.{p}{personvanish: 4 2}{wait: 32}
+But I know better than anyone,{b}
+that he's a good guy at heart.{p}{person: 0 0 0}
+That and I owe him one.{b}
+Which is why I took the{b}
+case... to clear his name.{p}{bgcolor: 769 8 31}{shake: 30 0}
+And that's just what I'm{b}
+going to do!{nextpage_button}{speed: 255}{0x26: 1}{hidetextbox: 1}{bgcolor: 516 1 31}{wait: 25}{endjmp}

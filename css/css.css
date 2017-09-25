@@ -1,3 +1,26 @@
+#file-list input[type="radio"]{
+	opacity: 0;
+}
+#file-list div.col label.btn{
+	width: 250px;
+	text-align: left;
+	border-radius: 0;
+	border-bottom: 0;
+}
+#file-list div.col:first-child label.btn{
+	border-radius: 5px 5px 0 0;
+}
+#file-list div.col:last-child label.btn{
+	border-radius: 0 0 5px 5px;
+	border-bottom: 1px solid #ccc;
+}
+#file-list div.col:first-child:last-child label.btn{
+	border-radius: 5px;	
+}
+#file-list div.col label.btn.selected{
+	color: red;
+}
+
 .glyphicon-refresh-animate {
 	-animation: spin .7s infinite linear;
 	-webkit-animation: spin2 .7s infinite linear;
@@ -81,6 +104,52 @@ td.form-fields textarea.text-field{
 .dialog-preview.text-only div.btn-group{
 	top: -22px;
 	left: 89px;
+}
+.dialog-preview.invalid{
+	background: url('../images/dialog_box_invalid.png');
+}
+.popover{
+	cursor: pointer;
+	border-width: 2px;
+	box-shadow: 3px -3px 6px #444;
+}
+.popover.left>.arrow{
+	border-left-color: #CD2626;
+}
+.popover.left>.arrow:after{
+	border-right-width: 1px;
+	border-left-color: #FFC1C1;
+}
+.popover.right>.arrow{
+	border-right-color: #CD2626;
+}
+.popover.right>.arrow:after{
+	border-left-width: 1px;
+	border-right-color: #FFC1C1;
+}
+.popover.top>.arrow{
+	border-top-color: #CD2626;
+}
+.popover.top>.arrow:after{
+	border-bottom-width: 1px;
+	border-top-color: #FFC1C1;
+}
+.popover.bottom>.arrow{
+	border-bottom-color: #CD2626;
+}
+.popover.bottom>.arrow:after{
+	border-top-width: 1px;
+	border-bottom-color: #FFC1C1;
+}
+.popover>div.popover-content{
+	border-radius: 7px;
+	padding: 5px;
+	font-weight: bold;
+	font-size: 13px;
+}
+.popover.danger{
+	border-color: #CD2626;
+	background-color: #FFC1C1;
 }
 div.text-window span.letter{
 	display: inline-block;

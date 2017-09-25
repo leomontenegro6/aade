@@ -1,8 +1,14 @@
 <?php
 require_once('utils/aade.php');
 
-$filename = $_FILES['script-file']['name'];
-$path = $_FILES['script-file']['tmp_name'];
+$file_origin = $_POST['file-origin'];
+if($file_origin == 'f'){
+	$filename = $_FILES['script-file']['name'];
+	$path = $_FILES['script-file']['tmp_name'];
+} else {
+	$path = $_POST['file-item-list'];
+	$filename = basename($path);
+}
 
 $extension = explode('.', $filename);
 $extension = strtolower( end($extension) );
@@ -113,7 +119,7 @@ foreach($sections as $section_number=>$section){
 		</li>
 		<li>
 			<a href="#" onclick="aade.previewScript()">
-				<span class="glyphicon glyphicon-search"></span>
+				<span class="glyphicon glyphicon-open-file"></span>
 				Gerar Prévia do Script
 			</a>
 		</li>
@@ -121,6 +127,12 @@ foreach($sections as $section_number=>$section){
 			<a href="#" onclick="aade.saveScript()">
 				<span class="glyphicon glyphicon-save-file"></span>
 				Salvar Script
+			</a>
+		</li>
+		<li>
+			<a href="#" onclick="aade.showScriptAnalysisSettings()">
+				<span class="glyphicon glyphicon-search"></span>
+				Analisar Script
 			</a>
 		</li>
 	</ul>
