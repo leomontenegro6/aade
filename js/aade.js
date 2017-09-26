@@ -326,9 +326,9 @@ function aade(){
 				// Analysing current block
 				var returnAnalysis = this.analyseScriptBlock($divTextWindow);
 				if(returnAnalysis !== true){
-					$divTextWindow.closest('div.dialog-preview').addClass('invalid');
+					$divTextWindow.closest('div.dialog-preview').addClass('invalid').attr('title', returnAnalysis.message);
 				} else {
-					$divTextWindow.closest('div.dialog-preview').removeClass('invalid');
+					$divTextWindow.closest('div.dialog-preview').removeClass('invalid').removeAttr('title');
 				}
 			}
 		}
