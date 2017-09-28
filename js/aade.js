@@ -14,7 +14,7 @@ function aade(){
 	// Methods
 	this.readScriptFile = function(dialogFileForm){
 		var $dialogFileForm = $(dialogFileForm);
-		var $radioFileOrigin = $('#file-origin:checked');
+		var $radioFileOrigin = $("[name='file-origin']:checked");
 		var $inputFileField = $('#file-field');
 		var $radioFileItemList = $("[name='file-item-list']:checked");
 		var $dialogParserTab = $('#dialog-parser-tab');
