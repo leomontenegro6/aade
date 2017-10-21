@@ -7,7 +7,7 @@ aade.equivalenceTable = {
 	},
 	512: {
 		'original': 'Phoenix',
-		'adapted': 'Roberto'
+		'adapted': 'Fênix'
 	},
 	768: {
 		'original': 'Police',
@@ -15,7 +15,7 @@ aade.equivalenceTable = {
 	},
 	1024: {
 		'original': 'Maya',
-		'adapted': 'Alice'
+		'adapted': 'Alícia'
 	},
 	1536: {
 		'original': 'Alarm Clock',
@@ -23,7 +23,7 @@ aade.equivalenceTable = {
 	},
 	1792: {
 		'original': 'Mia',
-		'adapted': 'Amélia'
+		'adapted': 'Aline'
 	},
 	2048: {
 		'original': 'Judge',
@@ -35,7 +35,7 @@ aade.equivalenceTable = {
 	},
 	2560: {
 		'original': 'Payne',
-		'adapted': 'Errantes'
+		'adapted': 'Dores'
 	},
 	2816: {
 		'original': 'Interphone',
@@ -71,7 +71,7 @@ aade.equivalenceTable = {
 	},
 	5376: {
 		'original': 'White',
-		'adapted': 'Alvino'
+		'adapted': 'Brancco'
 	},
 	5632: {
 		'original': 'April',
@@ -83,7 +83,7 @@ aade.equivalenceTable = {
 	},
 	6144: {
 		'original': 'Vasquez',
-		'adapted': 'Valquez'
+		'adapted': 'Vásques'
 	},
 	6400: {
 		'original': 'Butz',
@@ -91,7 +91,7 @@ aade.equivalenceTable = {
 	},
 	6656: {
 		'original': 'Sahwit',
-		'adapted': 'Vitudo'
+		'adapted': 'Elvisso'
 	},
 	6912: {
 		'original': 'Will',

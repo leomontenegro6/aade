@@ -7,11 +7,11 @@ $images = aade::getSandboxBackgroundImages();
 	<div class="panel-body">
 		<div class="form-group">
 			<label for="sandbox-character-field" class="control-label">Personagem:</label>
-			<input type="text" id="sandbox-character-field" class="form-control" onkeyup="aade.updatePreview(this, 'sandbox', 'c')" />
+			<input type="text" id="sandbox-character-field" class="form-control" onkeyup="aade.updatePreview(this, 'sandbox', 'c', true, event)" />
 		</div>
 		<div class="form-group">
 			<label for="sandbox-text-field" class="control-label">Texto:</label>
-			<textarea id="sandbox-text-field" class="form-control" rows="3" onkeyup="aade.updatePreview(this, 'sandbox', 't')"></textarea>
+			<textarea id="sandbox-text-field" class="form-control" rows="3" onkeyup="aade.updatePreview(this, 'sandbox', 't', true, event)"></textarea>
 		</div>
 		<div class="form-group">
 			<label for="sandbox-background-field" class="control-label">Plano de Fundo:</label>

@@ -95,11 +95,16 @@ function aade(){
 				if(currentPage < previousPage){
 					that.lastColor = '';
 				}
+				
+				// Scrolling to top of page
+				$('html, body').animate({
+					scrollTop: $(".dataTables_wrapper").offset().top
+				}, 'slow');
 			}
 		}).DataTable({
 			'order': [[0, 'asc']],
 			'autoWidth': true,
-			'lengthMenu': [1, 2, 3, 5, 7, 10, 15],
+			'lengthMenu': [1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100],
 			'pageLength': 5,
 			'pagingType': 'input',
 			"dom":  "<'row'<'col-sm-6'lf><'col-sm-6 global-actions'>>" +
@@ -233,17 +238,32 @@ function aade(){
 		$textarea.trigger('keyup');
 	}
 	
-	this.updatePreview = function(field, previewFieldId, textType, sandbox){
+	this.updatePreview = function(field, previewFieldId, textType, sandbox, event){
 		if(typeof textType == 'undefined') textType = 't';
 		if(typeof sandbox == 'undefined') sandbox = true;
 		
+		var keyCode;
+		if(typeof event != 'undefined'){
+			keyCode = (typeof event.which != 'undefined') ? (event.which) : (0);
+		} else {
+			keyCode = 0;
+		}
+		
+		var invalidKeycodes = [9, 16, 17, 18, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 91, 92, 93, 144, 145, 225];
+		var checkKeycodeInvalid = ($.inArray(keyCode, invalidKeycodes) !== -1);
+		if(checkKeycodeInvalid){
+			return;
+		}
+		
 		var $field = $(field);
+		var $previousField = $("textarea[data-order='" + (parseInt($field.attr('data-order'), 10) - 1) + "']");
 		var $divPreview = $('#' + previewFieldId);
 		
 		var text = $field.val();
 		var tag = false;
 		var hasNameTag = false;
 		var tagText = '';
+		var previousFieldColor = parseInt($previousField.attr('data-color'), 10);
 		
 		if(textType == 'c'){
 			var $divCharacterName = $divPreview.children('div.character-name');
@@ -252,6 +272,8 @@ function aade(){
 			var $divTextWindow = $divPreview.children('div.text-window');
 			var $divCharacterName = $divPreview.children('div.character-name');
 			$divTextWindow.html('');
+			
+			this.lastColor = this.getColorClass(previousFieldColor);
 			
 			for (var i = 0, size = text.length; i < size; i++) {
 				var char = text[i];
@@ -292,15 +314,8 @@ function aade(){
 						} else if(tagText.startsWith('color:')){
 							var tmp = tagText.split(':');
 							var colorCode = parseInt(tmp.pop(), 10);
-							if(colorCode == 1){
-								this.lastColor = 'color-orange';
-							} else if(colorCode == 2){
-								this.lastColor = 'color-blue';
-							} else if(colorCode == 3){
-								this.lastColor = 'color-green';
-							} else {
-								this.lastColor = '';
-							}
+							
+							this.lastColor = this.getColorClass(colorCode);
 						} else if(tagText.startsWith('center_text:')){
 							var tmp = tagText.split(':');
 							var centerCode = parseInt(tmp.pop(), 10);
@@ -893,6 +908,18 @@ function aade(){
 			return newChar;
 		} else {
 			return 'unknown';
+		}
+	}
+	
+	this.getColorClass = function(colorCode){
+		if(colorCode == 1){
+			return 'color-orange';
+		} else if(colorCode == 2){
+			return 'color-blue';
+		} else if(colorCode == 3){
+			return 'color-green';
+		} else {
+			return '';
 		}
 	}
 	

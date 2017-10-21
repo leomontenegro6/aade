@@ -15,11 +15,11 @@ aade.equivalenceTable = {
 	},
 	1792: {
 		'original': 'Mia',
-		'adapted': 'Amélia'
+		'adapted': 'Aline'
 	},
 	768: {
 		'original': 'Phoenix',
-		'adapted': 'Roberto'
+		'adapted': 'Fênix'
 	},
 	1280: {
 		'original': 'Judge',
@@ -27,7 +27,7 @@ aade.equivalenceTable = {
 	},
 	2304: {
 		'original': 'Payne',
-		'adapted': 'Errantes'
+		'adapted': 'Dores'
 	},
 	2816: {
 		'original': 'Dahlia',
@@ -35,7 +35,7 @@ aade.equivalenceTable = {
 	},
 	1024: {
 		'original': 'Maya',
-		'adapted': 'Alice'
+		'adapted': 'Alícia'
 	},
 	7680: {
 		'original': 'Pearl',
@@ -135,6 +135,6 @@ aade.equivalenceTable = {
 	},
 	8704: {
 		'original': 'von Karma',
-		'adapted': 'do Carmo'
+		'adapted': 'Karma'
 	}
 };
