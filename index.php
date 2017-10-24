@@ -116,5 +116,19 @@ require_once('utils/aade.php');
 			include('modal-text-preview.php');
 			?>
 		</div>
+		<footer class="footer">
+			<div class="container">
+				<?php
+				$ano_criacao = '2017';
+				$ano_atual = date('Y');
+				if($ano_criacao == $ano_atual){
+					$anos = $ano_atual;
+				} else {
+					$anos = $ano_criacao . ' - ' . $ano_atual;
+				}
+				?>
+				<p class="text-muted">&copy; <?php echo $anos ?> - Solid One</p>
+			</div>
+		</footer>
 	</body>
 </html>
