@@ -1,4 +1,4 @@
-<div class="modal" id="loading-indicator" tabindex="-1" role="dialog" aria-labelledby="loadingIndicator">
+<div class="modal" id="loading-indicator" tabindex="-1" role="dialog" aria-labelledby="loadingIndicator" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog modal-sm" role="document">
 		<div class="modal-content">
 			<div class="modal-body text-center">

@@ -59,6 +59,11 @@ function aade(){
 			return;
 		}
 		
+		var confirmLengthySearch = false;
+		var limitRows = 5;
+		var originalPage = 0;
+		var originalLimitRows = limitRows;
+		
 		// Instantiation
 		var that = this;
 		var object = $dialogParserTable.on({
@@ -100,11 +105,55 @@ function aade(){
 				$('html, body').animate({
 					scrollTop: $(".dataTables_wrapper").offset().top
 				}, 'slow');
+			},
+			// Length change event ("Show" field)
+			'length.dt': function(e, s){
+				var $dialogParserTableWrapper = $dialogParserTable.closest('div.dataTables_wrapper');
+				var $lengthField = $dialogParserTableWrapper.find('div.dataTables_length select');
+				
+				var length = s._iDisplayLength;
+				var totalRows = object.data().length;
+				
+				// If user is trying to show all rows, and current script
+				// has more than 500 rows, ask confirmation from user first.
+				if(length == -1 && totalRows > 500 && !confirmLengthySearch){
+					var confirm_message = "Esta pesquisa retornará muitos blocos e pode demorar um pouco.\n\n";
+					confirm_message += 'Existe inclusive a possibilidade do seu navegador ficar congelado por alguns minutos, ';
+					confirm_message += "dependendo da potência do seu computador, e/ou da quantidade de blocos desse script.\n\n";
+					confirm_message += 'Deseja continuar?';
+					var r = confirm(confirm_message);
+					
+					confirmLengthySearch = false;
+					s._iDisplayStart = originalPage;
+					s._iDisplayLength = originalLimitRows;
+					
+					if(r == true){
+						confirmLengthySearch = true;
+						originalPage = s._iDisplayStart;
+						originalLimitRows = length;
+						
+						// Showing all rows, between a loading indicator
+						that.showLoadingIndicator();
+						setTimeout(function(){
+							object.page.len(-1).draw();
+							that.hideLoadingIndicator();
+						}, 250);
+					} else {
+						setTimeout(function(){
+							$lengthField.val(originalLimitRows);
+						}, 250);
+					}
+				} else {
+					originalLimitRows = length;
+				}
 			}
 		}).DataTable({
 			'order': [[0, 'asc']],
 			'autoWidth': true,
-			'lengthMenu': [1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100],
+			'lengthMenu': [
+				[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, -1],
+				[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, 'Todos']
+			],
 			'pageLength': 5,
 			'pagingType': 'input',
 			"dom":  "<'row'<'col-sm-6'lf><'col-sm-6 global-actions'>>" +
