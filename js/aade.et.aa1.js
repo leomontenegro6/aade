@@ -15,7 +15,7 @@ aade.equivalenceTable = {
 	},
 	1024: {
 		'original': 'Maya',
-		'adapted': 'Alícia'
+		'adapted': 'Alice'
 	},
 	1536: {
 		'original': 'Alarm Clock',

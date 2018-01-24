@@ -82,7 +82,47 @@ require_once('utils/aade.php');
 			</div>
 		</nav>
 		<div class="container-fluid">
-			<ul class="nav nav-tabs" role="tablist">
+			
+			<div id="global-actions-dropdown" class="dropdown pull-right" style="display: none">
+				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Arquivo
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					<li>
+						<a href="#" onclick="aade.showScriptConfigSettings()">
+							<span class="glyphicon glyphicon-cog"></span>
+							Configurações
+						</a>
+					</li>
+					<li>
+						<a href="#" onclick="aade.previewScript()">
+							<span class="glyphicon glyphicon-open-file"></span>
+							Gerar Prévia do Script
+						</a>
+					</li>
+					<li>
+						<a href="#" onclick="aade.saveScript()">
+							<span class="glyphicon glyphicon-save-file"></span>
+							Salvar Script
+						</a>
+					</li>
+					<li>
+						<a href="#" onclick="aade.showScriptExportSettings()">
+							<span class="glyphicon glyphicon-export"></span>
+							Exportar Script
+						</a>
+					</li>
+					<li>
+						<a href="#" onclick="aade.showScriptAnalysisSettings()">
+							<span class="glyphicon glyphicon-search"></span>
+							Analisar Script
+						</a>
+					</li>
+				</ul>
+			</div>
+			
+			<ul id="main-tabs" class="nav nav-tabs" role="tablist">
 				<li role="presentation" class="active">
 					<a href="#dialog-parser-tab" aria-controls="dialog-parser-tab" role="tab" data-toggle="tab">
 						<span class="glyphicon glyphicon-text-size"></span>
@@ -112,6 +152,7 @@ require_once('utils/aade.php');
 			<?php
 			include('modal-loading.php');
 			include('modal-analysis.php');
+			include('modal-export.php');
 			include('modal-config.php');
 			include('modal-text-preview.php');
 			?>

@@ -35,7 +35,7 @@ aade.equivalenceTable = {
 	},
 	1024: {
 		'original': 'Maya',
-		'adapted': 'Alícia'
+		'adapted': 'Alice'
 	},
 	7680: {
 		'original': 'Pearl',

@@ -151,12 +151,12 @@ function aade(){
 			'order': [[0, 'asc']],
 			'autoWidth': true,
 			'lengthMenu': [
-				[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, -1],
-				[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, 'Todos']
+				[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, 150, 200, -1],
+				[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, 150, 200, 'Todos']
 			],
 			'pageLength': 5,
 			'pagingType': 'input',
-			"dom":  "<'row'<'col-sm-6'lf><'col-sm-6 global-actions'>>" +
+			"dom":  "<'row'<'col-sm-5'lf><'col-sm-7'p>>" +
 					"<'row'<'col-sm-12'tr>>" +
 					"<'row'<'col-sm-5'i><'col-sm-7'p>>",
 			'language': {
@@ -184,10 +184,26 @@ function aade(){
 			}
 		});
 		
-		// Moving global actions menu inside table wrapper
+		// Showing global actions menu
 		var $dropdownGlobalActions = $('#global-actions-dropdown');
-		var $divGlobalActions = $('div.global-actions');
-		$dropdownGlobalActions.appendTo( $divGlobalActions );
+		$dropdownGlobalActions.show();
+		
+		// Adding tab events to toggle global actions when you enter / exit
+		// tbe dialog parser tab
+		var $ulMainTabs = $('#main-tabs');
+		var $anchors = $ulMainTabs.children('li').children('a');
+		$anchors.on({
+			'show.bs.tab': function(){
+				var $a = $(this);
+				var href = $a.attr('href');
+				
+				if(href == '#dialog-parser-tab'){
+					$dropdownGlobalActions.show();
+				} else {
+					$dropdownGlobalActions.hide();
+				}
+			}
+		});
 		
 		// Asking user to save script before exiting
 		$(window).on("beforeunload", function() { 
@@ -254,9 +270,9 @@ function aade(){
 
 			var clipboard = new Clipboard(this, {
 				'text': function(){
-					var texto = $textarea.val();
-					texto = $.trim( texto.replace(/{(.*?)}/g, '').replace(/\n/g, ' ') );
-					return texto;
+					var text = $textarea.val();
+					text = $.trim( text.replace(/{(.*?)}/g, '').replace(/\n/g, ' ') );
+					return text;
 				}
 			});
 
@@ -463,6 +479,14 @@ function aade(){
 		$('#analysis-settings').modal('hide');
 	}
 	
+	this.showScriptExportSettings = function(){
+		$('#export-settings').modal('show');
+	}
+	
+	this.hideScriptExportSettings = function(){
+		$('#export-settings').modal('hide');
+	}
+	
 	this.toggleFileOrigin = function(radio){
 		var $radio = $(radio);
 		var $inputFileField = $('#file-field');
@@ -627,6 +651,20 @@ function aade(){
 		}, 500);
 	}
 	
+	this.exportScript = function(){
+		var that = this;
+		that.hideScriptExportSettings();
+		that.showLoadingIndicator();
+		
+		setTimeout(function(){
+			var exportedScriptText = that.generateExportedScriptText();
+			
+			that.hideLoadingIndicator();
+			
+			that.showTextPreview(exportedScriptText);
+		}, 500);
+	}
+	
 	this.generateScriptText = function(){
 		var $dialogParserTable = $('#dialog-parser-table');
 		var tableObject = $dialogParserTable.DataTable();
@@ -651,6 +689,36 @@ function aade(){
 			}
 
 			scriptText += (text + '\n');
+		});
+		
+		return scriptText;
+	}
+	
+	this.generateExportedScriptText = function(){
+		var $dialogParserTable = $('#dialog-parser-table');
+		var tableObject = $dialogParserTable.DataTable();
+		
+		var scriptText = '';
+		var scriptSections = [];
+
+		$( tableObject.rows().nodes() ).find('textarea.text-field').sort(function(a, b){
+			// Sort all textareas by id attribute, to avoid messing
+			// with the order of dialogues
+			return parseFloat( $(a).attr('data-order') ) - parseFloat( $(b).attr('data-order') );
+		}).each(function(){
+			var $textarea = $(this);
+			var section = $textarea.attr('data-section');
+			var text = $textarea.val();
+			text = $.trim( text.replace(/{b}/g, '|').replace(/{(.*?)}/g, '').replace(/\n/g, '').replace(/\|/g, '\n') );
+
+			var checkSectionInserted = ($.inArray(section, scriptSections) !== -1);
+			if(!checkSectionInserted){
+				scriptSections.push(section);
+
+				scriptText += ('\n\n{{' + section + '}}\n');
+			}
+
+			scriptText += (text + '\n\n');
 		});
 		
 		return scriptText;

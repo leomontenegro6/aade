@@ -120,38 +120,6 @@ foreach($sections as $section_number=>$section){
 	}
 }
 ?>
-<div id="global-actions-dropdown" class="dropdown pull-right">
-	<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		Arquivo
-		<span class="caret"></span>
-	</button>
-	<ul class="dropdown-menu">
-		<li>
-			<a href="#" onclick="aade.showScriptConfigSettings()">
-				<span class="glyphicon glyphicon-cog"></span>
-				Configurações
-			</a>
-		</li>
-		<li>
-			<a href="#" onclick="aade.previewScript()">
-				<span class="glyphicon glyphicon-open-file"></span>
-				Gerar Prévia do Script
-			</a>
-		</li>
-		<li>
-			<a href="#" onclick="aade.saveScript()">
-				<span class="glyphicon glyphicon-save-file"></span>
-				Salvar Script
-			</a>
-		</li>
-		<li>
-			<a href="#" onclick="aade.showScriptAnalysisSettings()">
-				<span class="glyphicon glyphicon-search"></span>
-				Analisar Script
-			</a>
-		</li>
-	</ul>
-</div>
 <table id="dialog-parser-table" class="table table-striped table-bordered" data-filename="<?php echo $filename_without_extension ?>">
 	<thead>
 		<tr>
