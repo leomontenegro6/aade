@@ -657,11 +657,12 @@ function aade(){
 		that.showLoadingIndicator();
 		
 		setTimeout(function(){
-			var exportedScriptText = that.generateExportedScriptText();
+			var exportedScriptText = convertHtmlToRtf( that.generateExportedScriptText() );
 			
 			that.hideLoadingIndicator();
 			
-			that.showTextPreview(exportedScriptText);
+			var blob = new Blob([exportedScriptText], {type: "text/plain"});
+			saveAs(blob, "teste.rtf", true);
 		}, 500);
 	}
 	
@@ -700,6 +701,8 @@ function aade(){
 		
 		var scriptText = '';
 		var scriptSections = [];
+		var that = this;
+		var characterCode = null;
 
 		$( tableObject.rows().nodes() ).find('textarea.text-field').sort(function(a, b){
 			// Sort all textareas by id attribute, to avoid messing
@@ -707,18 +710,32 @@ function aade(){
 			return parseFloat( $(a).attr('data-order') ) - parseFloat( $(b).attr('data-order') );
 		}).each(function(){
 			var $textarea = $(this);
+			var order = $textarea.attr('data-order');
 			var section = $textarea.attr('data-section');
+			var block = $textarea.attr('data-block');
 			var text = $textarea.val();
-			text = $.trim( text.replace(/{b}/g, '|').replace(/{(.*?)}/g, '').replace(/\n/g, '').replace(/\|/g, '\n') );
+			
+			// Getting character name
+			var characterTags = text.match(/{name:[ ]*[0-9]*}/g);
+			if(characterTags != null && characterTags.length > 0){
+				var tagText = characterTags[0];
+				var tmp = tagText.split(':');
+				characterCode = parseInt(tmp.pop(), 10);
+			}
+			var characterName = that.getName(characterCode);
+			
+			// Formatting text, in order to remove all tags
+			text = $.trim( text.replace(/{b}/g, '|').replace(/{(.*?)}/g, '').replace(/\n/g, '').replace(/\|/g, '<br />') );
+			text = '<b>Ordem: ' + order + ' - Número: ' + block + ' - Personagem: ' + characterName + '</b><br />' + text;
 
 			var checkSectionInserted = ($.inArray(section, scriptSections) !== -1);
 			if(!checkSectionInserted){
 				scriptSections.push(section);
 
-				scriptText += ('\n\n{{' + section + '}}\n');
+				scriptText += ('<b>SEÇÃO ' + section + '</b><br /><br />');
 			}
 
-			scriptText += (text + '\n\n');
+			scriptText += (text + '<br /><br />');
 		});
 		
 		return scriptText;

@@ -11,7 +11,7 @@ aade.equivalenceTable = {
 	},
 	10752: {
 		'original': 'Grossberg',
-		'adapted': 'Beaumont'
+		'adapted': 'Massafera'
 	},
 	1792: {
 		'original': 'Mia',
@@ -23,7 +23,7 @@ aade.equivalenceTable = {
 	},
 	1280: {
 		'original': 'Judge',
-		'adapted': 'Juíz'
+		'adapted': 'Juiz'
 	},
 	2304: {
 		'original': 'Payne',

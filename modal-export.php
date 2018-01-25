@@ -10,8 +10,7 @@
 				<div class="form-group">
 					<label for="export-format" class="control-label">Formato¹:</label>
 					<select id="export-format" class="form-control">
-						<option value="doc">.doc</option>
-						<option value="docx">.docx</option>
+						<option value="rtf">.rtf</option>
 					</select>
 				</div>
 				<sub>

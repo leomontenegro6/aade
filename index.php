@@ -42,11 +42,12 @@ require_once('utils/aade.php');
 		<script type="text/javascript" src="js/jquery.highlighttextarea.min.js"></script>
 		<script type="text/javascript" src="js/clipboard.min.js"></script>
 		<script type="text/javascript" src="js/FileSaver.min.js"></script>
+		<script type="text/javascript" src="js/html2rtf.js?<?php echo filemtime('js/html2rtf.js') ?>"></script>
 		<script type="text/javascript" src="js/aade.js?<?php echo filemtime('js/aade.js') ?>"></script>
 		<script type="text/javascript">
 			$(function(){
 				aade.loadEquivalenceTable('aa1');
-				aade.setDefaultValuesSandboxField("Juíz", "Sua conduta durante este\njulgamento decidirá o\ndestino de seu cliente.");
+				aade.setDefaultValuesSandboxField("Juiz", "Sua conduta durante este\njulgamento decidirá o\ndestino de seu cliente.");
 			})
 		</script>
 	</head>

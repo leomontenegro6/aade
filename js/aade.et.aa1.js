@@ -27,7 +27,7 @@ aade.equivalenceTable = {
 	},
 	2048: {
 		'original': 'Judge',
-		'adapted': 'Juíz'
+		'adapted': 'Juiz'
 	},
 	2304: {
 		'original': 'Edgeworth',
@@ -43,7 +43,7 @@ aade.equivalenceTable = {
 	},
 	3072: {
 		'original': 'Grossberg',
-		'adapted': 'Beaumont'
+		'adapted': 'Massafera'
 	},
 	3328: {
 		'original': 'Cellphone',
@@ -51,15 +51,15 @@ aade.equivalenceTable = {
 	},
 	4096: {
 		'original': 'Penny',
-		'adapted': 'Sionadora'
+		'adapted': 'Siona'
 	},
 	4352: {
 		'original': 'Oldbag',
-		'adapted': 'Savelha'
+		'adapted': 'Savéria'
 	},
 	4608: {
 		'original': 'Manella',
-		'adapted': 'Nella'
+		'adapted': 'Monela'
 	},
 	4864: {
 		'original': 'TV',
@@ -95,7 +95,7 @@ aade.equivalenceTable = {
 	},
 	6912: {
 		'original': 'Will',
-		'adapted': 'Vidal'
+		'adapted': 'Liam'
 	},
 	7168: {
 		'original': 'Cody',
@@ -131,7 +131,7 @@ aade.equivalenceTable = {
 	},
 	9728: {
 		'original': 'Teacher',
-		'adapted': 'Professor'
+		'adapted': 'Professora'
 	},
 	9984: {// Possivelmente não-usado
 		'original': 'Edgeworth',
@@ -151,7 +151,7 @@ aade.equivalenceTable = {
 	},
 	11520: {
 		'original': 'Lana',
-		'adapted': 'Lana'
+		'adapted': 'Luana'
 	},
 	11776: {
 		'original': 'Marshall',
@@ -159,7 +159,7 @@ aade.equivalenceTable = {
 	},
 	12032: {
 		'original': 'Meekins',
-		'adapted': 'Mido'
+		'adapted': 'Dalto'
 	},
 	12288: {
 		'original': 'Goodman',

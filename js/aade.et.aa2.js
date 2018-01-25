@@ -23,7 +23,7 @@ aade.equivalenceTable = {
 	},
 	1792: {
 		'original': 'Judge',
-		'adapted': 'Juíz'
+		'adapted': 'Juiz'
 	},
 	2304: {
 		'original': 'Payne',
