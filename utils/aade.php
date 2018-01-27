@@ -26,4 +26,20 @@ class aade{
 		return (substr($haystack, -$length) === $needle);
 	}
 	
+	public static function checkAlphanumeric($texto) {
+		$convert = array(
+			// Acentos maiúsculos
+			"À" => "A", "Á" => "A", "Ã" => "A", "Â" => "A",
+			"Ç" => "C", "É" => "E", "Ê" => "E", "Í" => "I",
+			"Ï" => "I", "Ó" => "O", "Ô" => "O", "Õ" => "O",
+			"Ú" => "U", "Ü" => "U", "Ñ" => "N",
+			// Acentos minúsculos
+			"à" => "a", "á" => "a", "ã" => "a", "â" => "a",
+			"ç" => "c", "é" => "e", "ê" => "e", "í" => "i",
+			"ï" => "i", "ó" => "o", "ô" => "o", "õ" => "o",
+			"ú" => "u", "ü" => "u", "ñ" => "n"
+		);
+		return ctype_alnum(strtr($texto, $convert));
+	}
+
 }

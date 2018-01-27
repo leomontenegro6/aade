@@ -324,6 +324,7 @@ function aade(){
 		var $previousField = $("textarea[data-order='" + (parseInt($field.attr('data-order'), 10) - 1) + "']");
 		var $divPreview = $('#' + previewFieldId);
 		
+		var that = this;
 		var text = $field.val();
 		var tag = false;
 		var hasNameTag = false;
@@ -337,6 +338,16 @@ function aade(){
 			var $divTextWindow = $divPreview.children('div.text-window');
 			var $divCharacterName = $divPreview.children('div.character-name');
 			$divTextWindow.html('');
+			
+			// Inserting {b} when user presses enter
+			if(keyCode == 13 && !sandbox){
+				var cursorPos = $field.prop('selectionStart') - 1;
+				var textBefore = text.substring(0,  cursorPos);
+				var textAfter  = $.trim( text.substring(cursorPos, text.length) );
+				text = textBefore + '{b}\n' + textAfter;
+				
+				$field.val(text).prop('selectionEnd', cursorPos + 4).trigger('input');
+			}
 			
 			this.lastColor = this.getColorClass(previousFieldColor);
 			
@@ -653,6 +664,8 @@ function aade(){
 	
 	this.exportScript = function(){
 		var that = this;
+		var $dialogParserTable = $('#dialog-parser-table');
+		
 		that.hideScriptExportSettings();
 		that.showLoadingIndicator();
 		
@@ -661,8 +674,10 @@ function aade(){
 			
 			that.hideLoadingIndicator();
 			
+			var filename = $dialogParserTable.attr('data-filename') + '.rtf';
+			
 			var blob = new Blob([exportedScriptText], {type: "text/plain"});
-			saveAs(blob, "teste.rtf", true);
+			saveAs(blob, filename, true);
 		}, 500);
 	}
 	
@@ -699,7 +714,8 @@ function aade(){
 		var $dialogParserTable = $('#dialog-parser-table');
 		var tableObject = $dialogParserTable.DataTable();
 		
-		var scriptText = '';
+		var scriptText = "<b>SCRIPT DUMPADO APENAS PARA FINS DE ANÁLISE E REVISÃO</b><br />";
+		scriptText += "<b>NÃO TRADUZA O SCRIPT POR AQUI, MAS SIM PELO PRÓPRIO AADE!</b><br /><br />";
 		var scriptSections = [];
 		var that = this;
 		var characterCode = null;
