@@ -151,8 +151,8 @@ function aade(){
 			'order': [[0, 'asc']],
 			'autoWidth': true,
 			'lengthMenu': [
-				[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, 150, 200, -1],
-				[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, 150, 200, 'Todos']
+				[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, 150, 200, 300, 400, 500, -1],
+				[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, 150, 200, 300, 400, 500, 'Todos']
 			],
 			'pageLength': 5,
 			'pagingType': 'input',
@@ -324,12 +324,12 @@ function aade(){
 		var $previousField = $("textarea[data-order='" + (parseInt($field.attr('data-order'), 10) - 1) + "']");
 		var $divPreview = $('#' + previewFieldId);
 		
-		var that = this;
 		var text = $field.val();
 		var tag = false;
 		var hasNameTag = false;
 		var tagText = '';
-		var previousFieldColor = parseInt($previousField.attr('data-color'), 10);
+		var fieldSection = parseInt($field.attr('data-section'), 10);
+		var previousFieldSection = parseInt($previousField.attr('data-section'), 10);
 		
 		if(textType == 'c'){
 			var $divCharacterName = $divPreview.children('div.character-name');
@@ -349,8 +349,17 @@ function aade(){
 				$field.val(text).prop('selectionEnd', cursorPos + 4).trigger('input');
 			}
 			
-			this.lastColor = this.getColorClass(previousFieldColor);
+			// Setting color of previous field as last used color.
+			// However, if the section changes, color must be resetted.
+			var lastColor;
+			if((fieldSection == previousFieldSection)){
+				lastColor = parseInt($previousField.attr('data-color'), 10);
+			} else {
+				lastColor = 0;
+			}
+			this.lastColor = this.getColorClass(lastColor);
 			
+			// Iterating over all characters inside text field
 			for (var i = 0, size = text.length; i < size; i++) {
 				var char = text[i];
 				
@@ -804,49 +813,92 @@ function aade(){
 	
 	this.analyseScriptBlock = function(divTextWindow){
 		var $divTextWindow = $(divTextWindow);
+		
 		var block_width = $divTextWindow.outerWidth();
-
-		var checkLineBiggerThanBlock = false;
-		var checkMoreThan32Chars = false;
-		var $divInvalidBlock;
-
+		var caret_right_padding = 0;
+		var line_number = 1;
 		var line_width = 10;
 		var characters_per_line = 0;
+		var message = '';
 		var that = this;
+		
+		var checkValidBlock = true;
+		var checkBlockWidthLastLineReduced = false;
+		var checkCenteredBlock = $divTextWindow.hasClass('centered');
 
 		$divTextWindow.children('*').each(function(){
 			var $elem = $(this);
-
+			
 			if($elem.is('span.letter')){
+				// Counting line width and characters on each line
 				line_width += $elem.width();
 				characters_per_line++;
 			} else if($elem.is('br')){
+				// Counting each line break
+				line_number++;
 				line_width = 10;
 				characters_per_line = 0;
 			}
-
+			
+			// For blocks with three lines, defining caret right padding
+			// and reducing block width with its value
+			if(line_number == 3 && !checkBlockWidthLastLineReduced){
+				if(checkCenteredBlock){
+					caret_right_padding = 23;
+				} else {
+					caret_right_padding = 17;
+				}
+				block_width -= caret_right_padding;
+				checkBlockWidthLastLineReduced = true;
+			}
+			
+			// Validating block
+			if(line_number > 3){
+				checkValidBlock = false;
+				message = 'Bloco com mais de 3 linhas!';
+				return false; // Exit $.each
+			}
 			if(line_width > block_width){
-				checkLineBiggerThanBlock = true;
-				$divInvalidBlock = $divTextWindow;
+				var checkInsideCaretArea;
+				if(line_number == 3){
+					var caret_start = block_width;
+					var caret_ending = (block_width + caret_right_padding);
+					if(checkCenteredBlock){
+						caret_ending += 5;
+					}
+					
+					if((line_width >= caret_start) && (line_width <= caret_ending)){
+						checkInsideCaretArea = true;
+					} else {
+						checkInsideCaretArea = false;
+					}
+				} else {
+					checkInsideCaretArea = false;
+				}
+				
+				checkValidBlock = false;
+				if(checkInsideCaretArea){
+					message = 'Texto sobrepondo a área do cursor da terceira linha!';
+				} else {
+					message = 'Largura da linha ultrapassa limite do bloco!';
+				}
 			}
 			if((that.invalidateLargeLines) && (characters_per_line > 32)){
-				checkMoreThan32Chars = true;
-				$divInvalidBlock = $divTextWindow;
+				checkValidBlock = false;
+				message = 'Contém linhas com mais de 32 caracteres!';
+				return false; // Exit $.each
 			}
 		});
 		
-		if(checkLineBiggerThanBlock){
-			return {
-				'invalidBlock': $divInvalidBlock,
-				'message': 'Largura da linha ultrapassa limite do bloco!'
-			}
-		} else if(checkMoreThan32Chars){
-			return {
-				'invalidBlock': $divInvalidBlock,
-				'message': 'Contém linhas com mais de 32 caracteres!'
-			}
-		} else {
+		// Returning true if block is valid, or an array containing the block element
+		// and the message being returned
+		if(checkValidBlock){
 			return true;
+		} else {
+			return {
+				'invalidBlock': $divTextWindow,
+				'message': message
+			}
 		}
 	}
 	

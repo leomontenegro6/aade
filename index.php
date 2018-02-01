@@ -33,6 +33,8 @@ require_once('utils/aade.php');
 		<link rel="stylesheet" href="css/dataTables.bootstrap.min.css">
 		<link rel="stylesheet" href="css/jquery.highlighttextarea.min.css">
 		<link rel="stylesheet" href="css/css.css?<?php echo filemtime('css/css.css') ?>">
+		<link rel="stylesheet" href="css/3ds_font_sprites.css?<?php echo filemtime('css/3ds_font_sprites.css') ?>">
+		<link rel="stylesheet" href="css/ds_american_font_sprites.css?<?php echo filemtime('css/ds_american_font_sprites.css') ?>">
 		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
