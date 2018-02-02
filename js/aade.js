@@ -1078,7 +1078,7 @@ function aade(){
 			'Í': 'I-acute', 'Ï': 'I-diaeresis', 'Î': 'I-circumflex', 'Ò': 'O-grave',
 			'Ó': 'O-acute', 'Ô': 'O-circumflex', 'Õ': 'O-tilde', 'Ö': 'O-diaeresis',
 			'Ù': 'U-grave', 'Ú': 'U-acute', 'Û': 'U-circumflex', 'Ü': 'U-diaeresis',
-			'Ñ': 'N-circumflex', 'Ÿ': 'Y-diaeresis',
+			'Ñ': 'N-tilde', 'Ÿ': 'Y-diaeresis',
 			
 			// Lowercase accents
 			'à': 'a-grave', 'á': 'a-acute', 'â': 'a-circumflex', 'ã': 'a-tilde',
@@ -1087,7 +1087,7 @@ function aade(){
 			'í': 'i-acute', 'ï': 'i-diaeresis', 'î': 'i-circumflex', 'ò': 'o-grave',
 			'ó': 'o-acute', 'ô': 'o-circumflex', 'õ': 'o-tilde', 'ö': 'o-diaeresis',
 			'ù': 'u-grave', 'ú': 'u-acute', 'û': 'u-circumflex', 'ü': 'u-diaeresis',
-			'ñ': 'n-circumflex', 'ÿ': 'y-diaeresis'
+			'ñ': 'n-tilde', 'ÿ': 'y-diaeresis'
 			
 		}
 		
