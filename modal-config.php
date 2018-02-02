@@ -8,17 +8,51 @@
 			
 			<div class="modal-body">
 				<div class="form-group">
-					<label for="name-type-original" class="control-label">Nomes da Tabela de Equivalência:</label>
+					<label for="config-platform-3ds" class="control-label">Plataforma:</label>
 					<div class="radio">
 						<label>
-							<input type="radio" name="name-type" id="name-type-original" value="o"
+							<input type="radio" name="config-platform" id="config-platform-3ds" value="3ds"
+								onchange="aade.changePreviewPlatform(this)" />
+							Nintendo 3DS
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="config-platform" id="config-platform-ds-jacutemsabao" value="ds_jacutemsabao"
+								onchange="aade.changePreviewPlatform(this)" />
+							Nintendo DS
+							<small>(Americana - Jacutem Sabão)</small>
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="config-platform" id="config-platform-ds-american" value="ds_american"
+								onchange="aade.changePreviewPlatform(this)" />
+							Nintendo DS
+							<small>(Americana)</small>
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="config-platform" id="config-platform-ds-european" value="ds_european"
+								onchange="aade.changePreviewPlatform(this)" />
+							Nintendo DS
+							<small>(Européia)</small>
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="config-name-type-original" class="control-label">Nomes da Tabela de Equivalência:</label>
+					<div class="radio">
+						<label>
+							<input type="radio" name="config-name-type" id="config-name-type-original" value="o"
 								onchange="aade.changeDefaultNameTypes(this)" />
 							Originais
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							<input type="radio" name="name-type" id="name-type-adapted" value="a"
+							<input type="radio" name="config-name-type" id="config-name-type-adapted" value="a"
 								onchange="aade.changeDefaultNameTypes(this)" />
 							Adaptados
 						</label>

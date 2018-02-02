@@ -2,7 +2,7 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<div class="form-group">
-				<label for="teste" class="control-label">Arquivo*:</label>
+				<label for="file-origin-input" class="control-label">Arquivo*:</label>
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="radio">
@@ -46,21 +46,61 @@
 					</div>
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="nomes1" class="control-label">Nomes da Tabela de Equivalência:</label>
-				<div class="radio">
-					<label>
-						<input type="radio" name="name-type" id="name-type-original" value="o"
-							onchange="aade.changeDefaultNameTypes(this)" checked />
-						Originais
-					</label>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="platform-3ds" class="control-label">Plataforma:</label>
+						<div class="radio">
+							<label>
+								<input type="radio" name="platform" id="platform-3ds" value="3ds"
+									onchange="aade.changePreviewPlatform(this)" checked />
+								Nintendo 3DS
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="platform" id="platform-ds-jacutemsabao" value="ds_jacutemsabao"
+									onchange="aade.changePreviewPlatform(this)" />
+								Nintendo DS
+								<small>(Americana - Jacutem Sabão)</small>
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="platform" id="platform-ds-american" value="ds_american"
+									onchange="aade.changePreviewPlatform(this)" />
+								Nintendo DS
+								<small>(Americana)</small>
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="platform" id="platform-ds-european" value="ds_european"
+									onchange="aade.changePreviewPlatform(this)" />
+								Nintendo DS
+								<small>(Européia)</small>
+							</label>
+						</div>
+					</div>
 				</div>
-				<div class="radio">
-					<label>
-						<input type="radio" name="name-type" id="name-type-adapted" value="a"
-							onchange="aade.changeDefaultNameTypes(this)" />
-						Adaptados
-					</label>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="name-type-original" class="control-label">Nomes da Tabela de Equivalência:</label>
+						<div class="radio">
+							<label>
+								<input type="radio" name="name-type" id="name-type-original" value="o"
+									onchange="aade.changeDefaultNameTypes(this)" checked />
+								Originais
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="name-type" id="name-type-adapted" value="a"
+									onchange="aade.changeDefaultNameTypes(this)" />
+								Adaptados
+							</label>
+						</div>
+					</div>
 				</div>
 			</div>
 			<p class="help-block">* Campo obrigatório</p>

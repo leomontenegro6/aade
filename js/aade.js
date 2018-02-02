@@ -5,6 +5,7 @@
 function aade(){
 	
 	// Properties
+	this.platform = '3ds';
 	this.nameType = 'o';
 	this.invalidateLargeLines = true;
 	this.lastName = '???';
@@ -307,6 +308,9 @@ function aade(){
 		if(typeof textType == 'undefined') textType = 't';
 		if(typeof sandbox == 'undefined') sandbox = true;
 		
+		var platform = this.platform;
+		var checkPlatformDS = (platform == 'ds_jacutemsabao' || platform == 'ds_american' || platform == 'ds_european');
+		
 		var keyCode;
 		if(typeof event != 'undefined'){
 			keyCode = (typeof event.which != 'undefined') ? (event.which) : (0);
@@ -331,6 +335,13 @@ function aade(){
 		var fieldSection = parseInt($field.attr('data-section'), 10);
 		var previousFieldSection = parseInt($previousField.attr('data-section'), 10);
 		
+		// Adding parent class for DS platform detection
+		if(checkPlatformDS){
+			$divPreview.addClass('ds');
+		} else {
+			$divPreview.removeClass('ds');
+		}
+		
 		if(textType == 'c'){
 			var $divCharacterName = $divPreview.children('div.character-name');
 			$divCharacterName.html(text);
@@ -338,6 +349,12 @@ function aade(){
 			var $divTextWindow = $divPreview.children('div.text-window');
 			var $divCharacterName = $divPreview.children('div.character-name');
 			$divTextWindow.html('');
+			
+			// Setting platform for preview
+			$divTextWindow.removeClass('ds_jacutemsabao ds_american ds_european');
+			if(checkPlatformDS){
+				$divTextWindow.addClass(platform);
+			}
 			
 			// Inserting {b} when user presses enter
 			if(keyCode == 13 && !sandbox){
@@ -470,10 +487,19 @@ function aade(){
 	this.showScriptConfigSettings = function(){
 		$('#config-settings').modal('show');
 		
-		if(this.nameType == 'o'){
-			$('#name-type-original').prop('checked', true);
+		if(this.platform == 'ds_jacutemsabao'){
+			$('#config-platform-ds-jacutemsabao').prop('checked', true);
+		} else if(this.platform == 'ds_american'){
+			$('#config-platform-ds-american').prop('checked', true);
+		} else if(this.platform == 'ds_european'){
+			$('#config-platform-ds-european').prop('checked', true);
 		} else {
-			$('#name-type-adapted').prop('checked', true);
+			$('#config-platform-3ds').prop('checked', true);
+		}
+		if(this.nameType == 'o'){
+			$('#config-name-type-original').prop('checked', true);
+		} else {
+			$('#config-name-type-adapted').prop('checked', true);
 		}
 		if(this.invalidateLargeLines){
 			$('#invalidate-large-lines-true').prop('checked', true);
@@ -530,6 +556,15 @@ function aade(){
 		
 		$divFileList.find('div.col').find('label.btn').removeClass('btn-primary').addClass('btn-default');
 		$label.addClass('btn-primary').removeClass('btn-default');
+	}
+	
+	this.changePreviewPlatform = function(radio){
+		var $radio = $(radio);
+		
+		var platform = $radio.val();
+		this.platform = platform;
+		
+		this.updatePreviewVisibleTextareas();
 	}
 	
 	this.changeDefaultNameTypes = function(radio){
@@ -1062,8 +1097,8 @@ function aade(){
 			"(": 'open-parenthesis', ")": 'close-parenthesis', '*': 'asterisk',
 			'+': 'plus', ',': 'comma', '-': 'minus', '.': 'dot', '/': 'slash',
 			':': 'colon', ';': 'semicolon', '<': 'less-than', '=': 'equal',
-			'>': 'greater-than', '?': 'interrogation', '©': 'copyright',
-			'[': 'open-square-brackets', ']': 'close-square-brackets',
+			'>': 'greater-than', '?': 'interrogation', '@': 'at-sign',
+			'©': 'copyright', '[': 'open-square-brackets', ']': 'close-square-brackets',
 			'_': 'underscore', '¡': 'inverted-exclamation',
 			'¿': 'inverted-interrogation', 'º': 'o-ordinal', 'ª': 'a-ordinal',
 			

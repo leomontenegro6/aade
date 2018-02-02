@@ -64,14 +64,12 @@ td.form-fields textarea.text-field{
 	height: 80px;
 	background: url('../images/dialog_box_3ds.png');
 	display: inline-block;
-	margin-top: 15px;
+	margin-top: 20px;
 }
 .dialog-preview.ds.text-only{
 	width: 256px;
 	height: 64px;
 	background: url('../images/dialog_box_ds.png');
-	display: inline-block;
-	margin-top: 15px;
 }
 .dialog-preview div.character-name{
 	position: absolute;
@@ -79,7 +77,6 @@ td.form-fields textarea.text-field{
 	left: 48px;
 	color: white;	
 	font-size: 13px;
-	/*letter-spacing: 2px;*/
 }
 .dialog-preview div.text-window{
 	position: absolute;
@@ -94,6 +91,12 @@ td.form-fields textarea.text-field{
 	line-height: 1.275;
 	white-space: nowrap;
 }
+.dialog-preview.ds div.text-window{
+	width: 256px;
+	height: 64px;
+	padding-top: 10px;
+	line-height: 0.94;
+}
 .dialog-preview div.text-window.centered{
 	text-align: center;
 	padding-left: 0;
@@ -103,16 +106,18 @@ td.form-fields textarea.text-field{
 	width: 85px;
 	height: 21px;
 	background: url('../images/charname_box_3ds.png');
-	padding-left: 6px;
 	padding-top: 2px;
+	text-align: center;
 }
 .dialog-preview.ds.text-only div.character-name{
 	left: 0;
+	bottom: 62px;
 	width: 57px;
 	height: 14px;
 	background: url('../images/charname_box_ds.png');
-	padding-left: 6px;
-	padding-top: 2px;
+	padding-left: 0;
+	padding-top: 0;
+	font-size: 11px;
 }
 .dialog-preview.text-only div.text-window{
 	left: 0;
@@ -120,6 +125,10 @@ td.form-fields textarea.text-field{
 .dialog-preview.text-only div.btn-group{
 	top: -22px;
 	left: 89px;
+}
+.dialog-preview.ds.text-only div.btn-group{
+	top: -25px;
+	left: 61px;
 }
 .dialog-preview.invalid{
 	background: url('../images/dialog_box_invalid_3ds.png');

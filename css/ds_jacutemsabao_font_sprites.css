@@ -1,0 +1,173 @@
+div.text-window.ds_jacutemsabao span.letter{
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url('../images/font_ds_american.png');
+	background-position: 0 0;
+}
+/* Font sprites */
+div.text-window.ds_jacutemsabao span.letter.space{ width: 8px; background-position: 0 0; }
+div.text-window.ds_jacutemsabao span.letter.exclamation{ width: 2px; background-position: -32px 0; }
+div.text-window.ds_jacutemsabao span.letter.double-quotes{ width: 6px; background-position: -48px 0; }
+div.text-window.ds_jacutemsabao span.letter.cerquilha{ width: 12px; background-position: -64px 0; }
+div.text-window.ds_jacutemsabao span.letter.money-sign{ width: 8px; background-position: -80px 0; }
+div.text-window.ds_jacutemsabao span.letter.percent{ width: 11px; background-position: -96px 0; }
+div.text-window.ds_jacutemsabao span.letter.ampersand{ width: 10px; background-position: -112px 0; }
+div.text-window.ds_jacutemsabao span.letter.quotes{ width: 3px; background-position: -128px 0; }
+div.text-window.ds_jacutemsabao span.letter.open-parenthesis{ width: 4px; background-position: -144px 0; }
+div.text-window.ds_jacutemsabao span.letter.close-parenthesis{ width: 4px; background-position: -160px 0; }
+div.text-window.ds_jacutemsabao span.letter.asterisk{ width: 8px; background-position: -176px 0; }
+div.text-window.ds_jacutemsabao span.letter.plus{ width: 10px; background-position: -192px 0; }
+div.text-window.ds_jacutemsabao span.letter.comma{ width: 4px; background-position: -208px 0; }
+div.text-window.ds_jacutemsabao span.letter.minus{ width: 6px; background-position: 0 -16px; }
+div.text-window.ds_jacutemsabao span.letter.dot{ width: 3px; background-position: -16px -16px; }
+div.text-window.ds_jacutemsabao span.letter.slash{ width: 6px; background-position: -32px -16px; }
+div.text-window.ds_jacutemsabao span.letter.colon{ width: 3px; background-position: -208px -16px; }
+div.text-window.ds_jacutemsabao span.letter.semicolon{ width: 3px; background-position: 0 -32px; }
+div.text-window.ds_jacutemsabao span.letter.less-than{ width: 13px; background-position: -16px -32px; }
+div.text-window.ds_jacutemsabao span.letter.equal{ width: 12px; background-position: -32px -32px; }
+div.text-window.ds_jacutemsabao span.letter.greater-than{ width: 13px; background-position: -48px -32px; }
+div.text-window.ds_jacutemsabao span.letter.interrogation{ width: 8px; background-position: -64px -32px; }
+div.text-window.ds_jacutemsabao span.letter.at-sign{ width: 9px; background-position: -80px -32px; }
+div.text-window.ds_jacutemsabao span.letter.copyright{ width: 9px; background-position: 0 -144px; }
+div.text-window.ds_jacutemsabao span.letter.open-square-brackets{ width: 5px; background-position: -64px -64px; }
+div.text-window.ds_jacutemsabao span.letter.close-square-brackets{ width: 5px; background-position: -96px -64px; }
+div.text-window.ds_jacutemsabao span.letter.underscore{ width: 10px; background-position: -128px -64px; }
+div.text-window.ds_jacutemsabao span.letter.inverted-exclamation{ width: 2px; background-position: -160px -128px; }
+div.text-window.ds_jacutemsabao span.letter.inverted-interrogation{ width: 8px; background-position: -176px -128px; }
+div.text-window.ds_jacutemsabao span.letter.o-ordinal{ width: 5px; background-position: -16px -144px; }
+div.text-window.ds_jacutemsabao span.letter.a-ordinal{ width: 5px; background-position: -32px -144px; }
+
+div.text-window.ds_jacutemsabao span.letter.n0{ width: 6px; background-position: -48px -16px; }
+div.text-window.ds_jacutemsabao span.letter.n1{ width: 4px; background-position: -64px -16px; }
+div.text-window.ds_jacutemsabao span.letter.n2{ width: 6px; background-position: -80px -16px; }
+div.text-window.ds_jacutemsabao span.letter.n3{ width: 6px; background-position: -96px -16px; }
+div.text-window.ds_jacutemsabao span.letter.n4{ width: 6px; background-position: -112px -16px; }
+div.text-window.ds_jacutemsabao span.letter.n5{ width: 6px; background-position: -128px -16px; }
+div.text-window.ds_jacutemsabao span.letter.n6{ width: 6px; background-position: -144px -16px; }
+div.text-window.ds_jacutemsabao span.letter.n7{ width: 6px; background-position: -160px -16px; }
+div.text-window.ds_jacutemsabao span.letter.n8{ width: 6px; background-position: -176px -16px; }
+div.text-window.ds_jacutemsabao span.letter.n9{ width: 6px; background-position: -192px -16px; }
+
+div.text-window.ds_jacutemsabao span.letter.A{ width: 9px; background-position: -96px -32px; }
+div.text-window.ds_jacutemsabao span.letter.B{ width: 8px; background-position: -112px -32px; }
+div.text-window.ds_jacutemsabao span.letter.C{ width: 9px; background-position: -128px -32px; }
+div.text-window.ds_jacutemsabao span.letter.D{ width: 8px; background-position: -144px -32px; }
+div.text-window.ds_jacutemsabao span.letter.E{ width: 7px; background-position: -160px -32px; }
+div.text-window.ds_jacutemsabao span.letter.F{ width: 7px; background-position: -176px -32px; }
+div.text-window.ds_jacutemsabao span.letter.G{ width: 9px; background-position: -192px -32px; }
+div.text-window.ds_jacutemsabao span.letter.H{ width: 8px; background-position: -208px -32px; }
+div.text-window.ds_jacutemsabao span.letter.I{ width: 4px; background-position: 0 -48px; }
+div.text-window.ds_jacutemsabao span.letter.J{ width: 6px; background-position: -16px -48px; }
+div.text-window.ds_jacutemsabao span.letter.K{ width: 8px; background-position: -32px -48px; }
+div.text-window.ds_jacutemsabao span.letter.L{ width: 8px; background-position: -48px -48px; }
+div.text-window.ds_jacutemsabao span.letter.M{ width: 10px; background-position: -64px -48px; }
+div.text-window.ds_jacutemsabao span.letter.N{ width: 8px; background-position: -80px -48px; }
+div.text-window.ds_jacutemsabao span.letter.O{ width: 11px; background-position: -96px -48px; }
+div.text-window.ds_jacutemsabao span.letter.P{ width: 8px; background-position: -112px -48px; }
+div.text-window.ds_jacutemsabao span.letter.Q{ width: 11px; background-position: -128px -48px; }
+div.text-window.ds_jacutemsabao span.letter.R{ width: 8px; background-position: -144px -48px; }
+div.text-window.ds_jacutemsabao span.letter.S{ width: 8px; background-position: -160px -48px; }
+div.text-window.ds_jacutemsabao span.letter.T{ width: 8px; background-position: -176px -48px; }
+div.text-window.ds_jacutemsabao span.letter.U{ width: 8px; background-position: -192px -48px; }
+div.text-window.ds_jacutemsabao span.letter.V{ width: 8px; background-position: -208px -48px; }
+div.text-window.ds_jacutemsabao span.letter.W{ width: 14px; background-position: 0 -64px; }
+div.text-window.ds_jacutemsabao span.letter.X{ width: 7px; background-position: -16px -64px; }
+div.text-window.ds_jacutemsabao span.letter.Y{ width: 8px; background-position: -32px -64px; }
+div.text-window.ds_jacutemsabao span.letter.Z{ width: 8px; background-position: -48px -64px; }
+
+div.text-window.ds_jacutemsabao span.letter.a{ width: 7px; background-position: -160px -64px; }
+div.text-window.ds_jacutemsabao span.letter.b{ width: 7px; background-position: -176px -64px; }
+div.text-window.ds_jacutemsabao span.letter.c{ width: 7px; background-position: -192px -64px; }
+div.text-window.ds_jacutemsabao span.letter.d{ width: 7px; background-position: -208px -64px; }
+div.text-window.ds_jacutemsabao span.letter.e{ width: 7px; background-position: 0 -80px; }
+div.text-window.ds_jacutemsabao span.letter.f{ width: 5px; background-position: -16px -80px; }
+div.text-window.ds_jacutemsabao span.letter.g{ width: 7px; background-position: -32px -80px; }
+div.text-window.ds_jacutemsabao span.letter.h{ width: 7px; background-position: -48px -80px; }
+div.text-window.ds_jacutemsabao span.letter.i{ width: 2px; background-position: -64px -80px; }
+div.text-window.ds_jacutemsabao span.letter.j{ width: 3px; background-position: -80px -80px; }
+div.text-window.ds_jacutemsabao span.letter.k{ width: 7px; background-position: -96px -80px; }
+div.text-window.ds_jacutemsabao span.letter.l{ width: 2px; background-position: -112px -80px; }
+div.text-window.ds_jacutemsabao span.letter.m{ width: 10px; background-position: -128px -80px; }
+div.text-window.ds_jacutemsabao span.letter.n{ width: 7px; background-position: -144px -80px; }
+div.text-window.ds_jacutemsabao span.letter.o{ width: 8px; background-position: -160px -80px; }
+div.text-window.ds_jacutemsabao span.letter.p{ width: 7px; background-position: -176px -80px; }
+div.text-window.ds_jacutemsabao span.letter.q{ width: 7px; background-position: -192px -80px; }
+div.text-window.ds_jacutemsabao span.letter.r{ width: 5px; background-position: -208px -80px; }
+div.text-window.ds_jacutemsabao span.letter.s{ width: 7px; background-position: 0 -96px; }
+div.text-window.ds_jacutemsabao span.letter.t{ width: 5px; background-position: -16px -96px; }
+div.text-window.ds_jacutemsabao span.letter.u{ width: 7px; background-position: -32px -96px; }
+div.text-window.ds_jacutemsabao span.letter.v{ width: 8px; background-position: -48px -96px; }
+div.text-window.ds_jacutemsabao span.letter.w{ width: 10px; background-position: -64px -96px; }
+div.text-window.ds_jacutemsabao span.letter.x{ width: 8px; background-position: -80px -96px; }
+div.text-window.ds_jacutemsabao span.letter.y{ width: 8px; background-position: -96px -96px; }
+div.text-window.ds_jacutemsabao span.letter.z{ width: 7px; background-position: -112px -96px; }
+
+div.text-window.ds_jacutemsabao span.letter.A-grave{ width: 8px; background-position: -192px -96px; }
+div.text-window.ds_jacutemsabao span.letter.A-acute{ width: 8px; background-position: -208px -96px; }
+div.text-window.ds_jacutemsabao span.letter.A-circumflex{ width: 8px; background-position: 0 -112px; }
+div.text-window.ds_jacutemsabao span.letter.A-tilde{ width: 8px; background-position: -16px -112px; }
+div.text-window.ds_jacutemsabao span.letter.A-diaeresis{ width: 8px; background-position: -48px -144px; }
+div.text-window.ds_jacutemsabao span.letter.C-cedilla{ width: 9px; background-position: -32px -112px; }
+div.text-window.ds_jacutemsabao span.letter.E-grave{ width: 8px; background-position: -64px -144px; }
+div.text-window.ds_jacutemsabao span.letter.E-acute{ width: 8px; background-position: -48px -112px; }
+div.text-window.ds_jacutemsabao span.letter.E-circumflex{ width: 8px; background-position: -64px -112px; }
+div.text-window.ds_jacutemsabao span.letter.E-tilde{ width: 8px; background-position: -80px -144px; }
+div.text-window.ds_jacutemsabao span.letter.E-diaeresis{ width: 8px; background-position: -96px -144px; }
+div.text-window.ds_jacutemsabao span.letter.I-grave{ width: 3px; background-position: -112px -144px; }
+div.text-window.ds_jacutemsabao span.letter.I-acute{ width: 3px; background-position: -80px -112px; }
+div.text-window.ds_jacutemsabao span.letter.I-circumflex{ width: 3px; background-position: -128px -144px; }
+div.text-window.ds_jacutemsabao span.letter.I-diaeresis{ width: 3px; background-position: -144px -144px; }
+div.text-window.ds_jacutemsabao span.letter.O-grave{ width: 9px; background-position: -160px -144px; }
+div.text-window.ds_jacutemsabao span.letter.O-acute{ width: 9px; background-position: -96px -112px; }
+div.text-window.ds_jacutemsabao span.letter.O-circumflex{ width: 9px; background-position: -112px -112px; }
+div.text-window.ds_jacutemsabao span.letter.O-tilde{ width: 9px; background-position: -128px -112px; }
+div.text-window.ds_jacutemsabao span.letter.O-diaeresis{ width: 9px; background-position: -176px -144px; }
+div.text-window.ds_jacutemsabao span.letter.U-grave{ width: 8px; background-position: -192px -144px; }
+div.text-window.ds_jacutemsabao span.letter.U-acute{ width: 8px; background-position: -144px -112px; }
+div.text-window.ds_jacutemsabao span.letter.U-circumflex{ width: 8px; background-position: -208px -144px; }
+div.text-window.ds_jacutemsabao span.letter.U-diaeresis{ width: 8px; background-position: -160px -112px; }
+div.text-window.ds_jacutemsabao span.letter.N-tilde{ width: 8px; background-position: 0 -160px; }
+div.text-window.ds_jacutemsabao span.letter.Y-diaeresis{ width: 8px; background-position: -16px -160px; }
+
+div.text-window.ds_jacutemsabao span.letter.a-grave{ width: 7px; background-position: -176px -112px; }
+div.text-window.ds_jacutemsabao span.letter.a-acute{ width: 7px; background-position: -192px -112px; }
+div.text-window.ds_jacutemsabao span.letter.a-circumflex{ width: 7px; background-position: -208px -112px; }
+div.text-window.ds_jacutemsabao span.letter.a-tilde{ width: 7px; background-position: 0 -128px; }
+div.text-window.ds_jacutemsabao span.letter.a-diaeresis{ width: 7px; background-position: -32px -160px; }
+div.text-window.ds_jacutemsabao span.letter.c-cedilla{ width: 7px; background-position: -16px -128px; }
+div.text-window.ds_jacutemsabao span.letter.e-grave{ width: 7px; background-position: -48px -160px; }
+div.text-window.ds_jacutemsabao span.letter.e-acute{ width: 7px; background-position: -32px -128px; }
+div.text-window.ds_jacutemsabao span.letter.e-circumflex{ width: 7px; background-position: -48px -128px; }
+div.text-window.ds_jacutemsabao span.letter.e-tilde{ width: 7px; background-position: -64px -160px; }
+div.text-window.ds_jacutemsabao span.letter.e-diaeresis{ width: 7px; background-position: -80px -160px; }
+div.text-window.ds_jacutemsabao span.letter.i-grave{ width: 3px; background-position: -96px -160px; }
+div.text-window.ds_jacutemsabao span.letter.i-acute{ width: 2px; background-position: -64px -128px; }
+div.text-window.ds_jacutemsabao span.letter.i-circumflex{ width: 3px; background-position: -112px -160px; }
+div.text-window.ds_jacutemsabao span.letter.i-diaeresis{ width: 3px; background-position: -128px -160px; }
+div.text-window.ds_jacutemsabao span.letter.o-grave{ width: 8px; background-position: -144px -160px; }
+div.text-window.ds_jacutemsabao span.letter.o-acute{ width: 8px; background-position: -80px -128px; }
+div.text-window.ds_jacutemsabao span.letter.o-circumflex{ width: 8px; background-position: -96px -128px; }
+div.text-window.ds_jacutemsabao span.letter.o-tilde{ width: 8px; background-position: -112px -128px; }
+div.text-window.ds_jacutemsabao span.letter.o-diaeresis{ width: 8px; background-position: -160px -160px; }
+div.text-window.ds_jacutemsabao span.letter.u-grave{ width: 7px; background-position: -176px -160px; }
+div.text-window.ds_jacutemsabao span.letter.u-acute{ width: 7px; background-position: -128px -128px; }
+div.text-window.ds_jacutemsabao span.letter.u-circumflex{ width: 7px; background-position: -1928px -160px; }
+div.text-window.ds_jacutemsabao span.letter.u-diaeresis{ width: 7px; background-position: -144px -128px; }
+div.text-window.ds_jacutemsabao span.letter.n-tilde{ width: 7px; background-position: -208px -160px; }
+div.text-window.ds_jacutemsabao span.letter.y-diaeresis{ width: 8px; background-position: 0 -176px; }
+
+div.text-window.ds_jacutemsabao span.letter.unknown{ width: 11px !important; background-position: -16px 0 !important; }
+
+div.text-window.ds_jacutemsabao span.letter.color-blue{
+	-webkit-filter: invert(25%) sepia() saturate(8000%) hue-rotate(220deg);
+	filter: invert(25%) sepia() saturate(8000%) hue-rotate(220deg);
+}
+div.text-window.ds_jacutemsabao span.letter.color-orange{
+	-webkit-filter: invert(25%) sepia() saturate(7000%) hue-rotate(0);
+	filter: invert(25%) sepia() saturate(7000%) hue-rotate(0);
+}
+div.text-window.ds_jacutemsabao span.letter.color-green{
+	-webkit-filter: invert(25%) sepia() saturate(1000%) hue-rotate(779deg);
+	filter: invert(25%) sepia() saturate(1000%) hue-rotate(779deg);
+}

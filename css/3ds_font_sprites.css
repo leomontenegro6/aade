@@ -28,6 +28,7 @@ div.text-window span.letter.less-than{ width: 13px; background-position: -229px 
 div.text-window span.letter.equal{ width: 13px; background-position: -248px -665px; }
 div.text-window span.letter.greater-than{ width: 13px; background-position: -267px -665px; }
 div.text-window span.letter.interrogation{ width: 9px; background-position: -286px -665px; }
+div.text-window span.letter.at-sign{ width: 19px; background-position: -571px -19px; }
 div.text-window span.letter.copyright{ width: 16px; background-position: -552px -19px; }
 div.text-window span.letter.open-square-brackets{ width: 6px; background-position: -799px -665px; }
 div.text-window span.letter.close-square-brackets{ width: 6px; background-position: -818px -665px; }
