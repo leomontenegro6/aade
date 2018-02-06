@@ -49,9 +49,11 @@ require_once('utils/aade.php');
 		<script type="text/javascript" src="js/html2rtf.js?<?php echo filemtime('js/html2rtf.js') ?>"></script>
 		<script type="text/javascript" src="js/aade.js?<?php echo filemtime('js/aade.js') ?>"></script>
 		<script type="text/javascript">
+			var device = aade.getDevice(true);
 			$(function(){
 				aade.loadEquivalenceTable('aa1');
 				aade.setDefaultValuesSandboxField("Juiz", "Sua conduta durante este\njulgamento decidirá o\ndestino de seu cliente.");
+				aade.instantiateEventMobileToggleFieldPreview();
 			})
 		</script>
 	</head>
@@ -68,10 +70,10 @@ require_once('utils/aade.php');
 						<li>
 							<a class="navbar-brand" href="#">
 								<span class="hidden-xs">
-									Editor de Diálogos do Ace Attorney v0.5
+									Editor de Diálogos do Ace Attorney v0.5a
 								</span>
 								<span class="visible-xs">
-									EDAA v0.5
+									EDAA v0.5a
 								</span>
 							</a>
 						</li>
@@ -107,7 +109,7 @@ require_once('utils/aade.php');
 						</a>
 					</li>
 					<li>
-						<a href="#" onclick="aade.saveScript()">
+						<a href="#" onclick="aade.showScriptSaveSettings()">
 							<span class="glyphicon glyphicon-save-file"></span>
 							Salvar Script
 						</a>
@@ -160,6 +162,7 @@ require_once('utils/aade.php');
 			include('modal-export.php');
 			include('modal-config.php');
 			include('modal-text-preview.php');
+			include('modal-save.php');
 			?>
 		</div>
 		<footer class="footer">

@@ -32,7 +32,7 @@
 			</div>
 			
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 				<button type="button" class="btn btn-primary" onclick="aade.analyzeScript()">
 					<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
 					Iniciar Análise

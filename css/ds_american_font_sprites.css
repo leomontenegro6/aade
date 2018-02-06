@@ -2,9 +2,20 @@ div.text-window.ds_american span.letter{
 	display: inline-block;
 	width: 16px;
 	height: 16px;
-	background: url('../images/font_ds_american.png');
+	background: url('../images/font_ds_american.png?v=0.5a');
 	background-position: 0 0;
 }
+
+div.text-window.ds_american span.letter.color-blue{
+	background-image: url('../images/font_ds_american_blue.png?v=0.5a');
+}
+div.text-window.ds_american span.letter.color-orange{
+	background-image: url('../images/font_ds_american_orange.png?v=0.5a');
+}
+div.text-window.ds_american span.letter.color-green{
+	background-image: url('../images/font_ds_american_green.png?v=0.5a');
+}
+
 /* Font sprites */
 div.text-window.ds_american span.letter.space{ width: 8px; background-position: 0 0; }
 div.text-window.ds_american span.letter.exclamation{ width: 3px; background-position: -32px 0; }
@@ -24,9 +35,9 @@ div.text-window.ds_american span.letter.dot{ width: 4px; background-position: -1
 div.text-window.ds_american span.letter.slash{ width: 7px; background-position: -32px -16px; }
 div.text-window.ds_american span.letter.colon{ width: 4px; background-position: -208px -16px; }
 div.text-window.ds_american span.letter.semicolon{ width: 4px; background-position: 0 -32px; }
-div.text-window.ds_american span.letter.less-than{ width: 14px; background-position: -16px -32px; }
-div.text-window.ds_american span.letter.equal{ width: 13px; background-position: -32px -32px; }
-div.text-window.ds_american span.letter.greater-than{ width: 14px; background-position: -48px -32px; }
+div.text-window.ds_american span.letter.less-than{ width: 9px; background-position: -16px -32px; }
+div.text-window.ds_american span.letter.equal{ width: 8px; background-position: -32px -32px; }
+div.text-window.ds_american span.letter.greater-than{ width: 9px; background-position: -48px -32px; }
 div.text-window.ds_american span.letter.interrogation{ width: 9px; background-position: -64px -32px; }
 div.text-window.ds_american span.letter.at-sign{ width: 10px; background-position: -80px -32px; }
 div.text-window.ds_american span.letter.copyright{ width: 10px; background-position: 0 -144px; }
@@ -158,16 +169,3 @@ div.text-window.ds_american span.letter.n-tilde{ width: 8px; background-position
 div.text-window.ds_american span.letter.y-diaeresis{ width: 9px; background-position: 0 -176px; }
 
 div.text-window.ds_american span.letter.unknown{ width: 11px !important; background-position: -16px 0 !important; }
-
-div.text-window.ds_american span.letter.color-blue{
-	-webkit-filter: invert(25%) sepia() saturate(8000%) hue-rotate(220deg);
-	filter: invert(25%) sepia() saturate(8000%) hue-rotate(220deg);
-}
-div.text-window.ds_american span.letter.color-orange{
-	-webkit-filter: invert(25%) sepia() saturate(7000%) hue-rotate(0);
-	filter: invert(25%) sepia() saturate(7000%) hue-rotate(0);
-}
-div.text-window.ds_american span.letter.color-green{
-	-webkit-filter: invert(25%) sepia() saturate(1000%) hue-rotate(779deg);
-	filter: invert(25%) sepia() saturate(1000%) hue-rotate(779deg);
-}

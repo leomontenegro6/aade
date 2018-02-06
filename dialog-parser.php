@@ -126,6 +126,7 @@ foreach($sections as $section_number=>$section){
 			// Checking if block has {endjmp} tag
 			$checkHasEndJump = ($tag_text == 'endjmp');
 			if($checkHasEndJump){
+				$color = '';
 				$sections_blocks[$section_number][$block_number]['has_endjmp'] = true;
 			}
 			
@@ -180,8 +181,9 @@ foreach($sections as $section_number=>$section){
 								<b>Número:</b> <span class="block-number"><?php echo $block_number ?></span>
 							</div>
 							<div class="col-xs-8">
-								<div class="btn-group btn-group-sm" role="group" aria-label="Ações">
-									<button class="btn btn-info" onclick="aade.showPreviewOnMobile(this)">
+								<div class="btn-group btn-group-sm" role="group" aria-label="Ações Mobile">
+									<button class="btn btn-info show-textfield-mobile" title="Mostrar campo de texto"
+										onclick="aade.showPreviewOnMobile(this)">
 										<span class="glyphicon glyphicon-search"></span>
 									</button>
 								</div>
@@ -199,28 +201,29 @@ foreach($sections as $section_number=>$section){
 								<b>Número:</b> <span class="block-number"><?php echo $block_number ?></span>
 							</div>
 							<div class="col-xs-8">
-								<div class="btn-group btn-group-sm" role="group" aria-label="Ações">
-									<button class="btn btn-info" onclick="aade.showPreviewOnMobile(this)">
+								<div class="btn-group btn-group-sm" role="group" aria-label="Ações Mobile">
+									<button class="btn btn-info show-preview-mobile" title="Mostrar prévia" onclick="aade.showPreviewOnMobile(this)">
 										<span class="glyphicon glyphicon-search"></span>
 									</button>
 									<button class="btn btn-warning copy-clipboard">
 										<span class="glyphicon glyphicon-copy"></span>
 									</button>
-									<button class="btn btn-primary render-image" onclick="aade.renderPreviewImageOnBrowser(this)">
+									<button class="btn btn-primary render-image" title="Gerar Imagem"
+										onclick="aade.renderPreviewImageOnBrowser(this)">
 										<span class="glyphicon glyphicon-picture"></span>
 									</button>
 									<?php if(!$checkHasEndJump){ ?>
-									<button class="btn btn-success add-new-block" tabindex="-1" title="Adicionar novo bloco de diálogo"
-										onclick="aade.addNewDialogBlock(this)">
-										<span class="glyphicon glyphicon-plus"></span>
-									</button>
-								<?php } ?>
+										<button class="btn btn-success add-new-block" tabindex="-1" title="Adicionar novo bloco de diálogo"
+											onclick="aade.addNewDialogBlock(this)">
+											<span class="glyphicon glyphicon-plus"></span>
+										</button>
+									<?php } ?>
 								</div>
 							</div>
 						</div>
 						<div id="<?php echo $dialogId ?>" class="dialog-preview text-only">
 							<div class="character-name" data-character-code="<?php echo $characterCode ?>"></div>
-							<div class="btn-group btn-group-xs hidden-xs" role="group" aria-label="Ações Mobile">
+							<div class="btn-group btn-group-xs hidden-xs" role="group" aria-label="Ações">
 								<button class="btn btn-warning copy-clipboard" tabindex="-1">
 									<span class="glyphicon glyphicon-copy"></span>
 								</button>

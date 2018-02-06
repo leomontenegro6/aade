@@ -7,10 +7,12 @@ function aade(){
 	// Properties
 	this.platform = '3ds';
 	this.nameType = 'o';
+	this.mobileShowInitially = 'p';
 	this.invalidateLargeLines = true;
 	this.lastName = '???';
 	this.lastColor = '';
 	this.equivalenceTable = {};
+	this.dialogParserTableTextareas = $();
 	
 	// Methods
 	this.readScriptFile = function(dialogFileForm){
@@ -48,7 +50,7 @@ function aade(){
 			}
 		}
 		
-		var x = ajax.send(formData);
+		ajax.send(formData);
 		
 		return false;
 	}
@@ -70,21 +72,48 @@ function aade(){
 		var object = $dialogParserTable.on({
 			// Table draw event
 			'draw.dt': function(){
+				var device = that.getDevice();
+				var mobileShowInitially = that.mobileShowInitially;
+				
+				// Saving selector with all textareas in an property, in order to
+				// accessing it faster afterwards
+				if(that.dialogParserTableTextareas.length == 0){
+					var tableObject = $dialogParserTable.DataTable();
+					that.dialogParserTableTextareas = $( tableObject.rows().nodes() ).find("textarea.text-field");
+				}
+				
+				// Iterating over each visible row, instantiate "copy to clipboard"
+				// buttons and update the preview
 				var $tbody = $dialogParserTable.children('tbody');
 				$tbody.children('tr').each(function(){
 					var $tr = $(this);
 					var $textareaTextField = $tr.find('textarea.text-field');
 					var $divDialogPreview = $tr.find('div.dialog-preview');
+					var $tdFormFields = $tr.children('td.form-fields');
+					var $tdPreviewConteiners = $tr.children('td.preview-conteiners');
+					var $buttonShowPreviewMobile = $tr.find('button.show-preview-mobile');
+					var $buttonShowTextfieldMobile = $tr.find('button.show-textfield-mobile');
 					var $buttonsCopyClipboard = $tr.find('button.copy-clipboard');
 
 					var previewFieldId = $divDialogPreview.attr('id');
 
 					that.updatePreview($textareaTextField, previewFieldId, 't', false);
 					that.instantiateCopyClipboardButtons($buttonsCopyClipboard, $textareaTextField);
+					
+					if(device == 'xs'){
+						if(mobileShowInitially == 'p' && $tdPreviewConteiners.hasClass('hidden-xs')){
+							$buttonShowTextfieldMobile.trigger('click');
+						} else if(mobileShowInitially == 't' && $tdFormFields.hasClass('hidden-xs')){
+							$buttonShowPreviewMobile.trigger('click');
+						}
+					} else {
+						$tdFormFields.add($tdPreviewConteiners).removeClass('hidden-xs visible-xs');
+					}
 				});
-
-				var $textareas = $tbody.find('textarea.text-field');
-				that.highlightWordsTextareas($textareas);
+				
+				// Instantiating word highlighting on all visible textareas
+				var $visibleTextareas = $tbody.find('textarea.text-field');
+				that.highlightWordsTextareas($visibleTextareas);
 			},
 			// Pagination change event
 			'page.dt': function(){
@@ -150,16 +179,16 @@ function aade(){
 			}
 		}).DataTable({
 			'order': [[0, 'asc']],
-			'autoWidth': true,
+			'autoWidth': false,
 			'lengthMenu': [
 				[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, 150, 200, 300, 400, 500, -1],
 				[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, 150, 200, 300, 400, 500, 'Todos']
 			],
 			'pageLength': 5,
 			'pagingType': 'input',
-			"dom":  "<'row'<'col-sm-5'lf><'col-sm-7'p>>" +
+			"dom":  "<'row'<'col-sm-5'lf><'col-sm-7 paginate_col'p>>" +
 					"<'row'<'col-sm-12'tr>>" +
-					"<'row'<'col-sm-5'i><'col-sm-7'p>>",
+					"<'row'<'col-sm-5'i><'col-sm-7 paginate_col'p>>",
 			'language': {
 				'sEmptyTable': 'Nenhum registro encontrado',
 				'sInfo': '',
@@ -212,6 +241,56 @@ function aade(){
 		});
 	}
 	
+	this.instantiateEventMobileToggleFieldPreview = function(){
+		var that = this;
+		$(window).on('resize.mobileToggleFieldPreview', function () {
+			var $dialogParserTable = $('#dialog-parser-table');
+			var $tbody = $dialogParserTable.children('tbody');
+			
+			var device = aade.getDevice();
+			var tableObject = $dialogParserTable.DataTable();
+			var mobileShowInitially = that.mobileShowInitially;
+			var checkUpdateTable = false;
+			
+			$tbody.children('tr').each(function(){
+				var $tr = $(this);
+				var $tdFormFields = $tr.children('td.form-fields');
+				var $tdPreviewConteiners = $tr.children('td.preview-conteiners');
+				var $buttonShowPreviewMobile = $tr.find('button.show-preview-mobile');
+				var $buttonShowTextfieldMobile = $tr.find('button.show-textfield-mobile');
+				
+				if(device == 'xs'){
+					if(mobileShowInitially == 'p'){
+						$buttonShowTextfieldMobile.trigger('click');
+						checkUpdateTable = true;
+					} else if(mobileShowInitially == 't'){
+						$buttonShowPreviewMobile.trigger('click');
+						checkUpdateTable = true;
+					}
+				} else {
+					if($tdFormFields.hasClass('hidden-xs')){
+						$tdFormFields.removeClass('hidden-xs');
+						checkUpdateTable = true;
+					}
+					if($tdPreviewConteiners.hasClass('hidden-xs')){
+						$tdPreviewConteiners.removeClass('hidden-xs');
+						checkUpdateTable = true;
+					}
+					if($tdFormFields.hasClass('visible-xs')){
+						$tdFormFields.removeClass('visible-xs');
+						checkUpdateTable = true;
+					}
+					if($tdPreviewConteiners.hasClass('visible-xs')){
+						$tdPreviewConteiners.removeClass('visible-xs');
+						checkUpdateTable = true;
+					}	
+				}
+			});
+			
+			if(checkUpdateTable) tableObject.draw(false);
+		});
+	}
+	
 	this.highlightWordsTextareas = function(textareas){
 		var $textareas = $(textareas);
 		var $equivalenceTable = $('#equivalence-table');
@@ -249,6 +328,9 @@ function aade(){
 				}, {
 					'color': 'aquamarine',
 					'words': ['{b}']
+				}, {
+					'color': '#aaa',
+					'words': ['{endjmp}']
 				}, {
 					'color': 'lightblue',
 					'words': ['{wait: [0-9]*}']
@@ -309,6 +391,7 @@ function aade(){
 		if(typeof sandbox == 'undefined') sandbox = true;
 		
 		var platform = this.platform;
+		if(sandbox) platform = '3ds'; // Quick workaround while the support for other platforms in sandbox isn't implemented yet
 		var checkPlatformDS = (platform == 'ds_jacutemsabao' || platform == 'ds_american' || platform == 'ds_european');
 		
 		var keyCode;
@@ -325,13 +408,14 @@ function aade(){
 		}
 		
 		var $field = $(field);
-		var $previousField = $("textarea[data-order='" + (parseInt($field.attr('data-order'), 10) - 1) + "']");
+		var $previousField = this.dialogParserTableTextareas.filter("[data-order='" + (parseInt($field.attr('data-order'), 10) - 1) + "']");
 		var $divPreview = $('#' + previewFieldId);
 		
 		var text = $field.val();
 		var tag = false;
 		var hasNameTag = false;
 		var tagText = '';
+		var checkFirstField = ($previousField.length == 0);
 		var fieldSection = parseInt($field.attr('data-section'), 10);
 		var previousFieldSection = parseInt($previousField.attr('data-section'), 10);
 		
@@ -351,9 +435,11 @@ function aade(){
 			$divTextWindow.html('');
 			
 			// Setting platform for preview
-			$divTextWindow.removeClass('ds_jacutemsabao ds_american ds_european');
+			$divTextWindow.removeClass('n3ds ds_jacutemsabao ds_american ds_european');
 			if(checkPlatformDS){
 				$divTextWindow.addClass(platform);
+			} else {
+				$divTextWindow.addClass('n3ds');
 			}
 			
 			// Inserting {b} when user presses enter
@@ -366,15 +452,18 @@ function aade(){
 				$field.val(text).prop('selectionEnd', cursorPos + 4).trigger('input');
 			}
 			
-			// Setting color of previous field as last used color.
-			// However, if the section changes, color must be resetted.
-			var lastColor;
-			if((fieldSection == previousFieldSection)){
-				lastColor = parseInt($previousField.attr('data-color'), 10);
-			} else {
-				lastColor = 0;
+			// Defining last color, if from second field onwards
+			if(!checkFirstField){
+				// Setting color of previous field as last used color.
+				// However, if the section changes, color must be resetted.
+				var lastColor;
+				if((fieldSection == previousFieldSection)){
+					lastColor = parseInt($previousField.attr('data-color'), 10);
+				} else {
+					lastColor = 0;
+				}
+				this.lastColor = this.getColorClass(lastColor);
 			}
-			this.lastColor = this.getColorClass(lastColor);
 			
 			// Iterating over all characters inside text field
 			for (var i = 0, size = text.length; i < size; i++) {
@@ -506,10 +595,32 @@ function aade(){
 		} else {
 			$('#invalidate-large-lines-false').prop('checked', true);
 		}
+		if(this.mobileShowInitially == 'p'){
+			$('#config-mobile-show-initially-preview').prop('checked', true);
+		} else {
+			$('#config-mobile-show-initially-textfield').prop('checked', true);
+		}
 	}
 	
 	this.hideScriptConfigSettings = function(){
 		$('#config-settings').modal('hide');
+	}
+	
+	this.showScriptSaveSettings = function(){
+		var $dialogParserTable = $('#dialog-parser-table');
+		var filename = $dialogParserTable.attr('data-filename');
+		
+		var data = new Date();
+		data = new Date(data.getTime() - (data.getTimezoneOffset() * 60000)).toJSON();
+		data = data.slice(0, 19).replace(/T/g, '-').replace(/:/g, '-');
+		filename += ' (' + data + ')';
+		
+		$('#save-settings').modal('show');
+		$('#save-name-field').val(filename).focus();
+	}
+	
+	this.hideScriptSaveSettings = function(){
+		$('#save-settings').modal('hide');
 	}
 	
 	this.showScriptAnalysisSettings = function(){
@@ -526,7 +637,16 @@ function aade(){
 	}
 	
 	this.showScriptExportSettings = function(){
+		var $dialogParserTable = $('#dialog-parser-table');
+		var filename = $dialogParserTable.attr('data-filename');
+		
+		var data = new Date();
+		data = new Date(data.getTime() - (data.getTimezoneOffset() * 60000)).toJSON();
+		data = data.slice(0, 19).replace(/T/g, '-').replace(/:/g, '-');
+		filename += ' (' + data + ')';
+		
 		$('#export-settings').modal('show');
+		$('#export-name-field').val(filename).focus();
 	}
 	
 	this.hideScriptExportSettings = function(){
@@ -574,6 +694,18 @@ function aade(){
 		this.nameType = nameType;
 		
 		this.updatePreviewVisibleTextareas();
+	}
+	
+	this.changeMobileShowInitially = function(radio){
+		var $radio = $(radio);
+		var $dialogParserTable = $('#dialog-parser-table');
+		
+		var tableObject = $dialogParserTable.DataTable();
+		var mobileShowInitially = $radio.val();
+		this.mobileShowInitially = mobileShowInitially;
+		
+		this.updatePreviewVisibleTextareas();
+		tableObject.draw(false);
 	}
 	
 	this.toggleLargeLinesInvalidation = function(radio){
@@ -633,7 +765,10 @@ function aade(){
 
 		$newButtonGroups.append($newButtonRemoveDialogBlock[0].outerHTML);
 		
-		tableObject.row.add($trClone).draw(false);
+		// Updating selector property with all textareas in an property
+		tableObject.row.add($trClone);
+		this.dialogParserTableTextareas = $( tableObject.rows().nodes() ).find("textarea.text-field");
+		tableObject.draw(false);
 		
 		this.incrementTotalDialogsFooter();
 	}
@@ -644,7 +779,10 @@ function aade(){
 		var $dialogParserTable = $('#dialog-parser-table');
 		var tableObject = $dialogParserTable.DataTable();
 		
-		tableObject.row($tr).remove().draw(false);
+		// Updating selector property with all textareas in an property
+		tableObject.row($tr).remove();
+		this.dialogParserTableTextareas = $( tableObject.rows().nodes() ).find("textarea.text-field");
+		tableObject.draw(false);
 		
 		this.decrementTotalDialogsFooter();
 	}
@@ -671,6 +809,18 @@ function aade(){
 		$spanTotalDialogBlocks.html(total);
 	}
 	
+	this.maskFilenameInput = function(event){
+		var keyCode = event.which;
+		
+		var invalidKeycodes = [81, 87, 106, 111, 188, 190, 191, 192, 220, 221];
+		var checkKeycodeInvalid = ($.inArray(keyCode, invalidKeycodes) !== -1);
+		if(checkKeycodeInvalid){
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	this.previewScript = function(){
 		var that = this;
 		that.showLoadingIndicator();
@@ -684,31 +834,32 @@ function aade(){
 		}, 500);
 	}
 	
-	this.saveScript = function(){
-		var $dialogParserTable = $('#dialog-parser-table');
+	this.saveScript = function(saveFileForm){
+		var $saveNameField = $('#save-name-field');
 		
 		var that = this;
+		that.hideScriptSaveSettings();
 		that.showLoadingIndicator();
 		
 		setTimeout(function(){
 			var scriptText = that.generateScriptText();
 			
-			var filename = $dialogParserTable.attr('data-filename');
+			var filename = $saveNameField.val() + '.txt';
 			var file = new Blob([scriptText], {type: "text/plain;charset=utf-8"});
-			
-			var data = new Date();
-			data = new Date(data.getTime() - (data.getTimezoneOffset() * 60000)).toJSON();
-			data = data.slice(0, 19).replace(/T/g, '-').replace(/:/g, '-');
-			filename += '-' + data + '.txt';
 			
 			saveAs(file, filename, true);
 			that.hideLoadingIndicator();
 		}, 500);
+		
+		// Needed to avoid form submission
+		return false;
 	}
 	
 	this.exportScript = function(){
+		var $exportNameField = $('#export-name-field');
+		var $exportFormatField = $('#export-format-field');
+		
 		var that = this;
-		var $dialogParserTable = $('#dialog-parser-table');
 		
 		that.hideScriptExportSettings();
 		that.showLoadingIndicator();
@@ -718,11 +869,16 @@ function aade(){
 			
 			that.hideLoadingIndicator();
 			
-			var filename = $dialogParserTable.attr('data-filename') + '.rtf';
+			var filename = $exportNameField.val();
+			var format = $exportFormatField.val();
+			var filenameWithFormat = filename + '.' + format;
 			
 			var blob = new Blob([exportedScriptText], {type: "text/plain"});
-			saveAs(blob, filename, true);
+			saveAs(blob, filenameWithFormat, true);
 		}, 500);
+		
+		// Needed to avoid form submission
+		return false;
 	}
 	
 	this.generateScriptText = function(){
@@ -812,8 +968,6 @@ function aade(){
 		var that = this;
 		
 		setTimeout(function(){
-			var checkLineBiggerThanBlock = false;
-			var checkMoreThan32Chars = false;
 			var returnAnalysis = true;
 			var $divInvalidTextWindow;
 			var message = '';
@@ -856,6 +1010,8 @@ function aade(){
 		var characters_per_line = 0;
 		var message = '';
 		var that = this;
+		var platform = that.platform;
+		var checkPlatformDS = (platform == 'ds_jacutemsabao' || platform == 'ds_american' || platform == 'ds_european');
 		
 		var checkValidBlock = true;
 		var checkBlockWidthLastLineReduced = false;
@@ -879,9 +1035,17 @@ function aade(){
 			// and reducing block width with its value
 			if(line_number == 3 && !checkBlockWidthLastLineReduced){
 				if(checkCenteredBlock){
-					caret_right_padding = 23;
+					if(checkPlatformDS){
+						caret_right_padding = 15;
+					} else {
+						caret_right_padding = 23;
+					}
 				} else {
-					caret_right_padding = 17;
+					if(checkPlatformDS){
+						caret_right_padding = 13;
+					} else {
+						caret_right_padding = 17;
+					}
 				}
 				block_width -= caret_right_padding;
 				checkBlockWidthLastLineReduced = true;
@@ -1222,6 +1386,30 @@ function aade(){
 				$btnGroup.show();
 			}
 		});
+	}
+	
+	this.getDevice = function(onresize){
+		var that = this;
+		if (typeof onresize == 'undefined') onresize = false;
+		if (onresize) {
+			$(window).off('resize.updateGlobalVariable').on('resize.updateGlobalVariable', function () {
+				window.device = that.getDevice(false);
+			});
+		}
+		var envs = ['xs', 'sm', 'md', 'lg'];
+
+		var $el = $('<div>');
+		$el.appendTo($('body'));
+
+		for (var i = envs.length - 1; i >= 0; i--) {
+			var env = envs[i];
+
+			$el.addClass('hidden-' + env);
+			if ($el.is(':hidden')) {
+				$el.remove();
+				return env;
+			}
+		}
 	}
 }
 

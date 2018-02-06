@@ -103,6 +103,28 @@
 					</div>
 				</div>
 			</div>
+			<div class="row visible-xs">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="mobile-show-initially-preview" class="control-label">Exibir Inicialmente¹:</label>
+						<div class="radio">
+							<label>
+								<input type="radio" name="mobile-show-initially" id="mobile-show-initially-preview" value="p"
+									onchange="aade.changeMobileShowInitially(this)" checked />
+								Prévia
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="mobile-show-initially" id="mobile-show-initially-textfield" value="t"
+									onchange="aade.changeMobileShowInitially(this)" />
+								Campo de Texto
+							</label>
+						</div>
+					</div>
+					<sub>1. Apenas para dispositivos de pouca largura (celulares)</sub>
+				</div>
+			</div>
 			<p class="help-block">* Campo obrigatório</p>
 			<button type="submit" class="btn btn-primary">
 				<span class="glyphicon glyphicon-upload" aria-hidden="true"></span>

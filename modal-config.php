@@ -75,11 +75,29 @@
 						</label>
 					</div>
 				</div>
+				<div class="form-group visible-xs">
+					<label for="config-mobile-show-initially-preview" class="control-label">Exibir Inicialmente²:</label>
+					<div class="radio">
+						<label>
+							<input type="radio" name="config-mobile-show-initially" id="config-mobile-show-initially-preview" value="p"
+								onchange="aade.changeMobileShowInitially(this)" checked />
+							Prévia
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="config-mobile-show-initially" id="config-mobile-show-initially-textfield" value="t"
+								onchange="aade.changeMobileShowInitially(this)" />
+							Campo de Texto
+						</label>
+					</div>
+				</div>
 				<sub>
 					1. Se ativado, blocos contendo mais de 32 linhas serão
 					considerados inválidos na prévia, e na função de analisar
 					script.
 				</sub>
+				<sub class="visible-xs">2. Apenas para dispositivos de pouca largura (celulares)</sub>
 			</div>
 			
 			<div class="modal-footer">

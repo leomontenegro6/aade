@@ -266,6 +266,20 @@ body {
 	div.dataTables_wrapper div.col-sm-12{
 		padding: 0;
 	}
+	div.dataTables_wrapper div.dataTables_length select{
+		width: 70px;
+	}
+	div.dataTables_wrapper div.dataTables_filter input[type='search']{
+		width: 100px;
+	}
+	div.paginate_col{
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+	div.paging_input input.paginate_input{
+		display: inline-block;
+		width: 50px;
+	}
 	td.form-fields textarea.text-field{
 		width: 300px;
 	}
