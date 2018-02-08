@@ -386,12 +386,11 @@ function aade(){
 		$textarea.trigger('keyup');
 	}
 	
-	this.updatePreview = function(field, previewFieldId, textType, sandbox, event){
+	this.updatePreview = function(field, previewFieldId, textType, sandbox, event, platform){
 		if(typeof textType == 'undefined') textType = 't';
 		if(typeof sandbox == 'undefined') sandbox = true;
+		if(typeof platform == 'undefined') platform = this.platform;
 		
-		var platform = this.platform;
-		if(sandbox) platform = '3ds'; // Quick workaround while the support for other platforms in sandbox isn't implemented yet
 		var checkPlatformDS = (platform == 'ds_jacutemsabao' || platform == 'ds_american' || platform == 'ds_european');
 		
 		var keyCode;
@@ -1243,14 +1242,42 @@ function aade(){
 		$('#loading-indicator').modal('hide');
 	}
 	
+	this.getSandboxPlatform = function(){
+		var $selectPlatformSandbox = $('#sandbox-platform');
+		return $selectPlatformSandbox.val();
+	}
+	
 	this.updateBackgroundsSandbox = function(field){
 		var $field = $(field);
+		var $selectPlatformSandbox = $('#sandbox-platform');
 		var $divSandboxPreview = $('#sandbox');
+		var $divSandboxTextWindow = $divSandboxPreview.children('div.text-window');
 		var $imgComparativeImage = $('#sandbox-comparative-image');
 		
-		var value = $field.val();
-		$divSandboxPreview.css('background', "url('images/" + value + ".png')");
-		$imgComparativeImage.attr('src', 'images/' + value + '_filled.png');
+		var image = $field.val();
+		var platform = $selectPlatformSandbox.val();
+		var checkPlatformDS = (platform == 'ds_jacutemsabao' || platform == 'ds_american' || platform == 'ds_european');
+		
+		$divSandboxTextWindow.removeClass('n3ds ds_jacutemsabao ds_american ds_european');
+		if(checkPlatformDS){
+			image += '_ds';
+			$divSandboxPreview.addClass('ds');
+			$divSandboxTextWindow.addClass(platform);
+		} else {
+			$divSandboxPreview.removeClass('ds');
+			$divSandboxTextWindow.addClass('n3ds');
+		}
+		$divSandboxPreview.css('background', "url('images/" + image + ".png')");
+		$imgComparativeImage.attr('src', 'images/' + image + '_filled.png');
+	}
+	
+	this.updatePlatformSandbox = function(field){
+		var $field = $(field);
+		var $selectBackgroundSandbox = $('#sandbox-background-field');
+		var $textFieldSandbox = $('#sandbox-text-field');
+		
+		this.updateBackgroundsSandbox($selectBackgroundSandbox[0]);
+		$textFieldSandbox.trigger('keyup');
 	}
 	
 	this.formatChar = function(char){

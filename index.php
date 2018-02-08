@@ -42,7 +42,7 @@ require_once('utils/aade.php');
 		<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/jquery.dataTables.pagination.plugin.js"></script>
-		<script type="text/javascript" src="js/html2canvas.js"></script>
+		<script type="text/javascript" src="js/html2canvas.js?<?php echo filemtime('js/html2canvas.js') ?>"></script>
 		<script type="text/javascript" src="js/jquery.highlighttextarea.min.js"></script>
 		<script type="text/javascript" src="js/clipboard.min.js"></script>
 		<script type="text/javascript" src="js/FileSaver.min.js"></script>

@@ -66,6 +66,10 @@ td.form-fields textarea.text-field{
 	display: inline-block;
 	margin-top: 20px;
 }
+.dialog-preview.ds{
+	width: 256px;
+	height: 192px;
+}
 .dialog-preview.ds.text-only{
 	width: 256px;
 	height: 64px;
@@ -77,6 +81,13 @@ td.form-fields textarea.text-field{
 	left: 48px;
 	color: white;	
 	font-size: 13px;
+}
+.dialog-preview.ds div.character-name{
+	width: 44px;
+	text-align: center;
+	bottom: 61px;
+	left: 2px;
+	font-size: 11px
 }
 .dialog-preview div.text-window{
 	position: absolute;
@@ -96,6 +107,7 @@ td.form-fields textarea.text-field{
 	height: 64px;
 	padding-top: 10px;
 	line-height: 0.94;
+	left: 0;
 }
 .dialog-preview div.text-window.centered{
 	text-align: center;

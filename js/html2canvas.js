@@ -164,14 +164,15 @@ _html2canvas.Util.Bounds = function (element) {
     clientRect = element.getBoundingClientRect();
 
     // TODO add scroll position to bounds, so no scrolling of window necessary
-    bounds.top = clientRect.top;
-    bounds.bottom = clientRect.bottom || (clientRect.top + clientRect.height);
-    bounds.left = clientRect.left;
+    // Implemented Math.floor to values below, to avoid blurry issues
+    bounds.top = Math.floor(clientRect.top);
+    bounds.bottom = Math.floor( clientRect.bottom || (clientRect.top + clientRect.height) );
+    bounds.left = Math.floor(clientRect.left);
 
-    bounds.width = element.offsetWidth;
-    bounds.height = element.offsetHeight;
+    bounds.width = Math.floor(element.offsetWidth);
+    bounds.height = Math.floor(element.offsetHeight);
   }
-
+  
   return bounds;
 };
 
