@@ -71,9 +71,19 @@ function aade(){
 		var that = this;
 		var object = $dialogParserTable.on({
 			// Table draw event
-			'draw.dt': function(){
+			'draw.dt': function(a, b, c){
+				var $tbody = $dialogParserTable.children('tbody');
+				var $trs = $tbody.children('tr');
+				
 				var device = that.getDevice();
 				var mobileShowInitially = that.mobileShowInitially;
+				var checkNoValidRows = (($trs.length == 0) || (($trs.length == 1) && ($trs.find('td.dataTables_empty').length == 1)));
+				
+				// If there's no valid rows, there's no need
+				// to instantiate the components below
+				if(checkNoValidRows){
+					return;
+				}
 				
 				// Saving selector with all textareas in an property, in order to
 				// accessing it faster afterwards
@@ -81,11 +91,10 @@ function aade(){
 					var tableObject = $dialogParserTable.DataTable();
 					that.dialogParserTableTextareas = $( tableObject.rows().nodes() ).find("textarea.text-field");
 				}
-				
+			
 				// Iterating over each visible row, instantiate "copy to clipboard"
 				// buttons and update the preview
-				var $tbody = $dialogParserTable.children('tbody');
-				$tbody.children('tr').each(function(){
+				$trs.each(function(){
 					var $tr = $(this);
 					var $textareaTextField = $tr.find('textarea.text-field');
 					var $divDialogPreview = $tr.find('div.dialog-preview');
@@ -537,6 +546,15 @@ function aade(){
 				}
 			}
 		}
+	}
+	
+	this.updateRow = function(field){
+		var $field = $(field);
+		var $trField = $field.closest('tr');
+		var $dialogParserTable = $('#dialog-parser-table');
+		var tableObject = $dialogParserTable.DataTable();
+		
+		tableObject.row($trField).invalidate();
 	}
 	
 	this.getName = function(code){

@@ -191,7 +191,8 @@ foreach($sections as $section_number=>$section){
 						</div>
 						<textarea class="form-control text-field" data-order="<?php echo $textareaOrder ?>"
 							data-section="<?php echo $section_number ?>" data-block="<?php echo $block_number ?>" data-color="<?php echo $color ?>"
-							onkeyup="aade.updatePreview(this, '<?php echo $dialogId ?>', 't', false, event)"><?php echo $text ?></textarea>		
+							onkeyup="aade.updatePreview(this, '<?php echo $dialogId ?>', 't', false, event)"
+							onchange="aade.updateRow(this)"><?php echo $text ?></textarea>
 					</td>
 					<td class="preview-conteiners hidden-xs">
 						<div class="row visible-xs" style="padding-bottom: 5px">

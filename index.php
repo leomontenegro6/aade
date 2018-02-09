@@ -43,7 +43,7 @@ require_once('utils/aade.php');
 		<script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/jquery.dataTables.pagination.plugin.js"></script>
 		<script type="text/javascript" src="js/html2canvas.js?<?php echo filemtime('js/html2canvas.js') ?>"></script>
-		<script type="text/javascript" src="js/jquery.highlighttextarea.min.js"></script>
+		<script type="text/javascript" src="js/jquery.highlighttextarea.js?<?php echo filemtime('js/jquery.highlighttextarea.js') ?>"></script>
 		<script type="text/javascript" src="js/clipboard.min.js"></script>
 		<script type="text/javascript" src="js/FileSaver.min.js"></script>
 		<script type="text/javascript" src="js/html2rtf.js?<?php echo filemtime('js/html2rtf.js') ?>"></script>
@@ -70,10 +70,10 @@ require_once('utils/aade.php');
 						<li>
 							<a class="navbar-brand" href="#">
 								<span class="hidden-xs">
-									Editor de Diálogos do Ace Attorney v0.5a
+									Editor de Diálogos do Ace Attorney v0.5b
 								</span>
 								<span class="visible-xs">
-									EDAA v0.5a
+									EDAA v0.5b
 								</span>
 							</a>
 						</li>
