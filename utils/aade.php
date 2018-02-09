@@ -26,7 +26,7 @@ class aade{
 		return (substr($haystack, -$length) === $needle);
 	}
 	
-	public static function checkAlphanumeric($texto) {
+	public static function checkAlphanumeric($text) {
 		$convert = array(
 			// Acentos maiúsculos
 			"À" => "A", "Á" => "A", "Ã" => "A", "Â" => "A",
@@ -39,7 +39,13 @@ class aade{
 			"ï" => "i", "ó" => "o", "ô" => "o", "õ" => "o",
 			"ú" => "u", "ü" => "u", "ñ" => "n"
 		);
-		return ctype_alnum(strtr($texto, $convert));
+		return ctype_alnum(strtr($text, $convert));
+	}
+	
+	public static function getTextWithoutTags($text){
+		$text = preg_replace('/{(.*?)}/', '', $text);
+		$text = preg_replace('/\n/', ' ', $text);
+		return trim($text);
 	}
 
 }

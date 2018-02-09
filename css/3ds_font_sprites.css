@@ -16,6 +16,16 @@ div.text-window.n3ds span.letter.color-green{
 	background-image: url('../images/font_3ds_green.png?v=0.5b');
 }
 
+div.text-window.n3ds span.caret{
+	position: absolute;
+	width: 10px;
+	height: 11px;
+	border: 0;
+	bottom: 10px;
+	right: 7px;
+	background-image: url('../images/caret_3ds.png');
+}
+
 /* Font sprites */
 div.text-window.n3ds span.letter.space{ width: 9px; background-position: 0 0; }
 div.text-window.n3ds span.letter.exclamation{ width: 4px; background-position: -761px -76px; }

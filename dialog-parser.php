@@ -165,6 +165,7 @@ foreach($sections as $section_number=>$section){
 				$dialogId = "s{$section_number}-b{$total_dialog_blocks}-dialog";
 				
 				$text = $block['text'];
+				$textWithoutTags = aade::getTextWithoutTags($text);
 				$characterCode = $block['character_code'];
 				$color = $block['color'];
 				$checkHasEndJump = $block['has_endjmp'];
@@ -193,6 +194,7 @@ foreach($sections as $section_number=>$section){
 							data-section="<?php echo $section_number ?>" data-block="<?php echo $block_number ?>" data-color="<?php echo $color ?>"
 							onkeyup="aade.updatePreview(this, '<?php echo $dialogId ?>', 't', false, event)"
 							onchange="aade.updateRow(this)"><?php echo $text ?></textarea>
+						<div class="text-without-tags hidden"><?php echo $textWithoutTags ?></div>
 					</td>
 					<td class="preview-conteiners hidden-xs">
 						<div class="row visible-xs" style="padding-bottom: 5px">

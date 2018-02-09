@@ -16,6 +16,16 @@ div.text-window.ds_jacutemsabao span.letter.color-green{
 	background-image: url('../images/font_ds_american_green.png?v=0.5b');
 }
 
+div.text-window.ds_jacutemsabao span.caret{
+	position: absolute;
+	width: 9px;
+	height: 9px;
+	border: 0;
+	bottom: 7px;
+	right: 4px;
+	background-image: url('../images/caret_ds.png');
+}
+
 /* Font sprites */
 div.text-window.ds_jacutemsabao span.letter.space{ width: 8px; background-position: 0 0; }
 div.text-window.ds_jacutemsabao span.letter.exclamation{ width: 2px; background-position: -32px 0; }

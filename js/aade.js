@@ -416,6 +416,7 @@ function aade(){
 		}
 		
 		var $field = $(field);
+		var $divTextWithoutTags = $field.closest('td').children('div.text-without-tags');
 		var $previousField = this.dialogParserTableTextareas.filter("[data-order='" + (parseInt($field.attr('data-order'), 10) - 1) + "']");
 		var $divPreview = $('#' + previewFieldId);
 		
@@ -523,6 +524,10 @@ function aade(){
 							} else {
 								$divTextWindow.removeClass('centered');
 							}
+						} else if(tagText == 'p' || tagText == 'nextpage_button'){
+							$divTextWindow.remove('span.caret').append(
+								$('<span />').addClass('caret').html('&nbsp;')
+							);
 						}
 					}
 					tagText = '';
@@ -536,6 +541,8 @@ function aade(){
 				}
 				
 				$divCharacterName.html(this.lastName);
+				
+				$divTextWithoutTags.html( $.trim( text.replace(/{(.*?)}/g, '').replace(/\n/g, ' ') ) );
 				
 				// Analysing current block
 				var returnAnalysis = this.analyseScriptBlock($divTextWindow);
@@ -1033,6 +1040,7 @@ function aade(){
 		var checkValidBlock = true;
 		var checkBlockWidthLastLineReduced = false;
 		var checkCenteredBlock = $divTextWindow.hasClass('centered');
+		var checkHasCaret = ($divTextWindow.children('span.caret').length > 0);
 
 		$divTextWindow.children('*').each(function(){
 			var $elem = $(this);
@@ -1050,7 +1058,7 @@ function aade(){
 			
 			// For blocks with three lines, defining caret right padding
 			// and reducing block width with its value
-			if(line_number == 3 && !checkBlockWidthLastLineReduced){
+			if(checkHasCaret && line_number == 3 && !checkBlockWidthLastLineReduced){
 				if(checkCenteredBlock){
 					if(checkPlatformDS){
 						caret_right_padding = 15;
@@ -1076,7 +1084,7 @@ function aade(){
 			}
 			if(line_width > block_width){
 				var checkInsideCaretArea;
-				if(line_number == 3){
+				if(checkHasCaret && line_number == 3){
 					var caret_start = block_width;
 					var caret_ending = (block_width + caret_right_padding);
 					if(checkCenteredBlock){
