@@ -33,6 +33,7 @@ require_once('utils/aade.php');
 		<link rel="stylesheet" href="css/dataTables.bootstrap.min.css">
 		<link rel="stylesheet" href="css/jquery.highlighttextarea.min.css">
 		<link rel="stylesheet" href="css/css.css?<?php echo filemtime('css/css.css') ?>">
+		<link rel="stylesheet" href="css/theme-dark.css?<?php echo filemtime('css/theme-dark.css') ?>">
 		<link rel="stylesheet" href="css/3ds_font_sprites.css?<?php echo filemtime('css/3ds_font_sprites.css') ?>">
 		<link rel="stylesheet" href="css/ds_american_font_sprites.css?<?php echo filemtime('css/ds_american_font_sprites.css') ?>">
 		<link rel="stylesheet" href="css/ds_jacutemsabao_font_sprites.css?<?php echo filemtime('css/ds_jacutemsabao_font_sprites.css') ?>">
@@ -88,6 +89,26 @@ require_once('utils/aade.php');
 				</nav>
 			</div>
 		</nav>
+		
+		<!-- Campo de seleção de tema -->
+		<div class="dropdown pull-right" style="margin-right: 5px">
+			<button class="btn btn-default dropdown-toggle" type="button" id="botao_tema"
+				data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				<i class="glyphicon glyphicon-text-background"></i>
+				<span>Tema</span>
+				<span class="caret"></span>
+			</button>
+			<ul id="lista_temas" class="dropdown-menu" aria-labelledby="botao_tema">
+				<li>
+					<a href="#light" onclick="aade.changeTheme(this)">Claro</a>
+				</li>
+				<li>
+					<a href="#dark" onclick="aade.changeTheme(this)">Escuro</a>
+				</li>
+			</ul>
+		</div>
+		<br /><br />
+		
 		<div class="container-fluid">
 			
 			<div id="global-actions-dropdown" class="dropdown pull-right" style="display: none">

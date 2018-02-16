@@ -15,6 +15,13 @@ function aade(){
 	this.dialogParserTableTextareas = $();
 	
 	// Methods
+	this.changeTheme = function(a){
+		var $a = $(a);
+		var tema = ( $a.attr('href') ).replace('#', '');
+
+		$("body").removeClass('light dark').addClass(tema);
+	}
+	
 	this.readScriptFile = function(dialogFileForm){
 		var $dialogFileForm = $(dialogFileForm);
 		var $radioFileOrigin = $("[name='file-origin']:checked");
