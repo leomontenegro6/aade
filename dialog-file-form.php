@@ -6,21 +6,20 @@
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="radio">
-							<label>
-								<input type="radio" name="file-origin" id="file-origin-input" value="f"
-									onchange="aade.toggleFileOrigin(this)" checked />
-								Fazer upload no campo abaixo
-							</label>
+							
+							<input type="radio" name="file-origin" id="file-origin-input" value="f"
+								onchange="aade.toggleFileOrigin(this)" checked />
+							<label for="file-origin-input" style='margin-bottom: 5px'><span></span>Fazer upload no campo abaixo</label>
+							
 							<input type="file" id="file-field" name="script-file" required />
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="radio">
-							<label>
-								<input type="radio" name="file-origin" id="file-origin-select" value="s"
-									onchange="aade.toggleFileOrigin(this)" />
-								Escolher arquivo na lista abaixo
-							</label>
+							<input type="radio" name="file-origin" id="file-origin-select" value="s"
+								onchange="aade.toggleFileOrigin(this)" />
+							<label for="file-origin-select"><span></span>Escolher arquivo na lista abaixo</label>
+							
 							<br />
 							<div id="file-list" style="display: none">
 								<?php
@@ -49,37 +48,21 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label for="platform-3ds" class="control-label">Plataforma:</label>
+						<label for="game-field" class="control-label">Jogo:</label>
 						<div class="radio">
-							<label>
-								<input type="radio" name="platform" id="platform-3ds" value="3ds"
-									onchange="aade.changePreviewPlatform(this)" checked />
-								Nintendo 3DS
-							</label>
+							<input type="radio" name="game-field" id="game-field-aa1" value="aa1"
+								onchange="aade.loadEquivalenceTableFromFileForm(this.value)" checked />
+							<label for="game-field-aa1"><span></span>Phoenix Wright: Ace Attorney (AA1)</label>
 						</div>
 						<div class="radio">
-							<label>
-								<input type="radio" name="platform" id="platform-ds-jacutemsabao" value="ds_jacutemsabao"
-									onchange="aade.changePreviewPlatform(this)" />
-								Nintendo DS
-								<small>(Americana - Jacutem Sabão)</small>
-							</label>
+							<input type="radio" name="game-field" id="game-field-aa2" value="aa2"
+								onchange="aade.loadEquivalenceTableFromFileForm(this.value)" />
+							<label for="game-field-aa2"><span></span>Phoenix Wright: Ace Attorney - Justice For All (AA2)</label>
 						</div>
 						<div class="radio">
-							<label>
-								<input type="radio" name="platform" id="platform-ds-american" value="ds_american"
-									onchange="aade.changePreviewPlatform(this)" />
-								Nintendo DS
-								<small>(Americana)</small>
-							</label>
-						</div>
-						<div class="radio">
-							<label>
-								<input type="radio" name="platform" id="platform-ds-european" value="ds_european"
-									onchange="aade.changePreviewPlatform(this)" />
-								Nintendo DS
-								<small>(Européia)</small>
-							</label>
+							<input type="radio" name="game-field" id="game-field-aa3" value="aa3"
+								onchange="aade.loadEquivalenceTableFromFileForm(this.value)" />
+							<label for="game-field-aa3"><span></span>Phoenix Wright: Ace Attorney - Trials and Tribulations (AA3)</label>
 						</div>
 					</div>
 				</div>
@@ -87,39 +70,73 @@
 					<div class="form-group">
 						<label for="name-type-original" class="control-label">Nomes da Tabela de Equivalência:</label>
 						<div class="radio">
-							<label>
-								<input type="radio" name="name-type" id="name-type-original" value="o"
-									onchange="aade.changeDefaultNameTypes(this)" checked />
-								Originais
-							</label>
+							<input type="radio" name="name-type" id="name-type-original" value="o"
+								onchange="aade.changeDefaultNameTypes(this)" checked />
+							<label for="name-type-original"><span></span>Originais</label>
 						</div>
 						<div class="radio">
-							<label>
-								<input type="radio" name="name-type" id="name-type-adapted" value="a"
-									onchange="aade.changeDefaultNameTypes(this)" />
-								Adaptados
-							</label>
+							<input type="radio" name="name-type" id="name-type-adapted" value="a"
+								onchange="aade.changeDefaultNameTypes(this)" />
+							<label for="name-type-adapted"><span></span>Adaptados</label>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row visible-xs">
+			<div class="row">
 				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="platform-3ds" class="control-label">Plataforma:</label>
+						<div class="radio">
+							<input type="radio" name="platform" id="platform-3ds" value="3ds"
+								onchange="aade.changePreviewPlatform(this)" checked />
+							<label for="platform-3ds"><span></span>Nintendo 3DS</label>
+						</div>
+						<div class="radio">
+							<input type="radio" name="platform" id="platform-ds-jacutemsabao" value="ds_jacutemsabao"
+								onchange="aade.changePreviewPlatform(this)" />
+							<label for="platform-ds-jacutemsabao"><span></span>Nintendo DS <small>(Americana - Jacutem Sabão)</small></label>
+						</div>
+						<div class="radio">
+							<input type="radio" name="platform" id="platform-ds-american" value="ds_american"
+								onchange="aade.changePreviewPlatform(this)" />
+							<label for="platform-ds-american"><span></span>Nintendo DS <small>(Americana)</small></label>
+						</div>
+						<div class="radio">
+							<input type="radio" name="platform" id="platform-ds-european" value="ds_european"
+								onchange="aade.changePreviewPlatform(this)" />
+							<label for="platform-ds-european"><span></span>Nintendo DS <small>(Européia)</small></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="script-format-asd" class="control-label">Formato do Script:</label>
+						<div class="radio">
+							<input type="radio" name="script-format" id="script-format-curly-brackets" value="b"
+								onchange="aade.changeScriptFormat(this)" checked />
+							<label for="script-format-curly-brackets"><span></span>Tags em {chaves} <small>(Tool do DiegoHH / Antiga tool do Onepiecefreak)</small></label>
+						</div>
+						<div class="radio">
+							<input type="radio" name="script-format" id="script-format-crevrons" value="c"
+								onchange="aade.changeScriptFormat(this)" />
+							<label for="script-format-crevrons"><span></span>Tags em &lt;chevron&gt; <small>(Tool nova do Onepiecefreak)</small></label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6 visible-xs">
 					<div class="form-group">
 						<label for="mobile-show-initially-preview" class="control-label">Exibir Inicialmente¹:</label>
 						<div class="radio">
-							<label>
-								<input type="radio" name="mobile-show-initially" id="mobile-show-initially-preview" value="p"
-									onchange="aade.changeMobileShowInitially(this)" checked />
-								Prévia
-							</label>
+							<input type="radio" name="mobile-show-initially" id="mobile-show-initially-preview" value="p"
+								onchange="aade.changeMobileShowInitially(this)" checked />
+							<label for="mobile-show-initially-preview"><span></span>Prévia</label>
 						</div>
 						<div class="radio">
-							<label>
-								<input type="radio" name="mobile-show-initially" id="mobile-show-initially-textfield" value="t"
-									onchange="aade.changeMobileShowInitially(this)" />
-								Campo de Texto
-							</label>
+							<input type="radio" name="mobile-show-initially" id="mobile-show-initially-textfield" value="t"
+								onchange="aade.changeMobileShowInitially(this)" />
+							<label for="mobile-show-initially-textfield"><span></span>Campo de Texto</label>
 						</div>
 					</div>
 					<sub>1. Apenas para dispositivos de pouca largura (celulares)</sub>
@@ -135,7 +152,7 @@
 				<ul>
 					<li>
 						Extraia scripts de algum dos jogos da primeira trilogia "Ace Attorney",
-						gerados pelas tools do romhacker <i>onepiecefreak</i>;
+						gerados ou pelas tools do romhacker <i>DiegoHH</i>, ou do <i>onepiecefreak</i>;
 					</li>
 					<li>
 						Aguarde o script terminar de ser interpretado. Geralmente leva alguns segundos;

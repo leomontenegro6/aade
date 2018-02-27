@@ -16,6 +16,15 @@
 							<span class="input-group-addon" id="filename-extension">.txt</span>
 						</div>
 					</div>
+					<div class="form-group">
+						<label for="save-file-format" class="control-label">Formato:</label>
+						<select id="save-file-format" name="save-file-format" class="form-control"
+							onchange="aade.changeSaveFormat(this)">
+							<option value="utf-8_with_bom">UTF-8 com BOM (Byte Order Mark)</option>
+							<option value="utf-8_without_bom">UTF-8 sem BOM (Byte Order Mark)</option>
+							<option value="ansi">ANSI</option>
+						</select>
+					</div>
 					<p class="help-block">* Campo obrigatório</p>
 				</div>
 

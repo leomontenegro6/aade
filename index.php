@@ -48,6 +48,7 @@ require_once('utils/aade.php');
 		<script type="text/javascript" src="js/clipboard.min.js"></script>
 		<script type="text/javascript" src="js/FileSaver.min.js"></script>
 		<script type="text/javascript" src="js/html2rtf.js?<?php echo filemtime('js/html2rtf.js') ?>"></script>
+		<script type="text/javascript" src="js/safeSave.js?<?php echo filemtime('js/safeSave.js') ?>"></script>
 		<script type="text/javascript" src="js/aade.js?<?php echo filemtime('js/aade.js') ?>"></script>
 		<script type="text/javascript">
 			var device = aade.getDevice(true);
@@ -71,10 +72,10 @@ require_once('utils/aade.php');
 						<li>
 							<a class="navbar-brand" href="#">
 								<span class="hidden-xs">
-									Editor de Diálogos do Ace Attorney v0.5b
+									Editor de Diálogos do Ace Attorney v0.5c
 								</span>
 								<span class="visible-xs">
-									EDAA v0.5b
+									EDAA v0.5c
 								</span>
 							</a>
 						</li>
@@ -90,27 +91,27 @@ require_once('utils/aade.php');
 			</div>
 		</nav>
 		
-		<!-- Campo de seleção de tema -->
-		<div class="dropdown pull-right" style="margin-right: 5px">
-			<button class="btn btn-default dropdown-toggle" type="button" id="botao_tema"
-				data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-				<i class="glyphicon glyphicon-text-background"></i>
-				<span>Tema</span>
-				<span class="caret"></span>
-			</button>
-			<ul id="lista_temas" class="dropdown-menu" aria-labelledby="botao_tema">
-				<li>
-					<a href="#light" onclick="aade.changeTheme(this)">Claro</a>
-				</li>
-				<li>
-					<a href="#dark" onclick="aade.changeTheme(this)">Escuro</a>
-				</li>
-			</ul>
-		</div>
-		<br /><br />
-		
 		<div class="container-fluid">
 			
+			<!-- Theme selection dropdown -->
+			<div id="theme-selection-dropdown" class="dropdown pull-right">
+				<button class="btn btn-default dropdown-toggle" type="button" id="theme-selection-button"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					<i class="glyphicon glyphicon-text-background"></i>
+					<span>Tema</span>
+					<span class="caret"></span>
+				</button>
+				<ul id="themes-list" class="dropdown-menu" aria-labelledby="theme-selection-button">
+					<li>
+						<a href="#light" onclick="aade.changeTheme(this)">Claro</a>
+					</li>
+					<li>
+						<a href="#dark" onclick="aade.changeTheme(this)">Escuro</a>
+					</li>
+				</ul>
+			</div>
+			
+			<!-- Global actions dropdown -->
 			<div id="global-actions-dropdown" class="dropdown pull-right" style="display: none">
 				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Arquivo

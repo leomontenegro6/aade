@@ -1,4 +1,4 @@
-/* Função usada para exportar HTML para arquivo RTF 
+/* Function used to export HTML to RTF files
  */
 function convertHtmlToRtf(html) {
 	if (!(typeof html === "string" && html)) {

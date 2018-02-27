@@ -2,18 +2,18 @@ div.text-window.ds_american span.letter{
 	display: inline-block;
 	width: 16px;
 	height: 16px;
-	background: url('../images/font_ds_american.png?v=0.5b');
+	background: url('../images/font_ds_american.png?v=0.5c');
 	background-position: 0 0;
 }
 
 div.text-window.ds_american span.letter.color-blue{
-	background-image: url('../images/font_ds_american_blue.png?v=0.5b');
+	background-image: url('../images/font_ds_american_blue.png?v=0.5c');
 }
 div.text-window.ds_american span.letter.color-orange{
-	background-image: url('../images/font_ds_american_orange.png?v=0.5b');
+	background-image: url('../images/font_ds_american_orange.png?v=0.5c');
 }
 div.text-window.ds_american span.letter.color-green{
-	background-image: url('../images/font_ds_american_green.png?v=0.5b');
+	background-image: url('../images/font_ds_american_green.png?v=0.5c');
 }
 
 div.text-window.ds_american span.caret{

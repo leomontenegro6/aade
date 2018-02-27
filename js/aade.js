@@ -7,19 +7,40 @@ function aade(){
 	// Properties
 	this.platform = '3ds';
 	this.nameType = 'o';
+	this.scriptFormat = 'b';
 	this.mobileShowInitially = 'p';
 	this.invalidateLargeLines = true;
 	this.lastName = '???';
 	this.lastColor = '';
+	this.game = 'aa1';
 	this.equivalenceTable = {};
 	this.dialogParserTableTextareas = $();
+	this.theme = 'light';
+	this.saveFormat = 'utf-8_with_bom';
 	
 	// Methods
-	this.changeTheme = function(a){
-		var $a = $(a);
-		var tema = ( $a.attr('href') ).replace('#', '');
-
-		$("body").removeClass('light dark').addClass(tema);
+	this.changeTheme = function(element){
+		var $element = $(element);
+		var $body = $('body');
+		var $dialogParserTable = $('#dialog-parser-table');
+		
+		var previousTheme = ($body.hasClass('dark')) ? ('dark') : ('light');
+		var theme;
+		if($element.is('a')){
+			theme = ( $element.attr('href') ).replace('#', '');
+		} else {
+			theme = $element.val();
+		}
+		
+		this.theme = theme;
+		$body.removeClass('light dark').addClass(theme);
+		
+		// Update table if the dialog parser table is loaded,
+		// and the selected theme is different than the previous one
+		if(($dialogParserTable.length > 0) && (theme != previousTheme)){
+			var tableObject = $dialogParserTable.DataTable();
+			tableObject.draw(false);
+		}
 	}
 	
 	this.readScriptFile = function(dialogFileForm){
@@ -27,10 +48,12 @@ function aade(){
 		var $radioFileOrigin = $("[name='file-origin']:checked");
 		var $inputFileField = $('#file-field');
 		var $radioFileItemList = $("[name='file-item-list']:checked");
+		var $radioScriptFormat = $("[name='script-format']:checked");
 		var $dialogParserTab = $('#dialog-parser-tab');
 		
 		var file_origin = $radioFileOrigin.val();
 		var file_item_list = $radioFileItemList.val();
+		var script_format = $radioScriptFormat.val();
 		
 		var ajax = new XMLHttpRequest();
 		ajax.open("POST", "dialog-parser.php", true);
@@ -42,6 +65,7 @@ function aade(){
 		} else {
 			formData.append('file-item-list', file_item_list);
 		}
+		formData.append('script-format', script_format);
 		
 		this.showLoadingIndicator();
 		
@@ -230,6 +254,10 @@ function aade(){
 			}
 		});
 		
+		// Hiding theme button, since now it's inside config modal
+		var $dropdownTheme = $('#theme-selection-dropdown');
+		$dropdownTheme.hide();
+		
 		// Showing global actions menu
 		var $dropdownGlobalActions = $('#global-actions-dropdown');
 		$dropdownGlobalActions.show();
@@ -313,6 +341,8 @@ function aade(){
 		var $inputsOriginalNames = $equivalenceTable.find('input.original-name');
 		var $inputsAdaptedNames = $equivalenceTable.find('input.adapted-name');
 		
+		var theme = this.theme;
+		var scriptFormat = this.scriptFormat;
 		var originalNames = [], adaptedNames = [];
 		$inputsOriginalNames.each(function(){
 			originalNames.push(this.value);
@@ -333,23 +363,23 @@ function aade(){
 			
 			$textarea.highlightTextarea({
 				'words': [{
-					'color': 'lightsalmon',
-					'words': ['{(.+?)}']
+					'color': (theme == 'light') ? ('lightsalmon') : ('#005F85'),
+					'words': (scriptFormat == 'c') ? (['<(.+?)>']) : (['{(.+?)}'])
 				}, {
-					'color': 'lightgreen',
+					'color': (theme == 'light') ? ('lightgreen') : ('#6F116F'),
 					'words': originalNames
 				}, {
-					'color': 'khaki',
+					'color': (theme == 'light') ? ('khaki') : ('#0F1973'),
 					'words': adaptedNames
 				}, {
-					'color': 'aquamarine',
-					'words': ['{b}']
+					'color': (theme == 'light') ? ('aquamarine') : ('#80002B'),
+					'words': (scriptFormat == 'c') ? (['<b>']) : (['{b}'])
 				}, {
-					'color': '#aaa',
-					'words': ['{endjmp}']
+					'color': (theme == 'light') ? ('#aaa') : ('#555'),
+					'words': (scriptFormat == 'c') ? (['<endjmp>']) : (['{endjmp}'])
 				}, {
-					'color': 'lightblue',
-					'words': ['{wait: [0-9]*}']
+					'color': (theme == 'light') ? ('lightblue') : ('#522719'),
+					'words': (scriptFormat == 'c') ? (['<wait: [0-9]*>']) : (['{wait: [0-9]*}'])
 				}]
 			}).attr('data-highlight-instantiated', 'true');
 		});
@@ -358,6 +388,8 @@ function aade(){
 	this.instantiateCopyClipboardButtons = function(buttons, textarea){
 		var $buttons = $(buttons);
 		var $textarea = $(textarea);
+		
+		var scriptFormat = this.scriptFormat;
 		
 		$buttons.each(function(){
 			var $button = $(this);
@@ -369,8 +401,15 @@ function aade(){
 
 			var clipboard = new Clipboard(this, {
 				'text': function(){
+					var regex_tags;
+					if(scriptFormat == 'c'){
+						regex_tags = /<(.*?)>/g;
+					} else {
+						regex_tags = /{(.*?)}/g;
+					}
+					
 					var text = $textarea.val();
-					text = $.trim( text.replace(/{(.*?)}/g, '').replace(/\n/g, ' ') );
+					text = $.trim( text.replace(regex_tags, '').replace(/\n/g, ' ') );
 					return text;
 				}
 			});
@@ -434,6 +473,7 @@ function aade(){
 		var checkFirstField = ($previousField.length == 0);
 		var fieldSection = parseInt($field.attr('data-section'), 10);
 		var previousFieldSection = parseInt($previousField.attr('data-section'), 10);
+		var scriptFormat = this.scriptFormat;
 		
 		// Adding parent class for DS platform detection
 		if(checkPlatformDS){
@@ -463,7 +503,11 @@ function aade(){
 				var cursorPos = $field.prop('selectionStart') - 1;
 				var textBefore = text.substring(0,  cursorPos);
 				var textAfter  = $.trim( text.substring(cursorPos, text.length) );
-				text = textBefore + '{b}\n' + textAfter;
+				if(scriptFormat == 'c'){
+					text = textBefore + '<b>\n' + textAfter;
+				} else {
+					text = textBefore + '{b}\n' + textAfter;
+				}
 				
 				$field.val(text).prop('selectionEnd', cursorPos + 4).trigger('input');
 			}
@@ -490,21 +534,35 @@ function aade(){
 					continue;
 				}
 				
-				if(char == "{"){
-					tag = true;
-				} else if(char == "}"){
-					tag = false;
+				if(scriptFormat == 'c'){
+					if(char == "<"){
+						tag = true;
+					} else if(char == ">"){
+						tag = false;
+					}
+				} else {
+					if(char == "{"){
+						tag = true;
+					} else if(char == "}"){
+						tag = false;
+					}
 				}
 				
 				if(tag){
-					if(char != '{'){
-						tagText += char;
+					if(scriptFormat == 'c'){
+						if(char != '<'){
+							tagText += char;
+						}
+					} else {
+						if(char != '{'){
+							tagText += char;
+						}
 					}
 				} else {
 					// Tags for all contexts
 					if(tagText == 'b'){
 						$divTextWindow.append('<br />');
-					} else if(char != '}' && char != '\n'){
+					} else if(((scriptFormat == 'c' && char != '>') || (scriptFormat == 'b' && char != '}')) && char != '\n'){
 						var newChar = this.formatChar(char);
 
 						$divTextWindow.append(
@@ -549,7 +607,13 @@ function aade(){
 				
 				$divCharacterName.html(this.lastName);
 				
-				$divTextWithoutTags.html( $.trim( text.replace(/{(.*?)}/g, '').replace(/\n/g, ' ') ) );
+				var regex_tag;
+				if(scriptFormat == 'c'){
+					regex_tag = /<(.*?)>/g;
+				} else {
+					regex_tag = /{(.*?)}/g;
+				}
+				$divTextWithoutTags.html( $.trim( text.replace(regex_tag, '').replace(/\n/g, ' ') ) );
 				
 				// Analysing current block
 				var returnAnalysis = this.analyseScriptBlock($divTextWindow);
@@ -607,6 +671,20 @@ function aade(){
 	this.showScriptConfigSettings = function(){
 		$('#config-settings').modal('show');
 		
+		if(this.game == 'aa3'){
+			$('#config-game-field-aa3').prop('checked', true);
+		} else if(this.game == 'aa2'){
+			$('#config-game-field-aa2').prop('checked', true);
+		} else {
+			$('#config-game-field-aa1').prop('checked', true);
+		}
+		
+		if(this.nameType == 'o'){
+			$('#config-name-type-original').prop('checked', true);
+		} else {
+			$('#config-name-type-adapted').prop('checked', true);
+		}
+		
 		if(this.platform == 'ds_jacutemsabao'){
 			$('#config-platform-ds-jacutemsabao').prop('checked', true);
 		} else if(this.platform == 'ds_american'){
@@ -616,16 +694,19 @@ function aade(){
 		} else {
 			$('#config-platform-3ds').prop('checked', true);
 		}
-		if(this.nameType == 'o'){
-			$('#config-name-type-original').prop('checked', true);
+		
+		if(this.theme == 'light'){
+			$('#config-theme-light').prop('checked', true);
 		} else {
-			$('#config-name-type-adapted').prop('checked', true);
+			$('#config-theme-dark').prop('checked', true);
 		}
+		
 		if(this.invalidateLargeLines){
 			$('#invalidate-large-lines-true').prop('checked', true);
 		} else {
 			$('#invalidate-large-lines-false').prop('checked', true);
 		}
+		
 		if(this.mobileShowInitially == 'p'){
 			$('#config-mobile-show-initially-preview').prop('checked', true);
 		} else {
@@ -639,15 +720,21 @@ function aade(){
 	
 	this.showScriptSaveSettings = function(){
 		var $dialogParserTable = $('#dialog-parser-table');
+		var $divSaveSettings = $('#save-settings');
+		var $saveNameField = $('#save-name-field');
+		var $saveFileFormat = $('#save-file-format');
+		
 		var filename = $dialogParserTable.attr('data-filename');
+		var saveFormat = this.saveFormat;
 		
 		var data = new Date();
 		data = new Date(data.getTime() - (data.getTimezoneOffset() * 60000)).toJSON();
 		data = data.slice(0, 19).replace(/T/g, '-').replace(/:/g, '-');
 		filename += ' (' + data + ')';
 		
-		$('#save-settings').modal('show');
-		$('#save-name-field').val(filename).focus();
+		$divSaveSettings.modal('show');
+		$saveNameField.val(filename).focus();
+		$saveFileFormat.val(saveFormat);
 	}
 	
 	this.hideScriptSaveSettings = function(){
@@ -709,6 +796,7 @@ function aade(){
 		$label.addClass('btn-primary').removeClass('btn-default');
 	}
 	
+	
 	this.changePreviewPlatform = function(radio){
 		var $radio = $(radio);
 		
@@ -727,6 +815,14 @@ function aade(){
 		this.updatePreviewVisibleTextareas();
 	}
 	
+	this.changeScriptFormat = function(radio){
+		var $radio = $(radio);
+		
+		var scriptFormat = $radio.val();	
+	
+		this.scriptFormat = scriptFormat;
+	}
+	
 	this.changeMobileShowInitially = function(radio){
 		var $radio = $(radio);
 		var $dialogParserTable = $('#dialog-parser-table');
@@ -737,6 +833,14 @@ function aade(){
 		
 		this.updatePreviewVisibleTextareas();
 		tableObject.draw(false);
+	}
+	
+	this.changeSaveFormat = function(select){
+		var $select = $(select);
+		
+		var saveFormat = $select.val();	
+	
+		this.saveFormat = saveFormat;
 	}
 	
 	this.toggleLargeLinesInvalidation = function(radio){
@@ -758,8 +862,15 @@ function aade(){
 		var $dialogParserTable = $('#dialog-parser-table');
 		var tableObject = $dialogParserTable.DataTable();
 		
+		var scriptFormat = this.scriptFormat;
+		var regex_brackets;
+		if(scriptFormat == 'c'){
+			regex_brackets = /\&[A-z]*;/g;
+		} else {
+			regex_brackets = /[{}]/g;
+		}
 		var currentOrder = parseFloat( $tr.find('.order').first().html() );
-		var currentSection = ( $tr.find('.section').first().html() ).replace(/[{}]/g, '');
+		var currentSection = ( $tr.find('.section').first().html() ).replace(regex_brackets, '');
 		var currentBlockNumber = parseFloat( $tr.find('.block-number').first().html() );
 		
 		var newOrder = (currentOrder + 0.01).toFixed(2);
@@ -784,7 +895,11 @@ function aade(){
 		
 		$newTdFormFields.find('div.highlightTextarea').remove();
 		$newTdFormFields.append($newTextarea[0].outerHTML);
-		$newTdFormFields.find('textarea').val('{p}');
+		if(scriptFormat == 'c'){
+			$newTdFormFields.find('textarea').val('<p>');
+		} else {
+			$newTdFormFields.find('textarea').val('{p}');
+		}
 		
 		$newDivDialogPreview.attr('id', newDialogId);
 		$newButtonGroups.children('button.remove-block').remove();
@@ -874,11 +989,27 @@ function aade(){
 		
 		setTimeout(function(){
 			var scriptText = that.generateScriptText();
-			
+			var saveFormat = that.saveFormat;
 			var filename = $saveNameField.val() + '.txt';
-			var file = new Blob([scriptText], {type: "text/plain;charset=utf-8"});
 			
-			saveAs(file, filename, true);
+			if(saveFormat == 'ansi'){
+				// Saving script in ANSI encoding
+				var scriptBinary = new Uint8Array(scriptText.length);
+				for(var i = 0; i < scriptBinary.length; i++) {
+					var charCode = scriptText.charCodeAt(i);
+					
+					scriptBinary[i] = charCode;
+				}
+				
+				safeSave(filename, scriptBinary);
+			} else if(saveFormat == 'utf-8_without_bom'){
+				// Saving script in UTF-8 without BOM
+				saveAs(new Blob([scriptText], {type: 'text/plain;charset=utf-8'}), filename, true);
+			} else {
+				// Saving script in UTF-8 with BOM
+				saveAs(new Blob([scriptText], {type: 'text/plain;charset=utf-8'}), filename, false);
+			}
+			
 			that.hideLoadingIndicator();
 		}, 500);
 		
@@ -916,6 +1047,7 @@ function aade(){
 		var $dialogParserTable = $('#dialog-parser-table');
 		var tableObject = $dialogParserTable.DataTable();
 		
+		var scriptFormat = this.scriptFormat;
 		var scriptText = '';
 		var scriptSections = [];
 
@@ -931,8 +1063,12 @@ function aade(){
 			var checkSectionInserted = ($.inArray(section, scriptSections) !== -1);
 			if(!checkSectionInserted){
 				scriptSections.push(section);
-
-				scriptText += ('\n\n{{' + section + '}}\n');
+				
+				if(scriptFormat == 'c'){
+					scriptText += ('\n\n<<' + section + '>>\n');
+				} else {
+					scriptText += ('\n\n{{' + section + '}}\n');
+				}
 			}
 
 			scriptText += (text + '\n');
@@ -945,6 +1081,7 @@ function aade(){
 		var $dialogParserTable = $('#dialog-parser-table');
 		var tableObject = $dialogParserTable.DataTable();
 		
+		var scriptFormat = this.scriptFormat;
 		var scriptText = "<b>SCRIPT DUMPADO APENAS PARA FINS DE ANÁLISE E REVISÃO</b><br />";
 		scriptText += "<b>NÃO TRADUZA O SCRIPT POR AQUI, MAS SIM PELO PRÓPRIO AADE!</b><br /><br />";
 		var scriptSections = [];
@@ -963,7 +1100,12 @@ function aade(){
 			var text = $textarea.val();
 			
 			// Getting character name
-			var characterTags = text.match(/{name:[ ]*[0-9]*}/g);
+			var characterTags;
+			if(scriptFormat == 'c'){
+				characterTags = text.match(/<name:[ ]*[0-9]*>/g);
+			} else {
+				characterTags = text.match(/{name:[ ]*[0-9]*}/g);
+			}
 			if(characterTags != null && characterTags.length > 0){
 				var tagText = characterTags[0];
 				var tmp = tagText.split(':');
@@ -972,7 +1114,11 @@ function aade(){
 			var characterName = that.getName(characterCode);
 			
 			// Formatting text, in order to remove all tags
-			text = $.trim( text.replace(/{b}/g, '|').replace(/{(.*?)}/g, '').replace(/\n/g, '').replace(/\|/g, '<br />') );
+			if(scriptFormat == 'c'){
+				text = $.trim( text.replace(/<b>/g, '|').replace(/<(.*?)>/g, '').replace(/\n/g, '').replace(/\|/g, '<br />') );
+			} else {
+				text = $.trim( text.replace(/{b}/g, '|').replace(/{(.*?)}/g, '').replace(/\n/g, '').replace(/\|/g, '<br />') );
+			}
 			text = '<b>Ordem: ' + order + ' - Número: ' + block + ' - Personagem: ' + characterName + '</b><br />' + text;
 
 			var checkSectionInserted = ($.inArray(section, scriptSections) !== -1);
@@ -1167,6 +1313,8 @@ function aade(){
 			return;
 		}
 		
+		this.game = game;
+		
 		var that = this;
 		$.getScript('js/aade.et.' + game + '.js', function(){
 			var $tableEquivalenceTable = $('#equivalence-table');
@@ -1214,7 +1362,6 @@ function aade(){
 					)
 				);
 				
-				var $element;
 				if($firstTr.length > 0){
 					$firstTr.before($newTr);
 				} else {
@@ -1224,6 +1371,11 @@ function aade(){
 			
 			that.updatePreviewVisibleTextareas();
 		})
+	}
+	
+	this.loadEquivalenceTableFromFileForm = function(game){
+		var $selectEquivalenceTable = $('#equivalence-table-field');
+		$selectEquivalenceTable.val(game).trigger('change');
 	}
 	
 	this.addCharacterEquivalenceTable = function(){
@@ -1320,8 +1472,8 @@ function aade(){
 			'$': 'money-sign', '%': 'percent', '&': 'ampersand', "'": 'quotes',
 			"(": 'open-parenthesis', ")": 'close-parenthesis', '*': 'asterisk',
 			'+': 'plus', ',': 'comma', '-': 'minus', '.': 'dot', '/': 'slash',
-			':': 'colon', ';': 'semicolon', '<': 'less-than', '=': 'equal',
-			'>': 'greater-than', '?': 'interrogation', '@': 'at-sign',
+			':': 'colon', ';': 'semicolon', '=': 'equal',
+			'?': 'interrogation', '@': 'at-sign',
 			'©': 'copyright', '[': 'open-square-brackets', ']': 'close-square-brackets',
 			'_': 'underscore', '¡': 'inverted-exclamation',
 			'¿': 'inverted-interrogation', 'º': 'o-ordinal', 'ª': 'a-ordinal',
@@ -1348,6 +1500,11 @@ function aade(){
 			'ù': 'u-grave', 'ú': 'u-acute', 'û': 'u-circumflex', 'ü': 'u-diaeresis',
 			'ñ': 'n-tilde', 'ÿ': 'y-diaeresis'
 			
+		}
+		var scriptFormat = this.scriptFormat;
+		if(scriptFormat == 'b'){
+			charTable['<'] = 'less-than';
+			charTable['>'] = 'greater-than';
 		}
 		
 		var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("");

@@ -62,7 +62,7 @@ td.form-fields textarea.text-field{
 .dialog-preview.text-only{
 	width: 320px;
 	height: 80px;
-	background: url('../images/dialog_box_3ds.png?v=0.5b');
+	background: url('../images/dialog_box_3ds.png?v=0.5c');
 	display: inline-block;
 	margin-top: 20px;
 }
@@ -73,7 +73,7 @@ td.form-fields textarea.text-field{
 .dialog-preview.ds.text-only{
 	width: 256px;
 	height: 64px;
-	background: url('../images/dialog_box_ds.png?v=0.5b');
+	background: url('../images/dialog_box_ds.png?v=0.5c');
 }
 .dialog-preview div.character-name{
 	position: absolute;
@@ -143,10 +143,10 @@ td.form-fields textarea.text-field{
 	left: 61px;
 }
 .dialog-preview.invalid{
-	background: url('../images/dialog_box_invalid_3ds.png?v=0.5b');
+	background: url('../images/dialog_box_invalid_3ds.png?v=0.5c');
 }
 .dialog-preview.ds.invalid{
-	background: url('../images/dialog_box_invalid_ds.png?v=0.5b');
+	background: url('../images/dialog_box_invalid_ds.png?v=0.5c');
 }
 .popover{
 	cursor: pointer;
@@ -234,6 +234,59 @@ div.paging_input span.paginate_button.disabled{
 	background-color: #fff;
 	border-color: #ddd;
 	outline: none;
+}
+
+/* Light radiobuttons and checkboxes */
+input[type="checkbox"] {
+	display:none;
+}
+
+input[type="checkbox"] + label {
+	color:#f2f2f2;
+	font-family:Arial, sans-serif;
+	font-size:14px;
+	padding-left: 0;
+}
+
+input[type="checkbox"] + label::before {
+	display:inline-block;
+	width:19px;
+	height:19px;
+	margin:-1px 4px 0 0;
+	vertical-align:middle;
+	background:url(../images/radio_check.png) left top no-repeat;
+	cursor:pointer;
+	content:"";
+}
+
+input[type="checkbox"]:checked + label::before {
+	background:url(../images/radio_check.png) -19px top no-repeat;
+}
+
+input[type="radio"] {
+	display:none;
+}
+
+input[type="radio"] + label {
+	color:#0D0D0D;
+	font-family:Arial, sans-serif;
+	font-size:14px;
+	padding-left: 0;
+}
+
+input[type="radio"] + label::before {
+	display:inline-block;
+	width:19px;
+	height:19px;
+	margin:-1px 4px 0 0;
+	vertical-align:middle;
+	background:url(../images/radio_check.png) -38px top no-repeat;
+	cursor:pointer;
+	content:"";
+}
+
+input[type="radio"]:checked + label::before {
+	background:url(../images/radio_check.png) -57px top no-repeat;
 }
 
 /* Sticky footer */

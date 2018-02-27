@@ -10,18 +10,14 @@
 				<div class="form-group">
 					<label for="analysis-invalidate-large-lines-true" class="control-label">Invalidar Linhas Largas¹:</label>
 					<div class="radio">
-						<label>
-							<input type="radio" name="analysis-invalidate-large-lines" id="analysis-invalidate-large-lines-true"
-								value="true" onchange="aade.toggleLargeLinesInvalidation(this)" />
-							Sim
-						</label>
+						<input type="radio" name="analysis-invalidate-large-lines" id="analysis-invalidate-large-lines-true"
+							value="true" onchange="aade.toggleLargeLinesInvalidation(this)" />
+						<label for="analysis-invalidate-large-lines-true"><span></span>Sim</label>
 					</div>
 					<div class="radio">
-						<label>
-							<input type="radio" name="analysis-invalidate-large-lines" id="analysis-invalidate-large-lines-false"
-								value="false" onchange="aade.toggleLargeLinesInvalidation(this)" />
-							Não
-						</label>
+						<input type="radio" name="analysis-invalidate-large-lines" id="analysis-invalidate-large-lines-false"
+							value="false" onchange="aade.toggleLargeLinesInvalidation(this)" />
+						<label for="analysis-invalidate-large-lines-false"><span></span>Não</label>
 					</div>
 				</div>
 				<sub>

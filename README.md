@@ -65,7 +65,7 @@ Para realizar as funções acima, são utilizadas as seguintes tecnologias:
 
 #### Como usar?
 
-1.  Extraia os scripts do "Ace Attorney Trilogy" [através das ferramentas do "onepiecefreak"](https://mega.nz/#F!ZtJmXYzD!1XgA_iO4B6Tm2kef1kSUxQ);
+1.  Extraia os scripts do "Ace Attorney Trilogy" ou através das ferramentas do "DiegoHH", [ou do "onepiecefreak"](https://mega.nz/#F!ZtJmXYzD!1XgA_iO4B6Tm2kef1kSUxQ);
 2.  No formulário situado na aba "Tradutor de Diálogos", faça o upload do script que deseja traduzir;
 3.  Opcional: Para título de teste, você também pode ir em "Escolher arquivo na lista abaixo" e selecionar o "Teste.txt";
 4.  No formulário situado na aba "Tabela de Equivalência", escolha o jogo referente ao script selecionado, para que a rotina de identificação de personagens funcione corretamente;

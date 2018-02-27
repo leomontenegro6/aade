@@ -32,6 +32,10 @@ body.dark {
     background-color: #313131;
 }
 
+.dark input[type='file']{
+	color: #949ba2;
+}
+
 .dark .nav-tabs {
     border-bottom: 1px solid #f7af3e;
     border-bottom-style: dashed;
@@ -66,6 +70,11 @@ body.dark {
     border-color: transparent;
 }
 
+.dark .btn:disabled, .dark .btn:hover:disabled, .dark .btn:active:disabled{
+	border-color: transparent;
+	background-color: #f556561a;
+}
+
 .dark .btn-primary {
     color: white;
     background-color: #56b9f51a;
@@ -96,6 +105,26 @@ body.dark {
     border-color: #616779;
 }
 
+.dark .modal-header{
+	border-bottom-color: #1a1a1a;
+}
+
+.dark .modal-content{
+	border: 1px solid #383737;
+	background-image: url(../images/sep-half.png);
+	background-color: #3d3d3d;
+	color: #fff;
+}
+
+.dark .modal-content button.close span{
+	color: #fff;
+	text-shadow: 0 1px 0 #000;
+}
+
+.dark .modal-footer{
+	border-top-color: #1a1a1a;
+}
+
 .dark .table-striped>tbody>tr:nth-of-type(odd){
 	background-color: #4e4e4e;
 }
@@ -112,4 +141,95 @@ body.dark {
 .dark .table-bordered>tfoot>tr>td, .dark .table-bordered>tfoot>tr>th,
 .dark .table-bordered>thead>tr>td, .dark .table-bordered>thead>tr>th{
 	border: 1px solid #666;
+}
+/* Dark radiobuttons and checkboxes */
+.dark input[type="checkbox"] {
+	display:none;
+}
+
+.dark input[type="checkbox"] + label {
+	color:#949ba2;
+	font-family:Arial, sans-serif;
+	font-size:14px;
+}
+
+.dark input[type="checkbox"] + label::before {
+	display:inline-block;
+	width:19px;
+	height:19px;
+	margin:-1px 4px 0 0;
+	vertical-align:middle;
+	background:url(../images/radio_check_dark.png) left top no-repeat;
+	cursor:pointer;
+	content:"";
+}
+
+.dark input[type="checkbox"]:checked + label::before {
+	background:url(../images/radio_check_dark.png) -19px top no-repeat;
+}
+
+.dark input[type="radio"] {
+	display:none;
+}
+
+.dark input[type="radio"] + label {
+	color:#949ba2;
+	font-family:Arial, sans-serif;
+	font-size:14px;
+}
+
+.dark input[type="radio"] + label::before {
+	display:inline-block;
+	width:19px;
+	height:19px;
+	margin:-1px 4px 0 0;
+	vertical-align:middle;
+	background:url(../images/radio_check_dark.png) -38px top no-repeat;
+	cursor:pointer;
+	content:"";
+}
+
+.dark input[type="radio"]:checked + label::before {
+	background:url(../images/radio_check_dark.png) -57px top no-repeat;
+}
+
+/* jQuery Datatables dark styles */
+.dark div.dataTables_length,
+.dark div.dataTables_filter{
+	color: #bbb;
+}
+.dark div.paging_input span.paginate_page,
+.dark div.paging_input span.paginate_of{
+	color: #888;
+}
+.dark div.paging_input span.paginate_button.disabled,
+.dark div.paging_input span.paginate_button.disabled:hover,
+.dark div.paging_input span.paginate_button.disabled:active{
+	background-color: #333;
+	border-color: #444;
+	color: #888;
+}
+.dark div.paging_input span.paginate_button{
+	border-color: #616779;
+}
+.dark div.paging_input span.paginate_button:hover{
+	background-color: #444;
+	color: #68a2d4;
+}
+.dark table.dataTable thead>tr>th{
+	color: #fff;
+}
+.dark table.dataTable thead>tr>th:after{
+	color: #fff;
+}
+.dark table.dataTable tbody>tr>td{
+	color: #bbb;
+}
+.dark div.dialog-preview button.render-image{
+	background-color: #337ab7;
+	border-color: #2e6da4;
+}
+
+.dark div.highlightTextarea{
+	background: #313131;
 }

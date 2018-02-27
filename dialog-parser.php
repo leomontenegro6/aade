@@ -2,6 +2,8 @@
 require_once('utils/aade.php');
 
 $file_origin = $_POST['file-origin'];
+$script_format = $_POST['script-format'];
+
 if($file_origin == 'f'){
 	$filename = $_FILES['script-file']['name'];
 	$path = $_FILES['script-file']['tmp_name'];
@@ -27,15 +29,29 @@ $file = file($path);
 $number = -1;
 $sections = $sections_blocks = array();
 foreach($file as $line){
-	$checkDialogueChanged = preg_match('/\{\{[0-9]+\}\}/', $line);
+	if($script_format == 'c'){
+		$regex_section = '/\<\<[0-9]+\>\>/';
+	} else {
+		$regex_section = '/\{\{[0-9]+\}\}/';
+	}
+	
+	$checkDialogueChanged = preg_match($regex_section, $line);
 	if($checkDialogueChanged){
-		$expression = preg_match('/\{\{[0-9]+\}\}/', $line, $results);
-		$number = str_replace(array('{', '}'), '', $results[0]);
+		$expression = preg_match($regex_section, $line, $results);
+		if($script_format == 'c'){
+			$number = str_replace(array('<', '>'), '', $results[0]);
+		} else {
+			$number = str_replace(array('{', '}'), '', $results[0]);
+		}
 		$number = (int)$number;
 	}
 	
 	if($number > -1){
-		$line = str_replace('{{' . $number . '}}', '', $line);
+		if($script_format == 'c'){
+			$line = str_replace('<<' . $number . '>>', '', $line);
+		} else {
+			$line = str_replace('{{' . $number . '}}', '', $line);
+		}
 		
 		if(!isset($sections[$number])){
 			$sections[$number] = $line;
@@ -56,10 +72,18 @@ foreach($sections as $section_number=>$section){
 	
 	// Iterating current section, char by char
 	foreach($chars_section as $char){
-		if($char == '{'){
-			$tag = true;
-		} elseif($char == '}'){
-			$tag = false;
+		if($script_format == 'c'){
+			if($char == '<'){
+				$tag = true;
+			} elseif($char == '>'){
+				$tag = false;
+			}
+		} else {
+			if($char == '{'){
+				$tag = true;
+			} elseif($char == '}'){
+				$tag = false;
+			}
 		}
 		
 		// Detecting first alphanumeric char in a text block
@@ -98,8 +122,14 @@ foreach($sections as $section_number=>$section){
 		}
 		
 		if($tag){
-			if($char != '{'){
-				$tag_text .= trim($char);
+			if($script_format == 'c'){
+				if($char != '<'){
+					$tag_text .= trim($char);
+				}
+			} else {
+				if($char != '{'){
+					$tag_text .= trim($char);
+				}
 			}
 		} else {
 			// Adding line break after {b}
@@ -142,118 +172,127 @@ foreach($sections as $section_number=>$section){
 	}
 }
 ?>
-<table id="dialog-parser-table" class="table table-striped table-bordered" data-filename="<?php echo $filename_without_extension ?>">
-	<thead>
-		<tr>
-			<th class="hidden-xs">Ordem</th>
-			<th class="hidden-xs">Seção</th>
-			<th class="hidden-xs">Número</th>
-			<th>Bloco</th>
-			<th class="hidden-xs">Prévia</th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php
-		$total_dialog_blocks = 0;
-		$total_sections = 0;
-		foreach($sections_blocks as $section_number=>$blocks){
-			$total_sections++;
-			foreach($blocks as $block_number=>$block){
-				$total_dialog_blocks++;
-				
-				$textareaOrder = $total_dialog_blocks;
-				$dialogId = "s{$section_number}-b{$total_dialog_blocks}-dialog";
-				
-				$text = $block['text'];
-				$textWithoutTags = aade::getTextWithoutTags($text);
-				$characterCode = $block['character_code'];
-				$color = $block['color'];
-				$checkHasEndJump = $block['has_endjmp'];
-				?>
+<div class="panel panel-default">
+	<div class="panel-body">
+		<table id="dialog-parser-table" class="table table-striped table-bordered" data-filename="<?php echo $filename_without_extension ?>">
+			<thead>
 				<tr>
-					<td class="hidden-xs order"><?php echo $total_dialog_blocks ?></td>
-					<td class="hidden-xs section">{{<?php echo $section_number ?>}}</td>
-					<td class="hidden-xs block-number"><?php echo $block_number ?></td>
-					<td class="form-fields">
-						<div class="row visible-xs">
-							<div class="col-xs-4">
-								<b>Ordem:</b> <span class="order"><?php echo $total_dialog_blocks ?></span><br />
-								<b>Seção:</b> <span class="section">{{<?php echo $section_number ?>}}</span><br />
-								<b>Número:</b> <span class="block-number"><?php echo $block_number ?></span>
-							</div>
-							<div class="col-xs-8">
-								<div class="btn-group btn-group-sm" role="group" aria-label="Ações Mobile">
-									<button class="btn btn-info show-textfield-mobile" title="Mostrar campo de texto"
-										onclick="aade.showPreviewOnMobile(this)">
-										<span class="glyphicon glyphicon-search"></span>
-									</button>
+					<th class="hidden-xs">Ordem</th>
+					<th class="hidden-xs">Seção</th>
+					<th class="hidden-xs">Número</th>
+					<th>Bloco</th>
+					<th class="hidden-xs">Prévia</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+				$total_dialog_blocks = 0;
+				$total_sections = 0;
+				foreach($sections_blocks as $section_number=>$blocks){
+					$total_sections++;
+					foreach($blocks as $block_number=>$block){
+						$total_dialog_blocks++;
+
+						$textareaOrder = $total_dialog_blocks;
+						$dialogId = "s{$section_number}-b{$total_dialog_blocks}-dialog";
+						if($script_format == 'c'){
+							$formatted_section_number = '<<' . $section_number . '>>';
+						} else {
+							$formatted_section_number = '{{' . $section_number . '}}';
+						}
+
+						$text = $block['text'];
+						$textWithoutTags = aade::getTextWithoutTags($text);
+						$characterCode = $block['character_code'];
+						$color = $block['color'];
+						$checkHasEndJump = $block['has_endjmp'];
+						?>
+						<tr>
+							<td class="hidden-xs order"><?php echo $total_dialog_blocks ?></td>
+							<td class="hidden-xs section"><?php echo $formatted_section_number ?></td>
+							<td class="hidden-xs block-number"><?php echo $block_number ?></td>
+							<td class="form-fields">
+								<div class="row visible-xs">
+									<div class="col-xs-4">
+										<b>Ordem:</b> <span class="order"><?php echo $total_dialog_blocks ?></span><br />
+										<b>Seção:</b> <span class="section"><?php echo $formatted_section_number ?></span><br />
+										<b>Número:</b> <span class="block-number"><?php echo $block_number ?></span>
+									</div>
+									<div class="col-xs-8">
+										<div class="btn-group btn-group-sm" role="group" aria-label="Ações Mobile">
+											<button class="btn btn-info show-textfield-mobile" title="Mostrar campo de texto"
+												onclick="aade.showPreviewOnMobile(this)">
+												<span class="glyphicon glyphicon-search"></span>
+											</button>
+										</div>
+									</div>
 								</div>
-							</div>
-						</div>
-						<textarea class="form-control text-field" data-order="<?php echo $textareaOrder ?>"
-							data-section="<?php echo $section_number ?>" data-block="<?php echo $block_number ?>" data-color="<?php echo $color ?>"
-							onkeyup="aade.updatePreview(this, '<?php echo $dialogId ?>', 't', false, event)"
-							onchange="aade.updateRow(this)"><?php echo $text ?></textarea>
-						<div class="text-without-tags hidden"><?php echo $textWithoutTags ?></div>
-					</td>
-					<td class="preview-conteiners hidden-xs">
-						<div class="row visible-xs" style="padding-bottom: 5px">
-							<div class="col-xs-4">
-								<b>Ordem:</b> <span class="order"><?php echo $total_dialog_blocks ?></span><br />
-								<b>Seção:</b> <span class="section">{{<?php echo $section_number ?>}}</span><br />
-								<b>Número:</b> <span class="block-number"><?php echo $block_number ?></span>
-							</div>
-							<div class="col-xs-8">
-								<div class="btn-group btn-group-sm" role="group" aria-label="Ações Mobile">
-									<button class="btn btn-info show-preview-mobile" title="Mostrar prévia" onclick="aade.showPreviewOnMobile(this)">
-										<span class="glyphicon glyphicon-search"></span>
-									</button>
-									<button class="btn btn-warning copy-clipboard">
-										<span class="glyphicon glyphicon-copy"></span>
-									</button>
-									<button class="btn btn-primary render-image" title="Gerar Imagem"
-										onclick="aade.renderPreviewImageOnBrowser(this)">
-										<span class="glyphicon glyphicon-picture"></span>
-									</button>
-									<?php if(!$checkHasEndJump){ ?>
-										<button class="btn btn-success add-new-block" tabindex="-1" title="Adicionar novo bloco de diálogo"
-											onclick="aade.addNewDialogBlock(this)">
-											<span class="glyphicon glyphicon-plus"></span>
+								<textarea class="form-control text-field" data-order="<?php echo $textareaOrder ?>"
+									data-section="<?php echo $section_number ?>" data-block="<?php echo $block_number ?>" data-color="<?php echo $color ?>"
+									onkeyup="aade.updatePreview(this, '<?php echo $dialogId ?>', 't', false, event)"
+									onchange="aade.updateRow(this)"><?php echo $text ?></textarea>
+								<div class="text-without-tags hidden"><?php echo $textWithoutTags ?></div>
+							</td>
+							<td class="preview-conteiners hidden-xs">
+								<div class="row visible-xs" style="padding-bottom: 5px">
+									<div class="col-xs-4">
+										<b>Ordem:</b> <span class="order"><?php echo $total_dialog_blocks ?></span><br />
+										<b>Seção:</b> <span class="section"><?php echo $formatted_section_number ?></span><br />
+										<b>Número:</b> <span class="block-number"><?php echo $block_number ?></span>
+									</div>
+									<div class="col-xs-8">
+										<div class="btn-group btn-group-sm" role="group" aria-label="Ações Mobile">
+											<button class="btn btn-info show-preview-mobile" title="Mostrar prévia" onclick="aade.showPreviewOnMobile(this)">
+												<span class="glyphicon glyphicon-search"></span>
+											</button>
+											<button class="btn btn-warning copy-clipboard">
+												<span class="glyphicon glyphicon-copy"></span>
+											</button>
+											<button class="btn btn-primary render-image" title="Gerar Imagem"
+												onclick="aade.renderPreviewImageOnBrowser(this)">
+												<span class="glyphicon glyphicon-picture"></span>
+											</button>
+											<?php if(!$checkHasEndJump){ ?>
+												<button class="btn btn-success add-new-block" tabindex="-1" title="Adicionar novo bloco de diálogo"
+													onclick="aade.addNewDialogBlock(this)">
+													<span class="glyphicon glyphicon-plus"></span>
+												</button>
+											<?php } ?>
+										</div>
+									</div>
+								</div>
+								<div id="<?php echo $dialogId ?>" class="dialog-preview text-only">
+									<div class="character-name" data-character-code="<?php echo $characterCode ?>"></div>
+									<div class="btn-group btn-group-xs hidden-xs" role="group" aria-label="Ações">
+										<button class="btn btn-warning copy-clipboard" tabindex="-1">
+											<span class="glyphicon glyphicon-copy"></span>
 										</button>
-									<?php } ?>
+										<button class="btn btn-primary render-image" tabindex="-1" title="Gerar Imagem"
+											onclick="aade.renderPreviewImageOnBrowser(this)">
+											<span class="glyphicon glyphicon-picture"></span>
+										</button>
+										<?php if(!$checkHasEndJump){ ?>
+											<button class="btn btn-success add-new-block" tabindex="-1" title="Adicionar novo bloco de diálogo"
+												onclick="aade.addNewDialogBlock(this)">
+												<span class="glyphicon glyphicon-plus"></span>
+											</button>
+										<?php } ?>
+									</div>
+									<div class="text-window"></div>
 								</div>
-							</div>
-						</div>
-						<div id="<?php echo $dialogId ?>" class="dialog-preview text-only">
-							<div class="character-name" data-character-code="<?php echo $characterCode ?>"></div>
-							<div class="btn-group btn-group-xs hidden-xs" role="group" aria-label="Ações">
-								<button class="btn btn-warning copy-clipboard" tabindex="-1">
-									<span class="glyphicon glyphicon-copy"></span>
-								</button>
-								<button class="btn btn-primary render-image" tabindex="-1" title="Gerar Imagem"
-									onclick="aade.renderPreviewImageOnBrowser(this)">
-									<span class="glyphicon glyphicon-picture"></span>
-								</button>
-								<?php if(!$checkHasEndJump){ ?>
-									<button class="btn btn-success add-new-block" tabindex="-1" title="Adicionar novo bloco de diálogo"
-										onclick="aade.addNewDialogBlock(this)">
-										<span class="glyphicon glyphicon-plus"></span>
-									</button>
-								<?php } ?>
-							</div>
-							<div class="text-window"></div>
-						</div>
+							</td>
+						</tr>
+					<?php
+					}
+				} ?>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="5">
+						Total de seções: <?php echo $total_sections ?> - Total de diálogos: <span class="total-dialog-blocks"><?php echo $total_dialog_blocks ?></span>
 					</td>
 				</tr>
-			<?php
-			}
-		} ?>
-	</tbody>
-	<tfoot>
-		<tr>
-			<td colspan="5">
-				Total de seções: <?php echo $total_sections ?> - Total de diálogos: <span class="total-dialog-blocks"><?php echo $total_dialog_blocks ?></span>
-			</td>
-		</tr>
-	</tfoot>
-</table>
+			</tfoot>
+		</table>
+	</div>
+</div>
