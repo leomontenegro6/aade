@@ -32,6 +32,7 @@ require_once('utils/aade.php');
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/dataTables.bootstrap.min.css">
 		<link rel="stylesheet" href="css/jquery.highlighttextarea.min.css">
+		<link rel="stylesheet" href="css/bootstrap-colorpicker.min.css">
 		<link rel="stylesheet" href="css/css.css?<?php echo filemtime('css/css.css') ?>">
 		<link rel="stylesheet" href="css/theme-dark.css?<?php echo filemtime('css/theme-dark.css') ?>">
 		<link rel="stylesheet" href="css/3ds_font_sprites.css?<?php echo filemtime('css/3ds_font_sprites.css') ?>">
@@ -47,6 +48,7 @@ require_once('utils/aade.php');
 		<script type="text/javascript" src="js/jquery.highlighttextarea.js?<?php echo filemtime('js/jquery.highlighttextarea.js') ?>"></script>
 		<script type="text/javascript" src="js/clipboard.min.js"></script>
 		<script type="text/javascript" src="js/FileSaver.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap-colorpicker.min.js"></script>
 		<script type="text/javascript" src="js/html2rtf.js?<?php echo filemtime('js/html2rtf.js') ?>"></script>
 		<script type="text/javascript" src="js/safeSave.js?<?php echo filemtime('js/safeSave.js') ?>"></script>
 		<script type="text/javascript" src="js/aade.js?<?php echo filemtime('js/aade.js') ?>"></script>

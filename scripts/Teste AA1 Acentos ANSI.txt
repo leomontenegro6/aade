@@ -1,0 +1,51 @@
+{{2}}
+{bop}{0x26: 1}{person: 0 0 0}{bg: 4095}{bgcolor: 258 1 31}{wait: 15}{wait: 30}{hidetextbox: 0}{speed: 10}{0x30: 2}{center_text: 1}{color: 3}
+3 de Agosto, 10:30{b}
+Fórum Local{b}
+Sala de Audiências No. 2{color: 0}{p}
+{center_text: 0}{speed: 255}{wait: 30}{0x26: 0}{hidetextbox: 1}{person: 0 0 0}{animation: 170 1}{animation: 156 1}{animation: 157 1}{animation: 151 1}{animation: 152 1}{animation: 153 1}{bg: 6}{sound: 61 1}{wait: 120}{animation: 149 1}{bg: 27}{0x6b: 0 0 0}{bganim: 98 273}{wait: 40}{person: 8 93 92}{bg: 8}{music: 13 0}{name: 2048}{hidetextbox: 0}
+Declaro aberta a sessão{b}
+para o julgamento do{b}
+Sr. Mauro Vário.{p}
+{person: 10 191 190}{bg: 4}{name: 2560}{newevidence: 32773}
+A acusação está pronta,{wait: 14}{b}
+Meritíssimo.{nextpage_button}
+{hidetextbox: 1}{swoosh: 1 4096 2 1}{wait: 30}{person: 2 2 1}{bg: 3}{name: 512}{hidetextbox: 0}{speed: 7}
+A,{wait: 15} err,{wait: 25}{speed: 5} {shake: 30 0}defesa está{b}
+pronta,{wait: 15} Meritíssimo.{p}
+{person: 8 100 100}{bg: 8}{name: 2048}{speed: 8}
+Ham-ram.{p}
+{speed: 255}{person: 8 97 96}
+Sr. Veríssimo?{p}
+Esta é a sua primeira vez em{wait: 15}{b}
+um julgamento, não é?{p}
+{person: 2 2 1}{bg: 3}{name: 512}{shake: 30 0}
+S-{wait: 20}Sim, Meritíssimo.{b}
+{wait: 20}{speed: 6}Estou,{wait: 15} err,{wait: 15} um pouco nervoso.{p}
+{speed: 255}{person: 8 97 96}{bg: 8}{name: 2048}
+Sua conduta durante este{b}
+julgamento decidirá o destino{b}
+de seu cliente.{p}
+Homicídio é um crime muito{b}
+grave.{wait: 16}{person: 8 93 92} Pelo bem de seu cliente,{wait: 10}{b}
+espero que controle seus nervos.{p}
+{person: 2 2 1}{bg: 3}{name: 512}{speed: 7}
+O-{wait: 20}{speed: 4}obrigado, Meritíssimo.{p}
+{person: 8 96 96}{bg: 8}{name: 2048}{speed: 6}
+... {p}
+{speed: 255}{person: 8 97 96}
+Sr. Veríssimo, dadas as{b}
+{wait: 15}circunstâncias... {p}
+Acho que deveríamos fazer{wait: 5}{b}
+um teste para constatar sua{b}
+aptidão.{p}
+{person: 2 2 1}{bg: 3}{name: 512}
+Sim, {wait: 5}Meritíssimo.{p}
+{person: 2 15 15}{bgcolor: 769 8 31}{shake: 30 0}{speed: 7}{color: 2}
+(Glup... {wait: 30}{speed: 5}Mãos tremendo... {wait: 20}{b}
+Vista... {wait: 25}{speed: 8}turva...){color: 0}{p}
+{person: 8 97 96}{bg: 8}{name: 2048}{speed: 3}
+O teste consistirá de três{b}
+perguntas simples.{wait: 30} Responda{b}
+de forma clara e concisa.{p}
+{endjmp}

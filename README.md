@@ -57,6 +57,8 @@ Para realizar as funções acima, são utilizadas as seguintes tecnologias:
 *   [Clipboard.js](https://clipboardjs.com/), para permitir a cópia de textos de blocos para a área de transferência, sem as tags de controle;
 *   [jQuery highlightTextarea](http://garysieling.github.io/jquery-highlighttextarea/), para a marcação de texto nos blocos;
 *   [FileSaver.js](https://github.com/eligrey/FileSaver.js/), para permitir a geração e o salvamento de arquivos .TXT no lado do cliente;
+*   [Dark Checkboxes and Radio Buttons in CSS](https://www.bypeople.com/edit-this-fiddle-jsfiddle-24/), para uma melhor estilização visual desses componentes em ambos os temas claro e escuro;
+*   [Bootstrap Colorpicker](https://farbelous.github.io/bootstrap-colorpicker/), para campos de seleção de cor, usados na tela de configuração para mudar as cores das marcações de sintaxe dos <textarea>;
 
 #### Pré-Requisitos
 

@@ -17,6 +17,24 @@ function aade(){
 	this.dialogParserTableTextareas = $();
 	this.theme = 'light';
 	this.saveFormat = 'utf-8_with_bom';
+	this.highlightingColors = {
+		'light': {
+			'tags': 'lightsalmon',
+			'originalNames': 'lightgreen',
+			'adaptedNames': 'khaki',
+			'lineBreak': 'aquamarine',
+			'endSection': '#aaa',
+			'wait': 'lightblue'
+		},
+		'dark': {
+			'tags': '#005F85',
+			'originalNames': '#6F116F',
+			'adaptedNames': '#0F1973',
+			'lineBreak': '#80002B',
+			'endSection': '#555',
+			'wait': '#522719'
+		}
+	};
 	
 	// Methods
 	this.changeTheme = function(element){
@@ -341,8 +359,10 @@ function aade(){
 		var $inputsOriginalNames = $equivalenceTable.find('input.original-name');
 		var $inputsAdaptedNames = $equivalenceTable.find('input.adapted-name');
 		
-		var theme = this.theme;
-		var scriptFormat = this.scriptFormat;
+		var that = this;
+		var theme = that.theme;
+		var themeColors = that.highlightingColors[theme];
+		var scriptFormat = that.scriptFormat;
 		var originalNames = [], adaptedNames = [];
 		$inputsOriginalNames.each(function(){
 			originalNames.push(this.value);
@@ -363,22 +383,22 @@ function aade(){
 			
 			$textarea.highlightTextarea({
 				'words': [{
-					'color': (theme == 'light') ? ('lightsalmon') : ('#005F85'),
+					'color': themeColors['tags'],
 					'words': (scriptFormat == 'c') ? (['<(.+?)>']) : (['{(.+?)}'])
 				}, {
-					'color': (theme == 'light') ? ('lightgreen') : ('#6F116F'),
+					'color': themeColors['originalNames'],
 					'words': originalNames
 				}, {
-					'color': (theme == 'light') ? ('khaki') : ('#0F1973'),
+					'color': themeColors['adaptedNames'],
 					'words': adaptedNames
 				}, {
-					'color': (theme == 'light') ? ('aquamarine') : ('#80002B'),
+					'color': themeColors['lineBreak'],
 					'words': (scriptFormat == 'c') ? (['<b>']) : (['{b}'])
 				}, {
-					'color': (theme == 'light') ? ('#aaa') : ('#555'),
+					'color': themeColors['endSection'],
 					'words': (scriptFormat == 'c') ? (['<endjmp>']) : (['{endjmp}'])
 				}, {
-					'color': (theme == 'light') ? ('lightblue') : ('#522719'),
+					'color': themeColors['wait'],
 					'words': (scriptFormat == 'c') ? (['<wait: [0-9]*>']) : (['{wait: [0-9]*}'])
 				}]
 			}).attr('data-highlight-instantiated', 'true');
@@ -669,53 +689,162 @@ function aade(){
 	}
 	
 	this.showScriptConfigSettings = function(){
-		$('#config-settings').modal('show');
+		var $divConfigSettings = $('#config-settings');
+		var $divColorpickerFields = $('div.colorpicker-component');
 		
+		// Showing modal
+		$divConfigSettings.modal('show');
+		
+		// Instantiating colorpicker components
+		$divColorpickerFields.colorpicker();
+		
+		// Loading default configs 
+		this.loadDefaultConfigs();
+	}
+	
+	this.loadDefaultConfigs = function(){
+		var $radioGameFieldAA1 = $('#config-game-field-aa1');
+		var $radioGameFieldAA2 = $('#config-game-field-aa2');
+		var $radioGameFieldAA3 = $('#config-game-field-aa3');
+		var $radioNameTypeOriginal = $('#config-name-type-original');
+		var $radioNameTypeAdapted = $('#config-name-type-adapted');
+		var $radioPlatform3DS = $('#config-platform-3ds');
+		var $radioPlatformDSJTS = $('#config-platform-ds-jacutemsabao');
+		var $radioPlatformDSAmerican = $('#config-platform-ds-american');
+		var $radioPlatformDSEuropean = $('#config-platform-ds-european');
+		var $radioInvalidateLargeLinesTrue = $('#invalidate-large-lines-true');
+		var $radioInvalidateLargeLinesFalse = $('#invalidate-large-lines-false');
+		var $radioMobileShowInitiallyPreview = $('#config-mobile-show-initially-preview');
+		var $radioMobileShowInitiallyTextfield = $('#config-mobile-show-initially-textfield');
+		var $radioThemeLight = $('#config-theme-light');
+		var $radioThemeDark = $('#config-theme-dark');
+		var $divColorpickerFields = $('div.colorpicker-component');
+		
+		// Checking default options for each field
 		if(this.game == 'aa3'){
-			$('#config-game-field-aa3').prop('checked', true);
+			$radioGameFieldAA3.prop('checked', true);
 		} else if(this.game == 'aa2'){
-			$('#config-game-field-aa2').prop('checked', true);
+			$radioGameFieldAA2.prop('checked', true);
 		} else {
-			$('#config-game-field-aa1').prop('checked', true);
+			$radioGameFieldAA1.prop('checked', true);
 		}
-		
 		if(this.nameType == 'o'){
-			$('#config-name-type-original').prop('checked', true);
+			$radioNameTypeOriginal.prop('checked', true);
 		} else {
-			$('#config-name-type-adapted').prop('checked', true);
+			$radioNameTypeAdapted.prop('checked', true);
 		}
-		
 		if(this.platform == 'ds_jacutemsabao'){
-			$('#config-platform-ds-jacutemsabao').prop('checked', true);
+			$radioPlatformDSJTS.prop('checked', true);
 		} else if(this.platform == 'ds_american'){
-			$('#config-platform-ds-american').prop('checked', true);
+			$radioPlatformDSAmerican.prop('checked', true);
 		} else if(this.platform == 'ds_european'){
-			$('#config-platform-ds-european').prop('checked', true);
+			$radioPlatformDSEuropean.prop('checked', true);
 		} else {
-			$('#config-platform-3ds').prop('checked', true);
+			$radioPlatform3DS.prop('checked', true);
 		}
-		
-		if(this.theme == 'light'){
-			$('#config-theme-light').prop('checked', true);
-		} else {
-			$('#config-theme-dark').prop('checked', true);
-		}
-		
 		if(this.invalidateLargeLines){
-			$('#invalidate-large-lines-true').prop('checked', true);
+			$radioInvalidateLargeLinesTrue.prop('checked', true);
 		} else {
-			$('#invalidate-large-lines-false').prop('checked', true);
+			$radioInvalidateLargeLinesFalse.prop('checked', true);
+		}
+		if(this.mobileShowInitially == 'p'){
+			$radioMobileShowInitiallyPreview.prop('checked', true);
+		} else {
+			$radioMobileShowInitiallyTextfield.prop('checked', true);
+		}
+		if(this.theme == 'light'){
+			$radioThemeLight.prop('checked', true);
+		} else {
+			$radioThemeDark.prop('checked', true);
 		}
 		
-		if(this.mobileShowInitially == 'p'){
-			$('#config-mobile-show-initially-preview').prop('checked', true);
-		} else {
-			$('#config-mobile-show-initially-textfield').prop('checked', true);
-		}
+		// Loading default highlighting colors
+		var that = this;
+		$divColorpickerFields.each(function(){
+			var $div = $(this);
+			var $input = $div.children('input');
+			
+			var name = $input.attr('name');
+			var dataInBrackets = name.match(/\[(.*?)\]\[(.*?)\]/);
+			var theme = dataInBrackets[1];
+			var type = dataInBrackets[2];
+			var color = that.highlightingColors[theme][type];
+			
+			$input.val(color).trigger('change');
+		});
+		
+		// Avoid form resetting default behaviour
+		return false;
 	}
 	
 	this.hideScriptConfigSettings = function(){
 		$('#config-settings').modal('hide');
+	}
+	
+	this.saveConfigs = function(){
+		var $radioGameField = $("input[name='config-game-field']:checked");
+		var $radioNameType = $("input[name='config-name-type']:checked");
+		var $radioPlatform = $("input[name='config-platform']:checked");
+		var $radioInvalidateLargeLines = $("input[name='invalidate-large-lines']:checked");
+		var $radioMobileShowInitially = $("input[name='config-mobile-show-initially']:checked");
+		var $radioTheme = $("input[name='config-theme']:checked");
+		var $divColorpickerFields = $('div.colorpicker-component');
+		
+		var checkGameFieldChanged = ($radioGameField.val() != this.game);
+		var checkNameTypeChanged = ($radioNameType.val() != this.nameType);
+		var checkPlatformChanged = ($radioPlatform.val() != this.platform);
+		var checkInvalidateLargeLinesChanged = (/^true$/i.test($radioInvalidateLargeLines.val()) != this.invalidateLargeLines);
+		var checkMobileShowInitiallyChanged = ($radioMobileShowInitially.val() != this.mobileShowInitially);
+		var checkThemeChanged = ($radioTheme.val() != this.theme);
+		
+		this.hideScriptConfigSettings();
+		this.showLoadingIndicator();
+		
+		var that = this;
+		setTimeout(function(){
+			if(checkGameFieldChanged) that.loadEquivalenceTableFromFileForm( $radioGameField.val() );
+			if(checkNameTypeChanged) that.changeDefaultNameTypes( $radioNameType[0] );
+			if(checkPlatformChanged) that.changePreviewPlatform( $radioPlatform[0] );
+			if(checkInvalidateLargeLinesChanged) that.toggleLargeLinesInvalidation( $radioInvalidateLargeLines[0] );
+			if(checkMobileShowInitiallyChanged) that.changeMobileShowInitially( $radioMobileShowInitially[0] );
+			if(checkThemeChanged) that.changeTheme( $radioTheme[0] );
+			that.updateHighlightingColors( $divColorpickerFields );
+
+			that.hideLoadingIndicator();
+		}, 25);
+		
+		// Needed to avoid form submission
+		return false;
+	}
+	
+	this.updateHighlightingColors = function(divColorpickerFields){
+		var that = this;
+		var checkAtLeastOneColorChanged = false;
+		
+		// Updating colors and detecting if at least one change was made
+		var $divColorpickerFields = $(divColorpickerFields);
+		$divColorpickerFields.each(function(){
+			var $input =  $(this).children('input');
+			
+			var name = $input.attr('name');
+			var dataInBrackets = name.match(/\[(.*?)\]\[(.*?)\]/);
+			var theme = dataInBrackets[1];
+			var type = dataInBrackets[2];
+			var newColor = $input.val();
+			var previousColor = that.highlightingColors[theme][type];
+			
+			if(newColor != previousColor){
+				checkAtLeastOneColorChanged = true;
+				that.highlightingColors[theme][type] = newColor;
+			}
+		});
+		
+		// Update table, since there's at least one color change
+		if(checkAtLeastOneColorChanged){
+			var $dialogParserTable = $('#dialog-parser-table');
+			var tableObject = $dialogParserTable.DataTable();
+			tableObject.draw(false);
+		}
 	}
 	
 	this.showScriptSaveSettings = function(){
@@ -1198,15 +1327,19 @@ function aade(){
 		$divTextWindow.children('*').each(function(){
 			var $elem = $(this);
 			
+			var checkAtLeastOneCharacterInLine = false;
+			
 			if($elem.is('span.letter')){
 				// Counting line width and characters on each line
 				line_width += $elem.width();
 				characters_per_line++;
+				checkAtLeastOneCharacterInLine = true;
 			} else if($elem.is('br')){
 				// Counting each line break
 				line_number++;
 				line_width = 10;
 				characters_per_line = 0;
+				checkAtLeastOneCharacterInLine = false;
 			}
 			
 			// For blocks with three lines, defining caret right padding
@@ -1230,7 +1363,7 @@ function aade(){
 			}
 			
 			// Validating block
-			if(line_number > 3){
+			if(line_number > 3 && checkAtLeastOneCharacterInLine){
 				checkValidBlock = false;
 				message = 'Bloco com mais de 3 linhas!';
 				return false; // Exit $.each

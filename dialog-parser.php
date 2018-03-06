@@ -25,10 +25,16 @@ if(!file_exists($path)){
 
 $file = file($path);
 
+$checkFileIsUTF8 = mb_detect_encoding(file_get_contents($path), "UTF-8", true);
+
 // Separating strings in sections
 $number = -1;
 $sections = $sections_blocks = array();
 foreach($file as $line){
+	if(!$checkFileIsUTF8){
+		$line = utf8_encode($line);
+	}
+	
 	if($script_format == 'c'){
 		$regex_section = '/\<\<[0-9]+\>\>/';
 	} else {
