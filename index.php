@@ -74,10 +74,10 @@ require_once('utils/aade.php');
 						<li>
 							<a class="navbar-brand" href="#">
 								<span class="hidden-xs">
-									Editor de Diálogos do Ace Attorney v0.5c
+									Editor de Diálogos do Ace Attorney v0.5d
 								</span>
 								<span class="visible-xs">
-									EDAA v0.5c
+									EDAA v0.5d
 								</span>
 							</a>
 						</li>
@@ -121,9 +121,9 @@ require_once('utils/aade.php');
 				</button>
 				<ul class="dropdown-menu">
 					<li>
-						<a href="#" onclick="aade.showScriptConfigSettings()">
-							<span class="glyphicon glyphicon-cog"></span>
-							Configurações
+						<a href="#" onclick="aade.showGotoRowFilters()">
+							<span class="glyphicon glyphicon-circle-arrow-right"></span>
+							Ir para
 						</a>
 					</li>
 					<li>
@@ -148,6 +148,12 @@ require_once('utils/aade.php');
 						<a href="#" onclick="aade.showScriptAnalysisSettings()">
 							<span class="glyphicon glyphicon-search"></span>
 							Analisar Script
+						</a>
+					</li>
+					<li>
+						<a href="#" onclick="aade.showScriptConfigSettings()">
+							<span class="glyphicon glyphicon-cog"></span>
+							Configurações
 						</a>
 					</li>
 				</ul>
@@ -187,6 +193,7 @@ require_once('utils/aade.php');
 			include('modal-config.php');
 			include('modal-text-preview.php');
 			include('modal-save.php');
+			include('modal-goto.php');
 			?>
 		</div>
 		<footer class="footer">

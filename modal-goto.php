@@ -1,0 +1,56 @@
+<div class="modal" id="goto-row-settings" tabindex="-1" role="dialog" aria-labelledby="gotoRowSettings">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<form class="goto-row-form" onsubmit="return aade.gotoRow(this)">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Ir Para</h4>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="goto-row-filter-type" class="control-label">Filtro*:</label>
+						<select id="goto-row-filter-type" name="goto-row-filter-type" class="form-control" onchange="aade.toggleValueFields(this)" required>
+							<option value="o">Ordem</option>
+							<option value="sn">Seção e/ou Número</option>
+						</select>
+					</div>
+					<div class="form-group" id="div-goto-row-order">
+						<label for="goto-row-order" class="control-label">Ordem*:</label>
+						<div class="input-group">
+							<span class="input-group-addon" id="order-prefix">Nº</span>
+							<input type="text" id="goto-row-order" placeholder="Digite a ordem" onkeydown="return aade.maskFilterInput(event)"
+								class="form-control" aria-describedby="order-prefix" />
+						</div>
+					</div>
+					<div class="form-group" id="div-goto-row-section">
+						<label for="goto-row-section" class="control-label">Seção*:</label>
+						<div class="input-group">
+							<span class="input-group-addon" id="section-prefix">&#123;&#123;</span>
+							<input type="text" id="goto-row-section" placeholder="Digite a seção" onkeydown="return aade.maskFilterInput(event)"
+								class="form-control" aria-describedby="order-suffix" />
+							<span class="input-group-addon" id="section-suffix">&#125;&#125;</span>
+						</div>
+					</div>
+					<div class="form-group" id="div-goto-row-block-number">
+						<label for="goto-row-block-number" class="control-label">Número do Bloco*:</label>
+						<div class="input-group">
+							<span class="input-group-addon" id="block-number-prefix">Nº</span>
+							<input type="text" id="goto-row-block-number" placeholder="Digite o número do bloco" onkeydown="return aade.maskFilterInput(event)"
+								class="form-control" aria-describedby="order-suffix" />
+						</div>
+					</div>
+					<p class="help-block">* Campo obrigatório</p>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					<button type="submit" class="btn btn-primary">
+						<span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+						Ir para
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

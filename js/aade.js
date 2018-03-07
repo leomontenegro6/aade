@@ -35,6 +35,7 @@ function aade(){
 			'wait': '#522719'
 		}
 	};
+	this.automaticPageChange = false;
 	
 	// Methods
 	this.changeTheme = function(element){
@@ -189,10 +190,12 @@ function aade(){
 					that.lastColor = '';
 				}
 				
-				// Scrolling to top of page
-				$('html, body').animate({
-					scrollTop: $(".dataTables_wrapper").offset().top
-				}, 'slow');
+				// Scrolling to top of page, if not an automatic page change
+				if(!that.automaticPageChange){
+					$('html, body').animate({
+						scrollTop: $(".dataTables_wrapper").offset().top
+					}, 'slow');
+				}
 			},
 			// Length change event ("Show" field)
 			'length.dt': function(e, s){
@@ -1084,6 +1087,46 @@ function aade(){
 		$spanTotalDialogBlocks.html(total);
 	}
 	
+	this.toggleValueFields = function(selectFilterType){
+		var $selectFilterType = $(selectFilterType);
+		var $divOrder = $('#div-goto-row-order');
+		var $divBlockNumber = $('#div-goto-row-block-number');
+		var $divSection = $('#div-goto-row-section');
+		var $inputOrder = $('#goto-row-order');
+		var $inputBlockNumber = $('#goto-row-block-number');
+		var $inputSection = $('#goto-row-section');
+		
+		var filterType = $selectFilterType.val();
+		
+		if(filterType == 'o'){
+			$divOrder.show();
+			$divSection.add($divBlockNumber).hide();
+			$inputSection.add($inputBlockNumber).val('');
+		} else {
+			$divOrder.hide();
+			$divSection.add($divBlockNumber).show();
+			$inputOrder.val('');
+		}
+	}
+	
+	this.maskFilterInput = function(event){
+		// Allow: backspace, delete, tab, escape and enter
+		if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+			 // Allow: Ctrl+A, Command+A
+			(event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) || 
+			 // Allow: home, end, left, right, down, up
+			(event.keyCode >= 35 && event.keyCode <= 40)) {
+				 // let it happen, don't do anything
+				 return true;
+		}
+		// Ensure that it is a number and stop the keypress
+		if ((event.shiftKey || (event.keyCode < 48 || event.keyCode > 57)) && (event.keyCode < 96 || event.keyCode > 105)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	this.maskFilenameInput = function(event){
 		var keyCode = event.which;
 		
@@ -1267,7 +1310,7 @@ function aade(){
 		var $dialogParserTable = $('#dialog-parser-table');
 		var tableObject = $dialogParserTable.DataTable();
 		
-		var total_pages = tableObject.page.info().pages;
+		var totalPages = tableObject.page.info().pages;
 		
 		this.hideScriptAnalysisSettings();
 		this.showLoadingIndicator();
@@ -1277,8 +1320,9 @@ function aade(){
 			var returnAnalysis = true;
 			var $divInvalidTextWindow;
 			var message = '';
-
-			for(var page=0; page<total_pages; page++){
+			
+			that.automaticPageChange = true;
+			for(var page=0; page<totalPages; page++){
 				tableObject.page(page).draw(false);
 				$dialogParserTable.find('div.text-window').each(function(){
 					var $divTextWindow = $(this);
@@ -1303,6 +1347,8 @@ function aade(){
 			} else {
 				alert('Script OK!');
 			}
+			
+			that.automaticPageChange = false;
 		}, 500);
 	}
 	
@@ -1439,6 +1485,165 @@ function aade(){
 	
 	this.hidePopoverInvalidBlock = function(element){
 		element.popover('hide');
+	}
+	
+	this.showGotoRowFilters = function(){
+		var $divGotoRowSettings = $('#goto-row-settings');
+		var $selectFilterType = $('#goto-row-filter-type');
+		var $divOrder = $('#div-goto-row-order');
+		var $divBlockNumber = $('#div-goto-row-block-number');
+		var $divSection = $('#div-goto-row-section');
+		var $inputOrder = $('#goto-row-order');
+		var $inputBlockNumber = $('#goto-row-block-number');
+		var $inputSection = $('#goto-row-section');
+		
+		var filterType = 'o';
+		$selectFilterType.val(filterType);
+		
+		// Showing modal
+		$divGotoRowSettings.modal('show');
+		
+		// Resetting all text fields
+		$inputOrder.add($inputSection).add($inputBlockNumber).val('');
+		
+		// Toggling text fields based on filter type
+		if(filterType == 'o'){
+			$divOrder.show();
+			$divSection.add($divBlockNumber).hide();
+		} else {
+			$divOrder.hide();
+			$divSection.add($divBlockNumber).show();
+		}
+		
+		// Focusing filter type
+		$selectFilterType.focus();
+	}
+	
+	this.hideGotoRowFilters = function(){
+		$('#goto-row-settings').modal('hide');
+	}
+	
+	this.gotoRow = function(gotoRowForm){
+		var $selectFilterType = $('#goto-row-filter-type');
+		var $inputOrder = $('#goto-row-order');
+		var $inputBlockNumber = $('#goto-row-block-number');
+		var $inputSection = $('#goto-row-section');
+		var $dialogParserTable = $('#dialog-parser-table');
+		
+		var filterType = $selectFilterType.val();
+		var order = $inputOrder.val();
+		var section = $inputSection.val();
+		var blockNumber = $inputBlockNumber.val();
+		var tableObject = $dialogParserTable.DataTable();
+		var currentPage = tableObject.page();
+		var totalPages = tableObject.page.info().pages;
+		
+		var checkOrderProvided = (order != '');
+		var checkSectionProvided = (section != '');
+		var checkBlockNumberProvided = (blockNumber != '');
+		
+		this.hideGotoRowFilters();
+		this.showLoadingIndicator();
+		var that = this;
+		
+		setTimeout(function(){
+			var checkRowFound = false;
+			var $trFound;
+			
+			that.automaticPageChange = true;
+			
+			var checkFormValid = true;
+			var invalidFormMessage = '';
+			if(filterType == 'o' && !checkOrderProvided){
+				checkFormValid = false;
+				invalidFormMessage = 'Ordem não fornecida!';
+			} else if(filterType == 'sn' && (!checkSectionProvided && !checkBlockNumberProvided)){
+				checkFormValid = false;
+				invalidFormMessage = 'Nem a seção e nem o número do bloco foram fornecidos!';
+			}
+			
+			if(checkFormValid){
+				for(var page=0; page<totalPages; page++){
+					tableObject.page(page).draw(false);
+
+					$dialogParserTable.children('tbody').children('tr').each(function(){
+						var $tr = $(this);
+						var $tdOrder = $tr.children('td.order');
+						var $tdSection = $tr.children('td.section');
+						var $tdBlockNumber = $tr.children('td.block-number');
+
+						var checkOrderFound = false;
+						var checkSectionAndOrBlockNumberFound = false;
+
+						if(filterType == 'o'){
+							if(checkOrderProvided){
+								if($.trim( order ) == ($.trim( $tdOrder.html() ))){
+									checkOrderFound = true;
+								}
+							} else {
+								// No value provided, so abort
+								return false;
+							}
+						} else if(filterType == 'sn'){
+							if(checkSectionProvided && checkBlockNumberProvided){
+								// Section and block filled
+								if((('{{' + $.trim( section ) + '}}') == $.trim( $tdSection.html() )) && ($.trim( blockNumber ) == $.trim( $tdBlockNumber.html() ))){
+									checkSectionAndOrBlockNumberFound = true;
+								}
+							} else if(checkSectionProvided && !checkBlockNumberProvided){
+								// Only section provided
+								if(('{{' + $.trim( section ) + '}}') == $.trim( $tdSection.html() )){
+									checkSectionAndOrBlockNumberFound = true;
+								}
+							} else if(!checkSectionProvided && checkBlockNumberProvided){
+								// Only block number provided
+								if($.trim( blockNumber ) == $.trim( $tdBlockNumber.html() )){
+									checkSectionAndOrBlockNumberFound = true;
+								}
+							} else {
+								// No value provided, so abort
+								return false;
+							}
+						}
+
+						if(checkSectionAndOrBlockNumberFound || checkOrderFound){
+							$trFound = $tr;
+							checkRowFound = true;
+							return false;
+						}
+					});
+
+					if(checkRowFound){
+						break;
+					}
+				}
+				
+				that.hideLoadingIndicator();
+			
+				if(checkRowFound){
+					$('html, body').animate({
+						scrollTop: $trFound.offset().top
+					}, 'slow');
+
+					$trFound.addClass('highlight');
+					setTimeout(function(){
+						$trFound.removeClass('highlight');
+					}, 5000);
+				} else {
+					alert('Linha não encontrada!');
+					tableObject.page(currentPage).draw(false);
+				}
+
+				that.automaticPageChange = false;
+			} else {
+				that.hideLoadingIndicator();
+				
+				alert(invalidFormMessage);
+			}
+		}, 500);
+		
+		// Needed to avoid form submission
+		return false;
 	}
 	
 	this.loadEquivalenceTable = function(game){
