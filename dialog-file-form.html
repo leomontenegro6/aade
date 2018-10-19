@@ -1,45 +1,44 @@
-<form class="dialog-file-form" onsubmit="return aade.readScriptFile(this)">
+<form class="dialog-file-form" onsubmit="return aade.readScriptFiles(this)">
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<div class="form-group">
-				<label for="file-origin-input" class="control-label">Arquivo*:</label>
+				<label for="file-origin-input" class="control-label">Arquivos*:</label>
 				<div class="row">
-					<div class="col-sm-6">
+					<div class="col-sm-6 grid-file">
 						<div class="radio">
 							
 							<input type="radio" name="file-origin" id="file-origin-input" value="f"
 								onchange="aade.toggleFileOrigin(this)" checked />
-							<label for="file-origin-input" style='margin-bottom: 5px'><span></span>Fazer upload no campo abaixo</label>
+							<label for="file-origin-input" style='margin-bottom: 5px'><span></span>Fazer upload de arquivos no campo abaixo</label>
 							
-							<input type="file" id="file-field" name="script-file" required />
+							<input type="file" id="file-field" name="script-file" required multiple />
 						</div>
 					</div>
-					<div class="col-sm-6">
+					<div class="col-sm-6 grid-file">
 						<div class="radio">
-							<input type="radio" name="file-origin" id="file-origin-select" value="s"
+							<input type="radio" name="file-origin" id="file-origin-select-test-scripts" value="t"
 								onchange="aade.toggleFileOrigin(this)" />
-							<label for="file-origin-select"><span></span>Escolher arquivo na lista abaixo</label>
+							<label for="file-origin-select-test-scripts"><span></span>Abrir um script de teste na lista abaixo</label>
 							
 							<br />
-							<div id="file-list" style="display: none">
-								<?php
-								$files = glob('scripts/*.txt');
-								foreach($files as $i=>$file){
-									$filename = str_replace('scripts/', '', $file);
-									?>
-									<div class="col">
-										<input type="radio" name="file-item-list" id="file-item-list-<?php echo $i ?>"
-											value="<?php echo $file ?>"
-											onclick="aade.selectFileFromList(this)" />
-										<div class="btn-group">
-											<label for="file-item-list-<?php echo $i ?>" class="btn btn-default">
-												<span class="content"><?php echo $filename ?></span>
-											</label>
-										</div>
-									</div>
-									<?php
-								}
-								?>
+							<div id="test-scripts-list" class="btn-group-vertical file-list" data-toggle="buttons" style="display: none">
+								
+								<label class="btn btn-default">
+									<input type="radio" name="test-script" id="test-script-0"
+										value="test_scripts/AA1 Accents (DiegoHH).txt" />
+									AA1 Acentos (DiegoHH).txt
+								</label>
+								<label class="btn btn-default">
+									<input type="radio" name="test-script" id="test-script-1"
+										value="test_scripts/AA1 Tags in Chevron (OPF).txt" />
+									AA1 Chevron (OPF).txt
+								</label>
+								<label class="btn btn-default">
+									<input type="radio" name="test-script" id="test-script-2"
+										value="test_scripts/AA1 Tags in Brackets (oOPF).txt" />
+									AA1 Chaves (OPF antigo).txt
+								</label>
+								
 							</div>
 						</div>
 					</div>
@@ -48,20 +47,20 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label for="game-field" class="control-label">Jogo:</label>
+						<label for="game-field-aa1" class="control-label">Jogo:</label>
 						<div class="radio">
 							<input type="radio" name="game-field" id="game-field-aa1" value="aa1"
-								onchange="aade.loadEquivalenceTableFromFileForm(this.value)" checked />
+								onchange="aade.changeDefaultGame(this); aade.loadEquivalenceTableFromFileForm(this.value)" checked />
 							<label for="game-field-aa1"><span></span>Phoenix Wright: Ace Attorney (AA1)</label>
 						</div>
 						<div class="radio">
 							<input type="radio" name="game-field" id="game-field-aa2" value="aa2"
-								onchange="aade.loadEquivalenceTableFromFileForm(this.value)" />
+								onchange="aade.changeDefaultGame(this); aade.loadEquivalenceTableFromFileForm(this.value)" />
 							<label for="game-field-aa2"><span></span>Phoenix Wright: Ace Attorney - Justice For All (AA2)</label>
 						</div>
 						<div class="radio">
 							<input type="radio" name="game-field" id="game-field-aa3" value="aa3"
-								onchange="aade.loadEquivalenceTableFromFileForm(this.value)" />
+								onchange="aade.changeDefaultGame(this); aade.loadEquivalenceTableFromFileForm(this.value)" />
 							<label for="game-field-aa3"><span></span>Phoenix Wright: Ace Attorney - Trials and Tribulations (AA3)</label>
 						</div>
 					</div>
@@ -110,16 +109,21 @@
 				</div>
 				<div class="col-sm-6">
 					<div class="form-group">
-						<label for="script-format-asd" class="control-label">Formato do Script:</label>
+						<label for="destination-tool-diegohh" class="control-label">Tool de Destino:</label>
 						<div class="radio">
-							<input type="radio" name="script-format" id="script-format-curly-brackets" value="b"
-								onchange="aade.changeScriptFormat(this)" checked />
-							<label for="script-format-curly-brackets"><span></span>Tags em {chaves} <small>(Tool do DiegoHH / Antiga tool do Onepiecefreak)</small></label>
+							<input type="radio" name="destination-tool" id="destination-tool-diegohh" value="dhh"
+								onchange="aade.changeDestinationTool(this)" checked />
+							<label for="destination-tool-diegohh"><span></span>Tool do DiegoHH <small>(Scripts em ANSI, tags em {chaves})</small></label>
 						</div>
 						<div class="radio">
-							<input type="radio" name="script-format" id="script-format-crevrons" value="c"
-								onchange="aade.changeScriptFormat(this)" />
-							<label for="script-format-crevrons"><span></span>Tags em &lt;chevron&gt; <small>(Tool nova do Onepiecefreak)</small></label>
+							<input type="radio" name="destination-tool" id="destination-tool-onepiecefreak" value="opf"
+								onchange="aade.changeDestinationTool(this)" />
+							<label for="destination-tool-onepiecefreak"><span></span>Tool nova do Onepiecefreak <small>(Scripts em UTF-8, tags em &lt;chevron&gt;)</small></label>
+						</div>
+						<div class="radio">
+							<input type="radio" name="destination-tool" id="destination-tool-old-onepiecefreak" value="oopf"
+								onchange="aade.changeDestinationTool(this)" />
+							<label for="destination-tool-old-onepiecefreak"><span></span>Antiga tool do Onepiecefreak <small>(Scripts em UTF-8, tags em {chaves})</small></label>
 						</div>
 					</div>
 				</div>

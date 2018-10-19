@@ -43,7 +43,7 @@ aade.equivalenceTable = {
 	},
 	4096: {
 		'original': 'Andrews',
-		'adapted': 'Adriel'
+		'adapted': 'Andrade'
 	},
 	13056: {
 		'original': 'Announcer',
@@ -63,7 +63,7 @@ aade.equivalenceTable = {
 	},
 	3584: {
 		'original': 'Desirée',
-		'adapted': 'Débora'
+		'adapted': 'Denise'
 	},
 	3840: {
 		'original': 'Butz',
@@ -75,11 +75,11 @@ aade.equivalenceTable = {
 	},
 	4608: {
 		'original': 'Byrde',
-		'adapted': 'Félix'
+		'adapted': 'Corval'
 	},
 	4864: {
 		'original': 'Armstrong',
-		'adapted': 'Brasforti'
+		'adapted': 'Brasfort'
 	},
 	14848: {
 		'original': 'Old Man',
@@ -87,19 +87,19 @@ aade.equivalenceTable = {
 	},
 	5888: {
 		'original': 'Kudo',
-		'adapted': 'Renome'
+		'adapted': 'Paruma'
 	},
 	6144: {
 		'original': 'Basil',
-		'adapted': 'Taner'
+		'adapted': 'Basile'
 	},
 	15616: {
 		'original': 'The Tiger',
 		'adapted': 'O Tigre'
 	},
 	5376: {
-		'original': 'Violetta',
-		'adapted': 'Violeta'
+		'original': 'Viola',
+		'adapted': 'Viola'
 	},
 	5120: {
 		'original': 'Tigre',
@@ -107,7 +107,7 @@ aade.equivalenceTable = {
 	},
 	6912: {
 		'original': 'Fawles',
-		'adapted': 'Mágoas'
+		'adapted': 'Grimar'
 	},
 	2048: {
 		'original': 'Armando',
@@ -127,7 +127,7 @@ aade.equivalenceTable = {
 	},
 	7168: {
 		'original': 'Elise',
-		'adapted': 'Eliza'
+		'adapted': 'Clarice'
 	},
 	8448: {
 		'original': 'Iris',
@@ -135,6 +135,6 @@ aade.equivalenceTable = {
 	},
 	8704: {
 		'original': 'von Karma',
-		'adapted': 'Karma'
+		'adapted': 'von Karma'
 	}
 };

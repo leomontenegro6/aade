@@ -2,18 +2,18 @@ div.text-window.ds_european span.letter{
 	display: inline-block;
 	width: 16px;
 	height: 16px;
-	background: url('../images/font_ds_european.png?v=0.5d');
+	background: url('../images/font_ds_european.png?v=1.0.0b');
 	background-position: 0 0;
 }
 
 div.text-window.ds_european span.letter.color-blue{
-	background-image: url('../images/font_ds_european_blue.png?v=0.5d');
+	background-image: url('../images/font_ds_european_blue.png?v=1.0.0b');
 }
 div.text-window.ds_european span.letter.color-orange{
-	background-image: url('../images/font_ds_european_orange.png?v=0.5d');
+	background-image: url('../images/font_ds_european_orange.png?v=1.0.0b');
 }
 div.text-window.ds_european span.letter.color-green{
-	background-image: url('../images/font_ds_european_green.png?v=0.5d');
+	background-image: url('../images/font_ds_european_green.png?v=1.0.0b');
 }
 
 div.text-window.ds_european span.caret{

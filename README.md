@@ -47,23 +47,26 @@ Segue abaixo a lista de funcionalidades do programa:
 
 Para realizar as funções acima, são utilizadas as seguintes tecnologias:
 
-*   HTML5, para a montagem das páginas;
-*   CSS3, para a estilização dos textos nas prévias;
-*   JavaScript e [jQuery](https://jquery.com/), para programação de componentes de *frontend*;
-*   [PHP](https://php.net/manual/pt_BR/intro-whatis.php), para a interpretação de scripts no *backend*;
-*   [Html2canvas](http://html2canvas.hertzen.com/), para conversão de prévias para PNG;
-*   [Bootstrap](http://getbootstrap.com/), para tornar esta página responsiva;
-*   [jQuery DataTables](https://datatables.net/), para montar a tabela com pesquisa e filtragem onde situam-se os blocos de diálogo e as prévias;
-*   [Clipboard.js](https://clipboardjs.com/), para permitir a cópia de textos de blocos para a área de transferência, sem as tags de controle;
-*   [jQuery highlightTextarea](http://garysieling.github.io/jquery-highlighttextarea/), para a marcação de texto nos blocos;
-*   [FileSaver.js](https://github.com/eligrey/FileSaver.js/), para permitir a geração e o salvamento de arquivos .TXT no lado do cliente;
-*   [Dark Checkboxes and Radio Buttons in CSS](https://www.bypeople.com/edit-this-fiddle-jsfiddle-24/), para uma melhor estilização visual desses componentes em ambos os temas claro e escuro;
-*   [Bootstrap Colorpicker](https://farbelous.github.io/bootstrap-colorpicker/), para campos de seleção de cor, usados na tela de configuração para mudar as cores das marcações de sintaxe dos <textarea>;
+*   Versão Web
+	*   HTML5, para a montagem das páginas;
+	*   CSS3, para a estilização dos textos nas prévias;
+	*   JavaScript e [jQuery](https://jquery.com/), para programação de componentes de *frontend*;
+	*   [Html2canvas](http://html2canvas.hertzen.com/), para conversão de prévias para PNG;
+	*   [Bootstrap](http://getbootstrap.com/), para tornar esta página responsiva;
+	*   [jQuery DataTables](https://datatables.net/), para montar a tabela com pesquisa e filtragem onde situam-se os blocos de diálogo e as prévias;
+	*   [Clipboard.js](https://clipboardjs.com/), para permitir a cópia de textos de blocos para a área de transferência, sem as tags de controle;
+	*   [jQuery highlightTextarea](http://garysieling.github.io/jquery-highlighttextarea/), para a marcação de texto nos blocos;
+    *   [stash](http://rezitech.github.io/stash/), para armazenamento de configurações locais do usuário, como tema e idioma;
+	*   [FileSaver.js](https://github.com/eligrey/FileSaver.js/), para permitir a geração e o salvamento de arquivos .TXT no lado do cliente;
+	*   [Dark Checkboxes and Radio Buttons in CSS](https://www.bypeople.com/edit-this-fiddle-jsfiddle-24/), para uma melhor estilização visual desses componentes em ambos os temas claro e escuro;
+	*   [Bootstrap Colorpicker](https://farbelous.github.io/bootstrap-colorpicker/), para campos de seleção de cor, usados na tela de configuração para mudar as cores das marcações de sintaxe dos <textarea>;
+*   Versão Desktop
+    *   [Electron.js](https://electronjs.org/), para conversão do conteiner web do programa para um app desktop multiplataforma;
 
 #### Pré-Requisitos
 
-*   Um navegador moderno atualizado. De preferência o Google Chrome ou Mozilla Firefox;
-*   Um servidor web com suporte a PHP. O programa não funcionará se executado localmente pelo navegador do usuário.
+*   Versão Web: Um navegador moderno atualizado. De preferência o Google Chrome ou Mozilla Firefox;
+*   Versão Desktop: Sistema Operacional Windows 7 ou superior.
 
 #### Como usar?
 
@@ -80,7 +83,7 @@ Para realizar as funções acima, são utilizadas as seguintes tecnologias:
     *   Atente-se para os textos não passarem do bloco, nem conterem linhas longas com mais de 32 caracteres;
     *   Tome cuidado para não mexer nas tags e invalidá-las, visto que isso pode gerar travamentos no jogo. Recomenda-se que só mexa nelas se realmente necessário;
 10.  Opcional: Também é possível alternar entre nomes originais ou adaptados a partir da tabela. Basta ir em "Arquivo -> Configurações" e alterar o valor do campo "Nomes na Tabela de Equivalência";
-11.  Opcional: É possível analisar o script por inteiro, em busca de blocos inválidos. Basta ir em "Arquivo -> Analisar Script", configurar o formulário e clicar em "Iniciar Análise";
+11.  Opcional: É possível analisar o script por inteiro, em busca de blocos inválidos. Basta ir em "Arquivo -> Analisar Scripts", configurar o formulário e clicar em "Iniciar Análise";
 12.  **Importante**: Antes de fechar a tool, lembre-se de salvar o script clicando em "Arquivo -> Salvar Script"¹.
 
 ¹ Essa ferramenta atualmente não realiza a persistência de nada submetido a ela,

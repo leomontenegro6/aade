@@ -19,7 +19,7 @@ aade.equivalenceTable = {
 	},
 	4352: {
 		'original': 'Byrde',
-		'adapted': 'Félix'
+		'adapted': 'Corval'
 	},
 	1792: {
 		'original': 'Judge',
@@ -43,7 +43,7 @@ aade.equivalenceTable = {
 	},
 	5888: {
 		'original': 'Grey',
-		'adapted': 'Grisalis'
+		'adapted': 'Grisa'
 	},
 	5376: {
 		'original': 'Morgan',
@@ -55,7 +55,7 @@ aade.equivalenceTable = {
 	},
 	4864: {
 		'original': 'Ini',
-		'adapted': 'Uni'
+		'adapted': 'Sara'
 	},
 	5120: {
 		'original': 'Pearl',
@@ -71,11 +71,11 @@ aade.equivalenceTable = {
 	},
 	5632: {
 		'original': 'Hotti',
-		'adapted': 'Quentchi'
+		'adapted': 'Pervhis'
 	},
 	6912: {
 		'original': 'Mimi',
-		'adapted': 'Duni'
+		'adapted': 'Tessália'
 	},
 	7424: {
 		'original': 'Max',
@@ -95,7 +95,7 @@ aade.equivalenceTable = {
 	},
 	8448: {
 		'original': 'Trilo',
-		'adapted': 'Ventri'
+		'adapted': 'Tril'
 	},
 	8192: {
 		'original': 'Acro',
@@ -103,19 +103,19 @@ aade.equivalenceTable = {
 	},
 	10240: {
 		'original': 'Powers',
-		'adapted': 'Vidal'
+		'adapted': 'Ferraz'
 	},
 	9984: {
 		'original': 'Oldbag',
-		'adapted': 'Savelha'
+		'adapted': 'Savéria'
 	},
 	8960: {
 		'original': 'Engarde',
-		'adapted': 'Engarde'
+		'adapted': 'Enguarda'
 	},
 	9216: {
 		'original': 'Andrews',
-		'adapted': 'Sigisbel'
+		'adapted': 'Andrade'
 	},
 	2048: {
 		'original': 'Edgeworth',
@@ -127,6 +127,6 @@ aade.equivalenceTable = {
 	},
 	9472: {
 		'original': 'de Killer',
-		'adapted': 'Sicarius'
+		'adapted': 'Mattar'
 	}
 };

@@ -5,43 +5,104 @@
 function aade(){
 	
 	// Properties
-	this.platform = '3ds';
-	this.nameType = 'o';
-	this.scriptFormat = 'b';
-	this.mobileShowInitially = 'p';
-	this.invalidateLargeLines = true;
+	this.destinationTool = 'dhh';
 	this.lastName = '???';
 	this.lastColor = '';
-	this.game = 'aa1';
 	this.equivalenceTable = {};
-	this.dialogParserTableTextareas = $();
-	this.theme = 'light';
-	this.saveFormat = 'utf-8_with_bom';
-	this.highlightingColors = {
-		'light': {
-			'tags': 'lightsalmon',
-			'originalNames': 'lightgreen',
-			'adaptedNames': 'khaki',
-			'lineBreak': 'aquamarine',
-			'endSection': '#aaa',
-			'wait': 'lightblue'
-		},
-		'dark': {
-			'tags': '#005F85',
-			'originalNames': '#6F116F',
-			'adaptedNames': '#0F1973',
-			'lineBreak': '#80002B',
-			'endSection': '#555',
-			'wait': '#522719'
+	this.dialogParserTableTextareas = {};
+	this.processingProgressbars = {
+		'default': $(),
+		'analysisScripts': $(),
+		'analysisScriptsPages': $()
+	};
+	this.saveFormat = 'ansi';
+	this.automaticPageChange = false;
+	this.openedFiles = [];
+	this.originOfOpenedFiles = '';
+	this.configs = {};
+	this.defaultConfigs = {
+		'game': 'aa1',
+		'nameType': 'o',
+		'platform': '3ds',
+		'invalidateLargeLines': true,
+		'mobileShowInitially': 'p',
+		'theme': 'light',
+		'highlightingColors': {
+			'light': {
+				'tags': 'lightsalmon',
+				'originalNames': 'lightgreen',
+				'adaptedNames': 'khaki',
+				'lineBreak': 'aquamarine',
+				'endSection': '#aaa',
+				'wait': 'lightblue'
+			},
+			'dark': {
+				'tags': '#005F85',
+				'originalNames': '#6F116F',
+				'adaptedNames': '#0F1973',
+				'lineBreak': '#80002B',
+				'endSection': '#555',
+				'wait': '#522719'
+			}
 		}
 	};
-	this.automaticPageChange = false;
 	
 	// Methods
+	this.loadMainAppRoutines = function(){
+		var that = this;
+		
+		that.loadModalWindows(function(){
+			that.showLoadingIndicator();
+			that.loadConfigs();
+			that.loadTheme();
+			that.loadTabContents(function(){
+				that.setDefaultOptionsInFileForm();
+				that.setDefaultValuesSandboxField("Juiz", "Sua conduta durante este\njulgamento decidirá o\ndestino de seu cliente.");
+				that.instantiateEventMobileToggleFieldPreview();
+				that.removeTitleAttributeOnElectron();
+				that.showOptionScriptsFolderOnElectron();
+				that.hideLoadingIndicator();
+			});
+		});
+	}
+	
+	this.loadConfigs = function(){
+		var game = stash.get('game');
+		var nameType = stash.get('nameType');
+		var platform = stash.get('platform');
+		var invalidateLargeLines = stash.get('invalidateLargeLines');
+		var mobileShowInitially = stash.get('mobileShowInitially');
+		var theme = stash.get('theme');
+		var highlightingColors = stash.get('highlightingColors');
+		
+		if(typeof game == 'undefined') game = this.defaultConfigs.game;
+		if(typeof nameType == 'undefined') nameType = this.defaultConfigs.nameType;
+		if(typeof platform == 'undefined') platform = this.defaultConfigs.platform;
+		if(typeof invalidateLargeLines == 'undefined') invalidateLargeLines = this.defaultConfigs.invalidateLargeLines;
+		if(typeof mobileShowInitially == 'undefined') mobileShowInitially = this.defaultConfigs.mobileShowInitially;
+		if(typeof theme == 'undefined') theme = this.defaultConfigs.theme;
+		if(typeof highlightingColors == 'undefined') highlightingColors = this.defaultConfigs.highlightingColors;
+		
+		this.configs = {
+			'game': game,
+			'nameType': nameType,
+			'platform': platform,
+			'invalidateLargeLines': invalidateLargeLines,
+			'mobileShowInitially': mobileShowInitially,
+			'theme': theme,
+			'highlightingColors': highlightingColors
+		}
+	}
+	
+	this.loadTheme = function(){
+		var theme = this.configs.theme;
+		$('body').addClass(theme);
+	}
+	
 	this.changeTheme = function(element){
 		var $element = $(element);
 		var $body = $('body');
-		var $dialogParserTable = $('#dialog-parser-table');
+		var $dialogParserTables = $('table.dialog-parser-table');
 		
 		var previousTheme = ($body.hasClass('dark')) ? ('dark') : ('light');
 		var theme;
@@ -51,308 +112,849 @@ function aade(){
 			theme = $element.val();
 		}
 		
-		this.theme = theme;
+		stash.set('theme', theme);
 		$body.removeClass('light dark').addClass(theme);
 		
 		// Update table if the dialog parser table is loaded,
 		// and the selected theme is different than the previous one
-		if(($dialogParserTable.length > 0) && (theme != previousTheme)){
-			var tableObject = $dialogParserTable.DataTable();
-			tableObject.draw(false);
+		if(($dialogParserTables.length > 0) && (theme != previousTheme)){
+			$dialogParserTables.each(function(){
+				var tableObject = $(this).DataTable();
+				tableObject.draw(false);
+			});
+		}
+		
+		// Reloading configs after saving the new theme
+		this.loadConfigs();
+	}
+	
+	this.loadModalWindows = function(callback){
+		var $divMainContainer = $('#main-container');
+		
+		$.when(
+			$.get('modal-loading.html'),
+			$.get('modal-processing.html'),
+			$.get('modal-analysis.html'),
+			$.get('modal-analysis-processing.html'),
+			$.get('modal-analysis-results.html'),
+			$.get('modal-export.html'),
+			$.get('modal-config.html'),
+			$.get('modal-text-preview.html'),
+			$.get('modal-save.html'),
+			$.get('modal-goto.html')
+		).done(function(r1, r2, r3, r4, r5, r6, r7, r8, r9, r10){
+			var results = [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10];
+			for(var i in results){
+				var result = results[i][0];
+				
+				$divMainContainer.append(result);
+			}
+			
+			if(callback) callback();
+		});
+	}
+	
+	this.loadTabContents = function(callback){
+		var $divDialogFileFormContainer = $('#dialog-file-form-container');
+		var $divEquivalenceTableTab = $('#equivalence-table-tab');
+		var $divSandboxTab = $('#sandbox-tab');
+		
+		var that = this;
+		
+		$divDialogFileFormContainer.load('dialog-file-form.html', function(){
+			$divEquivalenceTableTab.load('equivalence-table.html', function(){
+				$divSandboxTab.load('sandbox.html', function(){
+					that.loadSandboxBackgroundImageOptions();
+					if(callback) callback();
+				});
+			});
+		});
+	}
+	
+	this.triggerClickOnFirstMainTab = function(){
+		var $aFirstTab = $("a[href='#dialog-parser-tab']");
+		
+		$aFirstTab.trigger('click');
+	}
+	
+	this.triggerClickOnScriptTab = function(scriptTabId){
+		if(typeof scriptTabId == 'undefined') scriptTabId = this.getCurrentlyActiveScriptTabId();
+		
+		var $ulScriptsTabs = $('#scripts-tabs');
+		
+		var $aScriptTab = $ulScriptsTabs.find("a[href='#" + scriptTabId + "']");
+		
+		$aScriptTab.trigger('click');
+	}
+	
+	this.getCurrentlyActiveScriptTabId = function(){
+		var $aActiveScriptTab = $('#scripts-tabs').children('li.active').first().children('a');
+		
+		return $aActiveScriptTab.attr('aria-controls');
+	}
+	
+	this.setDefaultOptionsInFileForm = function(){
+		var $radioGameFieldAA1 = $('#game-field-aa1');
+		var $radioGameFieldAA2 = $('#game-field-aa2');
+		var $radioGameFieldAA3 = $('#game-field-aa3');
+		var $radioNameTypeOriginal = $('#name-type-original');
+		var $radioNameTypeAdapted = $('#name-type-adapted');
+		var $radioPlatform3DS = $('#platform-3ds');
+		var $radioPlatformDSJTS = $('#platform-ds-jacutemsabao');
+		var $radioPlatformDSAmerican = $('#platform-ds-american');
+		var $radioPlatformDSEuropean = $('#platform-ds-european');
+		
+		// Checking default options for each field
+		if(this.configs.game == 'aa3'){
+			$radioGameFieldAA3.prop('checked', true).trigger('change');
+		} else if(this.configs.game == 'aa2'){
+			$radioGameFieldAA2.prop('checked', true).trigger('change');
+		} else {
+			$radioGameFieldAA1.prop('checked', true).trigger('change');
+		}
+		if(this.configs.nameType == this.defaultConfigs.nameType){
+			$radioNameTypeOriginal.prop('checked', true).trigger('change');
+		} else {
+			$radioNameTypeAdapted.prop('checked', true).trigger('change');
+		}
+		if(this.configs.platform == 'ds_jacutemsabao'){
+			$radioPlatformDSJTS.prop('checked', true).trigger('change');
+		} else if(this.configs.platform == 'ds_american'){
+			$radioPlatformDSAmerican.prop('checked', true).trigger('change');
+		} else if(this.configs.platform == 'ds_european'){
+			$radioPlatformDSEuropean.prop('checked', true).trigger('change');
+		} else {
+			$radioPlatform3DS.prop('checked', true).trigger('change');
 		}
 	}
 	
-	this.readScriptFile = function(dialogFileForm){
-		var $dialogFileForm = $(dialogFileForm);
+	this.showOptionScriptsFolderOnElectron = function(){
+		var that = this;
+		
+		if(that.checkOnElectron()){
+			var $dialogFileForm = $('form.dialog-file-form');
+			var $divsGridFiles = $dialogFileForm.find('div.grid-file');
+			
+			// Iterating grid <div>s containing the script file fields
+			$divsGridFiles.each(function(i){
+				var $divGrid = $(this);
+				
+				if(i == 0){
+					// Adding option to show files from "scripts" folder
+					$.get('dialog-file-form-scripts-folder-electron.html', function(r){
+						$divGrid.after(r);
+						
+						var $checkboxLoadScriptsInFolder = $('#file-origin-load-scripts-in-folder');
+						var $divScriptsFolderList = $('#scripts-folder-list');
+						
+						// Obtaining scripts list in folder
+						var scriptsListInFolder = that.getScriptsListInFolder();
+						
+						// If there's at least one script file in the folder, show all
+						// files below the option
+						if(scriptsListInFolder.length > 0){
+							for(var j in scriptsListInFolder){
+								var filename = scriptsListInFolder[j];
+								
+								// Showing each script as a checkbox, already checked
+								// by default
+								$divScriptsFolderList.append(
+									$('<label />').addClass('btn btn-default').append(
+										$('<input />').attr({
+											'type': 'checkbox',
+											'name': 'scripts-folder[]',
+											'id': 'scripts-folder-' + j
+										}).val(filename)
+									).append(filename)
+								);
+							}
+							
+							// Marking that option by default
+							$checkboxLoadScriptsInFolder.prop('checked', true).trigger('change');
+						}
+					})
+				}
+				
+				// Changing grid widths in order to show all three options side-by-side
+				$divGrid.removeClass('col-sm-6').addClass('col-sm-4');
+			})
+		}
+	}
+	
+	this.getScriptsListInFolder = function(){
+		if( this.checkOnElectron() ){
+			var ipc = require('electron').ipcRenderer;
+			return ipc.sendSync('getScriptsListInFolder');
+		}
+	}
+	
+	this.getContentsOfScriptInFolder = function(filename, encoding){
+		if( this.checkOnElectron() ){
+			if((typeof encoding == 'undefined') || (encoding == 'iso-8859-1')) encoding = 'latin1';
+			
+			var ipc = require('electron').ipcRenderer;
+			return ipc.sendSync('getContentsOfScriptInFolder', filename, encoding);
+		}
+	}
+	
+	this.writeContentsOfScriptInFolder = function(filename, contents, encoding){
+		if( this.checkOnElectron() ){
+			if((typeof encoding == 'undefined') || (encoding == 'iso-8859-1')) encoding = 'latin1';
+			
+			var ipc = require('electron').ipcRenderer;
+			return ipc.sendSync('writeContentsOfScriptInFolder', filename, contents, encoding);
+		}
+	}
+	
+	this.readScriptFiles = function(dialogFileForm){
 		var $radioFileOrigin = $("[name='file-origin']:checked");
 		var $inputFileField = $('#file-field');
-		var $radioFileItemList = $("[name='file-item-list']:checked");
-		var $radioScriptFormat = $("[name='script-format']:checked");
-		var $dialogParserTab = $('#dialog-parser-tab');
+		var $checkboxesScriptsFolder = $("[name^='scripts-folder']:checked");
+		var $radioTestScriptList = $("[name='test-script']:checked");
+		var $radioDestinationTool = $("[name='destination-tool']:checked");
 		
-		var file_origin = $radioFileOrigin.val();
-		var file_item_list = $radioFileItemList.val();
-		var script_format = $radioScriptFormat.val();
-		
-		var ajax = new XMLHttpRequest();
-		ajax.open("POST", "dialog-parser.php", true);
-		
-		var formData = new FormData();
-		formData.append('file-origin', file_origin);
-		if(file_origin == 'f'){
-			formData.append('script-file', $inputFileField[0].files[0]);
-		} else {
-			formData.append('file-item-list', file_item_list);
-		}
-		formData.append('script-format', script_format);
-		
-		this.showLoadingIndicator();
-		
+		var fileOrigin = $radioFileOrigin.val();
+		var selectedTestScript = $radioTestScriptList.val();
+		var destinationTool = $radioDestinationTool.val();
 		var that = this;
-		ajax.onreadystatechange = function(){
-			if (ajax.readyState == 4 && ajax.status == 200) {
-				var response = ajax.responseText;
-				$dialogParserTab.html(response);
-				
-				that.instantiatePaginationDialogParsing();
-				
-				that.hideLoadingIndicator();
+		var encoding;
+		if(destinationTool == 'dhh'){
+			that.saveFormat = 'ansi';
+			encoding = 'iso-8859-1';
+		} else {
+			that.saveFormat = 'utf-8_with_bom';
+			encoding = 'utf-8';
+		}
+		var files = [];
+		
+		if(fileOrigin == 'f'){ // File input
+			var uploadedFiles = [];
+			$.each($inputFileField[0].files, function(){
+				uploadedFiles.push(this);
+			})
+			
+			// Reading files recursively, in order to
+			var readFileFromInput = function(){
+				var file = uploadedFiles.shift();
+				var filename = file.name;
+					
+				var reader = new FileReader();
+				reader.readAsText(file, encoding);
+				reader.onload = function (evt) {
+					var fileContents = evt.target.result;
+
+					files.push({
+						'filename': filename,
+						'fileContents': fileContents
+					});
+
+					// Checking if there's at least one more file to read
+					if(uploadedFiles.length > 0){
+						readFileFromInput();
+					} else {
+						// All files readed, so proceed with the script parsing
+						that.showLoadingIndicator();
+						that.parseScriptFiles(files, function(){
+							that.instantiatePaginationDialogParsing();
+						});
+					}
+				}
 			}
+			readFileFromInput();
+		} else if(fileOrigin == 's'){ // Scripts in folder (Electron.js only)
+			$checkboxesScriptsFolder.each(function(){
+				var filename = this.value;
+				var fileContents = that.getContentsOfScriptInFolder(filename, encoding);
+				
+				files.push({
+					'filename': filename,
+					'fileContents': fileContents
+				});
+			});
+			
+			that.showLoadingIndicator();
+			that.parseScriptFiles(files, function(){
+				that.instantiatePaginationDialogParsing();
+			});
+		} else if(fileOrigin == 't'){ // Test scripts
+			var filename = selectedTestScript.split('/').pop();
+			
+			that.showLoadingIndicator();
+			
+			$.ajax({
+				url: selectedTestScript,
+				type: 'GET',
+				contentType: 'Content-type: text/plain; charset=' + encoding,
+				beforeSend: function(jqXHR) {
+					jqXHR.overrideMimeType('text/html;charset=' + encoding);
+				},
+				success: function(fileContents){
+					files.push({
+						'filename': filename,
+						'fileContents': fileContents
+					});
+					
+					that.parseScriptFiles(files, function(){
+						that.instantiatePaginationDialogParsing();
+					});
+				}
+			});
 		}
 		
-		ajax.send(formData);
+		// Saving origin of opened files in a specific property, in order to use it later
+		that.originOfOpenedFiles = fileOrigin;
 		
 		return false;
 	}
 	
-	this.instantiatePaginationDialogParsing = function(){
-		var $dialogParserTable = $('#dialog-parser-table');
+	this.parseScriptFiles = function(files, callback){
+		var $divDialogFileFormContainer = $('#dialog-file-form-container');
+		var $divDialogParsedScriptsContainer = $('#dialog-parsed-scripts-container');
 		
-		if($dialogParserTable.length == 0){
+		var that = this;
+		var destinationTool = that.destinationTool;
+		
+		// Loading needed html files, before parsing the scripts
+		$.when(
+			$.get('dialog-parsed-scripts-tabs.html'),
+			$.get('dialog-parser-table.html'),
+			$.get('dialog-parser-row.html')
+		).done(function(dpst, dpt, dpr){
+			$divDialogParsedScriptsContainer.html(dpst[0]);
+			
+			var $ulScriptsTabs = $('#scripts-tabs');
+			var $divTabContent = $ulScriptsTabs.next();
+			
+			// Loading tab component for each parsed script
+			for(var i in files){
+				var file = files[i];
+				var filename = file.filename;
+				var fileContents = file.fileContents;
+
+				var scriptTabId = 'script-tab-' + i;
+
+				// Creating tab elements for the current file
+				var $liTab = $('<li />').attr('role', 'presentation').append(
+					$('<a />').attr({
+						'href': '#' + scriptTabId,
+						'aria-controls': scriptTabId,
+						'role': 'tab',
+						'data-toggle': 'tab'
+					}).html(filename)
+				);
+				var $divTabpanel = $('<div />').attr({
+					'id': scriptTabId,
+					'role': 'tabpanel'
+				}).addClass('tab-pane').html(dpt[0]);
+				if(i == 0){
+					$liTab.add($divTabpanel).addClass('active');
+				}
+
+				// Adding tab elements to the component
+				$ulScriptsTabs.append($liTab);
+				$divTabContent.append($divTabpanel);
+				
+				// Saving scripts info in a specific property, in order to use it later
+				that.openedFiles.push({
+					'scriptTabId': scriptTabId,
+					'filename': filename
+				});
+
+				// Separating strings in blocks
+				var number = -1;
+				var sections = [];
+				var lines = fileContents.split("\n");
+
+				// Separating strings in sections
+				for(var j in lines){
+					var line = $.trim( lines[j] ) + "\n";
+
+					var regexSection;
+					if(destinationTool == 'opf'){
+						regexSection = line.match(/\<\<[0-9]+\>\>/g);
+					} else {
+						regexSection = line.match(/\{\{[0-9]+\}\}/g);
+					}
+
+					var checkDialogueChanged = (regexSection != null && regexSection.length > 0);
+					if(checkDialogueChanged){
+						if(destinationTool == 'opf'){
+							number = regexSection[0].replace(/</g, '').replace(/>/g, '');
+						} else {
+							number = regexSection[0].replace(/{/g, '').replace(/}/g, '');
+						}
+						number = parseInt(number, 10);
+					}
+
+					if(number > -1){
+						if(destinationTool == 'opf'){
+							line = line.replace('<<' + number + '>>', '');
+						} else {
+							line = line.replace('{{' + number + '}}', '');
+						}
+
+						if(typeof sections[number] == 'undefined'){
+							sections[number] = line;
+						} else {
+							sections[number] += line;
+						}
+					}
+				}
+
+				var sectionBlocks = [];
+				var tag = false;
+				var characterCode = '';
+				var tagText = '';
+				var color = '';
+				var checkFirstAlphanumericChar = false;
+
+				// Iterating into sections to separate them into blocks	
+				for(var sectionNumber in sections){
+					var section = sections[sectionNumber];
+					var blockNumber = 1;
+
+					for(var j = 0; j < section.length; j++){
+						var char = section[j];
+
+						if(destinationTool == 'opf'){
+							if(char == '<'){
+								tag = true;
+							} else if(char == '>'){
+								tag = false;
+							}
+						} else {
+							if(char == '{'){
+								tag = true;
+							} else if(char == '}'){
+								tag = false;
+							}
+						}
+
+						// Detecting first alphanumeric char in a text block
+						var checkCharacterAlphanumeric = /^[a-zA-Z0-9ÀÁÃÂÇÉÊÍÏÓÔÕÚÜÑàáãâçéêíïóôõúüñ()]*$/.test(char);
+						if(checkFirstAlphanumericChar){
+							// Suppressing all line breaks after the first alphanumeric character
+							// That's done in order to have line breaks only after {b} tags
+							if(char == "\n" || char == "\r"){
+								char = '';
+							}
+						} else if(checkCharacterAlphanumeric && !tag){
+							checkFirstAlphanumericChar = true;
+						}
+
+						// Creating additional variables in section_blocks array, in order to
+						// mount the table with textarea fields below
+						if(typeof sectionBlocks[sectionNumber] == 'undefined'){
+							sectionBlocks[sectionNumber] = [];
+						}
+						if(typeof sectionBlocks[sectionNumber][blockNumber] == 'undefined'){
+							sectionBlocks[sectionNumber][blockNumber] = [];
+						}
+						if(typeof sectionBlocks[sectionNumber][blockNumber]['characterCode'] == 'undefined'){
+							sectionBlocks[sectionNumber][blockNumber]['characterCode'] = characterCode;
+						}
+						if(typeof sectionBlocks[sectionNumber][blockNumber]['text'] == 'undefined'){
+							sectionBlocks[sectionNumber][blockNumber]['text'] = char;
+						} else {
+							sectionBlocks[sectionNumber][blockNumber]['text'] += char;
+						}
+						if(typeof sectionBlocks[sectionNumber][blockNumber]['color'] == 'undefined'){
+							sectionBlocks[sectionNumber][blockNumber]['color'] = color;
+						}
+						if(typeof sectionBlocks[sectionNumber][blockNumber]['hasEndjmp'] == 'undefined'){
+							sectionBlocks[sectionNumber][blockNumber]['hasEndjmp'] = false;
+						}
+
+						if(tag){
+							if(destinationTool == 'opf'){
+								if(char != '<'){
+									tagText += char;
+								}
+							} else {
+								if(char != '{'){
+									tagText += char;
+								}
+							}
+						} else {// Adding line break after {b}
+							if((tagText == 'b')){
+								sectionBlocks[sectionNumber][blockNumber]['text'] += "\n";
+							}
+
+							// Obtaining character code from {name} tags
+							if(tagText.startsWith('name:')){
+								var tmp = tagText.split(':');
+								var characterCode = $.trim( tmp.pop() );
+								sectionBlocks[sectionNumber][blockNumber]['characterCode'] = characterCode;
+							}
+
+							// Obtaining last color change from {color} tags
+							if(tagText.startsWith('color:')){
+								var tmp = tagText.split(':');
+								var color = $.trim( tmp.pop() );
+
+								sectionBlocks[sectionNumber][blockNumber]['color'] = color;
+							}
+
+							// Checking if block has {endjmp} tag
+							var checkHasEndjmpTag = (tagText == 'endjmp');
+							if(checkHasEndjmpTag){
+								color = '';
+								sectionBlocks[sectionNumber][blockNumber]['hasEndjmp'] = true;
+							}
+
+							// Checking if block has a break generated by {p}, {nextpage_button} or {nextpage_nobutton} tags
+							var checkBreakDetected = ((tagText == 'p') || (tagText.startsWith('nextpage_button')) || (tagText.startsWith('nextpage_nobutton')));
+							if(checkBreakDetected){
+								checkFirstAlphanumericChar = false;
+								blockNumber++;
+							}
+
+							tagText = '';
+						}
+					}
+				}
+
+				// Loading dialog parser table
+				var $dialogParserTable = $divTabpanel.children('table');
+				var $tbody = $dialogParserTable.children('tbody');
+				var $spanTotalSections = $dialogParserTable.find('span.total-sections');
+				var $spanTotalDialogBlocks = $dialogParserTable.find('span.total-dialog-blocks');
+
+				$divDialogFileFormContainer.hide();
+				$dialogParserTable.attr('data-filename', filename);
+
+				// Loading dialog parser table's row template
+				var template = $.templates(dpr[0]);
+
+				var order = 1;
+				var totalSections = 0;
+				var totalDialogBlocks = 0;
+				
+				// Iterating into section blocks to create a table row for each
+				for(var sectionNumber in sectionBlocks){
+					totalSections++;
+
+					// Iterating through all section blocks, in order to mount the table rows.
+					var section = sectionBlocks[sectionNumber];
+					for(var blockNumber in section){
+						totalDialogBlocks++;
+
+						var block = section[blockNumber];
+						var text = $.trim( block['text'] );
+						var characterCode = block['characterCode'];
+						var color = block['color'];
+						var textWithoutTags = that.getTextWithoutTags(text);
+						var dialogId = scriptTabId + '-s-' + sectionNumber + '-b-' + blockNumber + '-dialog';
+
+						var checkHasEndjmpTag = block['hasEndjmp'];
+
+						var rowInfo = {
+							'order': order,
+							'section': sectionNumber,
+							'blockNumber': blockNumber,
+							'dialogId': dialogId,
+							'characterCode': characterCode,
+							'color': color,
+							'textWithoutTags': textWithoutTags
+						}
+						var $tr = $( template.render(rowInfo) );
+						var $textarea = $tr.find('textarea.text-field');
+
+						$tbody.append($tr);
+						$textarea.html(text);
+
+						// Removing "add new block" button if there's an end tag inside the block
+						if(checkHasEndjmpTag){
+							$tr.find('button.add-new-block').remove();
+						}
+
+						order++;
+					}
+				}
+
+				// Updating total counters in table footer
+				$spanTotalSections.html(totalSections);
+				$spanTotalDialogBlocks.html(totalDialogBlocks);
+			}
+
+			// Hiding loading indicator and calling callback after all files
+			// area loaded
+			that.hideLoadingIndicator();
+			if(callback) callback();
+		});
+	}
+	
+	this.getTextWithoutTags = function(text){
+		var destinationTool = this.destinationTool;
+		
+		if(destinationTool == 'opf'){
+			text = text.replace(/<(.*?)>/g, '');
+		} else {
+			text = text.replace(/{(.*?)}/g, '');
+		}
+		text = text.replace(/\n/g, ' ');
+		text = $.trim( text );
+		return text;
+	}
+	
+	this.instantiatePaginationDialogParsing = function(){
+		var $dialogParserTables = $('table.dialog-parser-table');
+		
+		if($dialogParserTables.length == 0){
 			return;
 		}
 		
-		var confirmLengthySearch = false;
-		var limitRows = 5;
-		var originalPage = 0;
-		var originalLimitRows = limitRows;
-		
-		// Instantiation
 		var that = this;
-		var object = $dialogParserTable.on({
-			// Table draw event
-			'draw.dt': function(a, b, c){
-				var $tbody = $dialogParserTable.children('tbody');
-				var $trs = $tbody.children('tr');
-				
-				var device = that.getDevice();
-				var mobileShowInitially = that.mobileShowInitially;
-				var checkNoValidRows = (($trs.length == 0) || (($trs.length == 1) && ($trs.find('td.dataTables_empty').length == 1)));
-				
-				// If there's no valid rows, there's no need
-				// to instantiate the components below
-				if(checkNoValidRows){
-					return;
-				}
-				
-				// Saving selector with all textareas in an property, in order to
-				// accessing it faster afterwards
-				if(that.dialogParserTableTextareas.length == 0){
-					var tableObject = $dialogParserTable.DataTable();
-					that.dialogParserTableTextareas = $( tableObject.rows().nodes() ).find("textarea.text-field");
-				}
+		
+		$dialogParserTables.each(function(){
+			var $dialogParserTable = $(this);
 			
-				// Iterating over each visible row, instantiate "copy to clipboard"
-				// buttons and update the preview
-				$trs.each(function(){
-					var $tr = $(this);
-					var $textareaTextField = $tr.find('textarea.text-field');
-					var $divDialogPreview = $tr.find('div.dialog-preview');
-					var $tdFormFields = $tr.children('td.form-fields');
-					var $tdPreviewConteiners = $tr.children('td.preview-conteiners');
-					var $buttonShowPreviewMobile = $tr.find('button.show-preview-mobile');
-					var $buttonShowTextfieldMobile = $tr.find('button.show-textfield-mobile');
-					var $buttonsCopyClipboard = $tr.find('button.copy-clipboard');
+			var confirmLengthySearch = false;
+			var limitRows = 5;
+			var originalPage = 0;
+			var originalLimitRows = limitRows;
+			var filename = $dialogParserTable.attr('data-filename');
 
-					var previewFieldId = $divDialogPreview.attr('id');
+			// Instantiation
+			var object = $dialogParserTable.on({
+				// Table draw event
+				'draw.dt': function(){
+					var $tbody = $dialogParserTable.children('tbody');
+					var $trs = $tbody.children('tr');
 
-					that.updatePreview($textareaTextField, previewFieldId, 't', false);
-					that.instantiateCopyClipboardButtons($buttonsCopyClipboard, $textareaTextField);
+					var device = that.getDevice();
+					var mobileShowInitially = that.configs.mobileShowInitially;
+					var checkNoValidRows = (($trs.length == 0) || (($trs.length == 1) && ($trs.find('td.dataTables_empty').length == 1)));
+
+					// If there's no valid rows, there's no need
+					// to instantiate the components below
+					if(checkNoValidRows){
+						return;
+					}
+
+					// Saving selector with all textareas in an property, in order to
+					// accessing it faster afterwards
+					if(typeof that.dialogParserTableTextareas[filename] == 'undefined'){
+						that.dialogParserTableTextareas[filename] = $();
+					}
+					if(that.dialogParserTableTextareas[filename].length == 0){
+						var tableObject = $dialogParserTable.DataTable();
+						that.dialogParserTableTextareas[filename] = $( tableObject.rows().nodes() ).find("textarea.text-field");
+					}
+
+					// Iterating over each visible row, instantiate "copy to clipboard"
+					// buttons and update the preview
+					$trs.each(function(){
+						var $tr = $(this);
+						var $textareaTextField = $tr.find('textarea.text-field');
+						var $divDialogPreview = $tr.find('div.dialog-preview');
+						var $tdFormFields = $tr.children('td.form-fields');
+						var $tdPreviewConteiners = $tr.children('td.preview-conteiners');
+						var $buttonShowPreviewMobile = $tr.find('button.show-preview-mobile');
+						var $buttonShowTextfieldMobile = $tr.find('button.show-textfield-mobile');
+						var $buttonsCopyClipboard = $tr.find('button.copy-clipboard');
+
+						var previewFieldId = $divDialogPreview.attr('id');
+
+						that.updatePreview($textareaTextField, previewFieldId, 't', false);
+						that.instantiateCopyClipboardButtons($buttonsCopyClipboard, $textareaTextField);
+
+						if(device == 'xs'){
+							if(mobileShowInitially == 'p' && $tdPreviewConteiners.hasClass('hidden-xs')){
+								$buttonShowTextfieldMobile.trigger('click');
+							} else if(mobileShowInitially == 't' && $tdFormFields.hasClass('hidden-xs')){
+								$buttonShowPreviewMobile.trigger('click');
+							}
+						} else {
+							$tdFormFields.add($tdPreviewConteiners).removeClass('hidden-xs visible-xs');
+						}
+					});
+
+					// Instantiating word highlighting on all visible textareas
+					var $visibleTextareas = $tbody.find('textarea.text-field');
+					that.highlightWordsTextareas($visibleTextareas);
+				},
+				// Pagination change event
+				'page.dt': function(){
+					var $dialogParserTableWrapper = $dialogParserTable.closest('div.dataTables_wrapper');
 					
-					if(device == 'xs'){
-						if(mobileShowInitially == 'p' && $tdPreviewConteiners.hasClass('hidden-xs')){
-							$buttonShowTextfieldMobile.trigger('click');
-						} else if(mobileShowInitially == 't' && $tdFormFields.hasClass('hidden-xs')){
-							$buttonShowPreviewMobile.trigger('click');
+					var info = object.page.info();
+					var currentPage = (info.page + 1);
+					var previousPage;
+					if($dialogParserTable.is("[data-current-page]")){
+						previousPage = parseInt($dialogParserTable.attr('data-current-page'), 10);
+					} else {
+						previousPage = currentPage;
+					}
+					$dialogParserTable.attr('data-current-page', currentPage);
+
+					if(currentPage < previousPage){
+						that.lastColor = '';
+					}
+
+					// Scrolling to top of page, if not an automatic page change
+					if(!that.automaticPageChange){
+						$('html, body').animate({
+							scrollTop: $dialogParserTableWrapper.offset().top
+						}, 'slow');
+					}
+				},
+				// Length change event ("Show" field)
+				'length.dt': function(e, s){
+					var $dialogParserTableWrapper = $dialogParserTable.closest('div.dataTables_wrapper');
+					var $lengthField = $dialogParserTableWrapper.find('div.dataTables_length select');
+
+					var length = s._iDisplayLength;
+					var totalRows = object.data().length;
+
+					// If user is trying to show all rows, and current script
+					// has more than 500 rows, ask confirmation from user first.
+					if(length == -1 && totalRows > 500 && !confirmLengthySearch){
+						var confirm_message = "Esta pesquisa retornará muitos blocos e pode demorar um pouco.\n\n";
+						confirm_message += 'Existe inclusive a possibilidade do seu navegador ficar congelado por alguns minutos, ';
+						confirm_message += "dependendo da potência do seu computador, e/ou da quantidade de blocos desse script.\n\n";
+						confirm_message += 'Deseja continuar?';
+						var r = confirm(confirm_message);
+
+						confirmLengthySearch = false;
+						s._iDisplayStart = originalPage;
+						s._iDisplayLength = originalLimitRows;
+
+						if(r == true){
+							confirmLengthySearch = true;
+							originalPage = s._iDisplayStart;
+							originalLimitRows = length;
+
+							// Showing all rows, between a loading indicator
+							that.showLoadingIndicator();
+							setTimeout(function(){
+								object.page.len(-1).draw();
+								that.hideLoadingIndicator();
+							}, 250);
+						} else {
+							setTimeout(function(){
+								$lengthField.val(originalLimitRows);
+							}, 250);
 						}
 					} else {
-						$tdFormFields.add($tdPreviewConteiners).removeClass('hidden-xs visible-xs');
-					}
-				});
-				
-				// Instantiating word highlighting on all visible textareas
-				var $visibleTextareas = $tbody.find('textarea.text-field');
-				that.highlightWordsTextareas($visibleTextareas);
-			},
-			// Pagination change event
-			'page.dt': function(){
-				var info = object.page.info();
-				var currentPage = (info.page + 1);
-				var previousPage;
-				if($dialogParserTable.is("[data-current-page]")){
-					previousPage = parseInt($dialogParserTable.attr('data-current-page'), 10);
-				} else {
-					previousPage = currentPage;
-				}
-				$dialogParserTable.attr('data-current-page', currentPage);
-				
-				if(currentPage < previousPage){
-					that.lastColor = '';
-				}
-				
-				// Scrolling to top of page, if not an automatic page change
-				if(!that.automaticPageChange){
-					$('html, body').animate({
-						scrollTop: $(".dataTables_wrapper").offset().top
-					}, 'slow');
-				}
-			},
-			// Length change event ("Show" field)
-			'length.dt': function(e, s){
-				var $dialogParserTableWrapper = $dialogParserTable.closest('div.dataTables_wrapper');
-				var $lengthField = $dialogParserTableWrapper.find('div.dataTables_length select');
-				
-				var length = s._iDisplayLength;
-				var totalRows = object.data().length;
-				
-				// If user is trying to show all rows, and current script
-				// has more than 500 rows, ask confirmation from user first.
-				if(length == -1 && totalRows > 500 && !confirmLengthySearch){
-					var confirm_message = "Esta pesquisa retornará muitos blocos e pode demorar um pouco.\n\n";
-					confirm_message += 'Existe inclusive a possibilidade do seu navegador ficar congelado por alguns minutos, ';
-					confirm_message += "dependendo da potência do seu computador, e/ou da quantidade de blocos desse script.\n\n";
-					confirm_message += 'Deseja continuar?';
-					var r = confirm(confirm_message);
-					
-					confirmLengthySearch = false;
-					s._iDisplayStart = originalPage;
-					s._iDisplayLength = originalLimitRows;
-					
-					if(r == true){
-						confirmLengthySearch = true;
-						originalPage = s._iDisplayStart;
 						originalLimitRows = length;
-						
-						// Showing all rows, between a loading indicator
-						that.showLoadingIndicator();
-						setTimeout(function(){
-							object.page.len(-1).draw();
-							that.hideLoadingIndicator();
-						}, 250);
-					} else {
-						setTimeout(function(){
-							$lengthField.val(originalLimitRows);
-						}, 250);
 					}
-				} else {
-					originalLimitRows = length;
 				}
-			}
-		}).DataTable({
-			'order': [[0, 'asc']],
-			'autoWidth': false,
-			'lengthMenu': [
-				[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, 150, 200, 300, 400, 500, -1],
-				[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, 150, 200, 300, 400, 500, 'Todos']
-			],
-			'pageLength': 5,
-			'pagingType': 'input',
-			"dom":  "<'row'<'col-sm-5'lf><'col-sm-7 paginate_col'p>>" +
-					"<'row'<'col-sm-12'tr>>" +
-					"<'row'<'col-sm-5'i><'col-sm-7 paginate_col'p>>",
-			'language': {
-				'sEmptyTable': 'Nenhum registro encontrado',
-				'sInfo': '',
-				'sInfoEmpty': '(Sem resultados)',
-				'sInfoFiltered': '',
-				'sInfoPostFix': '',
-				'sInfoThousands': '.',
-				'sLengthMenu': 'Exibir: _MENU_',
-				'sLoadingRecords': 'Carregando...<br />Por favor, aguarde!',
-				'sProcessing': 'Processando...<br />Por favor, aguarde!',
-				'sZeroRecords': 'Nenhum registro encontrado',
-				'sSearch': 'Pesquisar:',
-				'oPaginate': {
-					'sFirst': '<span class="glyphicon glyphicon-step-backward"></span>',
-					'sPrevious': '<span class="glyphicon glyphicon-backward"></span>',
-					'sNext': '<span class="glyphicon glyphicon-forward"></span>',
-					'sLast': '<span class="glyphicon glyphicon-step-forward"></span>'
-				},
-				'oAria': {
-					'sSortAscending': ': Ordenar colunas de forma ascendente',
-					'sSortDescending': ': Ordenar colunas de forma descendente'
+			}).DataTable({
+				'order': [[0, 'asc']],
+				'autoWidth': false,
+				'lengthMenu': [
+					[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, 150, 200, 300, 400, 500, -1],
+					[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, 150, 200, 300, 400, 500, 'Todos']
+				],
+				'pageLength': 5,
+				'pagingType': 'input',
+				"dom":  "<'row'<'col-sm-5'lf><'col-sm-2 hidden-xs'><'col-sm-5 paginate_col'p>>" +
+						"<'row'<'col-sm-12'tr>>" +
+						"<'row'<'col-sm-5'i><'col-sm-7 paginate_col'p>>",
+				'language': {
+					'sEmptyTable': 'Nenhum registro encontrado',
+					'sInfo': '',
+					'sInfoEmpty': '(Sem resultados)',
+					'sInfoFiltered': '',
+					'sInfoPostFix': '',
+					'sInfoThousands': '.',
+					'sLengthMenu': 'Exibir: _MENU_',
+					'sLoadingRecords': 'Carregando...<br />Por favor, aguarde!',
+					'sProcessing': 'Processando...<br />Por favor, aguarde!',
+					'sZeroRecords': 'Nenhum registro encontrado',
+					'sSearch': 'Pesquisar:',
+					'oPaginate': {
+						'sFirst': '<span class="glyphicon glyphicon-step-backward"></span>',
+						'sPrevious': '<span class="glyphicon glyphicon-backward"></span>',
+						'sNext': '<span class="glyphicon glyphicon-forward"></span>',
+						'sLast': '<span class="glyphicon glyphicon-step-forward"></span>'
+					},
+					'oAria': {
+						'sSortAscending': ': Ordenar colunas de forma ascendente',
+						'sSortDescending': ': Ordenar colunas de forma descendente'
+					}
 				}
-			}
-		});
-		
-		// Hiding theme button, since now it's inside config modal
-		var $dropdownTheme = $('#theme-selection-dropdown');
-		$dropdownTheme.hide();
-		
-		// Showing global actions menu
-		var $dropdownGlobalActions = $('#global-actions-dropdown');
-		$dropdownGlobalActions.show();
-		
-		// Adding tab events to toggle global actions when you enter / exit
-		// tbe dialog parser tab
-		var $ulMainTabs = $('#main-tabs');
-		var $anchors = $ulMainTabs.children('li').children('a');
-		$anchors.on({
-			'show.bs.tab': function(){
-				var $a = $(this);
-				var href = $a.attr('href');
-				
-				if(href == '#dialog-parser-tab'){
-					$dropdownGlobalActions.show();
-				} else {
-					$dropdownGlobalActions.hide();
-				}
+			});
+			
+			// Updating window title in order to prepend filename on it
+			if($dialogParserTables.length == 1){
+				var title = that.getTitle();
+				that.setTitle(filename + ' - ' + title);
 			}
 		});
-		
-		// Asking user to save script before exiting
-		$(window).on("beforeunload", function() { 
-			return 'Há um arquivo aberto na aba "Tradutor de Diálogos". É recomendável salvá-lo antes de sair.\nTem certeza que quer continuar?'; 
-		});
+
+		if( that.checkOnElectron() ){
+			// Enabling script menus that was previously disabled
+			var ipc = require('electron').ipcRenderer;
+			ipc.send('activateScriptMenus');
+
+			// Showing exit prompt before discarding changes
+			ipc.send('showExitPromptBeforeDiscard');
+		} else {
+			// Showing the rest of the options in the global actions menu
+			var $dropdownGlobalActions = $('#global-actions-dropdown');
+			$dropdownGlobalActions.children('li').show();
+
+			// Asking user to save script before exiting
+			$(window).on("beforeunload", function() { 
+				return 'Há um ou mais arquivos abertos na aba "Tradutor de Diálogos". É recomendável salvá-los antes de sair.\nTem certeza que quer continuar?'; 
+			});
+		}
 	}
 	
 	this.instantiateEventMobileToggleFieldPreview = function(){
 		var that = this;
 		$(window).on('resize.mobileToggleFieldPreview', function () {
-			var $dialogParserTable = $('#dialog-parser-table');
-			var $tbody = $dialogParserTable.children('tbody');
+			var $dialogParserTables = $('table.dialog-parser-table');
 			
-			var device = aade.getDevice();
-			var tableObject = $dialogParserTable.DataTable();
-			var mobileShowInitially = that.mobileShowInitially;
-			var checkUpdateTable = false;
+			var device = that.getDevice();
+			var mobileShowInitially = that.configs.mobileShowInitially;
 			
-			$tbody.children('tr').each(function(){
-				var $tr = $(this);
-				var $tdFormFields = $tr.children('td.form-fields');
-				var $tdPreviewConteiners = $tr.children('td.preview-conteiners');
-				var $buttonShowPreviewMobile = $tr.find('button.show-preview-mobile');
-				var $buttonShowTextfieldMobile = $tr.find('button.show-textfield-mobile');
+			$dialogParserTables.each(function(){
+				var $dialogParserTable = $(this);
+				var $tbody = $dialogParserTable.children('tbody');
 				
-				if(device == 'xs'){
-					if(mobileShowInitially == 'p'){
-						$buttonShowTextfieldMobile.trigger('click');
-						checkUpdateTable = true;
-					} else if(mobileShowInitially == 't'){
-						$buttonShowPreviewMobile.trigger('click');
-						checkUpdateTable = true;
+				var tableObject = $dialogParserTable.DataTable();
+				var checkUpdateTable = false;
+
+				$tbody.children('tr').each(function(){
+					var $tr = $(this);
+					var $tdFormFields = $tr.children('td.form-fields');
+					var $tdPreviewConteiners = $tr.children('td.preview-conteiners');
+					var $buttonShowPreviewMobile = $tr.find('button.show-preview-mobile');
+					var $buttonShowTextfieldMobile = $tr.find('button.show-textfield-mobile');
+
+					if(device == 'xs'){
+						if(mobileShowInitially == 'p'){
+							$buttonShowTextfieldMobile.trigger('click');
+							checkUpdateTable = true;
+						} else if(mobileShowInitially == 't'){
+							$buttonShowPreviewMobile.trigger('click');
+							checkUpdateTable = true;
+						}
+					} else {
+						if($tdFormFields.hasClass('hidden-xs')){
+							$tdFormFields.removeClass('hidden-xs');
+							checkUpdateTable = true;
+						}
+						if($tdPreviewConteiners.hasClass('hidden-xs')){
+							$tdPreviewConteiners.removeClass('hidden-xs');
+							checkUpdateTable = true;
+						}
+						if($tdFormFields.hasClass('visible-xs')){
+							$tdFormFields.removeClass('visible-xs');
+							checkUpdateTable = true;
+						}
+						if($tdPreviewConteiners.hasClass('visible-xs')){
+							$tdPreviewConteiners.removeClass('visible-xs');
+							checkUpdateTable = true;
+						}	
 					}
-				} else {
-					if($tdFormFields.hasClass('hidden-xs')){
-						$tdFormFields.removeClass('hidden-xs');
-						checkUpdateTable = true;
-					}
-					if($tdPreviewConteiners.hasClass('hidden-xs')){
-						$tdPreviewConteiners.removeClass('hidden-xs');
-						checkUpdateTable = true;
-					}
-					if($tdFormFields.hasClass('visible-xs')){
-						$tdFormFields.removeClass('visible-xs');
-						checkUpdateTable = true;
-					}
-					if($tdPreviewConteiners.hasClass('visible-xs')){
-						$tdPreviewConteiners.removeClass('visible-xs');
-						checkUpdateTable = true;
-					}	
-				}
-			});
-			
-			if(checkUpdateTable) tableObject.draw(false);
+				});
+
+				if(checkUpdateTable) tableObject.draw(false);
+			})
 		});
 	}
 	
@@ -363,9 +965,9 @@ function aade(){
 		var $inputsAdaptedNames = $equivalenceTable.find('input.adapted-name');
 		
 		var that = this;
-		var theme = that.theme;
-		var themeColors = that.highlightingColors[theme];
-		var scriptFormat = that.scriptFormat;
+		var theme = that.configs.theme;
+		var themeColors = that.configs.highlightingColors[theme];
+		var destinationTool = that.destinationTool;
 		var originalNames = [], adaptedNames = [];
 		$inputsOriginalNames.each(function(){
 			originalNames.push(this.value);
@@ -387,7 +989,7 @@ function aade(){
 			$textarea.highlightTextarea({
 				'words': [{
 					'color': themeColors['tags'],
-					'words': (scriptFormat == 'c') ? (['<(.+?)>']) : (['{(.+?)}'])
+					'words': (destinationTool == 'opf') ? (['<(.+?)>']) : (['{(.+?)}'])
 				}, {
 					'color': themeColors['originalNames'],
 					'words': originalNames
@@ -396,13 +998,13 @@ function aade(){
 					'words': adaptedNames
 				}, {
 					'color': themeColors['lineBreak'],
-					'words': (scriptFormat == 'c') ? (['<b>']) : (['{b}'])
+					'words': (destinationTool == 'opf') ? (['<b>']) : (['{b}'])
 				}, {
 					'color': themeColors['endSection'],
-					'words': (scriptFormat == 'c') ? (['<endjmp>']) : (['{endjmp}'])
+					'words': (destinationTool == 'opf') ? (['<endjmp>']) : (['{endjmp}'])
 				}, {
 					'color': themeColors['wait'],
-					'words': (scriptFormat == 'c') ? (['<wait: [0-9]*>']) : (['{wait: [0-9]*}'])
+					'words': (destinationTool == 'opf') ? (['<wait: [0-9]*>']) : (['{wait: [0-9]*}'])
 				}]
 			}).attr('data-highlight-instantiated', 'true');
 		});
@@ -412,7 +1014,7 @@ function aade(){
 		var $buttons = $(buttons);
 		var $textarea = $(textarea);
 		
-		var scriptFormat = this.scriptFormat;
+		var destinationTool = this.destinationTool;
 		
 		$buttons.each(function(){
 			var $button = $(this);
@@ -425,7 +1027,7 @@ function aade(){
 			var clipboard = new Clipboard(this, {
 				'text': function(){
 					var regex_tags;
-					if(scriptFormat == 'c'){
+					if(destinationTool == 'opf'){
 						regex_tags = /<(.*?)>/g;
 					} else {
 						regex_tags = /{(.*?)}/g;
@@ -467,7 +1069,7 @@ function aade(){
 	this.updatePreview = function(field, previewFieldId, textType, sandbox, event, platform){
 		if(typeof textType == 'undefined') textType = 't';
 		if(typeof sandbox == 'undefined') sandbox = true;
-		if(typeof platform == 'undefined') platform = this.platform;
+		if(typeof platform == 'undefined') platform = this.configs.platform;
 		
 		var checkPlatformDS = (platform == 'ds_jacutemsabao' || platform == 'ds_american' || platform == 'ds_european');
 		
@@ -485,9 +1087,17 @@ function aade(){
 		}
 		
 		var $field = $(field);
+		var $dialogParserTable = $field.closest('table.dialog-parser-table');
 		var $divTextWithoutTags = $field.closest('td').children('div.text-without-tags');
-		var $previousField = this.dialogParserTableTextareas.filter("[data-order='" + (parseInt($field.attr('data-order'), 10) - 1) + "']");
 		var $divPreview = $('#' + previewFieldId);
+		
+		var $previousField;
+		if($dialogParserTable.length > 0){
+			var filename = $dialogParserTable.attr('data-filename');
+			$previousField = this.dialogParserTableTextareas[filename].filter("[data-order='" + (parseInt($field.attr('data-order'), 10) - 1) + "']");
+		} else {
+			$previousField = $();
+		}
 		
 		var text = $field.val();
 		var tag = false;
@@ -496,7 +1106,7 @@ function aade(){
 		var checkFirstField = ($previousField.length == 0);
 		var fieldSection = parseInt($field.attr('data-section'), 10);
 		var previousFieldSection = parseInt($previousField.attr('data-section'), 10);
-		var scriptFormat = this.scriptFormat;
+		var destinationTool = this.destinationTool;
 		
 		// Adding parent class for DS platform detection
 		if(checkPlatformDS){
@@ -526,7 +1136,7 @@ function aade(){
 				var cursorPos = $field.prop('selectionStart') - 1;
 				var textBefore = text.substring(0,  cursorPos);
 				var textAfter  = $.trim( text.substring(cursorPos, text.length) );
-				if(scriptFormat == 'c'){
+				if(destinationTool == 'opf'){
 					text = textBefore + '<b>\n' + textAfter;
 				} else {
 					text = textBefore + '{b}\n' + textAfter;
@@ -557,7 +1167,7 @@ function aade(){
 					continue;
 				}
 				
-				if(scriptFormat == 'c'){
+				if(destinationTool == 'opf'){
 					if(char == "<"){
 						tag = true;
 					} else if(char == ">"){
@@ -572,7 +1182,7 @@ function aade(){
 				}
 				
 				if(tag){
-					if(scriptFormat == 'c'){
+					if(destinationTool == 'opf'){
 						if(char != '<'){
 							tagText += char;
 						}
@@ -585,7 +1195,7 @@ function aade(){
 					// Tags for all contexts
 					if(tagText == 'b'){
 						$divTextWindow.append('<br />');
-					} else if(((scriptFormat == 'c' && char != '>') || (scriptFormat == 'b' && char != '}')) && char != '\n'){
+					} else if(((destinationTool == 'opf' && char != '>') || (destinationTool != 'opf' && char != '}')) && char != '\n'){
 						var newChar = this.formatChar(char);
 
 						$divTextWindow.append(
@@ -631,7 +1241,7 @@ function aade(){
 				$divCharacterName.html(this.lastName);
 				
 				var regex_tag;
-				if(scriptFormat == 'c'){
+				if(destinationTool == 'opf'){
 					regex_tag = /<(.*?)>/g;
 				} else {
 					regex_tag = /{(.*?)}/g;
@@ -639,7 +1249,7 @@ function aade(){
 				$divTextWithoutTags.html( $.trim( text.replace(regex_tag, '').replace(/\n/g, ' ') ) );
 				
 				// Analysing current block
-				var returnAnalysis = this.analyseScriptBlock($divTextWindow);
+				var returnAnalysis = this.analyzeScriptBlock($divTextWindow);
 				if(returnAnalysis !== true){
 					$divTextWindow.closest('div.dialog-preview').addClass('invalid').attr('title', returnAnalysis.message);
 				} else {
@@ -652,7 +1262,7 @@ function aade(){
 	this.updateRow = function(field){
 		var $field = $(field);
 		var $trField = $field.closest('tr');
-		var $dialogParserTable = $('#dialog-parser-table');
+		var $dialogParserTable = $trField.closest('table.dialog-parser-table');
 		var tableObject = $dialogParserTable.DataTable();
 		
 		tableObject.row($trField).invalidate();
@@ -663,7 +1273,7 @@ function aade(){
 		var $tbodyEquivalenceTable = $equivalenceTable.children('tbody');
 		var $inputName;
 		
-		if(this.nameType == 'a'){
+		if(this.configs.nameType == 'a'){
 			$inputName = $tbodyEquivalenceTable.find("[name='character[" + code + "][adapted_name]']");
 		} else {
 			$inputName = $tbodyEquivalenceTable.find("[name='character[" + code + "][original_name]']");
@@ -676,21 +1286,6 @@ function aade(){
 		}
 	}
 	
-	this.showTextPreview = function(scriptText){
-		var $divTextPreview = $('#text-preview');
-		var $textareaPreview = $divTextPreview.find('textarea');
-		
-		$divTextPreview.on({
-			'shown.bs.modal': function(){
-				$textareaPreview.val(scriptText);
-			},
-			'hidden.bs.modal': function(){
-				$textareaPreview.val('');
-			}
-		});
-		$divTextPreview.modal('show');
-	}
-	
 	this.showScriptConfigSettings = function(){
 		var $divConfigSettings = $('#config-settings');
 		var $divColorpickerFields = $('div.colorpicker-component');
@@ -701,8 +1296,83 @@ function aade(){
 		// Instantiating colorpicker components
 		$divColorpickerFields.colorpicker();
 		
-		// Loading default configs 
-		this.loadDefaultConfigs();
+		// Loading configs into form
+		this.loadConfigsForm();
+	}
+	
+	this.loadConfigsForm = function(){
+		var $radioGameFieldAA1 = $('#config-game-field-aa1');
+		var $radioGameFieldAA2 = $('#config-game-field-aa2');
+		var $radioGameFieldAA3 = $('#config-game-field-aa3');
+		var $radioNameTypeOriginal = $('#config-name-type-original');
+		var $radioNameTypeAdapted = $('#config-name-type-adapted');
+		var $radioPlatform3DS = $('#config-platform-3ds');
+		var $radioPlatformDSJTS = $('#config-platform-ds-jacutemsabao');
+		var $radioPlatformDSAmerican = $('#config-platform-ds-american');
+		var $radioPlatformDSEuropean = $('#config-platform-ds-european');
+		var $radioInvalidateLargeLinesTrue = $('#invalidate-large-lines-true');
+		var $radioInvalidateLargeLinesFalse = $('#invalidate-large-lines-false');
+		var $radioMobileShowInitiallyPreview = $('#config-mobile-show-initially-preview');
+		var $radioMobileShowInitiallyTextfield = $('#config-mobile-show-initially-textfield');
+		var $radioThemeLight = $('#config-theme-light');
+		var $radioThemeDark = $('#config-theme-dark');
+		var $divColorpickerFields = $('div.colorpicker-component');
+		
+		// Checking default options for each field
+		if(this.configs.game == 'aa3'){
+			$radioGameFieldAA3.prop('checked', true);
+		} else if(this.configs.game == 'aa2'){
+			$radioGameFieldAA2.prop('checked', true);
+		} else {
+			$radioGameFieldAA1.prop('checked', true);
+		}
+		if(this.configs.nameType == this.defaultConfigs.nameType){
+			$radioNameTypeOriginal.prop('checked', true);
+		} else {
+			$radioNameTypeAdapted.prop('checked', true);
+		}
+		if(this.configs.platform == 'ds_jacutemsabao'){
+			$radioPlatformDSJTS.prop('checked', true);
+		} else if(this.configs.platform == 'ds_american'){
+			$radioPlatformDSAmerican.prop('checked', true);
+		} else if(this.configs.platform == 'ds_european'){
+			$radioPlatformDSEuropean.prop('checked', true);
+		} else {
+			$radioPlatform3DS.prop('checked', true);
+		}
+		if(this.configs.invalidateLargeLines == this.defaultConfigs.invalidateLargeLines){
+			$radioInvalidateLargeLinesTrue.prop('checked', true);
+		} else {
+			$radioInvalidateLargeLinesFalse.prop('checked', true);
+		}
+		if(this.configs.mobileShowInitially == this.defaultConfigs.mobileShowInitially){
+			$radioMobileShowInitiallyPreview.prop('checked', true);
+		} else {
+			$radioMobileShowInitiallyTextfield.prop('checked', true);
+		}
+		if(this.configs.theme == this.defaultConfigs.theme){
+			$radioThemeLight.prop('checked', true);
+		} else {
+			$radioThemeDark.prop('checked', true);
+		}
+		
+		// Loading default highlighting colors
+		var that = this;
+		$divColorpickerFields.each(function(){
+			var $div = $(this);
+			var $input = $div.children('input');
+			
+			var name = $input.attr('name');
+			var dataInBrackets = name.match(/\[(.*?)\]\[(.*?)\]/);
+			var theme = dataInBrackets[1];
+			var type = dataInBrackets[2];
+			var color = that.configs.highlightingColors[theme][type];
+			
+			$input.val(color).trigger('change');
+		});
+		
+		// Avoid form resetting default behaviour
+		return false;
 	}
 	
 	this.loadDefaultConfigs = function(){
@@ -724,38 +1394,38 @@ function aade(){
 		var $divColorpickerFields = $('div.colorpicker-component');
 		
 		// Checking default options for each field
-		if(this.game == 'aa3'){
+		if(this.defaultConfigs.game == 'aa3'){
 			$radioGameFieldAA3.prop('checked', true);
-		} else if(this.game == 'aa2'){
+		} else if(this.defaultConfigs.game == 'aa2'){
 			$radioGameFieldAA2.prop('checked', true);
 		} else {
 			$radioGameFieldAA1.prop('checked', true);
 		}
-		if(this.nameType == 'o'){
+		if(this.defaultConfigs.nameType == 'o'){
 			$radioNameTypeOriginal.prop('checked', true);
 		} else {
 			$radioNameTypeAdapted.prop('checked', true);
 		}
-		if(this.platform == 'ds_jacutemsabao'){
+		if(this.defaultConfigs.platform == 'ds_jacutemsabao'){
 			$radioPlatformDSJTS.prop('checked', true);
-		} else if(this.platform == 'ds_american'){
+		} else if(this.defaultConfigs.platform == 'ds_american'){
 			$radioPlatformDSAmerican.prop('checked', true);
-		} else if(this.platform == 'ds_european'){
+		} else if(this.defaultConfigs.platform == 'ds_european'){
 			$radioPlatformDSEuropean.prop('checked', true);
 		} else {
 			$radioPlatform3DS.prop('checked', true);
 		}
-		if(this.invalidateLargeLines){
+		if(this.defaultConfigs.invalidateLargeLines){
 			$radioInvalidateLargeLinesTrue.prop('checked', true);
 		} else {
 			$radioInvalidateLargeLinesFalse.prop('checked', true);
 		}
-		if(this.mobileShowInitially == 'p'){
+		if(this.defaultConfigs.mobileShowInitially == 'p'){
 			$radioMobileShowInitiallyPreview.prop('checked', true);
 		} else {
 			$radioMobileShowInitiallyTextfield.prop('checked', true);
 		}
-		if(this.theme == 'light'){
+		if(this.defaultConfigs.theme == 'light'){
 			$radioThemeLight.prop('checked', true);
 		} else {
 			$radioThemeDark.prop('checked', true);
@@ -771,7 +1441,7 @@ function aade(){
 			var dataInBrackets = name.match(/\[(.*?)\]\[(.*?)\]/);
 			var theme = dataInBrackets[1];
 			var type = dataInBrackets[2];
-			var color = that.highlightingColors[theme][type];
+			var color = that.defaultConfigs.highlightingColors[theme][type];
 			
 			$input.val(color).trigger('change');
 		});
@@ -793,12 +1463,12 @@ function aade(){
 		var $radioTheme = $("input[name='config-theme']:checked");
 		var $divColorpickerFields = $('div.colorpicker-component');
 		
-		var checkGameFieldChanged = ($radioGameField.val() != this.game);
-		var checkNameTypeChanged = ($radioNameType.val() != this.nameType);
-		var checkPlatformChanged = ($radioPlatform.val() != this.platform);
-		var checkInvalidateLargeLinesChanged = (/^true$/i.test($radioInvalidateLargeLines.val()) != this.invalidateLargeLines);
-		var checkMobileShowInitiallyChanged = ($radioMobileShowInitially.val() != this.mobileShowInitially);
-		var checkThemeChanged = ($radioTheme.val() != this.theme);
+		var checkGameFieldChanged = ($radioGameField.val() != this.configs.game);
+		var checkNameTypeChanged = ($radioNameType.val() != this.configs.nameType);
+		var checkPlatformChanged = ($radioPlatform.val() != this.configs.platform);
+		var checkInvalidateLargeLinesChanged = (/^true$/i.test($radioInvalidateLargeLines.val()) != this.configs.invalidateLargeLines);
+		var checkMobileShowInitiallyChanged = ($radioMobileShowInitially.val() != this.configs.mobileShowInitially);
+		var checkThemeChanged = ($radioTheme.val() != this.configs.theme);
 		
 		this.hideScriptConfigSettings();
 		this.showLoadingIndicator();
@@ -834,39 +1504,62 @@ function aade(){
 			var theme = dataInBrackets[1];
 			var type = dataInBrackets[2];
 			var newColor = $input.val();
-			var previousColor = that.highlightingColors[theme][type];
+			var previousColor = that.configs.highlightingColors[theme][type];
 			
 			if(newColor != previousColor){
 				checkAtLeastOneColorChanged = true;
-				that.highlightingColors[theme][type] = newColor;
+				that.configs.highlightingColors[theme][type] = newColor;
 			}
 		});
 		
 		// Update table, since there's at least one color change
 		if(checkAtLeastOneColorChanged){
-			var $dialogParserTable = $('#dialog-parser-table');
-			var tableObject = $dialogParserTable.DataTable();
-			tableObject.draw(false);
+			var $dialogParserTables = $('table.dialog-parser-table');
+			$dialogParserTables.each(function(){
+				var tableObject = $(this).DataTable();
+				tableObject.draw(false);
+			});
 		}
 	}
 	
 	this.showScriptSaveSettings = function(){
-		var $dialogParserTable = $('#dialog-parser-table');
+		var $dialogParserTables = $('table.dialog-parser-table');
 		var $divSaveSettings = $('#save-settings');
 		var $saveNameField = $('#save-name-field');
 		var $saveFileFormat = $('#save-file-format');
+		var $spanFilenameExtension = $('#filename-extension');
 		
-		var filename = $dialogParserTable.attr('data-filename');
+		var filename;
+		if($dialogParserTables.length > 1){
+			filename = 'teste';
+		} else {
+			filename = $dialogParserTables.first().attr('data-filename');
+		}
+		filename = filename.replace(/\..+$/, '');
 		var saveFormat = this.saveFormat;
+		var totalOpenedFiles = this.openedFiles.length;
+		var extension;
+		if(totalOpenedFiles > 1){
+			extension = '.zip';
+		} else {
+			extension = '.txt';
+		}
 		
+		// Appending current date / time into the filename
 		var data = new Date();
 		data = new Date(data.getTime() - (data.getTimezoneOffset() * 60000)).toJSON();
 		data = data.slice(0, 19).replace(/T/g, '-').replace(/:/g, '-');
 		filename += ' (' + data + ')';
 		
+		// Triggering click on first main tab, in case of the user has clicked
+		// on another tab
+		this.triggerClickOnFirstMainTab();
+		
+		// Showing save settings modal window, and filling the form fields afterwards
 		$divSaveSettings.modal('show');
 		$saveNameField.val(filename).focus();
 		$saveFileFormat.val(saveFormat);
+		$spanFilenameExtension.html(extension);
 	}
 	
 	this.hideScriptSaveSettings = function(){
@@ -874,8 +1567,38 @@ function aade(){
 	}
 	
 	this.showScriptAnalysisSettings = function(){
-		$('#analysis-settings').modal('show');
-		if(this.invalidateLargeLines){
+		var $divAnalysisSettings = $('#analysis-settings');
+		var $selectScript = $('#analysis-script');
+		
+		// Loading options for script field, based on the opened files
+		$selectScript.html(
+			$('<option />').val('').html('Todos')
+		);
+		for(var i in this.openedFiles){
+			var file = this.openedFiles[i];
+			
+			$selectScript.append(
+				$('<option />').val(file.scriptTabId).html(file.filename)
+			);
+		}
+		
+		var $tbodyAnalysisResultsTable = $('#analysis-results-table').children('tbody');
+		
+		// Triggering click on first main tab, in case of the user has clicked
+		// on another tab
+		this.triggerClickOnFirstMainTab();
+		
+		// If there's previous analysis results, show them instead
+		var checkHasPreviousAnalysisResults = ($tbodyAnalysisResultsTable.children('tr').not('.empty').length > 0);
+		if(checkHasPreviousAnalysisResults){
+			this.changeTitleScriptAnalysisResults('Resultados da Última Análise');
+			this.showScriptAnalysisResults();
+			return;
+		}
+		
+		// Showing analysis settings modal, and filling form fields afterwards
+		$divAnalysisSettings.modal('show');
+		if(this.configs.invalidateLargeLines){
 			$('#analysis-invalidate-large-lines-true').prop('checked', true);
 		} else {
 			$('#analysis-invalidate-large-lines-false').prop('checked', true);
@@ -886,54 +1609,125 @@ function aade(){
 		$('#analysis-settings').modal('hide');
 	}
 	
+	this.startNewScriptAnalysis = function(){
+		if(confirm('Os resultados da última análise serão perdidos. Confirmar?') == true){
+			var $tbodyAnalysisResultsTable = $('#analysis-results-table').children('tbody');
+			$tbodyAnalysisResultsTable.html('');
+
+			this.hideScriptAnalysisResults();
+			this.showScriptAnalysisSettings();
+		}
+	}
+	
+	this.showScriptAnalysisResults = function(){
+		$('#analysis-results').modal('show');
+	}
+	
+	this.changeTitleScriptAnalysisResults = function(title){
+		if(typeof title == 'undefined') title = 'Resultados da Análise';
+		$('#analysis-results').find('h4.modal-title').html(title);
+	}
+	
+	this.hideScriptAnalysisResults = function(){
+		$('#analysis-results').modal('hide');
+	}
+	
 	this.showScriptExportSettings = function(){
-		var $dialogParserTable = $('#dialog-parser-table');
-		var filename = $dialogParserTable.attr('data-filename');
+		var $divExportSettings = $('#export-settings');
+		var $selectScript = $('#export-script');
+		var $inputNameField = $('#export-name-field');
 		
+		// Loading options for script field, based on the opened files
+		var currentlyActiveScriptTabId = this.getCurrentlyActiveScriptTabId();
+		var filename = '';
+		$selectScript.html('');
+		for(var i in this.openedFiles){
+			var file = this.openedFiles[i];
+			
+			var $option = $('<option />').val(file.scriptTabId).html(file.filename);
+			if(file.scriptTabId == currentlyActiveScriptTabId){
+				$option.attr('selected', 'selected');
+				filename = (file.filename).replace(/\..+$/, '');
+			}
+			
+			$selectScript.append($option);
+		}
+		
+		// Adding current date time in the filename
 		var data = new Date();
 		data = new Date(data.getTime() - (data.getTimezoneOffset() * 60000)).toJSON();
 		data = data.slice(0, 19).replace(/T/g, '-').replace(/:/g, '-');
 		filename += ' (' + data + ')';
 		
-		$('#export-settings').modal('show');
-		$('#export-name-field').val(filename).focus();
+		// Triggering click on first main tab, in case of the user has clicked
+		// on another tab
+		this.triggerClickOnFirstMainTab();
+		
+		// Showing export settings modal, and filling the form fields afterwards
+		$divExportSettings.modal('show');
+		$inputNameField.val(filename).focus();
 	}
 	
 	this.hideScriptExportSettings = function(){
 		$('#export-settings').modal('hide');
 	}
 	
-	this.toggleFileOrigin = function(radio){
-		var $radio = $(radio);
-		var $inputFileField = $('#file-field');
-		var $divFileList = $('#file-list');
-		
-		var fileOrigin = $radio.val();
-		if(fileOrigin == 'f'){
-			$inputFileField.removeAttr('disabled').attr('required', 'required');
-			$divFileList.hide().find("[type='radio']").prop('checked', false).removeAttr('required');
-			$divFileList.find("label.btn-primary").removeClass('btn-primary').addClass('btn-default');
+	this.openAboutPage = function(){
+		var url_github = 'https://github.com/leomontenegro6/aade';
+		if( this.checkOnElectron() ){
+			var shell = require('electron').shell;
+			shell.openExternal(url_github);
 		} else {
-			$inputFileField.attr('disabled', 'disabled').removeAttr('required');
-			$divFileList.show().find("[type='radio']").attr('required', 'required');
+			window.open(url_github);
 		}
 	}
 	
-	this.selectFileFromList = function(radio){
+	this.toggleFileOrigin = function(radio){
 		var $radio = $(radio);
-		var $label = $("label[for='" + $radio.attr('id') + "']");
-		var $divFileList = $('#file-list');
+		var $inputFileField = $('#file-field');
+		var $divTestScriptsList = $('#test-scripts-list');
+		var $divScriptsFolderList = $('#scripts-folder-list');
 		
-		$divFileList.find('div.col').find('label.btn').removeClass('btn-primary').addClass('btn-default');
-		$label.addClass('btn-primary').removeClass('btn-default');
+		var fileOrigin = $radio.val();
+		if(fileOrigin == 'f'){ // File input
+			$inputFileField.removeAttr('disabled').attr('required', 'required');
+			
+			$divScriptsFolderList.hide().find("[type='checkbox']").prop('checked', false).removeAttr('required').closest("label").removeClass('active');
+			
+			$divTestScriptsList.hide().find("[type='radio']").prop('checked', false).removeAttr('required').closest("label").removeClass('active');
+		} else if(fileOrigin == 's'){ // Scripts in folder
+			$inputFileField.attr('disabled', 'disabled').removeAttr('required');
+			
+			$divScriptsFolderList.show().find("[type='checkbox']").attr('required', 'required').prop('checked', true).closest("label").addClass('active');
+			
+			$divTestScriptsList.hide().find("[type='radio']").prop('checked', false).removeAttr('required').closest("label").removeClass('active');
+		} else if(fileOrigin == 't'){ // Test scripts
+			$inputFileField.attr('disabled', 'disabled').removeAttr('required');
+			
+			$divScriptsFolderList.hide().find("[type='checkbox']").prop('checked', false).removeAttr('required');
+			
+			$divTestScriptsList.show().find("[type='radio']").attr('required', 'required');
+		}
 	}
-	
 	
 	this.changePreviewPlatform = function(radio){
 		var $radio = $(radio);
 		
 		var platform = $radio.val();
-		this.platform = platform;
+		stash.set('platform', platform);
+		
+		this.loadConfigs();
+		
+		this.updatePreviewVisibleTextareas();
+	}
+	
+	this.changeDefaultGame = function(radio){
+		var $radio = $(radio);
+		
+		var game = $radio.val();
+		stash.set('game', game);
+		
+		this.loadConfigs();
 		
 		this.updatePreviewVisibleTextareas();
 	}
@@ -942,29 +1736,36 @@ function aade(){
 		var $radio = $(radio);
 		
 		var nameType = $radio.val();
-		this.nameType = nameType;
+		stash.set('nameType', nameType);
+		
+		this.loadConfigs();
 		
 		this.updatePreviewVisibleTextareas();
 	}
 	
-	this.changeScriptFormat = function(radio){
+	this.changeDestinationTool = function(radio){
 		var $radio = $(radio);
 		
-		var scriptFormat = $radio.val();	
+		var destinationTool = $radio.val();	
 	
-		this.scriptFormat = scriptFormat;
+		this.destinationTool = destinationTool;
 	}
 	
 	this.changeMobileShowInitially = function(radio){
 		var $radio = $(radio);
-		var $dialogParserTable = $('#dialog-parser-table');
+		var $dialogParserTables = $('table.dialog-parser-table');
 		
-		var tableObject = $dialogParserTable.DataTable();
 		var mobileShowInitially = $radio.val();
-		this.mobileShowInitially = mobileShowInitially;
+		stash.set('mobileShowInitially', mobileShowInitially);
+		
+		this.loadConfigs();
 		
 		this.updatePreviewVisibleTextareas();
-		tableObject.draw(false);
+		
+		$dialogParserTables.each(function(){
+			var tableObject = $(this).DataTable();
+			tableObject.draw(false);
+		});
 	}
 	
 	this.changeSaveFormat = function(select){
@@ -977,13 +1778,16 @@ function aade(){
 	
 	this.toggleLargeLinesInvalidation = function(radio){
 		var $radio = $(radio);
+		
 		var invalidateLargeLines = $radio.val();
 		
-		this.invalidateLargeLines = (invalidateLargeLines == 'true');
+		stash.set('invalidateLargeLines', (invalidateLargeLines == 'true'));
+		
+		this.loadConfigs();
 	}
 	
 	this.updatePreviewVisibleTextareas = function(){
-		var $dialogParserTable = $('#dialog-parser-table');
+		var $dialogParserTable = $('table.dialog-parser-table:visible');
 		var $textareas = $dialogParserTable.find('textarea');
 		$textareas.trigger('keyup');
 	}
@@ -991,12 +1795,20 @@ function aade(){
 	this.addNewDialogBlock = function(button){
 		var $button = $(button);
 		var $tr = $button.closest('tr');
-		var $dialogParserTable = $('#dialog-parser-table');
-		var tableObject = $dialogParserTable.DataTable();
+		var $divDialogPreview = $button.closest('div.dialog-preview');
+		var $divCharacterName = $divDialogPreview.children('div.character-name');
+		var $dialogParserTable = $tr.closest('table.dialog-parser-table');
+		var $divTabPane = $dialogParserTable.closest('div.tab-pane');
 		
-		var scriptFormat = this.scriptFormat;
+		var tableObject = $dialogParserTable.DataTable();
+		var filename = $dialogParserTable.attr('data-filename');
+		var scriptTabId = $divTabPane.attr('id');
+		
+		var that = this;
+		var characterCode = $divCharacterName.attr('data-character-code');
+		var destinationTool = that.destinationTool;
 		var regex_brackets;
-		if(scriptFormat == 'c'){
+		if(destinationTool == 'opf'){
 			regex_brackets = /\&[A-z]*;/g;
 		} else {
 			regex_brackets = /[{}]/g;
@@ -1007,66 +1819,76 @@ function aade(){
 		
 		var newOrder = (currentOrder + 0.01).toFixed(2);
 		var newBlockNumber = (currentBlockNumber + 0.01).toFixed(2);
-		var newDialogId = 's' + currentSection + '-' + (newOrder.toString().replace(/\./g, '_')) + '-dialog';
+		var newDialogId = scriptTabId + '-s-' + currentSection + '-b-' + (newOrder.toString().replace(/\./g, '_')) + '-dialog';
 		
-		var $trClone = $tr.clone();
-		var $newTdFormFields = $trClone.children('td.form-fields');
-		var $newTextarea = $newTdFormFields.find('textarea');
-		var $newTdPreviewConteiners = $trClone.children('td.preview-conteiners');
-		var $newDivDialogPreview = $newTdPreviewConteiners.children('div.dialog-preview');
-		var $newButtonGroups = $newTdPreviewConteiners.find('div.btn-group');
-		
-		$trClone.find('.order').html(newOrder);
-		$trClone.find('.block-number').html(newBlockNumber);
-		
-		$newTextarea.removeAttr('onkeyup data-highlight-instantiated').attr({
-			'data-order': newOrder,
-			'data-block': newBlockNumber,
-			'onkeyup': "aade.updatePreview(this, '" + newDialogId + "', 't', false)"
-		});
-		
-		$newTdFormFields.find('div.highlightTextarea').remove();
-		$newTdFormFields.append($newTextarea[0].outerHTML);
-		if(scriptFormat == 'c'){
-			$newTdFormFields.find('textarea').val('<p>');
-		} else {
-			$newTdFormFields.find('textarea').val('{p}');
-		}
-		
-		$newDivDialogPreview.attr('id', newDialogId);
-		$newButtonGroups.children('button.remove-block').remove();
-		var $newButtonRemoveDialogBlock = $('<button />').addClass('btn btn-danger remove-block').attr({
-			'tabindex': '-1',
-			'title': 'Remover bloco de diálogo',
-			'onclick': 'aade.removeDialogBlock(this)'
-		}).html('<span class="glyphicon glyphicon-minus"></span>');
+		$.get('dialog-parser-row.html').then(function(response){
+			var template = $.templates(response);
+			
+			var rowInfo = {
+				'order': newOrder,
+				'section': currentSection,
+				'blockNumber': newBlockNumber,
+				'dialogId': newDialogId,
+				'characterCode': '',
+				'textWithoutTags': ''
+			}
+			var $newTr = $( template.render(rowInfo) );
+			var $newTdPreviewConteiners = $newTr.children('td.preview-conteiners');
+			var $newTdFormFields = $newTr.children('td.form-fields');
+			var $newTextarea = $newTdFormFields.find('textarea');
+			var $newDivCharacterName = $newTdPreviewConteiners.find('div.character-name');
 
-		$newButtonGroups.append($newButtonRemoveDialogBlock[0].outerHTML);
-		
-		// Updating selector property with all textareas in an property
-		tableObject.row.add($trClone);
-		this.dialogParserTableTextareas = $( tableObject.rows().nodes() ).find("textarea.text-field");
-		tableObject.draw(false);
-		
-		this.incrementTotalDialogsFooter();
+			// Setting name from previous block into the new one
+			$newDivCharacterName.attr('data-character-code', characterCode);
+			
+			// Updating selector property with all textareas in an property
+			tableObject.row.add($newTr);
+			that.dialogParserTableTextareas[filename] = $( tableObject.rows().nodes() ).find("textarea.text-field");
+			tableObject.draw(false);
+
+			// Adding end block tag in the new block, according to the script format.
+			if(destinationTool == 'opf'){
+				$newTdFormFields.find('textarea').val('<p>');
+			} else {
+				$newTdFormFields.find('textarea').val('{p}');
+			}
+			
+			// Adding remove button
+			var $newButtonGroups = $newTdPreviewConteiners.find('div.btn-group');
+			var $newButtonRemoveDialogBlock = $('<button />').addClass('btn btn-danger remove-block').attr({
+				'tabindex': '-1',
+				'title': 'Remover bloco de diálogo',
+				'onclick': 'aade.removeDialogBlock(this)'
+			}).html('<span class="glyphicon glyphicon-minus"></span>');
+			$newButtonGroups.append($newButtonRemoveDialogBlock[0].outerHTML);
+
+			// Incrementing row counter in the footer of the table
+			that.incrementTotalDialogsFooter();
+
+			// Focusing new textarea and placing cursor at beginning of the field
+			$newTextarea.focus();
+			$newTextarea[0].setSelectionRange(0, 0);
+		});
 	}
 	
 	this.removeDialogBlock = function(button){
 		var $button = $(button);
 		var $tr = $button.closest('tr');
-		var $dialogParserTable = $('#dialog-parser-table');
+		var $dialogParserTable = $tr.closest('table.dialog-parser-table');
+		
 		var tableObject = $dialogParserTable.DataTable();
+		var filename = $dialogParserTable.attr('data-filename');
 		
 		// Updating selector property with all textareas in an property
 		tableObject.row($tr).remove();
-		this.dialogParserTableTextareas = $( tableObject.rows().nodes() ).find("textarea.text-field");
+		this.dialogParserTableTextareas[filename] = $( tableObject.rows().nodes() ).find("textarea.text-field");
 		tableObject.draw(false);
 		
 		this.decrementTotalDialogsFooter();
 	}
 	
 	this.incrementTotalDialogsFooter = function(){
-		var $dialogParserTable = $('#dialog-parser-table');
+		var $dialogParserTable = $('table.dialog-parser-table:visible');
 		var $tfoot = $dialogParserTable.children('tfoot');
 		var $spanTotalDialogBlocks = $tfoot.find('span.total-dialog-blocks');
 		var total = parseInt($spanTotalDialogBlocks.html(), 10);
@@ -1077,7 +1899,7 @@ function aade(){
 	}
 	
 	this.decrementTotalDialogsFooter = function(){
-		var $dialogParserTable = $('#dialog-parser-table');
+		var $dialogParserTable = $('table.dialog-parser-table:visible');
 		var $tfoot = $dialogParserTable.children('tfoot');
 		var $spanTotalDialogBlocks = $tfoot.find('span.total-dialog-blocks');
 		var total = parseInt($spanTotalDialogBlocks.html(), 10);
@@ -1130,7 +1952,7 @@ function aade(){
 	this.maskFilenameInput = function(event){
 		var keyCode = event.which;
 		
-		var invalidKeycodes = [81, 87, 106, 111, 188, 190, 191, 192, 220, 221];
+		var invalidKeycodes = [106, 111, 188, 191, 192, 220, 221, 225];
 		var checkKeycodeInvalid = ($.inArray(keyCode, invalidKeycodes) !== -1);
 		if(checkKeycodeInvalid){
 			return false;
@@ -1139,59 +1961,299 @@ function aade(){
 		}
 	}
 	
-	this.previewScript = function(){
+	this.previewScripts = function(){
 		var that = this;
+		
+		var $divTextPreview = $('#text-preview');
+		var $modalBodyTextPreview = $divTextPreview.find('div.modal-body');
+		var $ulScriptsTabs = $modalBodyTextPreview.children('ul.nav-tabs');
+		var $divTabContent = $ulScriptsTabs.next();
+		
+		$ulScriptsTabs.add( $divTabContent ).html('');
+		
+		that.triggerClickOnFirstMainTab();
 		that.showLoadingIndicator();
 		
 		setTimeout(function(){
-			var scriptText = that.generateScriptText();
+			for(var i in that.openedFiles){
+				var file = that.openedFiles[i];
+				var scriptTabId = file.scriptTabId;
+				var filename = file.filename;
+				var previewScriptTabId = 'preview-' + scriptTabId;
+				var scriptText = that.generateScriptText(scriptTabId);
+				
+				// Creating tab elements for each opened file
+				var $liTab = $('<li />').attr('role', 'presentation').append(
+					$('<a />').attr({
+						'href': '#' + previewScriptTabId,
+						'aria-controls': previewScriptTabId,
+						'role': 'tab',
+						'data-toggle': 'tab'
+					}).html(filename)
+				);
+				var $divTabpanel = $('<div />').attr({
+					'id': previewScriptTabId,
+					'role': 'tabpanel'
+				}).addClass('tab-pane').html("<textarea class='form-control' readonly>" + scriptText + "</textarea>");
+				if(i == 0){
+					$liTab.add($divTabpanel).addClass('active');
+				}
+
+				// Adding tab elements to the component
+				$ulScriptsTabs.append($liTab);
+				$divTabContent.append($divTabpanel);
+			}
 			
+			// Hiding loading indicator and showing text preview modal
 			that.hideLoadingIndicator();
-			
-			that.showTextPreview(scriptText);
-		}, 500);
+			$divTextPreview.modal('show');
+		}, 25);
 	}
 	
-	this.saveScript = function(saveFileForm){
+	this.saveScripts = function(saveFileForm){
 		var $saveNameField = $('#save-name-field');
 		
 		var that = this;
 		that.hideScriptSaveSettings();
 		that.showLoadingIndicator();
 		
-		setTimeout(function(){
-			var scriptText = that.generateScriptText();
-			var saveFormat = that.saveFormat;
-			var filename = $saveNameField.val() + '.txt';
-			
-			if(saveFormat == 'ansi'){
-				// Saving script in ANSI encoding
-				var scriptBinary = new Uint8Array(scriptText.length);
-				for(var i = 0; i < scriptBinary.length; i++) {
-					var charCode = scriptText.charCodeAt(i);
-					
-					scriptBinary[i] = charCode;
-				}
+		var scriptsToSave = ( this.openedFiles ).slice(0);
+		var totalScriptsToSave = scriptsToSave.length;
+		var currentScriptNumber = 0;
+		var saveFormat = that.saveFormat;
+		var scriptsTexts = [];
+		
+		var saveScript = function(scriptsToSave){
+			setTimeout(function(){
+				// Getting first script from the list and remove it from the main array
+				var currentScript = scriptsToSave.shift();
 				
-				safeSave(filename, scriptBinary);
-			} else if(saveFormat == 'utf-8_without_bom'){
-				// Saving script in UTF-8 without BOM
-				saveAs(new Blob([scriptText], {type: 'text/plain;charset=utf-8'}), filename, true);
-			} else {
-				// Saving script in UTF-8 with BOM
-				saveAs(new Blob([scriptText], {type: 'text/plain;charset=utf-8'}), filename, false);
-			}
-			
-			that.hideLoadingIndicator();
-		}, 500);
+				scriptsTexts.push({
+					'filename': currentScript.filename,
+					'text': that.generateScriptText(currentScript.scriptTabId)
+				});
+				
+				// Updating processing indicator with the current progress percentage
+				var percentage = Math.ceil( (currentScriptNumber / totalScriptsToSave) * 100 );
+				that.updateProcessingIndicator('default', percentage);
+				currentScriptNumber++;
+				
+				// Checking if there's at least one more script to save
+				if(scriptsToSave.length > 0){
+					// More than one script to save, so call the recursive function
+					// again, passing the main array of scripts as parameter
+					saveScript(scriptsToSave);
+				} else {
+					// All scripts saved, so proceed with the generation of the files
+					var finalFilename = $saveNameField.val();
+					
+					// Checking which file format to generate
+					if(totalScriptsToSave > 1){
+						// Zip file
+						finalFilename += '.zip';
+						var zip = new JSZip();
+						var blobs = [];
+						
+						// Function for generating file blobs from script texts,
+						// based on the save format
+						var generateFileBlobs = function(scriptsTexts, callback){
+							var scriptText = scriptsTexts.shift();
+							var filename = scriptText.filename;
+							var text = scriptText.text;
+							var blob;
+
+							// Change file encoding based on the save format
+							if(saveFormat == 'ansi'){
+								// ANSI encoding
+								var scriptBinary = new Uint8Array(text.length);
+								for(var i = 0; i < scriptBinary.length; i++) {
+									var charCode = text.charCodeAt(i);
+
+									scriptBinary[i] = charCode;
+								}
+
+								generateBlobInANSI(scriptBinary, function(blob){
+									blobs.push({
+										'filename': filename,
+										'blob': blob
+									});
+									
+									// Check if there's at least one more file blob to generate
+									if(scriptsTexts.length > 0){
+										// There's still file blobs to generate, so call the
+										// function again, recursively
+										generateFileBlobs(scriptsTexts, callback);
+									} else {
+										// All file blobs generated, so run the callback
+										// passing them as parameter
+										if(callback) callback(blobs);
+									}
+								});
+							} else if((saveFormat == 'utf-8_without_bom') || (saveFormat == 'utf-8_with_bom')){
+								if(saveFormat == 'utf-8_without_bom'){
+									// UTf-8 Without BOM
+									blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
+								} else {
+									// UTf-8 With BOM
+									blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), text], {type: 'text/plain;charset=utf-8'});
+								}
+								
+								blobs.push({
+									'filename': filename,
+									'blob': blob
+								});
+								
+								// Check if there's at least one more file blob to generate
+								if(scriptsTexts.length > 0){
+									// There's still file blobs to generate, so call the
+									// function again, recursively
+									generateFileBlobs(scriptsTexts, callback);
+								} else {
+									// All file blobs generated, so run the callback
+									// passing them as parameter
+									if(callback) callback(blobs);
+								}
+							}
+						}
+						generateFileBlobs(scriptsTexts, function(blobs){
+							for(var i in blobs){
+								var filename = blobs[i].filename;
+								var blob = blobs[i].blob;
+								
+								zip.file(filename, blob);
+							}
+							
+							// Generating zip file with all scripts inside
+							zip.generateAsync({type: "blob"}).then(function(content){
+								that.hideLoadingIndicator();
+								saveAs(content, finalFilename);
+							});
+						});
+					} else {
+						// TXT file
+						finalFilename += '.txt';
+						var scriptText = scriptsTexts[0];
+						var text = scriptText.text;
+						
+						if(saveFormat == 'ansi'){
+							// Saving script in ANSI encoding
+							var scriptBinary = new Uint8Array(text.length);
+							for(var i = 0; i < scriptBinary.length; i++) {
+								var charCode = text.charCodeAt(i);
+
+								scriptBinary[i] = charCode;
+							}
+
+							safeSave(finalFilename, scriptBinary);
+						} else if(saveFormat == 'utf-8_without_bom'){
+							// Saving script in UTF-8 without BOM
+							saveAs(new Blob([text], {type: 'text/plain;charset=utf-8'}), finalFilename, true);
+						} else {
+							// Saving script in UTF-8 with BOM
+							saveAs(new Blob([text], {type: 'text/plain;charset=utf-8'}), finalFilename, false);
+						}
+						
+						that.hideLoadingIndicator();
+					}
+				}
+			}, 1);
+		}
+		saveScript(scriptsToSave);
 		
 		// Needed to avoid form submission
 		return false;
 	}
 	
+	this.saveScriptsOnElectron = function(callback){
+		var that = this;
+		
+		// If not on electron.js, abort
+		if( !that.checkOnElectron() ){
+			return;
+		}
+		
+		// If file origin is different than 's' (scripts in folder), then
+		// proceed with the script saving routine from web version.
+		var fileOrigin = that.originOfOpenedFiles;
+		if(fileOrigin != 's'){
+			return that.showScriptSaveSettings();
+		}
+		
+		// If in here, then proceed with script saving in the "scripts" folder
+		that.showProcessingIndicator();
+		
+		// Getting needed variables, before doing the operation
+		var scriptsToSave = ( that.openedFiles ).slice(0);
+		var totalScriptsToSave = scriptsToSave.length;
+		var currentScriptNumber = 0;
+		var encoding;
+		if(that.destinationTool == 'dhh'){
+			encoding = 'iso-8859-1';
+		} else {
+			encoding = 'utf-8';
+		}
+		
+		var saveScript = function(scriptsToSave){
+			setTimeout(function(){
+				// Getting first script from the list and remove it from the main array
+				var currentScript = scriptsToSave.shift();
+				var filename = currentScript.filename;
+				var scriptTabId = currentScript.scriptTabId;
+				var scriptText = that.generateScriptText(scriptTabId);
+				
+				var returnOperation = that.writeContentsOfScriptInFolder(filename, scriptText, encoding);
+				if(returnOperation === true){
+					// Updating processing indicator with the current progress percentage
+					var percentage = Math.ceil( (currentScriptNumber / totalScriptsToSave) * 100 );
+					that.updateProcessingIndicator('default', percentage);
+					currentScriptNumber++;
+					
+					// Checking if there's at least one more script to save
+					if(scriptsToSave.length > 0){
+						// More than one script to save, so call the recursive function
+						// again, passing the main array of scripts as parameter
+						saveScript(scriptsToSave);
+					} else {
+						// All scripts saved, so proceed with the generation of the files
+						that.hideProcessingIndicator();
+						that.showNotify('Todos os scripts salvos com sucesso!');
+						if(callback) callback(true);
+					}
+				} else {
+					that.hideProcessingIndicator();
+					that.showNotify('Erro ao salvar o arquivo "' + filename + '"!', 'danger');
+					if(callback) callback(false);
+				}
+			}, 1);
+		}
+		saveScript(scriptsToSave);
+	}
+	
+	this.showNotify = function(message, type){
+		if(typeof type == 'undefined') type = 'info';
+		var icon;
+		if(type == 'warning' || type == 'danger'){
+			icon = 'warning-sign';
+		} else {
+			icon = 'info-sign';
+		}
+		
+		$.notify({
+			icon: 'glyphicon glyphicon-' + icon,
+			message: message
+		}, {
+			type: type
+		});
+	}
+	
 	this.exportScript = function(){
-		var $exportNameField = $('#export-name-field');
-		var $exportFormatField = $('#export-format-field');
+		var $selectScript = $('#export-script');
+		var $inputNameField = $('#export-name-field');
+		var $selectFormatField = $('#export-format-field');
+		
+		var scriptTabId = $selectScript.val();
+		var filename = $inputNameField.val();
+		var format = $selectFormatField.val();
 		
 		var that = this;
 		
@@ -1199,27 +2261,28 @@ function aade(){
 		that.showLoadingIndicator();
 		
 		setTimeout(function(){
-			var exportedScriptText = convertHtmlToRtf( that.generateExportedScriptText() );
+			var exportedScriptText = convertHtmlToRtf( that.generateExportedScriptText(scriptTabId) );
 			
 			that.hideLoadingIndicator();
 			
-			var filename = $exportNameField.val();
-			var format = $exportFormatField.val();
 			var filenameWithFormat = filename + '.' + format;
 			
 			var blob = new Blob([exportedScriptText], {type: "text/plain"});
 			saveAs(blob, filenameWithFormat, true);
-		}, 500);
+		}, 25);
 		
 		// Needed to avoid form submission
 		return false;
 	}
 	
-	this.generateScriptText = function(){
-		var $dialogParserTable = $('#dialog-parser-table');
+	this.generateScriptText = function(scriptTabId){
+		if(typeof scriptTabId == 'undefined') scriptTabId = this.getCurrentlyActiveScriptTabId();
+		
+		var $divScriptTab = $('#' + scriptTabId);
+		var $dialogParserTable = $divScriptTab.find('table.dialog-parser-table');
 		var tableObject = $dialogParserTable.DataTable();
 		
-		var scriptFormat = this.scriptFormat;
+		var destinationTool = this.destinationTool;
 		var scriptText = '';
 		var scriptSections = [];
 
@@ -1236,7 +2299,7 @@ function aade(){
 			if(!checkSectionInserted){
 				scriptSections.push(section);
 				
-				if(scriptFormat == 'c'){
+				if(destinationTool == 'opf'){
 					scriptText += ('\n\n<<' + section + '>>\n');
 				} else {
 					scriptText += ('\n\n{{' + section + '}}\n');
@@ -1249,11 +2312,14 @@ function aade(){
 		return scriptText;
 	}
 	
-	this.generateExportedScriptText = function(){
-		var $dialogParserTable = $('#dialog-parser-table');
+	this.generateExportedScriptText = function(scriptTabId){
+		if(typeof scriptTabId == 'undefined') scriptTabId = this.getCurrentlyActiveScriptTabId();
+		
+		var $divScriptTab = $('#' + scriptTabId);
+		var $dialogParserTable = $divScriptTab.find('table.dialog-parser-table');
 		var tableObject = $dialogParserTable.DataTable();
 		
-		var scriptFormat = this.scriptFormat;
+		var destinationTool = this.destinationTool;
 		var scriptText = "<b>SCRIPT DUMPADO APENAS PARA FINS DE ANÁLISE E REVISÃO</b><br />";
 		scriptText += "<b>NÃO TRADUZA O SCRIPT POR AQUI, MAS SIM PELO PRÓPRIO AADE!</b><br /><br />";
 		var scriptSections = [];
@@ -1273,7 +2339,7 @@ function aade(){
 			
 			// Getting character name
 			var characterTags;
-			if(scriptFormat == 'c'){
+			if(destinationTool == 'opf'){
 				characterTags = text.match(/<name:[ ]*[0-9]*>/g);
 			} else {
 				characterTags = text.match(/{name:[ ]*[0-9]*}/g);
@@ -1286,7 +2352,7 @@ function aade(){
 			var characterName = that.getName(characterCode);
 			
 			// Formatting text, in order to remove all tags
-			if(scriptFormat == 'c'){
+			if(destinationTool == 'opf'){
 				text = $.trim( text.replace(/<b>/g, '|').replace(/<(.*?)>/g, '').replace(/\n/g, '').replace(/\|/g, '<br />') );
 			} else {
 				text = $.trim( text.replace(/{b}/g, '|').replace(/{(.*?)}/g, '').replace(/\n/g, '').replace(/\|/g, '<br />') );
@@ -1306,63 +2372,208 @@ function aade(){
 		return scriptText;
 	}
 	
-	this.analyzeScript = function(){
-		var $dialogParserTable = $('#dialog-parser-table');
-		var tableObject = $dialogParserTable.DataTable();
+	this.analyzeScripts = function(){
+		var $selectScript = $('#analysis-script');
 		
-		var totalPages = tableObject.page.info().pages;
-		
-		this.hideScriptAnalysisSettings();
-		this.showLoadingIndicator();
 		var that = this;
+		var selectedScriptTabId = $selectScript.val();
 		
-		setTimeout(function(){
-			var returnAnalysis = true;
-			var $divInvalidTextWindow;
-			var message = '';
-			
-			that.automaticPageChange = true;
-			for(var page=0; page<totalPages; page++){
-				tableObject.page(page).draw(false);
-				$dialogParserTable.find('div.text-window').each(function(){
-					var $divTextWindow = $(this);
-					returnAnalysis = that.analyseScriptBlock($divTextWindow);
-					
-					if(returnAnalysis !== true){
-						$divInvalidTextWindow = returnAnalysis.invalidBlock;
-						message = returnAnalysis.message;
-						return false;
-					}
-				});
-
-				if(returnAnalysis !== true){
-					break;
+		that.hideScriptAnalysisSettings();
+		that.showScriptAnalysisProcessingIndicator();
+		that.automaticPageChange = true;
+		
+		var scriptsToAnalyze = [];
+		if(selectedScriptTabId != ''){
+			for(var i in that.openedFiles){
+				var file = that.openedFiles[i];
+				
+				if(file.scriptTabId == selectedScriptTabId){
+					scriptsToAnalyze.push(file);
 				}
 			}
-			that.hideLoadingIndicator();
-			
-			if(returnAnalysis !== true){
-				$divInvalidTextWindow.closest('div.dialog-preview').addClass('invalid');
-				that.showPopoverInvalidBlock($divInvalidTextWindow, message);
-			} else {
-				alert('Script OK!');
-			}
-			
-			that.automaticPageChange = false;
-		}, 500);
+		} else {
+			scriptsToAnalyze = ( that.openedFiles ).slice(0);
+		}
+		var totalScriptsToAnalyze = scriptsToAnalyze.length;
+		var invalidBlocks = [];
+		var currentScriptNumber = 0;
+		
+		// Recursive function for analysing each script
+		var analyzeScript = function(scriptsToAnalyze){
+			setTimeout(function(){
+				// Getting first script from the list and remove it from the main array
+				var currentScript = scriptsToAnalyze.shift();
+				var scriptTabId = currentScript.scriptTabId;
+
+				var $divScriptTab = $('#' + scriptTabId);
+				var $dialogParserTable = $divScriptTab.find('table.dialog-parser-table');
+
+				var tableObject = $dialogParserTable.DataTable();
+
+				var totalPages = tableObject.page.info().pages;
+				var pages = [];
+				for(var page=0; page<totalPages; page++){
+					pages.push(page);
+				}
+
+				that.triggerClickOnScriptTab(scriptTabId);
+
+				// Updating processing indicator with the current progress percentage
+				var scriptsPercentage = Math.ceil( (currentScriptNumber / totalScriptsToAnalyze) * 100 );
+				that.updateProcessingIndicator('analysisScripts', scriptsPercentage);
+				currentScriptNumber++;
+				
+				// Updating processing indicator label, according to the total of scripts to be analyzed
+				var messageLabel;
+				if(totalScriptsToAnalyze > 1){
+					// Multiple scripts to analyze, so fill the message label with the current script
+					// number and the total scripts to analyze
+					messageLabel = 'Script ' + currentScriptNumber + ' / ' + totalScriptsToAnalyze;
+				} else {
+					// Only one script to analyze, so change the label back to the default message
+					// number and the total scripts to analyze
+					messageLabel = 'Scripts';
+				}
+				that.updateLabelScriptAnalysisProcessingIndicator(messageLabel);
+
+				// Recursive function for analysing each page
+				var analyzeScriptPage = function(pages){
+					setTimeout(function(){
+						// Getting first page from the list, and remove it from the main array
+						var currentPage = pages.shift();
+
+						tableObject.page(currentPage).draw(false);
+						$dialogParserTable.find('div.text-window').each(function(){
+							var $divTextWindow = $(this);
+							var returnAnalysis = that.analyzeScriptBlock($divTextWindow);
+
+							if(returnAnalysis !== true){
+								invalidBlocks.push(returnAnalysis);
+							}
+						});
+
+						// Updating processing indicator with the current progress percentage
+						var pagesPercentage = Math.ceil( (currentPage / totalPages) * 100 );
+						that.updateProcessingIndicator('analysisScriptsPages', pagesPercentage);
+
+						// Checking if there's at least one more page to analyze
+						if(pages.length > 0){
+							// More than one page to analyze, so call the recursive function again,
+							// passing the main array of pages as parameter
+							analyzeScriptPage(pages);
+						} else {
+							// All pages analyzed, so proceed with the analysis of the next files.
+							// Checking if there's at least one more script to analyze
+							if(scriptsToAnalyze.length > 0){
+								// More than one script to analyze, so call the recursive function again,
+								// passing the main array of pages as parameter
+
+								analyzeScript(scriptsToAnalyze);
+							} else {
+								// All scripts analyzed, so proceed with the exhibition of results
+								that.hideScriptAnalysisProcessingIndicator();
+								that.changeTitleScriptAnalysisResults();
+								that.showScriptAnalysisResults();
+
+								var $analysisResultsTable = $('#analysis-results-table');
+								var $tbody = $analysisResultsTable.children('tbody');
+								var $spanTotalInvalidBlocks = $analysisResultsTable.find('span.total-invalid-blocks');
+
+								$tbody.html('');
+
+								var totalInvalidBlocks = invalidBlocks.length;
+								if(totalInvalidBlocks > 0){
+									for(var i in invalidBlocks){
+										var invalidBlock = invalidBlocks[i];
+										
+										var scriptTabId = invalidBlock.scriptTabId;
+										var filename = invalidBlock.filename;
+										var order = invalidBlock.order;
+										var section = invalidBlock.section;
+										var blockNumber = invalidBlock.blockNumber;
+										var $invalidBlock = $(invalidBlock.invalidBlock).clone();
+										var message = invalidBlock.message;
+
+										var $previewElement = $('<div />').addClass('dialog-preview text-only invalid').css('marginTop', '0').html(
+											$invalidBlock
+										);
+										if($invalidBlock.hasClass('ds_jacutemsabao') || $invalidBlock.hasClass('ds_american') || $invalidBlock.hasClass('ds_european')){
+											$previewElement.addClass('ds');
+										}
+
+										$tbody.append(
+											$('<tr />').append(
+												$('<td />').html(filename)
+											).append(
+												$('<td />').html(order)
+											).append(
+												$('<td />').html(section)
+											).append(
+												$('<td />').html(blockNumber)
+											).append(
+												$('<td />').html($previewElement)
+											).append(
+												$('<td />').html(message)
+											).append(
+												$('<td />').html(
+													$('<button />').attr({
+														'type': 'button',
+														'title': 'Ir para este bloco',
+														'onclick': 'aade.gotoRow("' + scriptTabId + '", ' + order + ')'
+													}).addClass('btn btn-sm btn-primary').html(
+														$('<span />').addClass('glyphicon glyphicon-arrow-right')
+													)
+												)
+											)
+										);
+									}
+
+									$spanTotalInvalidBlocks.html(totalInvalidBlocks).closest('tfoot').show();
+								} else {
+									$tbody.append(
+										$('<tr />').addClass('empty').append(
+											$('<td />').attr('colspan', '7').addClass('text-center').html('Nenhum bloco inválido encontrado!')
+										)
+									);
+									$spanTotalInvalidBlocks.html('...').closest('tfoot').hide();
+								}
+
+								that.automaticPageChange = false;
+							}
+						}
+					}, 1);
+				}
+				analyzeScriptPage(pages);
+			}, 1);
+		}
+		analyzeScript(scriptsToAnalyze);
+		
+		// Needed to avoid form submission
+		return false;
 	}
 	
-	this.analyseScriptBlock = function(divTextWindow){
+	this.analyzeScriptBlock = function(divTextWindow){
 		var $divTextWindow = $(divTextWindow);
+		var $divTabPane = $divTextWindow.closest('div.tab-pane');
+		var $dialogParserTable = $divTextWindow.closest('table.dialog-parser-table');
+		var $tr = $divTextWindow.closest('tr');
+		var $tdOrder = $tr.children('td.order');
+		var $tdSection = $tr.children('td.section');
+		var $tdBlockNumber = $tr.children('td.block-number');
 		
-		var block_width = $divTextWindow.outerWidth();
-		var caret_right_padding = 0;
-		var line_number = 1;
-		var line_width = 10;
-		var characters_per_line = 0;
+		var scriptTabId = $divTabPane.attr('id');
+		var filename = $dialogParserTable.attr('data-filename');
+		var order = $tdOrder.html();
+		var section = $tdSection.html();
+		var blockNumber = $tdBlockNumber.html();
+		var blockWidth = $divTextWindow.outerWidth();
+		var caretRightPadding = 0;
+		var lineNumber = 1;
+		var lineWidth = 10;
+		var charactersPerLine = 0;
 		var message = '';
 		var that = this;
-		var platform = that.platform;
+		var platform = that.configs.platform;
 		var checkPlatformDS = (platform == 'ds_jacutemsabao' || platform == 'ds_american' || platform == 'ds_european');
 		
 		var checkValidBlock = true;
@@ -1377,53 +2588,53 @@ function aade(){
 			
 			if($elem.is('span.letter')){
 				// Counting line width and characters on each line
-				line_width += $elem.width();
-				characters_per_line++;
+				lineWidth += $elem.width();
+				charactersPerLine++;
 				checkAtLeastOneCharacterInLine = true;
 			} else if($elem.is('br')){
 				// Counting each line break
-				line_number++;
-				line_width = 10;
-				characters_per_line = 0;
+				lineNumber++;
+				lineWidth = 10;
+				charactersPerLine = 0;
 				checkAtLeastOneCharacterInLine = false;
 			}
 			
 			// For blocks with three lines, defining caret right padding
 			// and reducing block width with its value
-			if(checkHasCaret && line_number == 3 && !checkBlockWidthLastLineReduced){
+			if(checkHasCaret && lineNumber == 3 && !checkBlockWidthLastLineReduced){
 				if(checkCenteredBlock){
 					if(checkPlatformDS){
-						caret_right_padding = 15;
+						caretRightPadding = 15;
 					} else {
-						caret_right_padding = 23;
+						caretRightPadding = 23;
 					}
 				} else {
 					if(checkPlatformDS){
-						caret_right_padding = 13;
+						caretRightPadding = 13;
 					} else {
-						caret_right_padding = 17;
+						caretRightPadding = 17;
 					}
 				}
-				block_width -= caret_right_padding;
+				blockWidth -= caretRightPadding;
 				checkBlockWidthLastLineReduced = true;
 			}
 			
 			// Validating block
-			if(line_number > 3 && checkAtLeastOneCharacterInLine){
+			if(lineNumber > 3 && checkAtLeastOneCharacterInLine){
 				checkValidBlock = false;
 				message = 'Bloco com mais de 3 linhas!';
 				return false; // Exit $.each
 			}
-			if(line_width > block_width){
+			if(lineWidth > blockWidth){
 				var checkInsideCaretArea;
-				if(checkHasCaret && line_number == 3){
-					var caret_start = block_width;
-					var caret_ending = (block_width + caret_right_padding);
+				if(checkHasCaret && lineNumber == 3){
+					var caret_start = blockWidth;
+					var caret_ending = (blockWidth + caretRightPadding);
 					if(checkCenteredBlock){
 						caret_ending += 5;
 					}
 					
-					if((line_width >= caret_start) && (line_width <= caret_ending)){
+					if((lineWidth >= caret_start) && (lineWidth <= caret_ending)){
 						checkInsideCaretArea = true;
 					} else {
 						checkInsideCaretArea = false;
@@ -1439,7 +2650,7 @@ function aade(){
 					message = 'Largura da linha ultrapassa limite do bloco!';
 				}
 			}
-			if((that.invalidateLargeLines) && (characters_per_line > 32)){
+			if((that.configs.invalidateLargeLines) && (charactersPerLine > 32)){
 				checkValidBlock = false;
 				message = 'Contém linhas com mais de 32 caracteres!';
 				return false; // Exit $.each
@@ -1452,6 +2663,11 @@ function aade(){
 			return true;
 		} else {
 			return {
+				'scriptTabId': scriptTabId,
+				'filename': filename,
+				'order': order,
+				'section': section,
+				'blockNumber': blockNumber,
 				'invalidBlock': $divTextWindow,
 				'message': message
 			}
@@ -1489,6 +2705,7 @@ function aade(){
 	
 	this.showGotoRowFilters = function(){
 		var $divGotoRowSettings = $('#goto-row-settings');
+		var $selectScript = $('#goto-row-script');
 		var $selectFilterType = $('#goto-row-filter-type');
 		var $divOrder = $('#div-goto-row-order');
 		var $divBlockNumber = $('#div-goto-row-block-number');
@@ -1497,8 +2714,25 @@ function aade(){
 		var $inputBlockNumber = $('#goto-row-block-number');
 		var $inputSection = $('#goto-row-section');
 		
+		// Loading options for script field, based on the opened files
+		var currentlyActiveScriptTabId = this.getCurrentlyActiveScriptTabId();
+		$selectScript.html('');
+		for(var i in this.openedFiles){
+			var file = this.openedFiles[i];
+			
+			var $option = $('<option />').val(file.scriptTabId).html(file.filename);
+			if(file.scriptTabId == currentlyActiveScriptTabId) $option.attr('selected', 'selected');
+			
+			$selectScript.append($option);
+		}
+		
+		// Selecting default option in filter type field
 		var filterType = 'o';
 		$selectFilterType.val(filterType);
+		
+		// Triggering click on first main tab, in case of the user has clicked
+		// on another tab
+		this.triggerClickOnFirstMainTab();
 		
 		// Showing modal
 		$divGotoRowSettings.modal('show');
@@ -1523,20 +2757,60 @@ function aade(){
 		$('#goto-row-settings').modal('hide');
 	}
 	
-	this.gotoRow = function(gotoRowForm){
+	this.gotoRow = function(scriptTabId, order){
+		var $divScriptTab = $('#' + scriptTabId);
+		var $dialogParserTable = $divScriptTab.find('table.dialog-parser-table');
+		
+		var tableObject = $dialogParserTable.DataTable();
+		var pageLength = tableObject.page.info().length;
+		var that = this;
+		
+		that.hideScriptAnalysisResults();
+		that.showLoadingIndicator();
+		
+		setTimeout(function(){
+			var destinationPage = Math.ceil( order / pageLength ) - 1;
+			var checkRowFound = !isNaN(destinationPage);
+			if(checkRowFound){
+				that.triggerClickOnScriptTab(scriptTabId);
+				
+				tableObject.page(destinationPage).draw(false);
+				var $trFound = $dialogParserTable.find('td.order:contains("' + order + '")').closest('tr');
+
+				$('html, body').animate({
+					scrollTop: $trFound.offset().top
+				}, 'slow');
+
+				$trFound.addClass('highlight');
+				setTimeout(function(){
+					$trFound.removeClass('highlight');
+				}, 5000);
+			} else {
+				alert('Linha não encontrada!');
+			}
+
+			that.hideLoadingIndicator();
+		}, 25)
+	}
+	
+	this.gotoRowByFilters = function(gotoRowForm){
+		var $selectScript = $('#goto-row-script');
 		var $selectFilterType = $('#goto-row-filter-type');
 		var $inputOrder = $('#goto-row-order');
 		var $inputBlockNumber = $('#goto-row-block-number');
 		var $inputSection = $('#goto-row-section');
-		var $dialogParserTable = $('#dialog-parser-table');
 		
+		var scriptTabId = $selectScript.val();
 		var filterType = $selectFilterType.val();
 		var order = $inputOrder.val();
 		var section = $inputSection.val();
 		var blockNumber = $inputBlockNumber.val();
+		
+		var $divScriptTab = $('#' + scriptTabId);
+		var $dialogParserTable = $divScriptTab.find('table.dialog-parser-table');
 		var tableObject = $dialogParserTable.DataTable();
 		var currentPage = tableObject.page();
-		var totalPages = tableObject.page.info().pages;
+		var pageLength = tableObject.page.info().length;
 		
 		var checkOrderProvided = (order != '');
 		var checkSectionProvided = (section != '');
@@ -1548,6 +2822,8 @@ function aade(){
 		
 		setTimeout(function(){
 			var checkRowFound = false;
+			var destinationPage;
+			
 			var $trFound;
 			
 			that.automaticPageChange = true;
@@ -1563,64 +2839,61 @@ function aade(){
 			}
 			
 			if(checkFormValid){
-				for(var page=0; page<totalPages; page++){
-					tableObject.page(page).draw(false);
+				that.triggerClickOnScriptTab(scriptTabId);
+				
+				$( tableObject.rows().nodes() ).each(function(i){
+					var $tr = $(this);
+					var $tdOrder = $tr.children('td.order');
+					var $tdSection = $tr.children('td.section');
+					var $tdBlockNumber = $tr.children('td.block-number');
 
-					$dialogParserTable.children('tbody').children('tr').each(function(){
-						var $tr = $(this);
-						var $tdOrder = $tr.children('td.order');
-						var $tdSection = $tr.children('td.section');
-						var $tdBlockNumber = $tr.children('td.block-number');
+					var checkOrderFound = false;
+					var checkSectionAndOrBlockNumberFound = false;
 
-						var checkOrderFound = false;
-						var checkSectionAndOrBlockNumberFound = false;
-
-						if(filterType == 'o'){
-							if(checkOrderProvided){
-								if($.trim( order ) == ($.trim( $tdOrder.html() ))){
-									checkOrderFound = true;
-								}
-							} else {
-								// No value provided, so abort
-								return false;
+					if(filterType == 'o'){
+						if(checkOrderProvided){
+							if($.trim( order ) == ($.trim( $tdOrder.html() ))){
+								checkOrderFound = true;
 							}
-						} else if(filterType == 'sn'){
-							if(checkSectionProvided && checkBlockNumberProvided){
-								// Section and block filled
-								if((('{{' + $.trim( section ) + '}}') == $.trim( $tdSection.html() )) && ($.trim( blockNumber ) == $.trim( $tdBlockNumber.html() ))){
-									checkSectionAndOrBlockNumberFound = true;
-								}
-							} else if(checkSectionProvided && !checkBlockNumberProvided){
-								// Only section provided
-								if(('{{' + $.trim( section ) + '}}') == $.trim( $tdSection.html() )){
-									checkSectionAndOrBlockNumberFound = true;
-								}
-							} else if(!checkSectionProvided && checkBlockNumberProvided){
-								// Only block number provided
-								if($.trim( blockNumber ) == $.trim( $tdBlockNumber.html() )){
-									checkSectionAndOrBlockNumberFound = true;
-								}
-							} else {
-								// No value provided, so abort
-								return false;
-							}
-						}
-
-						if(checkSectionAndOrBlockNumberFound || checkOrderFound){
-							$trFound = $tr;
-							checkRowFound = true;
+						} else {
+							// No value provided, so abort
 							return false;
 						}
-					});
-
-					if(checkRowFound){
-						break;
+					} else if(filterType == 'sn'){
+						if(checkSectionProvided && checkBlockNumberProvided){
+							// Section and block filled
+							if((('{{' + $.trim( section ) + '}}') == $.trim( $tdSection.html() )) && ($.trim( blockNumber ) == $.trim( $tdBlockNumber.html() ))){
+								checkSectionAndOrBlockNumberFound = true;
+							}
+						} else if(checkSectionProvided && !checkBlockNumberProvided){
+							// Only section provided
+							if(('{{' + $.trim( section ) + '}}') == $.trim( $tdSection.html() )){
+								checkSectionAndOrBlockNumberFound = true;
+							}
+						} else if(!checkSectionProvided && checkBlockNumberProvided){
+							// Only block number provided
+							if($.trim( blockNumber ) == $.trim( $tdBlockNumber.html() )){
+								checkSectionAndOrBlockNumberFound = true;
+							}
+						} else {
+							// No value provided, so abort
+							return false;
+						}
 					}
-				}
+
+					if(checkSectionAndOrBlockNumberFound || checkOrderFound){
+						$trFound = $tr;
+						destinationPage = Math.ceil((i + 1) / pageLength) - 1;
+						checkRowFound = true;
+						return false;
+					}
+				});
 				
 				that.hideLoadingIndicator();
 			
 				if(checkRowFound){
+					tableObject.page(destinationPage).draw(false);
+					
 					$('html, body').animate({
 						scrollTop: $trFound.offset().top
 					}, 'slow');
@@ -1640,7 +2913,7 @@ function aade(){
 				
 				alert(invalidFormMessage);
 			}
-		}, 500);
+		}, 25);
 		
 		// Needed to avoid form submission
 		return false;
@@ -1675,7 +2948,7 @@ function aade(){
 							'name': 'character[' + code + '][original_name]',
 							'placeholder': 'Digite o nome original'
 						}).val(originalName).addClass('form-control original-name').on({
-							'keyup': aade.updatePreviewVisibleTextareas
+							'keyup': that.updatePreviewVisibleTextareas
 						})
 					)
 				).append(
@@ -1685,7 +2958,7 @@ function aade(){
 							'name': 'character[' + code + '][adapted_name]',
 							'placeholder': 'Digite o nome adaptado'
 						}).val(adaptedName).addClass('form-control adapted-name').on({
-							'keyup': aade.updatePreviewVisibleTextareas
+							'keyup': that.updatePreviewVisibleTextareas
 						})
 					)
 				).append(
@@ -1765,6 +3038,80 @@ function aade(){
 		$('#loading-indicator').modal('hide');
 	}
 	
+	this.showProcessingIndicator = function(){
+		$('#processing-indicator').modal('show');
+		
+		this.processingProgressbars['default'] = $('#processing-progress-bar');
+		
+		this.processingProgressbars['default'].addClass('active');
+		this.updateProcessingIndicator('default', 0);
+	}
+	
+	this.updateProcessingIndicator = function(progressbarType, percentage){
+		if((typeof percentage == 'undefined') || (percentage < 0)){
+			percentage = 0;
+		} else if(percentage > 100) {
+			percentage = 100;
+		}
+		
+		var $progressBar = this.processingProgressbars[progressbarType];
+		
+		$progressBar.attr('aria-valuenow', percentage).css('width', percentage + '%').html(percentage + '%');
+		if(percentage == 100) $progressBar.removeClass('active');
+	}
+	
+	this.hideProcessingIndicator = function(){
+		this.updateProcessingIndicator('default', 100);
+		$('#processing-indicator').modal('hide');
+	}
+	
+	this.showScriptAnalysisProcessingIndicator = function(){
+		$('#analysis-processing-indicator').modal('show');
+		
+		this.processingProgressbars['analysisScripts'] = $('#scripts-progress-bar');
+		this.processingProgressbars['analysisScriptsPages'] = $('#pages-progress-bar');
+		
+		this.processingProgressbars['analysisScripts'].addClass('active');
+		this.processingProgressbars['analysisScriptsPages'].addClass('active');
+		
+		this.updateProcessingIndicator('analysisScripts', 0);
+		this.updateProcessingIndicator('analysisScriptsPages', 0);
+	}
+	
+	this.updateLabelScriptAnalysisProcessingIndicator = function(message){
+		var $pLabelScriptAnalysis = $('#label-scripts-progress-bar');
+		
+		$pLabelScriptAnalysis.html(message);
+	}
+	
+	this.hideScriptAnalysisProcessingIndicator = function(){
+		this.updateProcessingIndicator('analysisScripts', 100);
+		this.updateProcessingIndicator('analysisScriptsPages', 100);
+		
+		$('#analysis-processing-indicator').modal('hide');
+	}
+	
+	this.loadSandboxBackgroundImageOptions = function(){
+		var $selectSandboxBackgroundField = $('#sandbox-background-field');
+		
+		var options = {
+			'judge': 'Juiz',
+			'phoenix_objecting': 'Veríssimo protestando',
+			'miles_argumenting': 'Spada argumentando',
+			'butz_scorning': 'Vário desdenhando',
+			'alphabet_test': 'Teste de alfabetos',
+			'accent_test': 'Teste de acentos'
+		};
+		
+		for(var value in options){
+			var description = options[value];
+			
+			$selectSandboxBackgroundField.append(
+				$('<option />').val(value).html(description)
+			);
+		}
+	}
+	
 	this.getSandboxPlatform = function(){
 		var $selectPlatformSandbox = $('#sandbox-platform');
 		return $selectPlatformSandbox.val();
@@ -1839,8 +3186,8 @@ function aade(){
 			'ñ': 'n-tilde', 'ÿ': 'y-diaeresis'
 			
 		}
-		var scriptFormat = this.scriptFormat;
-		if(scriptFormat == 'b'){
+		var destinationTool = this.destinationTool;
+		if(destinationTool == 'dhh'){
 			charTable['<'] = 'less-than';
 			charTable['>'] = 'greater-than';
 		}
@@ -1909,6 +3256,45 @@ function aade(){
 		});
 	}
 	
+	this.getTitle = function(){
+		if( this.checkOnElectron() ){
+			var ipc = require('electron').ipcRenderer;
+			return ipc.sendSync('getTitle');
+		} else {
+			return $('title').html();
+		}
+	}
+	
+	this.setTitle = function(title){
+		if( this.checkOnElectron() ){
+			var ipc = require('electron').ipcRenderer;
+			ipc.send('setTitle', title);
+		} else {
+			$('title').html(title);
+		}
+	}
+	
+	this.removeTitleAttributeOnElectron = function(){
+		if( this.checkOnElectron() ){
+			var $title = $('title');
+			var title = $title.html();
+			
+			$title.remove();
+			this.setTitle(title);
+		}
+	}
+	
+	this.closeAboutWindowOnEscEvent = function(){
+		if( this.checkOnElectron() ){
+			document.addEventListener('keydown', function(e){
+				if(e.which == 27){
+					var ipc = require('electron').ipcRenderer;
+					ipc.send('closeAboutWindow');
+				}
+			});
+		}
+	}
+	
 	this.renderPreviewImageOnBrowser = function(button){
 		var $button = $(button);
 		var $tdPreviewConteiners = $button.closest('td.preview-conteiners');
@@ -1966,7 +3352,16 @@ function aade(){
 			}
 		}
 	}
+	
+	this.checkOnElectron = function(){
+		return (typeof process == 'object');
+	}
 }
 
 // Instantiating objct for class above
 var aade = new aade();
+
+// Disabling cache for all ajax requests
+$.ajaxSetup ({
+	cache: false
+});

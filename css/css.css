@@ -1,31 +1,4 @@
-#file-list input[type="radio"]{
-	opacity: 0;
-}
-#file-list div.col label.btn{
-	width: 250px;
-	text-align: left;
-	border-radius: 0;
-	border-bottom: 0;
-}
-#file-list div.col:first-child label.btn{
-	border-radius: 5px 5px 0 0;
-}
-#file-list div.col:last-child label.btn{
-	border-radius: 0 0 5px 5px;
-	border-bottom: 1px solid #ccc;
-}
-#file-list div.col:first-child:last-child label.btn{
-	border-radius: 5px;	
-}
-#file-list div.col label.btn.selected{
-	color: red;
-}
-
-.glyphicon-refresh-animate {
-	-animation: spin .7s infinite linear;
-	-webkit-animation: spin2 .7s infinite linear;
-}
-
+/* CSS3 animations keyframes */
 @-webkit-keyframes spin2 {
 	from { -webkit-transform: rotate(0deg);}
 	to { -webkit-transform: rotate(360deg);}
@@ -35,11 +8,110 @@
 	from { transform: scale(1) rotate(0deg);}
 	to { transform: scale(1) rotate(360deg);}
 }
+
+@-webkit-keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@-webkit-keyframes fadeOutUp {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+@keyframes fadeOutUp {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+/* CSS3 animation classes*/
+.animated {
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.fadeInDown {
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+}
+
+.fadeOutUp {
+  -webkit-animation-name: fadeOutUp;
+  animation-name: fadeOutUp;
+}
+
+/* Custom app classes */
+a.navbar-brand{
+	padding: 10px 15px;
+}
+a.navbar-brand img.brand{
+	width: 32px;
+}
+a.navbar-brand img.brand, a.navbar-brand span.title{
+	display: inline-block;
+	vertical-align: middle;
+}
+div.file-list label{
+	text-align: left;
+	padding: 6px;
+}
+div.file-list label.active,
+div.file-list label.active:hover,
+div.file-list label.active:focus{
+	color: white;
+	background: #337ab7;
+	border-color: #2e6da4;
+}
+
+.glyphicon-refresh-animate {
+	-animation: spin .7s infinite linear;
+	-webkit-animation: spin2 .7s infinite linear;
+}
+
 #text-preview textarea{
 	height: 300px;
 	resize: none;
 }
-#dialog-parser-table{
+table.dialog-parser-table{
 	width: 100%;
 	border-collapse: collapse;
 }
@@ -87,7 +159,7 @@ td.form-fields textarea.text-field{
 .dialog-preview.text-only{
 	width: 320px;
 	height: 80px;
-	background: url('../images/dialog_box_3ds.png?v=0.5d');
+	background: url('../images/dialog_box_3ds.png?v=1.0.0b');
 	display: inline-block;
 	margin-top: 20px;
 }
@@ -98,7 +170,7 @@ td.form-fields textarea.text-field{
 .dialog-preview.ds.text-only{
 	width: 256px;
 	height: 64px;
-	background: url('../images/dialog_box_ds.png?v=0.5d');
+	background: url('../images/dialog_box_ds.png?v=1.0.0b');
 }
 .dialog-preview div.character-name{
 	position: absolute;
@@ -168,10 +240,10 @@ td.form-fields textarea.text-field{
 	left: 61px;
 }
 .dialog-preview.invalid{
-	background: url('../images/dialog_box_invalid_3ds.png?v=0.5d');
+	background: url('../images/dialog_box_invalid_3ds.png?v=1.0.0b');
 }
 .dialog-preview.ds.invalid{
-	background: url('../images/dialog_box_invalid_ds.png?v=0.5d');
+	background: url('../images/dialog_box_invalid_ds.png?v=1.0.0b');
 }
 .popover{
 	cursor: pointer;
@@ -330,6 +402,21 @@ body {
 	background-color: #333;
 }
 
+/* Progress bar animation removal */
+.progress-bar {
+	-webkit-transition: none;
+	-moz-transition: none;
+	-ms-transition: none;
+	-o-transition: none;
+	transition: none;
+	min-width: 2em;
+}
+
+/* Notify shadow */
+[data-notify="container"]{
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
 /* Rules for middle devices (md) */
 @media (min-width: 992px) and (max-width: 1199px) {
 	td.form-fields textarea.text-field{
@@ -344,11 +431,8 @@ body {
 
 /* Rules for extra-small devices (xs) */
 @media (max-width: 480px) {
-	#header ul.title, #header ul.title>li{
-		display: inline-block;
-	}
-	#header ul.about{
-		float: right;
+	a.navbar-brand span.title.visible-xs{
+		display: inline-block !important;
 	}
 	#text-preview textarea{
 		height: 200px;

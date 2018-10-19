@@ -1,0 +1,6 @@
+body>nav, body>footer{
+	display: none;
+}
+#main-container{
+	margin-top: 20px;
+}

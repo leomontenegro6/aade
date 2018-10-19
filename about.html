@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/css.css?v=1.0.0b">
+		<link rel="stylesheet" href="css/theme-dark.css?v=1.0.0b">
+		<!--
+		Electron - Line needed in order to script imports to work.
+		Need to be added before all JS files are loaded.
+		-->
+		<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+		
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="js/stash.min.js"></script>
+		<script type="text/javascript" src="js/aade.js?v=1.0.0b"></script>
+		
+		<script type="text/javascript">
+			// Electron - Line needed in order to script imports to work.
+			// Need to be added after all JS files are loaded.
+			if (window.module) module = window.module;
+			
+			// Common tool routines
+			var device = aade.getDevice(true);
+			$(function(){
+				aade.loadConfigs();
+				aade.loadTheme();
+				aade.closeAboutWindowOnEscEvent();
+			})
+		</script>
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-static-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">
+						<img class="brand" alt="Brand" src="favicons/brand.png" />
+						<span class="title">
+							Editor de Diálogos do Ace Attorney
+						</span>
+					</a>
+				</div>
+			</div>
+		</nav>
+		<div class="container-fluid" style="text-align: center; color: #777">
+			<p class="version">v1.0.0b</p>
+			<p class="description">
+				Editor de diálogos para os jogos da franquia "Ace Attorney"
+			</p>
+			<a href="#" onclick="aade.openAboutPage()">Página no Github</a>
+		</div>
+		<footer class="footer">
+			<div class="container">
+				<p class="text-muted">&copy; 2017 - Solid One</p>
+			</div>
+		</footer>
+	</body>
+</html>

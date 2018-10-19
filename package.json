@@ -1,0 +1,24 @@
+{
+	"name": "Ace Attorney Dialogue Editor",
+	"version": "1.0.0b",
+	"description": "Dialogue editor for Ace Attorney games, made in electron.js",
+	"main": "main.js",
+	"scripts": {
+		"start": "electron ."
+	},
+	"repository": "https://github.com/leomontenegro6/aade",
+	"keywords": [
+		"phoenix",
+		"wright",
+		"ace",
+		"attorney",
+		"trilogy",
+		"editor"
+	],
+	"author": "Solid One",
+	"license": "GPL-3.0",
+	"devDependencies": {
+		"electron": "~1.8.4"
+	},
+	"dependencies": {}
+}
