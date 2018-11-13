@@ -6,6 +6,7 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const Menu = electron.Menu
 const ipc = electron.ipcMain
+const globalShortcut = electron.globalShortcut
 const dialog = electron.dialog
 
 const path = require('path')
@@ -24,12 +25,11 @@ function createWindow () {
 	mainWindow = new BrowserWindow({
 		width: 1280,
 		height: 768,
+		minWidth: 1024,
+		minHeight: 600,
 		title: app.getName(),
 		icon: __dirname + '/favicons/favicon-196x196.png',
 	})
-	
-	// Maximize window, if needed
-	//mainWindow.maximize();
 
 	// and load the index.html of the app.
 	mainWindow.loadURL(url.format({
@@ -38,8 +38,9 @@ function createWindow () {
 		slashes: true
 	}))
 
-	// Open the DevTools.
+	// Open the DevTools, and maximize window if needed
 	//mainWindow.webContents.openDevTools()
+	//mainWindow.maximize();
 	
 	// Injecting custom CSS for changing styles in electron
 	mainWindow.webContents.on('did-finish-load', function() {
@@ -177,9 +178,16 @@ function createWindow () {
 			label: 'Ajuda',
 			submenu: [
 				{
+					id: 'instructions',
+					label: 'Instruções de Uso',
+					accelerator: 'F1',
+					click () {
+						mainWindow.webContents.executeJavaScript("aade.showInstructions()")
+					}
+				},
+				{
 					id: 'about',
 					label: 'Sobre',
-					accelerator: 'F1',
 					click () {
 						// Creating about window, and setting it as child of main window
 						aboutWindow = new BrowserWindow({
@@ -269,6 +277,23 @@ function writeContentsOfScriptInFolder(filename, contents, encoding='latin1'){
 	}
 }
 
+function registerMainTabsShortcuts(){
+	globalShortcut.register('CmdOrCtrl+PageDown', () => {
+		mainWindow.webContents.executeJavaScript("aade.switchMainTab(true)")
+	})
+	globalShortcut.register('CmdOrCtrl+PageUp', () => {
+		mainWindow.webContents.executeJavaScript("aade.switchMainTab(false)")
+	})
+}
+
+function registerScriptsTabsShortcuts(totalScriptsTabs){
+	for(let i=1; i<=totalScriptsTabs; i++){
+		globalShortcut.register('CmdOrCtrl+'+i, () => {
+			mainWindow.webContents.executeJavaScript("aade.triggerClickOnScriptTabByNumber(" + i + ")")
+		})
+	}
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -307,6 +332,12 @@ ipc.on('getContentsOfScriptInFolder', (e, filename, encoding) => {
 })
 ipc.on('writeContentsOfScriptInFolder', (e, filename, contents, encoding) => {
 	e.returnValue = writeContentsOfScriptInFolder(filename, contents, encoding);
+})
+ipc.on('registerMainTabsShortcuts', (e) => {
+	registerMainTabsShortcuts();
+})
+ipc.on('registerScriptsTabsShortcuts', (e, totalScriptsTabs) => {
+	registerScriptsTabsShortcuts(totalScriptsTabs);
 })
 ipc.on('activateScriptMenus', () => {
 	toggleScriptMenus(true)

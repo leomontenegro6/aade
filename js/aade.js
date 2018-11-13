@@ -25,7 +25,6 @@ function aade(){
 		'nameType': 'o',
 		'platform': '3ds',
 		'invalidateLargeLines': true,
-		'mobileShowInitially': 'p',
 		'theme': 'light',
 		'highlightingColors': {
 			'light': {
@@ -58,10 +57,15 @@ function aade(){
 			that.loadTabContents(function(){
 				that.setDefaultOptionsInFileForm();
 				that.setDefaultValuesSandboxField("Juiz", "Sua conduta durante este\njulgamento decidirá o\ndestino de seu cliente.");
-				that.instantiateEventMobileToggleFieldPreview();
+				that.instantiateSelect2Fields();
+				that.showTestScriptOptions();
 				that.removeTitleAttributeOnElectron();
 				that.showOptionScriptsFolderOnElectron();
 				that.hideLoadingIndicator();
+				that.focusOnFirstMainOption();
+				that.calculateMainTabsConteinersHeight();
+				that.instantiateOnTabClickEvents();
+				that.registerMainTabsShortcutsOnElectron();
 			});
 		});
 	}
@@ -71,7 +75,6 @@ function aade(){
 		var nameType = stash.get('nameType');
 		var platform = stash.get('platform');
 		var invalidateLargeLines = stash.get('invalidateLargeLines');
-		var mobileShowInitially = stash.get('mobileShowInitially');
 		var theme = stash.get('theme');
 		var highlightingColors = stash.get('highlightingColors');
 		
@@ -79,7 +82,6 @@ function aade(){
 		if(typeof nameType == 'undefined') nameType = this.defaultConfigs.nameType;
 		if(typeof platform == 'undefined') platform = this.defaultConfigs.platform;
 		if(typeof invalidateLargeLines == 'undefined') invalidateLargeLines = this.defaultConfigs.invalidateLargeLines;
-		if(typeof mobileShowInitially == 'undefined') mobileShowInitially = this.defaultConfigs.mobileShowInitially;
 		if(typeof theme == 'undefined') theme = this.defaultConfigs.theme;
 		if(typeof highlightingColors == 'undefined') highlightingColors = this.defaultConfigs.highlightingColors;
 		
@@ -88,7 +90,6 @@ function aade(){
 			'nameType': nameType,
 			'platform': platform,
 			'invalidateLargeLines': invalidateLargeLines,
-			'mobileShowInitially': mobileShowInitially,
 			'theme': theme,
 			'highlightingColors': highlightingColors
 		}
@@ -132,6 +133,7 @@ function aade(){
 		var $divMainContainer = $('#main-container');
 		
 		$.when(
+			$.get('modal-instructions.html'),
 			$.get('modal-loading.html'),
 			$.get('modal-processing.html'),
 			$.get('modal-analysis.html'),
@@ -142,8 +144,8 @@ function aade(){
 			$.get('modal-text-preview.html'),
 			$.get('modal-save.html'),
 			$.get('modal-goto.html')
-		).done(function(r1, r2, r3, r4, r5, r6, r7, r8, r9, r10){
-			var results = [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10];
+		).done(function(r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11){
+			var results = [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11];
 			for(var i in results){
 				var result = results[i][0];
 				
@@ -171,6 +173,23 @@ function aade(){
 		});
 	}
 	
+	this.switchMainTab = function(nextTab){
+		if(typeof nextTab == 'undefined') nextTab = false;
+		
+		var $ulMainTabs = $('#main-tabs');
+		var $liActiveMainTab = $ulMainTabs.children('li.active');
+		
+		var $tabToSwitch;
+		if(nextTab){
+			$tabToSwitch = $liActiveMainTab.next();
+		} else {
+			$tabToSwitch = $liActiveMainTab.prev();
+		}
+		var $aToSwitch = $tabToSwitch.children('a');
+		
+		$aToSwitch.trigger('click')
+	}
+	
 	this.triggerClickOnFirstMainTab = function(){
 		var $aFirstTab = $("a[href='#dialog-parser-tab']");
 		
@@ -187,6 +206,15 @@ function aade(){
 		$aScriptTab.trigger('click');
 	}
 	
+	this.triggerClickOnScriptTabByNumber = function(tabNumber){
+		var $ulScriptsTabs = $('#scripts-tabs');
+		var $aScriptTab = $ulScriptsTabs.find("a").eq(tabNumber - 1);
+		
+		var scriptTabId = ( $aScriptTab.attr('href') ).replace('#', '');
+		
+		return this.triggerClickOnScriptTab(scriptTabId);
+	}
+	
 	this.getCurrentlyActiveScriptTabId = function(){
 		var $aActiveScriptTab = $('#scripts-tabs').children('li.active').first().children('a');
 		
@@ -194,38 +222,129 @@ function aade(){
 	}
 	
 	this.setDefaultOptionsInFileForm = function(){
-		var $radioGameFieldAA1 = $('#game-field-aa1');
-		var $radioGameFieldAA2 = $('#game-field-aa2');
-		var $radioGameFieldAA3 = $('#game-field-aa3');
-		var $radioNameTypeOriginal = $('#name-type-original');
-		var $radioNameTypeAdapted = $('#name-type-adapted');
-		var $radioPlatform3DS = $('#platform-3ds');
-		var $radioPlatformDSJTS = $('#platform-ds-jacutemsabao');
-		var $radioPlatformDSAmerican = $('#platform-ds-american');
-		var $radioPlatformDSEuropean = $('#platform-ds-european');
+		var $selectGameField = $('#game-field');
+		var $selectNameType = $('#name-type');
+		var $selectPlatform = $('#platform');
 		
 		// Checking default options for each field
-		if(this.configs.game == 'aa3'){
-			$radioGameFieldAA3.prop('checked', true).trigger('change');
-		} else if(this.configs.game == 'aa2'){
-			$radioGameFieldAA2.prop('checked', true).trigger('change');
-		} else {
-			$radioGameFieldAA1.prop('checked', true).trigger('change');
+		$selectGameField.val(this.configs.game).trigger('change');
+		$selectNameType.val(this.configs.nameType).trigger('change');
+		$selectPlatform.val(this.configs.platform).trigger('change');
+	}
+	
+	this.instantiateSelect2Fields = function(){
+		var $selectFields = $('select.form-control').filter(':visible').not("[data-instantiated='true']");
+		
+		$selectFields.each(function(){
+			var $select = $(this);
+			
+			var checkHasFilter = $select.is("[data-has-filter='true']");
+			
+			var parameters = [];
+			if(checkHasFilter){
+				parameters.minimumResultsForSearch = 1;
+			} else {
+				parameters.minimumResultsForSearch = Infinity;
+			}
+			var templateFunction = function(repo){
+				var $element = $(repo.element);
+				var description = $element.attr('data-description');
+				if(typeof description == 'undefined') description = '';
+				
+				var markup;
+				if(description == '' || $element.is('optgroup')){
+					markup = repo.text;
+				} else {
+					description = description.replace('<', '&lt;');
+					description = description.replace('>', '&gt;');
+					
+					markup = $("<span>" + repo.text + "</span>&nbsp;<small>" + description + "</small>");
+				}
+
+				return markup;
+			}
+
+			parameters.templateResult = templateFunction;
+			parameters.templateSelection = templateFunction;
+			
+			$select.select2(parameters);
+			
+			$select.attr('data-instantiated', 'true');
+		})
+	}
+	
+	this.reinstantiateSelect2Fields = function(){
+		var $selectFields = $('select.form-control');
+		
+		$selectFields.each(function(){
+			var $select = $(this);
+			
+			$select.select2('destroy');
+		});
+		
+		this.instantiateSelect2Fields();
+	}
+	
+	this.showTestScriptOptions = function(){
+		var $divTestScriptsList = $('#test-scripts-list');
+		
+		var testScriptsFolder = 'test_scripts/';
+		
+		var testScripts = [
+			{
+				'filename': 'AA1 Accents (DiegoHH).txt',
+				'label': 'AA1 Acentos (DiegoHH).txt'
+			},
+			{
+				'filename': 'AA1 Tags in Chevron (OPF).txt',
+				'label': 'AA1 Chevron (OPF).txt'
+			},
+			{
+				'filename': 'AA1 Tags in Chevron (OPF).txt',
+				'label': 'AA1 Chaves (OPF antigo).txt'
+			}
+		];
+		
+		$.get('dialog-file-form-test-scripts.html').then(function(response){
+			var template = $.templates(response);
+			
+			for(var i in testScripts){
+				var testScript = testScripts[i];
+				var filename = testScriptsFolder + testScript.filename;
+				var label = testScript.label;
+				
+				var rowInfo = {
+					'iterator': i,
+					'filename': filename,
+					'label': label
+				}
+				var $newLabel = $( template.render(rowInfo) );
+				
+				$divTestScriptsList.append($newLabel);
+			}
+		})
+	}
+	
+	this.readScriptFilesFromInput = function(inputFileField){
+		var $inputFileField = $(inputFileField);
+		var $radioFileOriginInput = $('#file-origin-input');
+		var $form = $inputFileField.closest('form');
+		
+		if($inputFileField[0].files.length > 0){
+			$radioFileOriginInput.prop('checked', true);
+			setTimeout(function(){
+				$form.submit();
+			}, 25);
 		}
-		if(this.configs.nameType == this.defaultConfigs.nameType){
-			$radioNameTypeOriginal.prop('checked', true).trigger('change');
-		} else {
-			$radioNameTypeAdapted.prop('checked', true).trigger('change');
-		}
-		if(this.configs.platform == 'ds_jacutemsabao'){
-			$radioPlatformDSJTS.prop('checked', true).trigger('change');
-		} else if(this.configs.platform == 'ds_american'){
-			$radioPlatformDSAmerican.prop('checked', true).trigger('change');
-		} else if(this.configs.platform == 'ds_european'){
-			$radioPlatformDSEuropean.prop('checked', true).trigger('change');
-		} else {
-			$radioPlatform3DS.prop('checked', true).trigger('change');
-		}
+	}
+	
+	this.readTestScriptFile = function(radioTestScript){
+		var $radioTestScript = $(radioTestScript);
+		var $form = $radioTestScript.closest('form');
+		
+		setTimeout(function(){
+			$form.submit();
+		}, 25);
 	}
 	
 	this.showOptionScriptsFolderOnElectron = function(){
@@ -233,51 +352,75 @@ function aade(){
 		
 		if(that.checkOnElectron()){
 			var $dialogFileForm = $('form.dialog-file-form');
-			var $divsGridFiles = $dialogFileForm.find('div.grid-file');
 			
-			// Iterating grid <div>s containing the script file fields
-			$divsGridFiles.each(function(i){
-				var $divGrid = $(this);
-				
-				if(i == 0){
-					// Adding option to show files from "scripts" folder
-					$.get('dialog-file-form-scripts-folder-electron.html', function(r){
-						$divGrid.after(r);
-						
-						var $checkboxLoadScriptsInFolder = $('#file-origin-load-scripts-in-folder');
-						var $divScriptsFolderList = $('#scripts-folder-list');
-						
-						// Obtaining scripts list in folder
-						var scriptsListInFolder = that.getScriptsListInFolder();
-						
-						// If there's at least one script file in the folder, show all
-						// files below the option
-						if(scriptsListInFolder.length > 0){
-							for(var j in scriptsListInFolder){
-								var filename = scriptsListInFolder[j];
-								
-								// Showing each script as a checkbox, already checked
-								// by default
-								$divScriptsFolderList.append(
-									$('<label />').addClass('btn btn-default').append(
-										$('<input />').attr({
-											'type': 'checkbox',
-											'name': 'scripts-folder[]',
-											'id': 'scripts-folder-' + j
-										}).val(filename)
-									).append(filename)
-								);
-							}
-							
-							// Marking that option by default
-							$checkboxLoadScriptsInFolder.prop('checked', true).trigger('change');
-						}
-					})
+			var $btnGroupMainOptions = $('#main-options');
+			var $firstOption = $btnGroupMainOptions.children('label').first();
+			var $optionLoadScriptsInFolder = $('<label />').addClass('btn btn-default btn-lg').attr({
+				'tabindex': '0',
+				'onkeyup': 'return aade.instantiateFileOriginKeyupBehaviours(this, event)'
+			}).append(
+				$('<input />').attr({
+					'type': 'radio',
+					'name': 'file-origin',
+					'id': 'file-origin-load-scripts-in-folder',
+					'value': 's',
+					'onchange': 'aade.toggleFileOrigin(this)'
+				})
+			).append(
+				$('<span />').addClass('glyphicon glyphicon-open-file')
+			).append('<br />Carregar arquivos da pasta "scripts"');
+			var $divScriptsFolderList = $('#scripts-folder-list');
+			
+			$firstOption.after($optionLoadScriptsInFolder).remove();
+			
+			// Obtaining scripts list in folder
+			var scriptsListInFolder = that.getScriptsListInFolder();
+
+			// If there's at least one script file in the folder, show all
+			// files below the option
+			if(scriptsListInFolder.length > 0){
+				for(var j in scriptsListInFolder){
+					var filename = scriptsListInFolder[j];
+
+					// Showing each script as a checkbox, already checked
+					// by default
+					$divScriptsFolderList.append(
+						$('<label />').addClass('btn btn-default').attr({
+							'tabindex': '0',
+							'onkeyup': 'return aade.setTestScriptKeyupBehaviours(this, event)'
+						}).append(
+							$('<input />').attr({
+								'type': 'checkbox',
+								'name': 'scripts-folder[]',
+								'id': 'scripts-folder-' + j
+							}).val(filename)
+						).append(
+							$('<span />').addClass('checkbox')
+						).append(filename)
+					);
 				}
 				
-				// Changing grid widths in order to show all three options side-by-side
-				$divGrid.removeClass('col-sm-6').addClass('col-sm-4');
-			})
+				// Adding "Load" button below the files' checkboxes
+				$divScriptsFolderList.append(
+					$('<label />').addClass('btn btn-default submit').attr({
+							'tabindex': '0',
+							'onkeyup': 'return aade.setTestScriptKeyupBehaviours(this, event)'
+						}).append(
+						$('<input />').attr({
+							'type': 'checkbox',
+							'id': 'scripts-folder-submit'
+						}).addClass('submit')
+					).append(
+						$('<span />').addClass('glyphicon glyphicon-open-file')
+					).append('Carregar').click(function(){
+						return that.readScriptFiles($dialogFileForm[0]);
+					})
+				);
+
+				// Marking that option by default
+				that.focusOnFirstMainOption();
+				that.toggleFileOrigin( $optionLoadScriptsInFolder.children("input[name='file-origin']") );
+			}
 		}
 	}
 	
@@ -311,11 +454,11 @@ function aade(){
 		var $inputFileField = $('#file-field');
 		var $checkboxesScriptsFolder = $("[name^='scripts-folder']:checked");
 		var $radioTestScriptList = $("[name='test-script']:checked");
-		var $radioDestinationTool = $("[name='destination-tool']:checked");
+		var $selectDestinationTool = $("#destination-tool");
 		
 		var fileOrigin = $radioFileOrigin.val();
 		var selectedTestScript = $radioTestScriptList.val();
-		var destinationTool = $radioDestinationTool.val();
+		var destinationTool = $selectDestinationTool.val();
 		var that = this;
 		var encoding;
 		if(destinationTool == 'dhh'){
@@ -356,12 +499,18 @@ function aade(){
 						that.showLoadingIndicator();
 						that.parseScriptFiles(files, function(){
 							that.instantiatePaginationDialogParsing();
+							that.registerScriptsTabsShortcutsOnElectron();
 						});
 					}
 				}
 			}
 			readFileFromInput();
 		} else if(fileOrigin == 's'){ // Scripts in folder (Electron.js only)
+			if($checkboxesScriptsFolder.length == 0){
+				that.showPopover($('#scripts-folder-list'), 'Pelo menos um script precisa ser marcado!');
+				return false;
+			}
+			
 			$checkboxesScriptsFolder.each(function(){
 				var filename = this.value;
 				var fileContents = that.getContentsOfScriptInFolder(filename, encoding);
@@ -375,6 +524,7 @@ function aade(){
 			that.showLoadingIndicator();
 			that.parseScriptFiles(files, function(){
 				that.instantiatePaginationDialogParsing();
+				that.registerScriptsTabsShortcutsOnElectron();
 			});
 		} else if(fileOrigin == 't'){ // Test scripts
 			var filename = selectedTestScript.split('/').pop();
@@ -396,6 +546,7 @@ function aade(){
 					
 					that.parseScriptFiles(files, function(){
 						that.instantiatePaginationDialogParsing();
+						that.registerScriptsTabsShortcutsOnElectron();
 					});
 				}
 			});
@@ -439,8 +590,19 @@ function aade(){
 						'href': '#' + scriptTabId,
 						'aria-controls': scriptTabId,
 						'role': 'tab',
-						'data-toggle': 'tab'
-					}).html(filename)
+						'data-toggle': 'tab',
+						'title': filename
+					}).html(filename).on('shown.bs.tab', function(){
+						that.instantiateSelect2Fields();
+						that.highlightWordsTextareas();
+					})
+				).append(
+					$('<span />').addClass('glyphicon glyphicon-remove remove-script').attr({
+						'tabindex': '0',
+						'title': 'Fechar script'
+					}).click(function(){
+						that.closeScriptFile(scriptTabId);
+					})
 				);
 				var $divTabpanel = $('<div />').attr({
 					'id': scriptTabId,
@@ -467,7 +629,7 @@ function aade(){
 
 				// Separating strings in sections
 				for(var j in lines){
-					var line = $.trim( lines[j] ) + "\n";
+					var line = lines[j] + "\n";
 
 					var regexSection;
 					if(destinationTool == 'opf'){
@@ -568,11 +730,11 @@ function aade(){
 						if(tag){
 							if(destinationTool == 'opf'){
 								if(char != '<'){
-									tagText += char;
+									tagText += $.trim( char );
 								}
 							} else {
 								if(char != '{'){
-									tagText += char;
+									tagText += $.trim( char );
 								}
 							}
 						} else {// Adding line break after {b}
@@ -617,8 +779,6 @@ function aade(){
 				// Loading dialog parser table
 				var $dialogParserTable = $divTabpanel.children('table');
 				var $tbody = $dialogParserTable.children('tbody');
-				var $spanTotalSections = $dialogParserTable.find('span.total-sections');
-				var $spanTotalDialogBlocks = $dialogParserTable.find('span.total-dialog-blocks');
 
 				$divDialogFileFormContainer.hide();
 				$dialogParserTable.attr('data-filename', filename);
@@ -673,15 +833,100 @@ function aade(){
 				}
 
 				// Updating total counters in table footer
-				$spanTotalSections.html(totalSections);
-				$spanTotalDialogBlocks.html(totalDialogBlocks);
+				$dialogParserTable.attr({
+					'data-total-sections': totalSections,
+					'data-total-dialog-blocks': totalDialogBlocks
+				});
 			}
 
 			// Hiding loading indicator and calling callback after all files
 			// area loaded
 			that.hideLoadingIndicator();
+			
+			// Implementing jQuery UI Sortable plugin on the script tabs,
+			// in order to make them draggable
+			$ulScriptsTabs.sortable();
+			$ulScriptsTabs.disableSelection();
+			
+			// Calculating scripts tabs' conteiner height, based on the user's device height
+			that.calculateScriptTabsConteinerHeight();
+			
+			// Executing callback after all scripts are parsed
 			if(callback) callback();
 		});
+	}
+	
+	this.registerMainTabsShortcutsOnElectron = function(){
+		if( this.checkOnElectron() ){
+			var ipc = require('electron').ipcRenderer;
+			return ipc.send('registerMainTabsShortcuts');
+		}
+	}
+	
+	this.registerScriptsTabsShortcutsOnElectron = function(){
+		if( this.checkOnElectron() ){
+			var $ulScriptsTabs = $('#scripts-tabs');
+			var $lisScriptsTabs = $ulScriptsTabs.children('li');
+			
+			var totalScriptTabs = $lisScriptsTabs.length;
+			var ipc = require('electron').ipcRenderer;
+			return ipc.send('registerScriptsTabsShortcuts', totalScriptTabs);
+		}
+	}
+	
+	this.calculateScriptTabsConteinerHeight = function(){
+		var $ulScriptsTabs = $('#scripts-tabs');
+		if($ulScriptsTabs.length == 0) return this.calculateMainTabsConteinersHeight();
+		var $divTabContent = $ulScriptsTabs.next();
+		
+		var windowHeight = $(window).height();
+		var scriptTabsHeight = $ulScriptsTabs.height();
+		var scriptTabsOffset = $ulScriptsTabs.offset();
+		var finalHeight = (windowHeight - scriptTabsHeight - scriptTabsOffset.top) * (0.995);
+		
+		$divTabContent.css('height', finalHeight);
+		
+		$(window).on('resize.calculateScriptTabsConteinerHeight', this.calculateScriptTabsConteinerHeight);
+	}
+	
+	this.calculateMainTabsConteinersHeight = function(){
+		var $divMainTabsConteiner = $('#main-tabs-conteiner');
+		var $divActiveTabpanel = $divMainTabsConteiner.children('div.col-xs-11').children('div.tab-content').children('div.tab-pane.active');
+		var $divTabPaneDialogParserTabPanel = $('#dialog-file-form-container').children('form.dialog-file-form').children('div.panel');
+		var $divTabPaneEquivalenceTablePanel = $('#equivalence-table-tab').children('div.panel');
+		var $divTabPaneSandboxPanel = $('#sandbox-tab').children('div.panel');
+		
+		var windowHeight = $(window).height();
+		var activeTabpanelOffset = $divActiveTabpanel.offset();
+		var finalHeight = (windowHeight - activeTabpanelOffset.top) * (0.95);
+		
+		$divTabPaneDialogParserTabPanel.css('height', finalHeight);
+		$divTabPaneEquivalenceTablePanel.css('height', finalHeight);
+		$divTabPaneSandboxPanel.css('height', finalHeight);
+		
+		$(window).on('resize.calculateMainTabsConteinersHeight', this.calculateMainTabsConteinersHeight);
+	}
+	
+	this.instantiateOnTabClickEvents = function(){
+		var $ulMainTabs = $('#main-tabs');
+		var $buttonTabs = $ulMainTabs.find('a');
+		
+		var that = this;
+		
+		$buttonTabs.each(function(){
+			var $buttonTab = $(this);
+			
+			var tabName = $buttonTab.attr('aria-controls');
+			
+			$buttonTab.on('shown.bs.tab', function(){
+				if(tabName == 'dialog-parser-tab'){
+					that.calculateScriptTabsConteinerHeight();
+				} else {
+					that.instantiateSelect2Fields();
+					that.calculateMainTabsConteinersHeight();
+				}
+			});
+		})
 	}
 	
 	this.getTextWithoutTags = function(text){
@@ -719,12 +964,19 @@ function aade(){
 			var object = $dialogParserTable.on({
 				// Table draw event
 				'draw.dt': function(){
+					var $dialogParserTableWrapper = $dialogParserTable.closest('div.dataTables_wrapper');
 					var $tbody = $dialogParserTable.children('tbody');
 					var $trs = $tbody.children('tr');
-
-					var device = that.getDevice();
-					var mobileShowInitially = that.configs.mobileShowInitially;
+					var $spanTotalSections = $dialogParserTableWrapper.find('span.total-sections');
+					var $spanTotalDialogBlocks = $dialogParserTableWrapper.find('span.total-dialog-blocks');
+					
 					var checkNoValidRows = (($trs.length == 0) || (($trs.length == 1) && ($trs.find('td.dataTables_empty').length == 1)));
+					var totalSections = $dialogParserTable.attr('data-total-sections');
+					var totalDialogBlocks = $dialogParserTable.attr('data-total-dialog-blocks');
+					
+					// Updating totals in the table footer
+					$spanTotalSections.html(totalSections);
+					$spanTotalDialogBlocks.html(totalDialogBlocks);
 
 					// If there's no valid rows, there's no need
 					// to instantiate the components below
@@ -748,28 +1000,14 @@ function aade(){
 						var $tr = $(this);
 						var $textareaTextField = $tr.find('textarea.text-field');
 						var $divDialogPreview = $tr.find('div.dialog-preview');
-						var $tdFormFields = $tr.children('td.form-fields');
-						var $tdPreviewConteiners = $tr.children('td.preview-conteiners');
-						var $buttonShowPreviewMobile = $tr.find('button.show-preview-mobile');
-						var $buttonShowTextfieldMobile = $tr.find('button.show-textfield-mobile');
 						var $buttonsCopyClipboard = $tr.find('button.copy-clipboard');
 
 						var previewFieldId = $divDialogPreview.attr('id');
 
 						that.updatePreview($textareaTextField, previewFieldId, 't', false);
 						that.instantiateCopyClipboardButtons($buttonsCopyClipboard, $textareaTextField);
-
-						if(device == 'xs'){
-							if(mobileShowInitially == 'p' && $tdPreviewConteiners.hasClass('hidden-xs')){
-								$buttonShowTextfieldMobile.trigger('click');
-							} else if(mobileShowInitially == 't' && $tdFormFields.hasClass('hidden-xs')){
-								$buttonShowPreviewMobile.trigger('click');
-							}
-						} else {
-							$tdFormFields.add($tdPreviewConteiners).removeClass('hidden-xs visible-xs');
-						}
 					});
-
+					
 					// Instantiating word highlighting on all visible textareas
 					var $visibleTextareas = $tbody.find('textarea.text-field');
 					that.highlightWordsTextareas($visibleTextareas);
@@ -794,8 +1032,11 @@ function aade(){
 
 					// Scrolling to top of page, if not an automatic page change
 					if(!that.automaticPageChange){
-						$('html, body').animate({
-							scrollTop: $dialogParserTableWrapper.offset().top
+						var offset = $dialogParserTableWrapper.offset().top;
+						if(offset > 0) offset = 0;
+						
+						$('#scripts-tabs').next().animate({
+							scrollTop: offset
 						}, 'slow');
 					}
 				},
@@ -842,6 +1083,7 @@ function aade(){
 				}
 			}).DataTable({
 				'order': [[0, 'asc']],
+				'colReorder': true,
 				'autoWidth': false,
 				'lengthMenu': [
 					[1, 2, 3, 5, 7, 10, 15, 25, 50, 75, 100, 150, 200, 300, 400, 500, -1],
@@ -849,12 +1091,12 @@ function aade(){
 				],
 				'pageLength': 5,
 				'pagingType': 'input',
-				"dom":  "<'row'<'col-sm-5'lf><'col-sm-2 hidden-xs'><'col-sm-5 paginate_col'p>>" +
+				"dom":  "<'row'<'col-sm-6'lf><'col-sm-6 paginate_col'p>>" +
 						"<'row'<'col-sm-12'tr>>" +
-						"<'row'<'col-sm-5'i><'col-sm-7 paginate_col'p>>",
+						"<'row footer'<'col-sm-6'i><'col-sm-6 paginate_col'p>>",
 				'language': {
 					'sEmptyTable': 'Nenhum registro encontrado',
-					'sInfo': '',
+					'sInfo': 'Total de seções: <span class="total-sections">...</span> - Total de diálogos: <span class="total-dialog-blocks">...</span>',
 					'sInfoEmpty': '(Sem resultados)',
 					'sInfoFiltered': '',
 					'sInfoPostFix': '',
@@ -877,6 +1119,9 @@ function aade(){
 				}
 			});
 			
+			// Instantiating select2 for table filter field
+			that.instantiateSelect2Fields();
+			
 			// Updating window title in order to prepend filename on it
 			if($dialogParserTables.length == 1){
 				var title = that.getTitle();
@@ -884,6 +1129,7 @@ function aade(){
 			}
 		});
 
+		// Doing additional customizations, based on electron or web version
 		if( that.checkOnElectron() ){
 			// Enabling script menus that was previously disabled
 			var ipc = require('electron').ipcRenderer;
@@ -903,63 +1149,78 @@ function aade(){
 		}
 	}
 	
-	this.instantiateEventMobileToggleFieldPreview = function(){
-		var that = this;
-		$(window).on('resize.mobileToggleFieldPreview', function () {
-			var $dialogParserTables = $('table.dialog-parser-table');
+	this.reinstantiatePaginationDialogParsing = function(){
+		var $dialogParserTables = $('table.dialog-parser-table');
+		
+		if($dialogParserTables.length == 0){
+			return;
+		}
+		
+		$dialogParserTables.each(function(){
+			var $dialogParserTable = $(this);
+			var $thead = $dialogParserTable.children('thead');
 			
-			var device = that.getDevice();
-			var mobileShowInitially = that.configs.mobileShowInitially;
+			var tableObject = $dialogParserTable.DataTable();
 			
-			$dialogParserTables.each(function(){
-				var $dialogParserTable = $(this);
-				var $tbody = $dialogParserTable.children('tbody');
+			tableObject.destroy();
+			
+			$thead.children('tr').children('th').each(function(){
+				var $th = $(this);
 				
-				var tableObject = $dialogParserTable.DataTable();
-				var checkUpdateTable = false;
-
-				$tbody.children('tr').each(function(){
-					var $tr = $(this);
-					var $tdFormFields = $tr.children('td.form-fields');
-					var $tdPreviewConteiners = $tr.children('td.preview-conteiners');
-					var $buttonShowPreviewMobile = $tr.find('button.show-preview-mobile');
-					var $buttonShowTextfieldMobile = $tr.find('button.show-textfield-mobile');
-
-					if(device == 'xs'){
-						if(mobileShowInitially == 'p'){
-							$buttonShowTextfieldMobile.trigger('click');
-							checkUpdateTable = true;
-						} else if(mobileShowInitially == 't'){
-							$buttonShowPreviewMobile.trigger('click');
-							checkUpdateTable = true;
-						}
-					} else {
-						if($tdFormFields.hasClass('hidden-xs')){
-							$tdFormFields.removeClass('hidden-xs');
-							checkUpdateTable = true;
-						}
-						if($tdPreviewConteiners.hasClass('hidden-xs')){
-							$tdPreviewConteiners.removeClass('hidden-xs');
-							checkUpdateTable = true;
-						}
-						if($tdFormFields.hasClass('visible-xs')){
-							$tdFormFields.removeClass('visible-xs');
-							checkUpdateTable = true;
-						}
-						if($tdPreviewConteiners.hasClass('visible-xs')){
-							$tdPreviewConteiners.removeClass('visible-xs');
-							checkUpdateTable = true;
-						}	
-					}
-				});
-
-				if(checkUpdateTable) tableObject.draw(false);
+				$th.removeAttr('tabindex aria-controls rowspan colspan aria-sort aria-label style').removeClass('sorting_asc sorting_desc');
 			})
 		});
+		
+		this.instantiatePaginationDialogParsing();
+	}
+	
+	this.closeScriptFile = function(scriptTabId){
+		var $liScriptTab = $("a[href='#" + scriptTabId + "']").closest('li');
+		var $divScriptTab = $('#' + scriptTabId);
+		
+		var that = this;
+		var totalScripts = that.openedFiles.length;
+		
+		if(totalScripts == 1){
+			alert('Pelo menos um script deve permanecer aberto.');
+			return;
+		}
+		
+		var closeScript = function(){
+			// Deleting script from DOM
+			$liScriptTab.add($divScriptTab).remove();
+
+			// Deleting script from openedFiles" main property
+			for(var i in that.openedFiles){
+				var openedFile = that.openedFiles[i];
+				var currentScriptTabId = openedFile.scriptTabId;
+
+				if(currentScriptTabId == scriptTabId){
+					that.openedFiles.splice(i, 1);
+				}
+			}
+		}
+		
+		if( that.checkOnElectron() ){
+			that.saveScriptsOnElectron(function(r){
+				if(r){
+					closeScript();
+				} else {
+					alert('Erro ao salvar o arquivo antes de fechá-lo.');
+				}
+			});
+		} else {
+			closeScript();
+		}
 	}
 	
 	this.highlightWordsTextareas = function(textareas){
 		var $textareas = $(textareas);
+		if(typeof textareas == 'undefined'){
+			$textareas = $('textarea.text-field');
+		} else {
+			$textareas = $(textareas);
+		}
 		var $equivalenceTable = $('#equivalence-table');
 		var $inputsOriginalNames = $equivalenceTable.find('input.original-name');
 		var $inputsAdaptedNames = $equivalenceTable.find('input.adapted-name');
@@ -1046,24 +1307,6 @@ function aade(){
 				}, 3000);
 			});
 		})
-	}
-	
-	this.showPreviewOnMobile = function(button){
-		var $button = $(button);
-		var $tr = $button.closest('tr');
-		var $tdFormFields = $tr.find('td.form-fields');
-		var $tdPreviewConteiners = $tr.find('td.preview-conteiners');
-		var $textarea = $tdFormFields.find('textarea');
-		
-		if($tdPreviewConteiners.hasClass('visible-xs')){
-			$tdFormFields.removeClass('hidden-xs').addClass('visible-xs');
-			$tdPreviewConteiners.removeClass('visible-xs').addClass('hidden-xs');
-		} else {
-			$tdFormFields.removeClass('visible-xs').addClass('hidden-xs');
-			$tdPreviewConteiners.removeClass('hidden-xs').addClass('visible-xs');
-		}
-		
-		$textarea.trigger('keyup');
 	}
 	
 	this.updatePreview = function(field, previewFieldId, textType, sandbox, event, platform){
@@ -1312,8 +1555,6 @@ function aade(){
 		var $radioPlatformDSEuropean = $('#config-platform-ds-european');
 		var $radioInvalidateLargeLinesTrue = $('#invalidate-large-lines-true');
 		var $radioInvalidateLargeLinesFalse = $('#invalidate-large-lines-false');
-		var $radioMobileShowInitiallyPreview = $('#config-mobile-show-initially-preview');
-		var $radioMobileShowInitiallyTextfield = $('#config-mobile-show-initially-textfield');
 		var $radioThemeLight = $('#config-theme-light');
 		var $radioThemeDark = $('#config-theme-dark');
 		var $divColorpickerFields = $('div.colorpicker-component');
@@ -1344,11 +1585,6 @@ function aade(){
 			$radioInvalidateLargeLinesTrue.prop('checked', true);
 		} else {
 			$radioInvalidateLargeLinesFalse.prop('checked', true);
-		}
-		if(this.configs.mobileShowInitially == this.defaultConfigs.mobileShowInitially){
-			$radioMobileShowInitiallyPreview.prop('checked', true);
-		} else {
-			$radioMobileShowInitiallyTextfield.prop('checked', true);
 		}
 		if(this.configs.theme == this.defaultConfigs.theme){
 			$radioThemeLight.prop('checked', true);
@@ -1387,8 +1623,6 @@ function aade(){
 		var $radioPlatformDSEuropean = $('#config-platform-ds-european');
 		var $radioInvalidateLargeLinesTrue = $('#invalidate-large-lines-true');
 		var $radioInvalidateLargeLinesFalse = $('#invalidate-large-lines-false');
-		var $radioMobileShowInitiallyPreview = $('#config-mobile-show-initially-preview');
-		var $radioMobileShowInitiallyTextfield = $('#config-mobile-show-initially-textfield');
 		var $radioThemeLight = $('#config-theme-light');
 		var $radioThemeDark = $('#config-theme-dark');
 		var $divColorpickerFields = $('div.colorpicker-component');
@@ -1419,11 +1653,6 @@ function aade(){
 			$radioInvalidateLargeLinesTrue.prop('checked', true);
 		} else {
 			$radioInvalidateLargeLinesFalse.prop('checked', true);
-		}
-		if(this.defaultConfigs.mobileShowInitially == 'p'){
-			$radioMobileShowInitiallyPreview.prop('checked', true);
-		} else {
-			$radioMobileShowInitiallyTextfield.prop('checked', true);
 		}
 		if(this.defaultConfigs.theme == 'light'){
 			$radioThemeLight.prop('checked', true);
@@ -1459,7 +1688,6 @@ function aade(){
 		var $radioNameType = $("input[name='config-name-type']:checked");
 		var $radioPlatform = $("input[name='config-platform']:checked");
 		var $radioInvalidateLargeLines = $("input[name='invalidate-large-lines']:checked");
-		var $radioMobileShowInitially = $("input[name='config-mobile-show-initially']:checked");
 		var $radioTheme = $("input[name='config-theme']:checked");
 		var $divColorpickerFields = $('div.colorpicker-component');
 		
@@ -1467,7 +1695,6 @@ function aade(){
 		var checkNameTypeChanged = ($radioNameType.val() != this.configs.nameType);
 		var checkPlatformChanged = ($radioPlatform.val() != this.configs.platform);
 		var checkInvalidateLargeLinesChanged = (/^true$/i.test($radioInvalidateLargeLines.val()) != this.configs.invalidateLargeLines);
-		var checkMobileShowInitiallyChanged = ($radioMobileShowInitially.val() != this.configs.mobileShowInitially);
 		var checkThemeChanged = ($radioTheme.val() != this.configs.theme);
 		
 		this.hideScriptConfigSettings();
@@ -1479,7 +1706,6 @@ function aade(){
 			if(checkNameTypeChanged) that.changeDefaultNameTypes( $radioNameType[0] );
 			if(checkPlatformChanged) that.changePreviewPlatform( $radioPlatform[0] );
 			if(checkInvalidateLargeLinesChanged) that.toggleLargeLinesInvalidation( $radioInvalidateLargeLines[0] );
-			if(checkMobileShowInitiallyChanged) that.changeMobileShowInitially( $radioMobileShowInitially[0] );
 			if(checkThemeChanged) that.changeTheme( $radioTheme[0] );
 			that.updateHighlightingColors( $divColorpickerFields );
 
@@ -1560,6 +1786,9 @@ function aade(){
 		$saveNameField.val(filename).focus();
 		$saveFileFormat.val(saveFormat);
 		$spanFilenameExtension.html(extension);
+		
+		// Instantiating select2 field inside modal
+		this.instantiateSelect2Fields();
 	}
 	
 	this.hideScriptSaveSettings = function(){
@@ -1603,6 +1832,9 @@ function aade(){
 		} else {
 			$('#analysis-invalidate-large-lines-false').prop('checked', true);
 		}
+		
+		// Instantiating select2 field inside modal
+		this.instantiateSelect2Fields();
 	}
 	
 	this.hideScriptAnalysisSettings = function(){
@@ -1666,6 +1898,9 @@ function aade(){
 		// Showing export settings modal, and filling the form fields afterwards
 		$divExportSettings.modal('show');
 		$inputNameField.val(filename).focus();
+		
+		// Instantiating select2 field inside modal
+		this.instantiateSelect2Fields();
 	}
 	
 	this.hideScriptExportSettings = function(){
@@ -1682,6 +1917,82 @@ function aade(){
 		}
 	}
 	
+	this.focusOnFirstMainOption = function(){
+		var $divMainOptions = $('#main-options');
+		var $firstMainOption = $divMainOptions.children('label').first();
+		var $secondMainOption = $firstMainOption.next();
+		
+		$firstMainOption.focus();
+		if( this.checkOnElectron() ){
+			var e = jQuery.Event('keyup');
+			e.which = 37;
+			$secondMainOption.trigger(e);
+		}
+	}
+	
+	this.instantiateFileOriginKeyupBehaviours = function(label, event){
+		var $label = $(label);
+		var $radioOption = $label.children("input[type='radio']");
+		var $newlyFocusedLabel;
+		
+		var keyCode = event.which;
+		
+		if(keyCode == 13){
+			// Enter, so select the main option
+			$radioOption.trigger('click');
+		} else if((keyCode == 37) || (keyCode == 39)){
+			// Left / Right arrow keys, so set focus on the next or preview main option
+			if(keyCode == 37){
+				$newlyFocusedLabel = $label.prev();
+			} else {
+				$newlyFocusedLabel = $label.next();
+			}
+			var $radioOptionNewlyFocusedLabel = $newlyFocusedLabel.children("input[type='radio']");
+			
+			$newlyFocusedLabel.trigger('focus');
+			$radioOptionNewlyFocusedLabel.trigger('click');
+			if($radioOptionNewlyFocusedLabel.is("[id='file-origin-load-scripts-in-folder']")){
+				$('#scripts-folder-submit').parent().focus();
+			} else if($radioOptionNewlyFocusedLabel.is("[id='file-origin-select-test-scripts']")){
+				$('#test-script-0').parent().focus();
+			}
+		}
+	}
+	
+	this.setTestScriptKeyupBehaviours = function(label, event){
+		var $label = $(label);
+		var $radioCheckboxOption = $label.children("input[type='radio'], input[type='checkbox']");
+		var $newlyFocusedLabel;
+		
+		var keyCode = event.which;
+		if(keyCode == 13){
+			// Enter pressed, so open the selected test script
+			$radioCheckboxOption.trigger('click').trigger('blur');
+		} else if((keyCode == 38) || (keyCode == 40)){
+			// Up / Down arrow keys, so set focus to the next or preview test script
+			if(keyCode == 38){
+				$newlyFocusedLabel = $label.prev();
+			} else {
+				$newlyFocusedLabel = $label.next();
+			}
+			
+			$newlyFocusedLabel.trigger('focus');
+			
+			event.preventDefault();
+			return false;
+		} else if(keyCode == 37){
+			// Left arrow key, so set focus to the previous main option
+			var e = jQuery.Event('keyup');
+			e.which = keyCode;
+			$('#file-origin-select-test-scripts').parent().trigger(e);
+		} else if(keyCode == 39 && this.checkOnElectron()){
+			// Right arrow key on electron, so set focus on the next main option
+			var e = jQuery.Event('keyup');
+			e.which = keyCode;
+			$('#file-origin-load-scripts-in-folder').parent().trigger(e);
+		}
+	}
+	
 	this.toggleFileOrigin = function(radio){
 		var $radio = $(radio);
 		var $inputFileField = $('#file-field');
@@ -1692,28 +2003,34 @@ function aade(){
 		if(fileOrigin == 'f'){ // File input
 			$inputFileField.removeAttr('disabled').attr('required', 'required');
 			
-			$divScriptsFolderList.hide().find("[type='checkbox']").prop('checked', false).removeAttr('required').closest("label").removeClass('active');
+			$divScriptsFolderList.hide().find("[type='checkbox']").not('.submit').prop('checked', false).removeAttr('required').closest("label").removeClass('active');
 			
 			$divTestScriptsList.hide().find("[type='radio']").prop('checked', false).removeAttr('required').closest("label").removeClass('active');
+			
+			$inputFileField.trigger('click');
+			setTimeout(function(){
+				$radio.prop('checked', false).parent().removeClass('active');
+				$inputFileField.attr('disabled', 'disabled').removeAttr('required');
+			}, 25);
 		} else if(fileOrigin == 's'){ // Scripts in folder
 			$inputFileField.attr('disabled', 'disabled').removeAttr('required');
 			
-			$divScriptsFolderList.show().find("[type='checkbox']").attr('required', 'required').prop('checked', true).closest("label").addClass('active');
+			$divScriptsFolderList.show().find("[type='checkbox']").not('.submit').attr('required', 'required').prop('checked', true).closest("label").addClass('active');
 			
 			$divTestScriptsList.hide().find("[type='radio']").prop('checked', false).removeAttr('required').closest("label").removeClass('active');
 		} else if(fileOrigin == 't'){ // Test scripts
 			$inputFileField.attr('disabled', 'disabled').removeAttr('required');
 			
-			$divScriptsFolderList.hide().find("[type='checkbox']").prop('checked', false).removeAttr('required');
+			$divScriptsFolderList.hide().find("[type='checkbox']").not('.submit').prop('checked', false).removeAttr('required');
 			
 			$divTestScriptsList.show().find("[type='radio']").attr('required', 'required');
 		}
 	}
 	
-	this.changePreviewPlatform = function(radio){
-		var $radio = $(radio);
+	this.changePreviewPlatform = function(select){
+		var $select = $(select);
 		
-		var platform = $radio.val();
+		var platform = $select.val();
 		stash.set('platform', platform);
 		
 		this.loadConfigs();
@@ -1721,10 +2038,10 @@ function aade(){
 		this.updatePreviewVisibleTextareas();
 	}
 	
-	this.changeDefaultGame = function(radio){
-		var $radio = $(radio);
+	this.changeDefaultGame = function(select){
+		var $select = $(select);
 		
-		var game = $radio.val();
+		var game = $select.val();
 		stash.set('game', game);
 		
 		this.loadConfigs();
@@ -1732,10 +2049,10 @@ function aade(){
 		this.updatePreviewVisibleTextareas();
 	}
 	
-	this.changeDefaultNameTypes = function(radio){
-		var $radio = $(radio);
+	this.changeDefaultNameTypes = function(select){
+		var $select = $(select);
 		
-		var nameType = $radio.val();
+		var nameType = $select.val();
 		stash.set('nameType', nameType);
 		
 		this.loadConfigs();
@@ -1743,29 +2060,12 @@ function aade(){
 		this.updatePreviewVisibleTextareas();
 	}
 	
-	this.changeDestinationTool = function(radio){
-		var $radio = $(radio);
+	this.changeDestinationTool = function(select){
+		var $select = $(select);
 		
-		var destinationTool = $radio.val();	
+		var destinationTool = $select.val();
 	
 		this.destinationTool = destinationTool;
-	}
-	
-	this.changeMobileShowInitially = function(radio){
-		var $radio = $(radio);
-		var $dialogParserTables = $('table.dialog-parser-table');
-		
-		var mobileShowInitially = $radio.val();
-		stash.set('mobileShowInitially', mobileShowInitially);
-		
-		this.loadConfigs();
-		
-		this.updatePreviewVisibleTextareas();
-		
-		$dialogParserTables.each(function(){
-			var tableObject = $(this).DataTable();
-			tableObject.draw(false);
-		});
 	}
 	
 	this.changeSaveFormat = function(select){
@@ -1863,7 +2163,7 @@ function aade(){
 			$newButtonGroups.append($newButtonRemoveDialogBlock[0].outerHTML);
 
 			// Incrementing row counter in the footer of the table
-			that.incrementTotalDialogsFooter();
+			that.changeTotalDialogsFooter('i');
 
 			// Focusing new textarea and placing cursor at beginning of the field
 			$newTextarea.focus();
@@ -1884,29 +2184,28 @@ function aade(){
 		this.dialogParserTableTextareas[filename] = $( tableObject.rows().nodes() ).find("textarea.text-field");
 		tableObject.draw(false);
 		
-		this.decrementTotalDialogsFooter();
+		this.changeTotalDialogsFooter('d');
 	}
 	
-	this.incrementTotalDialogsFooter = function(){
+	this.changeTotalDialogsFooter = function(operation){
+		if(typeof operation == 'undefined') operation = 'i';
+		
 		var $dialogParserTable = $('table.dialog-parser-table:visible');
-		var $tfoot = $dialogParserTable.children('tfoot');
-		var $spanTotalDialogBlocks = $tfoot.find('span.total-dialog-blocks');
-		var total = parseInt($spanTotalDialogBlocks.html(), 10);
+		var $divTabpanel = $dialogParserTable.closest('div.tab-pane');
+		var $spanTotalSections = $divTabpanel.find('span.total-sections');
+		var $spanTotalDialogBlocks = $divTabpanel.find('span.total-dialog-blocks');
 		
-		total++;
+		var totalSections = parseInt($dialogParserTable.attr('data-total-sections'), 10);
+		var totalDialogBlocks = parseInt($dialogParserTable.attr('data-total-dialog-blocks'), 10);
+		if(operation == 'i'){
+			totalDialogBlocks++;
+		} else {
+			totalDialogBlocks--;
+		}
+		$dialogParserTable.attr('data-total-dialog-blocks', totalDialogBlocks);
 		
-		$spanTotalDialogBlocks.html(total);
-	}
-	
-	this.decrementTotalDialogsFooter = function(){
-		var $dialogParserTable = $('table.dialog-parser-table:visible');
-		var $tfoot = $dialogParserTable.children('tfoot');
-		var $spanTotalDialogBlocks = $tfoot.find('span.total-dialog-blocks');
-		var total = parseInt($spanTotalDialogBlocks.html(), 10);
-		
-		total--;
-		
-		$spanTotalDialogBlocks.html(total);
+		$spanTotalSections.html(totalSections);
+		$spanTotalDialogBlocks.html(totalDialogBlocks);
 	}
 	
 	this.toggleValueFields = function(selectFilterType){
@@ -2216,7 +2515,16 @@ function aade(){
 					} else {
 						// All scripts saved, so proceed with the generation of the files
 						that.hideProcessingIndicator();
-						that.showNotify('Todos os scripts salvos com sucesso!');
+						
+						var msg = totalScriptsToSave;
+						if(totalScriptsToSave > 1){
+							msg += ' scripts salvos';
+						} else {
+							msg += ' script salvo';
+						}
+						msg += ' com sucesso!';
+						
+						that.showNotify(msg);
 						if(callback) callback(true);
 					}
 				} else {
@@ -2674,7 +2982,7 @@ function aade(){
 		}
 	}
 	
-	this.showPopoverInvalidBlock = function(element, message){
+	this.showPopover = function(element, message){
 		var $template = $("<div />").addClass('popover danger').attr('role', 'tooltip').append(
 			$('<div />').addClass('arrow')
 		).append(
@@ -2699,7 +3007,7 @@ function aade(){
 		});
 	}
 	
-	this.hidePopoverInvalidBlock = function(element){
+	this.hidePopover = function(element){
 		element.popover('hide');
 	}
 	
@@ -2749,8 +3057,11 @@ function aade(){
 			$divSection.add($divBlockNumber).show();
 		}
 		
+		// Instantiating select2 field inside modal
+		this.instantiateSelect2Fields();
+		
 		// Focusing filter type
-		$selectFilterType.focus();
+		$inputOrder.focus();
 	}
 	
 	this.hideGotoRowFilters = function(){
@@ -2775,9 +3086,10 @@ function aade(){
 				that.triggerClickOnScriptTab(scriptTabId);
 				
 				tableObject.page(destinationPage).draw(false);
+				
 				var $trFound = $dialogParserTable.find('td.order:contains("' + order + '")').closest('tr');
-
-				$('html, body').animate({
+				
+				$('#scripts-tabs').next().animate({
 					scrollTop: $trFound.offset().top
 				}, 'slow');
 
@@ -2894,7 +3206,7 @@ function aade(){
 				if(checkRowFound){
 					tableObject.page(destinationPage).draw(false);
 					
-					$('html, body').animate({
+					$('#scripts-tabs').next().animate({
 						scrollTop: $trFound.offset().top
 					}, 'slow');
 
@@ -3028,6 +3340,14 @@ function aade(){
 		var $button = $(button);
 		var $tr = $button.closest('tr');
 		$tr.remove();
+	}
+	
+	this.showInstructions = function(){
+		$('#instructions').modal('show');
+	}
+	
+	this.hideInstructions = function(){
+		$('#instructions').modal('hide');
 	}
 	
 	this.showLoadingIndicator = function(){
@@ -3327,30 +3647,6 @@ function aade(){
 				$btnGroup.show();
 			}
 		});
-	}
-	
-	this.getDevice = function(onresize){
-		var that = this;
-		if (typeof onresize == 'undefined') onresize = false;
-		if (onresize) {
-			$(window).off('resize.updateGlobalVariable').on('resize.updateGlobalVariable', function () {
-				window.device = that.getDevice(false);
-			});
-		}
-		var envs = ['xs', 'sm', 'md', 'lg'];
-
-		var $el = $('<div>');
-		$el.appendTo($('body'));
-
-		for (var i = envs.length - 1; i >= 0; i--) {
-			var env = envs[i];
-
-			$el.addClass('hidden-' + env);
-			if ($el.is(':hidden')) {
-				$el.remove();
-				return env;
-			}
-		}
 	}
 	
 	this.checkOnElectron = function(){

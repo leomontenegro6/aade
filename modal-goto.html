@@ -9,12 +9,13 @@
 
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="goto-row-script" class="control-label">Script*:</label>
-						<select id="goto-row-script" name="goto-row-script" class="form-control" required></select>
+						<label for="goto-row-script" class="control-label" style="display: block">Script*:</label>
+						<select id="goto-row-script" name="goto-row-script" class="form-control" required style="width: 100%"></select>
 					</div>
 					<div class="form-group">
-						<label for="goto-row-filter-type" class="control-label">Filtro*:</label>
-						<select id="goto-row-filter-type" name="goto-row-filter-type" class="form-control" onchange="aade.toggleValueFields(this)" required>
+						<label for="goto-row-filter-type" class="control-label" style="display: block">Filtro*:</label>
+						<select id="goto-row-filter-type" name="goto-row-filter-type" class="form-control" onchange="aade.toggleValueFields(this)" required
+							style="width: 100%">
 							<option value="o">Ordem</option>
 							<option value="sn">Seção e/ou Número</option>
 						</select>

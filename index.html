@@ -27,15 +27,19 @@
 		<meta name="msapplication-square310x310logo" content="favicons/mstile-310x310.png" />
 		
 		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap.vertical-tabs.min.css">
+		<link rel="stylesheet" href="css/select2.min.css">
 		<link rel="stylesheet" href="css/dataTables.bootstrap.min.css">
+		<link rel="stylesheet" href="css/colReorder.bootstrap.min.css">
 		<link rel="stylesheet" href="css/jquery.highlighttextarea.min.css">
 		<link rel="stylesheet" href="css/bootstrap-colorpicker.min.css">
-		<link rel="stylesheet" href="css/css.css?v=1.0.0b">
-		<link rel="stylesheet" href="css/theme-dark.css?v=1.0.0b">
-		<link rel="stylesheet" href="css/3ds_font_sprites.css?v=1.0.0b">
-		<link rel="stylesheet" href="css/ds_american_font_sprites.css?v=1.0.0b">
-		<link rel="stylesheet" href="css/ds_jacutemsabao_font_sprites.css?v=1.0.0b">
-		<link rel="stylesheet" href="css/ds_european_font_sprites.css?v=1.0.0b">
+		<link rel="stylesheet" href="css/jquery-ui.min.css">
+		<link rel="stylesheet" href="css/css.css?v=1.0.0">
+		<link rel="stylesheet" href="css/theme-dark.css?v=1.0.0">
+		<link rel="stylesheet" href="css/3ds_font_sprites.css?v=1.0.0">
+		<link rel="stylesheet" href="css/ds_american_font_sprites.css?v=1.0.0">
+		<link rel="stylesheet" href="css/ds_jacutemsabao_font_sprites.css?v=1.0.0">
+		<link rel="stylesheet" href="css/ds_european_font_sprites.css?v=1.0.0">
 		
 		<!--
 		Electron - Line needed in order to script imports to work.
@@ -44,10 +48,14 @@
 		<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 		
 		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/select2.min.js"></script>
 		<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/jquery.dataTables.pagination.plugin.js"></script>
+		<script type="text/javascript" src="js/dataTables.colReorder.min.js"></script>
+		<script type="text/javascript" src="js/colReorder.bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/html2canvas.js"></script>
 		<script type="text/javascript" src="js/jquery.highlighttextarea.js"></script>
 		<script type="text/javascript" src="js/clipboard.min.js"></script>
@@ -56,17 +64,16 @@
 		<script type="text/javascript" src="js/bootstrap-colorpicker.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap-notify.min.js"></script>
 		<script type="text/javascript" src="js/html2rtf.js"></script>
-		<script type="text/javascript" src="js/safeSave.js?v=1.0.0b"></script>
+		<script type="text/javascript" src="js/safeSave.js?v=1.0.0"></script>
 		<script type="text/javascript" src="js/jsrender.min.js"></script>
 		<script type="text/javascript" src="js/stash.min.js"></script>
-		<script type="text/javascript" src="js/aade.js?v=1.0.0b"></script>
+		<script type="text/javascript" src="js/aade.js?v=1.0.0"></script>
 		<script type="text/javascript">
 			// Electron - Line needed in order to script imports to work.
 			// Need to be added after all JS files are loaded.
 			if (window.module) module = window.module;
 			
 			// Common tool routines
-			var device = aade.getDevice(true);
 			$(function(){
 				aade.loadMainAppRoutines();
 			})
@@ -75,7 +82,7 @@
 	<body>
 		<nav class="navbar navbar-inverse navbar-static-top">
 			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
+				<!-- Navbar and main menu -->
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#global-actions-menu" aria-expanded="false">
 						<span class="sr-only">Toggle navigation</span>
@@ -85,11 +92,8 @@
 					</button>
 					<a class="navbar-brand" href="#">
 						<img class="brand" alt="Brand" src="favicons/brand.png" />
-						<span class="title hidden-xs">
-							Editor de Diálogos do Ace Attorney v1.0.0b
-						</span>
-						<span class="title visible-xs">
-							EDAA v1.0.0b
+						<span class="title">
+							AADE - Editor de Diálogos do Ace Attorney v1.0.0
 						</span>
 					</a>
 				</div>
@@ -140,6 +144,12 @@
 									</a>
 								</li>
 								<li>
+									<a href="#" onclick="aade.showInstructions()" title="Mostrar instruções de uso do programa">
+										<span class="glyphicon glyphicon-question-sign"></span>
+										Instruções de Uso
+									</a>
+								</li>
+								<li>
 									<a href="#" onclick="aade.openAboutPage()" title="Sobre este programa">
 										<span class="glyphicon glyphicon-info-sign"></span>
 										Sobre
@@ -156,42 +166,43 @@
 		<div id="main-container" class="container-fluid">
 			
 			<!-- Initial tabs -->
-			<ul id="main-tabs" class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active">
-					<a href="#dialog-parser-tab" aria-controls="dialog-parser-tab" role="tab" data-toggle="tab">
-						<span class="glyphicon glyphicon-text-size"></span>
-						Tradutor de Diálogos
-					</a>
-				</li>
-				<li role="presentation">
-					<a href="#equivalence-table-tab" aria-controls="equivalence-table-tab" role="tab" data-toggle="tab">
-						<span class="glyphicon glyphicon-duplicate"></span>
-						Tabela de Equivalência
-					</a>
-				</li>
-				<li role="presentation">
-					<a href="#sandbox-tab" aria-controls="sandbox-tab" role="tab" data-toggle="tab">
-						<span class="glyphicon glyphicon-inbox"></span>
-						Sandbox
-					</a>
-				</li>
-			</ul>
-
-			<div class="tab-content">
-				<!-- Empty containers to be filled afterwards -->
-				<div role="tabpanel" class="tab-pane active" id="dialog-parser-tab">
-					<div id="dialog-file-form-container"></div>
-					<div id="dialog-parsed-scripts-container"></div>
+			<div id="main-tabs-conteiner" class="row">
+				<div class="col-xs-1">
+					<ul id="main-tabs" class="nav nav-tabs tabs-left sideways" role="tablist">
+						<li role="presentation" class="active">
+							<a href="#dialog-parser-tab" aria-controls="dialog-parser-tab" role="tab" data-toggle="tab" title="Tradutor de Diálogos">
+								<span class="glyphicon glyphicon-text-size"></span>
+								<span class="hide-on-low-height">Tradutor de </span>Diálogos
+							</a>
+						</li>
+						<li role="presentation">
+							<a href="#equivalence-table-tab" aria-controls="equivalence-table-tab" role="tab" data-toggle="tab" title="Tabela de Equivalência">
+								<span class="glyphicon glyphicon-duplicate"></span>
+								<span class="hide-on-low-height">Tabela de Equivalência</span>
+								<span class="show-on-low-height">T.E.</span>
+							</a>
+						</li>
+						<li role="presentation">
+							<a href="#sandbox-tab" aria-controls="sandbox-tab" role="tab" data-toggle="tab" title="Sandbox">
+								<span class="glyphicon glyphicon-inbox"></span>
+								Sandbox
+							</a>
+						</li>
+					</ul>
 				</div>
-				<div role="tabpanel" class="tab-pane" id="equivalence-table-tab"></div>
-				<div role="tabpanel" class="tab-pane" id="sandbox-tab"></div>
+				<div class="col-xs-11">
+					<div class="tab-content">
+						<!-- Empty containers to be filled afterwards -->
+						<div role="tabpanel" class="tab-pane active" id="dialog-parser-tab">
+							<div id="dialog-file-form-container"></div>
+							<div id="dialog-parsed-scripts-container"></div>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="equivalence-table-tab"></div>
+						<div role="tabpanel" class="tab-pane" id="sandbox-tab"></div>
+					</div>
+				</div>
+				<div class="clearfix"></div>
 			</div>
 		</div>
-		
-		<footer class="footer">
-			<div class="container">
-				<p class="text-muted">&copy; 2017 - Solid One</p>
-			</div>
-		</footer>
 	</body>
 </html>

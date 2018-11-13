@@ -2,18 +2,18 @@ div.text-window.n3ds span.letter{
 	display: inline-block;
 	width: 19px;
 	height: 19px;
-	background: url('../images/font_3ds.png?v=1.0.0b');
+	background: url('../images/font_3ds.png?v=1.0.0');
 	background-position: 0 0;
 }
 
 div.text-window.n3ds span.letter.color-blue{
-	background-image: url('../images/font_3ds_blue.png?v=1.0.0b');
+	background-image: url('../images/font_3ds_blue.png?v=1.0.0');
 }
 div.text-window.n3ds span.letter.color-orange{
-	background-image: url('../images/font_3ds_orange.png?v=1.0.0b');
+	background-image: url('../images/font_3ds_orange.png?v=1.0.0');
 }
 div.text-window.n3ds span.letter.color-green{
-	background-image: url('../images/font_3ds_green.png?v=1.0.0b');
+	background-image: url('../images/font_3ds_green.png?v=1.0.0');
 }
 
 div.text-window.n3ds span.caret{
