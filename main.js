@@ -86,19 +86,7 @@ function createWindow () {
 					label: 'Novo Script',
 					accelerator: 'CmdOrCtrl+N',
 					click () {
-						if (app.showExitPrompt) {
-							showExitConfirmationDialog(function(response){
-								if (response) {
-									app.showExitPrompt = false
-									
-									toggleScriptMenus(false)
-									mainWindow.reload()
-								}
-							})
-						} else {
-							toggleScriptMenus(false)
-							mainWindow.reload()
-						}
+						reloadMainWindow();
 					}
 				},
 				{
@@ -137,6 +125,21 @@ function createWindow () {
 					enabled: false,
 					click () {
 						mainWindow.webContents.executeJavaScript("aade.showGotoRowFilters()")
+					}
+				}
+			]
+		},
+		{
+			id: 'search',
+			label: 'Pesquisar',
+			submenu: [
+				{
+					id: 'localize',
+					label: 'Localizar',
+					accelerator: 'CmdOrCtrl+F',
+					enabled: false,
+					click () {
+						mainWindow.webContents.executeJavaScript("aade.triggerFocusOnVisibleTableSearchField()")
 					}
 				}
 			]
@@ -228,12 +231,14 @@ function toggleScriptMenus(enabled=true){
 	let saveScriptsMenu = menu.getMenuItemById('saveScripts')
 	let exportScriptMenu = menu.getMenuItemById('exportScript')
 	let gotoMenu = menu.getMenuItemById('goto')
+	let localizeMenu = menu.getMenuItemById('localize')
 	let previewScriptsMenu = menu.getMenuItemById('previewScripts')
 	let analyzeScriptMenu = menu.getMenuItemById('analyzeScript')
 	
 	saveScriptsMenu.enabled = enabled
 	exportScriptMenu.enabled = enabled
 	gotoMenu.enabled = enabled
+	localizeMenu.enabled = enabled
 	previewScriptsMenu.enabled = enabled
 	analyzeScriptMenu.enabled = enabled
 	
@@ -254,6 +259,22 @@ function showExitConfirmationDialog(callback){
 		}
 		if(callback) callback(response)
 	})
+}
+
+function reloadMainWindow(){
+	if (app.showExitPrompt) {
+		showExitConfirmationDialog(function(response){
+			if (response) {
+				app.showExitPrompt = false
+
+				toggleScriptMenus(false)
+				mainWindow.reload()
+			}
+		})
+	} else {
+		toggleScriptMenus(false)
+		mainWindow.reload()
+	}
 }
 
 function getScriptsListInFolder(){
@@ -344,6 +365,9 @@ ipc.on('activateScriptMenus', () => {
 })
 ipc.on('showExitPromptBeforeDiscard', () => {
 	app.showExitPrompt = true
+})
+ipc.on('reloadMainWindow', () => {
+	reloadMainWindow();
 })
 ipc.on('closeAboutWindow', () => {
 	aboutWindow.close()

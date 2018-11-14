@@ -267,6 +267,19 @@ function aade(){
 			parameters.templateResult = templateFunction;
 			parameters.templateSelection = templateFunction;
 			
+			$select.on({
+				// Select2 open event
+				'select2:open': function(e, a, b, c){
+					// Adicionando atributo "id" ao contêiner do campo, para permitir
+					// personalizações específicas adicionais
+					var $dropdown = $select.data()['select2']['$dropdown'];
+					
+					if($select.is("[name^='DataTables_Table_']") && $select.is("[name$='_length']")){
+						$dropdown.addClass('no-overflow');
+					}
+				},
+			});
+			
 			$select.select2(parameters);
 			
 			$select.attr('data-instantiated', 'true');
@@ -593,15 +606,22 @@ function aade(){
 						'data-toggle': 'tab',
 						'title': filename
 					}).html(filename).on('shown.bs.tab', function(){
+						var $a = $(this);
+						var clickedScriptTabId = $a.attr('aria-controls');
+						
+						// Instantiating select2 fields in each script tab
 						that.instantiateSelect2Fields();
-						that.highlightWordsTextareas();
+						
+						// Highlighting words in textareas after clicking a script tab,
+						// since it won't work properly on hidden elements.
+						var $visibleTextareas = $('#' + clickedScriptTabId).find('textarea.text-field');
+						that.highlightWordsTextareas($visibleTextareas, false);
 					})
 				).append(
 					$('<span />').addClass('glyphicon glyphicon-remove remove-script').attr({
 						'tabindex': '0',
-						'title': 'Fechar script'
-					}).click(function(){
-						that.closeScriptFile(scriptTabId);
+						'title': 'Fechar script',
+						'onclick': "aade.closeScriptFile('" + scriptTabId + "')"
 					})
 				);
 				var $divTabpanel = $('<div />').attr({
@@ -1009,7 +1029,7 @@ function aade(){
 					});
 					
 					// Instantiating word highlighting on all visible textareas
-					var $visibleTextareas = $tbody.find('textarea.text-field');
+					var $visibleTextareas = $tbody.find('textarea.text-field:visible');
 					that.highlightWordsTextareas($visibleTextareas);
 				},
 				// Pagination change event
@@ -1093,7 +1113,7 @@ function aade(){
 				'pagingType': 'input',
 				"dom":  "<'row'<'col-sm-6'lf><'col-sm-6 paginate_col'p>>" +
 						"<'row'<'col-sm-12'tr>>" +
-						"<'row footer'<'col-sm-6'i><'col-sm-6 paginate_col'p>>",
+						"<'row'<'col-sm-6'i><'col-sm-6 paginate_col'p>>",
 				'language': {
 					'sEmptyTable': 'Nenhum registro encontrado',
 					'sInfo': 'Total de seções: <span class="total-sections">...</span> - Total de diálogos: <span class="total-dialog-blocks">...</span>',
@@ -1149,78 +1169,62 @@ function aade(){
 		}
 	}
 	
-	this.reinstantiatePaginationDialogParsing = function(){
-		var $dialogParserTables = $('table.dialog-parser-table');
-		
-		if($dialogParserTables.length == 0){
-			return;
-		}
-		
-		$dialogParserTables.each(function(){
-			var $dialogParserTable = $(this);
-			var $thead = $dialogParserTable.children('thead');
-			
-			var tableObject = $dialogParserTable.DataTable();
-			
-			tableObject.destroy();
-			
-			$thead.children('tr').children('th').each(function(){
-				var $th = $(this);
-				
-				$th.removeAttr('tabindex aria-controls rowspan colspan aria-sort aria-label style').removeClass('sorting_asc sorting_desc');
-			})
-		});
-		
-		this.instantiatePaginationDialogParsing();
+	this.triggerFocusOnVisibleTableSearchField = function(){
+		$('div.dataTables_filter').find("input[type='search']:visible").first().focus();
 	}
 	
 	this.closeScriptFile = function(scriptTabId){
 		var $liScriptTab = $("a[href='#" + scriptTabId + "']").closest('li');
 		var $divScriptTab = $('#' + scriptTabId);
+		var $closestLiScriptTab = $liScriptTab.siblings().first();
 		
-		var that = this;
-		var totalScripts = that.openedFiles.length;
+		var closestScriptTabId = $closestLiScriptTab.children('a').attr('aria-controls');
+		var totalScripts = this.openedFiles.length;
 		
-		if(totalScripts == 1){
-			alert('Pelo menos um script deve permanecer aberto.');
+		// Showing confirmation messages, before closing the script
+		if(totalScripts > 1){
+			if( !confirm("Alterações não-salvas serão perdidas.\nFechar script?") ){
+				return;
+			}
+		} else {
+			if( this.checkOnElectron() ){
+				this.reloadMainWindowOnElectron();
+			} else {
+				if( confirm('Alterações não-salvas serão perdidas.\nFechar script e voltar à página inicial?') ){
+					$(window).off("beforeunload");
+					location.reload();
+				}
+			}
 			return;
 		}
 		
-		var closeScript = function(){
-			// Deleting script from DOM
-			$liScriptTab.add($divScriptTab).remove();
+		// Checking if current script file tab is active
+		var checkActive = $liScriptTab.hasClass('active');
+		
+		// Deleting script from DOM
+		$liScriptTab.add($divScriptTab).remove();
 
-			// Deleting script from openedFiles" main property
-			for(var i in that.openedFiles){
-				var openedFile = that.openedFiles[i];
-				var currentScriptTabId = openedFile.scriptTabId;
+		// Deleting script from "openedFiles" main property
+		for(var i in this.openedFiles){
+			var openedFile = this.openedFiles[i];
+			var currentScriptTabId = openedFile.scriptTabId;
 
-				if(currentScriptTabId == scriptTabId){
-					that.openedFiles.splice(i, 1);
-				}
+			if(currentScriptTabId == scriptTabId){
+				this.openedFiles.splice(i, 1);
 			}
 		}
 		
-		if( that.checkOnElectron() ){
-			that.saveScriptsOnElectron(function(r){
-				if(r){
-					closeScript();
-				} else {
-					alert('Erro ao salvar o arquivo antes de fechá-lo.');
-				}
-			});
-		} else {
-			closeScript();
+		// If current script file tab is active, then click on the
+		// closest neighbor tab
+		if(checkActive){
+			this.triggerClickOnScriptTab(closestScriptTabId);
 		}
 	}
 	
-	this.highlightWordsTextareas = function(textareas){
+	this.highlightWordsTextareas = function(textareas, reinstantiate){
+		if(typeof reinstantiate == 'undefined') reinstantiate = true;
+		
 		var $textareas = $(textareas);
-		if(typeof textareas == 'undefined'){
-			$textareas = $('textarea.text-field');
-		} else {
-			$textareas = $(textareas);
-		}
 		var $equivalenceTable = $('#equivalence-table');
 		var $inputsOriginalNames = $equivalenceTable.find('input.original-name');
 		var $inputsAdaptedNames = $equivalenceTable.find('input.adapted-name');
@@ -1230,6 +1234,7 @@ function aade(){
 		var themeColors = that.configs.highlightingColors[theme];
 		var destinationTool = that.destinationTool;
 		var originalNames = [], adaptedNames = [];
+		
 		$inputsOriginalNames.each(function(){
 			originalNames.push(this.value);
 		});
@@ -1239,12 +1244,14 @@ function aade(){
 		
 		$textareas.each(function(){
 			var $textarea = $(this);
-			var $tdFormFields = $textarea.closest('td.form-fields');
 			
 			if($textarea.is("[data-highlight-instantiated='true']")){
-				$textarea.appendTo($tdFormFields);
-				$tdFormFields.find('div.highlightTextarea').remove();
-				delete $textarea.data()['highlighter'];
+				if(reinstantiate) {
+					that.destroyHighlightWordTextarea($textarea);
+				} else {
+					// Continue to next element, avoiding component reinstantiation
+					return true;
+				}
 			}
 			
 			$textarea.highlightTextarea({
@@ -1269,6 +1276,15 @@ function aade(){
 				}]
 			}).attr('data-highlight-instantiated', 'true');
 		});
+	}
+	
+	this.destroyHighlightWordTextarea = function(textarea){
+		var $textarea = $(textarea);
+		var $tdFormFields = $textarea.closest('td.form-fields');
+
+		$textarea.appendTo($tdFormFields);
+		$tdFormFields.find('div.highlightTextarea').remove();
+		delete $textarea.data()['highlighter'];
 	}
 	
 	this.instantiateCopyClipboardButtons = function(buttons, textarea){
@@ -3591,6 +3607,13 @@ function aade(){
 			ipc.send('setTitle', title);
 		} else {
 			$('title').html(title);
+		}
+	}
+	
+	this.reloadMainWindowOnElectron = function(){
+		if( this.checkOnElectron() ){
+			var ipc = require('electron').ipcRenderer;
+			return ipc.send('reloadMainWindow');
 		}
 	}
 	
