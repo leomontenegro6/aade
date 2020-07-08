@@ -1563,6 +1563,7 @@ function aade(){
 		var $radioGameFieldAA1 = $('#config-game-field-aa1');
 		var $radioGameFieldAA2 = $('#config-game-field-aa2');
 		var $radioGameFieldAA3 = $('#config-game-field-aa3');
+		var $radioGameFieldAA4 = $('#config-game-field-aa4');
 		var $radioNameTypeOriginal = $('#config-name-type-original');
 		var $radioNameTypeAdapted = $('#config-name-type-adapted');
 		var $radioPlatform3DS = $('#config-platform-3ds');
@@ -1576,7 +1577,9 @@ function aade(){
 		var $divColorpickerFields = $('div.colorpicker-component');
 		
 		// Checking default options for each field
-		if(this.configs.game == 'aa3'){
+		if(this.configs.game == 'aa4'){
+			$radioGameFieldAA4.prop('checked', true);
+		} else if(this.configs.game == 'aa3'){
 			$radioGameFieldAA3.prop('checked', true);
 		} else if(this.configs.game == 'aa2'){
 			$radioGameFieldAA2.prop('checked', true);
@@ -1631,6 +1634,7 @@ function aade(){
 		var $radioGameFieldAA1 = $('#config-game-field-aa1');
 		var $radioGameFieldAA2 = $('#config-game-field-aa2');
 		var $radioGameFieldAA3 = $('#config-game-field-aa3');
+		var $radioGameFieldAA4 = $('#config-game-field-aa4');
 		var $radioNameTypeOriginal = $('#config-name-type-original');
 		var $radioNameTypeAdapted = $('#config-name-type-adapted');
 		var $radioPlatform3DS = $('#config-platform-3ds');
@@ -1644,7 +1648,9 @@ function aade(){
 		var $divColorpickerFields = $('div.colorpicker-component');
 		
 		// Checking default options for each field
-		if(this.defaultConfigs.game == 'aa3'){
+		if(this.defaultConfigs.game == 'aa4'){
+			$radioGameFieldAA4.prop('checked', true);
+		} else if(this.defaultConfigs.game == 'aa3'){
 			$radioGameFieldAA3.prop('checked', true);
 		} else if(this.defaultConfigs.game == 'aa2'){
 			$radioGameFieldAA2.prop('checked', true);
@@ -3315,6 +3321,8 @@ function aade(){
 	this.loadEquivalenceTableFromFileForm = function(game){
 		var $selectEquivalenceTable = $('#equivalence-table-field');
 		$selectEquivalenceTable.val(game).trigger('change');
+		
+		this.changeDefaultGame($selectEquivalenceTable);
 	}
 	
 	this.addCharacterEquivalenceTable = function(){
