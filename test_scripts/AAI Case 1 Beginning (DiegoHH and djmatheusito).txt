@@ -1,0 +1,2692 @@
+{{0}}
+{ponteiro: 36944,1408}{bloco: 25}{name: 2}{color: 0}
+How is it coming along?{nextpage_button}
+
+{{1}}
+{ponteiro: 37116,17660}{bloco: 79}{name: 30}{color: 0}
+Please, I need absolute{b}
+silence.{wait: 16}{speed: 3} Fingerprint lifting{b}
+is a delicate art!{nextpage_button}
+
+{{2}}
+{ponteiro: 37344,468}{bloco: 21}{name: 2}{color: 4}
+(...Well, I never!){nextpage_button}
+
+{{3}}
+{ponteiro: 37716,16300}{bloco: 77}{name: 2}{color: 4}
+(Hmm, I seem to have gathered{b}
+a few pieces of pertinent{b}
+{color: 1}information{color: 2}.){nextpage_button}
+
+{{4}}
+{ponteiro: 37944,30288}{bloco: 97}{name: 2}{color: 4}
+(Now to calmly use some {color: 1}Logic{color: 2}{b}
+and figure out if any of them{b}
+are connected to each other.){nextpage_button}
+
+{{5}}
+{ponteiro: 38240,1464}{bloco: 25}{name: 2}{color: 0}
+How is it coming along?{nextpage_button}
+
+{{6}}
+{ponteiro: 38412,19904}{bloco: 82}{name: 30}{color: 0}
+Please, I need absolute{b}
+silence.{wait: 12}{speed: 3} This picture is too{b}
+important to mess up.{nextpage_button}
+
+{{7}}
+{ponteiro: 38640,2516}{bloco: 34}{name: 2}{color: 4}
+(I'll leave the man to his{b}
+art.){nextpage_button}
+
+{{8}}
+{ponteiro: 38884,13972}{bloco: 73}{name: 2}{color: 0}
+So the detectives of this{b}
+precinct all use this same{b}
+model of revolver?{nextpage_button}
+
+{{9}}
+{ponteiro: 39184,29988}{bloco: 97}{name: 3}{color: 0}
+I guess.{wait: 16} I don't really like{b}
+guns, but at least {shake: 1, 1}I do know{b}
+the different types out there!{nextpage_button}
+
+{{10}}
+{ponteiro: 39412,5972}{bloco: 51}{name: 2}{color: 4}
+(At least he knows SOMETHING{b}
+related to his job.){nextpage_button}
+
+{{11}}
+{ponteiro: 39940,2140}{bloco: 30}{name: 0}{color: 2}
+{margem: 36}High Prosecutors' Offices{nextpage_button}
+
+{{12}}
+{ponteiro: 40200,200}{bloco: 13}{name: 0}{color: 6}
+Event Begin{nextpage_button}
+
+{{13}}
+{ponteiro: 40436,1724}{bloco: 29}{name: 2}{color: 0}
+May I have a word with you?{nextpage_button}
+
+{{14}}
+{ponteiro: 40608,2480}{bloco: 34}{name: 30}{color: 0}
+Please, I need absolute{b}
+silence.{nextpage_button}
+
+{{15}}
+{ponteiro: 40780,9400}{bloco: 63}{name: 30}{color: 0}
+Dusting for prints at a crime{b}
+scene is a most sacred{b}
+process.{nextpage_button}
+
+{{16}}
+{ponteiro: 41008,6248}{bloco: 53}{name: 2}{color: 4}
+(The man loves his job...{wait: 16}{b}
+Maybe a bit too much.){nextpage_button}
+
+{{17}}
+{ponteiro: 41556,2108}{bloco: 30}{name: 0}{color: 2}
+{margem: 36}High Prosecutors' Offices{nextpage_button}
+
+{{18}}
+{ponteiro: 41812,216}{bloco: 13}{name: 0}{color: 6}
+Event Begin{nextpage_button}
+
+{{19}}
+{ponteiro: 42456,1520}{bloco: 27}{name: 0}{color: 2}
+High Prosecutors' Offices{nextpage_button}
+
+{{20}}
+{ponteiro: 42744,184}{bloco: 13}{name: 0}{color: 6}
+Event Begin{nextpage_button}
+
+{{21}}
+{ponteiro: 42992,3784}{bloco: 42}{name: 2}{color: 0}
+{desconhecido_0E: 1, 23, 255, 1}Mr. Portsman.{wait: 8}{b}
+A word, if I may.{nextpage_button}
+
+{{22}}
+{ponteiro: 43220,32024}{bloco: 102}{name: 29}{color: 0}
+{desconhecido_0E: 24, 26, 255, 1}Oh, Jim...{wait: 16} Your laugh, your{b}
+smile...{wait: 16} I'll never be able to{b}
+joke around with you again...{nextpage_button}
+
+{{23}}
+{ponteiro: 43448,29788}{bloco: 96}{name: 29}{color: 0}
+{flash: 0, 1}{sfx: 21}But don't you worry, Jim!{wait: 16}{b}
+I'll joke around enough for{b}
+the both of us!{wait: 16} You'll see!{nextpage_button}
+
+{{24}}
+{ponteiro: 43676,28812}{bloco: 94}{name: 2}{color: 0}
+...He's not listening at all.{wait: 16}{b}
+{color: 2}(Mr. Portsman is off in his{b}
+own little world, it seems.){nextpage_button}
+
+{{25}}
+{ponteiro: 44496,2012}{bloco: 30}{name: 0}{color: 2}
+{margem: 36}High Prosecutors' Offices{nextpage_button}
+
+{{26}}
+{ponteiro: 44784,168}{bloco: 13}{name: 0}{color: 6}
+Event Begin{nextpage_button}
+
+{{27}}
+{ponteiro: 45036,2988}{bloco: 36}{name: 2}{color: 0}
+Mr. Portsman.{wait: 16}{b}
+A word, if I may.{nextpage_button}
+
+{{28}}
+{ponteiro: 45264,17260}{bloco: 78}{name: 29}{color: 0}
+{desconhecido_0E: 24, 25, 255, 1}Jim... {wait: 16}I swear I'll find your{b}
+killer and bring them to{b}
+{shake: 1, 1}justice!{nextpage_button}
+
+{{29}}
+{ponteiro: 45436,5868}{bloco: 51}{name: 29}{color: 0}
+You wait and see.{wait: 16}{b}
+It'll be for the both of us!{nextpage_button}
+
+{{30}}
+{ponteiro: 45664,14124}{bloco: 73}{name: 29}{color: 0}
+{flash: 0, 1}{sfx: 21}{desconhecido_0E: 24, 34, 255, 1}{shake: 1, 1}Now then!{wait: 16} You wanted to talk{b}
+to me about something?{nextpage_button}
+
+{{31}}
+{ponteiro: 45892,26800}{bloco: 91}{name: 2}{color: 0}
+...Um, no.{wait: 16} That's alright.{wait: 16}{b}
+{color: 2}(I feel like I'm interrupting{b}
+their... conversation.){nextpage_button}
+
+{{32}}
+{ponteiro: 46184,3268}{bloco: 39}{name: 2}{color: 0}
+Do you have anything to{b}
+report?{desconhecido_0E: 1, 1, 255, 1}{nextpage_button}
+
+{{33}}
+{ponteiro: 46428,11500}{bloco: 67}{name: 12}{color: 0}
+{shake: 2, 2}Sir, yes, sir!{wait: 20}{b}
+Nothing out of the ordinary{b}
+right now, sir!{nextpage_button}
+
+{{34}}
+{ponteiro: 46656,26064}{bloco: 89}{name: 12}{color: 0}
+And yet,{wait: 8}{flash: 0, 1}{sfx: 19} there's something out{b}
+of the ordinary {shake: 1, 1}right in front{b}
+of my eyes.{nextpage_button}
+
+{{35}}
+{ponteiro: 46900,3432}{bloco: 40}{name: 3}{color: 0}
+{shake: 1, 1}{flash: 0, 1}{sfx: 21}Talk about a contradiction!{nextpage_button}
+
+{{36}}
+{ponteiro: 47128,14656}{bloco: 74}{name: 2}{color: 4}
+(Something out of the{b}
+ordinary, huh... I should{b}
+look around a bit more.){nextpage_button}
+
+{{37}}
+{ponteiro: 47380,10616}{bloco: 66}{name: 3}{color: 0}
+{flash: 0, 1}{shake: 2, 2}{sfx: 23}{desconhecido_0E: 2, 15, 255, 1}Ouch,{speed: 2} they even knocked over{b}
+your chess set!{nextpage_button}
+
+{{38}}
+{ponteiro: 47608,33180}{bloco: 106}{name: 3}{color: 0}
+{desconhecido_0E: 2, 23, 255, 1}I had it all set up, ready for{b}
+when you got back.{wait: 16}{speed: 3}{shake: 1, 1} I figured{b}
+we could play a few games.Q{nextpage_button}
+
+{{39}}
+{ponteiro: 47852,5556}{bloco: 51}{name: 2}{color: 0}
+{desconhecido_0E: 1, 23, 255, 1}I had no idea you were{b}
+interested in chess.{nextpage_button}
+
+{{40}}
+{ponteiro: 48080,16860}{bloco: 78}{name: 3}{color: 0}
+I'm actually pretty good at{b}
+checkers, so {shake: 1, 1}I thought I'd{b}
+give chess a try.{nextpage_button}
+
+{{41}}
+{ponteiro: 48364,28332}{bloco: 93}{name: 2}{color: 0}
+{desconhecido_0E: 1, 26, 255, 1}Hmm... {wait: 16}In that case, I suppose{b}
+I can set some time aside{b}
+after we solve this case.{nextpage_button}
+
+{{42}}
+{ponteiro: 48592,10412}{bloco: 65}{name: 2}{color: 4}
+(Though I don't expect the{b}
+games to tax my mental acuity{b}
+much.){nextpage_button}
+
+{{43}}
+{ponteiro: 48828,3148}{bloco: 39}{name: 2}{color: 0}
+{desconhecido_0E: 1, 23, 255, 1}Do you have anything to{b}
+report?{nextpage_button}
+
+{{44}}
+{ponteiro: 49072,14352}{bloco: 73}{name: 12}{color: 0}
+{shake: 1, 1}{desconhecido_0E: 4, 23, 255, 1}Sir, yes, sir!{wait: 16}{b}
+Seeing Mr. Portsman tearing{b}
+up like that...{nextpage_button}
+
+{{45}}
+{ponteiro: 49372,13668}{bloco: 73}{name: 12}{color: 0}
+...has brought an unstoppable{b}
+torrent of tears to {shake: 2, 2}my own{b}
+eyes, sir!{nextpage_button}
+
+{{46}}
+{ponteiro: 49616,4528}{bloco: 47}{name: 3}{color: 0}
+...Were you good friends with{b}
+Mr. Faith, pal?{nextpage_button}
+
+{{47}}
+{ponteiro: 49860,26892}{bloco: 92}{name: 12}{color: 0}
+{shake: 1, 1}No, sir!{desconhecido_0E: 4, 23, 255, 1}{wait: 16} But I can't help{b}
+myself.{wait: 16} I'm sympathetic to{b}
+other people's tears!{nextpage_button}
+
+{{48}}
+{ponteiro: 50088,30688}{bloco: 98}{name: 2}{color: 0}
+{desconhecido_0E: 1, 23, 255, 1}...If I may make a suggestion,{b}
+I'd clean myself up so as to{b}
+not give the wrong impression.{nextpage_button}
+
+{{49}}
+{ponteiro: 50396,27372}{bloco: 92}{name: 3}{color: 0}
+Oh,{desconhecido_18: 0, 24, 0}{wait: 12} it's your {shake: 1, 1}trophy!{wait: 12}{b}
+{speed: 4}The um... {wait: 8}{speed: 3}{shake: 1, 1}Knight of{b}
+Prosecutors, right!?{nextpage_button}
+
+{{50}}
+{ponteiro: 50640,21336}{bloco: 84}{name: 2}{color: 0}
+...King.{wait: 16} King of Prosecutors.{wait: 16}{b}
+{speed: 2}{desconhecido_0E: 1, 35, 255, 1}And it's not a trophy; it's a{b}
+shield.{nextpage_button}
+
+{{51}}
+{ponteiro: 50960,8568}{bloco: 60}{name: 3}{color: 0}
+They only {shake: 1, 1}send this to the{b}
+winning prosecutor, right!?{nextpage_button}
+
+{{52}}
+{ponteiro: 51132,25696}{bloco: 89}{name: 2}{color: 0}
+{desconhecido_0E: 1, 36, 255, 1}...Yes,{wait: 16}{speed: 2} but I have no real{b}
+interest in the perceived{b}
+worth of other people.{nextpage_button}
+
+{{53}}
+{ponteiro: 51304,19988}{bloco: 82}{name: 2}{color: 0}
+{desconhecido_0E: 1, 25, 255, 1}As for my own worth,{wait: 10} that is{b}
+something only I can determine{b}
+for myself.{nextpage_button}
+
+{{54}}
+{ponteiro: 51476,32232}{bloco: 103}{name: 3}{color: 0}
+{desconhecido_0E: 2, 7, 255, 1}Th-{wait: 10}{shake: 1, 1}{speed: 1}That's so slick, sir!{wait: 20}{b}
+{speed: 2}{flash: 0, 0}{sfx: 29}{shake: 1, 1}I'm gonna have to try saying{b}
+that sometime!{nextpage_button}
+
+{{55}}
+{ponteiro: 51704,20072}{bloco: 82}{name: 2}{color: 4}
+(Unfortunately for him, his{b}
+monetary worth is tied{b}
+directly to his worth to me.){nextpage_button}
+
+{{56}}
+{ponteiro: 51956,31088}{bloco: 100}{name: 2}{color: 0}
+{desconhecido_0E: 1, 34, 160, 1}I hope we can solve this case{b}
+quickly.{wait: 16} I'd like to return to{b}
+relaxing on this sofa.{desconhecido_0E: 1, 1, 255, 1}{nextpage_button}
+
+{{57}}
+{ponteiro: 52184,13144}{bloco: 71}{name: 3}{color: 0}
+{shake: 1, 1}That thing looks a billion{b}
+times softer than my mattress{b}
+at home!{nextpage_button}
+
+{{58}}
+{ponteiro: 52428,7820}{bloco: 58}{name: 3}{color: 0}
+C-Can I sit on it, too?{wait: 16}{b}
+Just for a little while, sir?{nextpage_button}
+
+{{59}}
+{ponteiro: 52672,8760}{bloco: 61}{name: 2}{color: 0}
+Detective Gumshoe.{wait: 16}{b}
+{speed: 2}{desconhecido_0E: 1, 34, 255, 1}You know I can't allow that.{nextpage_button}
+
+{{60}}
+{ponteiro: 52900,21080}{bloco: 83}{name: 2}{color: 0}
+{desconhecido_0E: 1, 36, 255, 1}Until this case is solved,{b}
+neither of us has time to{b}
+spare, let alone rest.{nextpage_button}
+
+{{61}}
+{ponteiro: 53128,31608}{bloco: 101}{name: 3}{color: 0}
+...{flash: 0, 1}{sfx: 21}!{desconhecido_0E: 2, 31, 255, 1}{wait: 16} You're right, sir!{wait: 16}{speed: 2}{b}
+I'm gonna work hard and be a{b}
+real trooper to the end!{nextpage_button}
+
+{{62}}
+{ponteiro: 53356,21776}{bloco: 84}{name: 2}{color: 4}
+(Even once this case is over,{b}
+I don't think he can afford to{b}
+take any time off...){nextpage_button}
+
+{{63}}
+{ponteiro: 53608,9080}{bloco: 63}{name: 2}{color: 0}
+...Is this... {wait: 16}{desconhecido_0E: 1, 12, 255, 1}yet another{b}
+batch of fresh flowers...?{nextpage_button}
+
+{{64}}
+{ponteiro: 53868,22040}{bloco: 85}{name: 3}{color: 0}
+The ones that come with a{b}
+card attached every month like{b}
+clockwork for you?{wait: 16} Yup.{nextpage_button}
+
+{{65}}
+{ponteiro: 54096,20576}{bloco: 83}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 21}{shake: 1, 1}Speaking of that!{wait: 16} {shake: 1, 1}Let's see{b}
+what's on the card this month,{b}
+sir!{nextpage_button}
+
+{{66}}
+{ponteiro: 54324,10276}{bloco: 65}{name: 3}{color: 0}
+{sfx: 19}{flash: 0, 1}"All will be resolved.{b}
+                   -{wait: 8}-{wait: 16}Wendy"{nextpage_button}
+
+{{67}}
+{ponteiro: 54552,5764}{bloco: 51}{name: 2}{color: 4}
+(Oh, Ms. Irony...{wait: 12}{b}
+How painful are thy thorns.){nextpage_button}
+
+{{68}}
+{ponteiro: 54780,23184}{bloco: 86}{name: 3}{color: 0}
+Wendy... {wait: 16}Isn't that the name{b}
+of that old lady with the whiny{b}
+voice that's stalk--{nextpage_button}
+
+{{69}}
+{ponteiro: 55008,14884}{bloco: 75}{name: 2}{color: 0}
+That's enough, Detective.{wait: 12}{b}
+You need not remind me{b}
+further.{wait: 16} *shudder*{nextpage_button}
+
+{{70}}
+{ponteiro: 55260,18308}{bloco: 80}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 21}{desconhecido_0E: 2, 7, 255, 1}{shake: 1, 1}Ah!{wait: 16} {speed: 2}Watch out for the tea cup{b}
+{shake: 1, 1}fragments there, sir!{nextpage_button}
+
+{{71}}
+{ponteiro: 55488,16620}{bloco: 78}{name: 2}{color: 0}
+.........Nnngh...{wait: 16}{b}
+{speed: 2}{shake: 1, 1}That killer is going to pay!{wait: 16}{b}
+This tea set...!{nextpage_button}
+
+{{72}}
+{ponteiro: 55716,8696}{bloco: 61}{name: 3}{color: 0}
+{flash: 0, 1}{shake: 2, 2}{desconhecido_0E: 2, 8, 255, 1}{sfx: 23}Yikes!{wait: 16} You're really {shake: 1, 1}mad{b}
+over this!{nextpage_button}
+
+{{73}}
+{ponteiro: 56016,18476}{bloco: 80}{name: 2}{color: 0}
+{desconhecido_0E: 1, 25, 255, 1}This tea set is very dear to{b}
+my heart and can only be{b}
+bought in England.{nextpage_button}
+
+{{74}}
+{ponteiro: 56244,4672}{bloco: 48}{name: 2}{color: 0}
+It cost more than your whole{b}
+month's paycheck.{nextpage_button}
+
+{{75}}
+{ponteiro: 56472,3476}{bloco: 40}{name: 3}{color: 0}
+{desconhecido_0E: 2, 8, 255, 1}Wh...{wait: 10}{flash: 0, 1}{shake: 2, 2}{sfx: 23}Whaaaaaaaat!?{nextpage_button}
+
+{{76}}
+{ponteiro: 56716,18644}{bloco: 80}{name: 3}{color: 0}
+{shake: 1, 1}{desconhecido_0E: 2, 11, 255, 1}Now I feel like the killer's{b}
+{shake: 2, 2}wasted one of my monthly{b}
+paychecks!{nextpage_button}
+
+{{77}}
+{ponteiro: 56968,1324}{bloco: 24}{name: 2}{color: 0}
+It's the victim's gun.{nextpage_button}
+
+{{78}}
+{ponteiro: 57212,4144}{bloco: 44}{name: 3}{color: 0}
+Yeah, and I guess there's{b}
+one more, right?{nextpage_button}
+
+{{79}}
+{ponteiro: 57400,4288}{bloco: 46}{name: 2}{color: 0}
+We certainly can't discount{b}
+the possibility.{nextpage_button}
+
+{{80}}
+{ponteiro: 57628,19820}{bloco: 82}{name: 2}{color: 0}
+However, we must then ask{b}
+ourselves, why would the{b}
+killer leave evidence behind?{nextpage_button}
+
+{{81}}
+{ponteiro: 57856,12424}{bloco: 69}{name: 3}{color: 0}
+{desconhecido_0E: 2, 22, 255, 1}It's not exactly something{b}
+you'd put down and forget{b}
+about...{nextpage_button}
+
+{{82}}
+{ponteiro: 58084,7100}{bloco: 57}{name: 2}{color: 0}
+{desconhecido_0E: 1, 26, 255, 1}...Not unless we're talking{b}
+about you, Detective.{nextpage_button}
+
+{{83}}
+{ponteiro: 58368,7040}{bloco: 57}{name: 2}{color: 4}
+(There's something unusual{b}
+about the killer's actions.){nextpage_button}
+
+{{84}}
+{ponteiro: 58540,6640}{bloco: 55}{name: 2}{color: 4}
+(And none of it is adding up.{b}
+What does it all mean?){nextpage_button}
+
+{{85}}
+{ponteiro: 58792,20156}{bloco: 82}{name: 2}{color: 0}
+{desconhecido_0E: 1, 23, 255, 1}It's been a while since I've{b}
+sat at this desk.{wait: 16} Oh, how{b}
+I've missed you.{nextpage_button}
+
+{{86}}
+{ponteiro: 59020,24152}{bloco: 87}{name: 2}{color: 0}
+...{sfx: 19}{flash: 0, 1}Hm?{wait: 16} {desconhecido_0E: 1, 13, 255, 1} It's so tidy that it{b}
+looks newer than when I first{b}
+bought it.{nextpage_button}
+
+{{87}}
+{ponteiro: 59304,24240}{bloco: 87}{name: 3}{color: 0}
+Ho ho, yeah!{wait: 16} That thing's so{b}
+{wait: 8}{shake: 1, 1}polished{flash: 0, 1}{sfx: 21} that it makes mirrors{b}
+jealous!{nextpage_button}
+
+{{88}}
+{ponteiro: 59604,21512}{bloco: 84}{name: 2}{color: 0}
+{desconhecido_0E: 1, 23, 255, 1}Don't tell me you had no other{b}
+work the entire time I was{b}
+away, Detective...{nextpage_button}
+
+{{89}}
+{ponteiro: 59832,7280}{bloco: 57}{name: 3}{color: 0}
+My job is to {speed: 2}{shake: 2, 2}{desconhecido_0E: 2, 22, 255, 1}protect your{b}
+{shake: 1, 1}office, sir!{nextpage_button}
+
+{{90}}
+{ponteiro: 60060,22744}{bloco: 85}{name: 2}{color: 0}
+...And you did such a good job{b}
+protecting {wait: 8}{desconhecido_0E: 1, 36, 255, 1}it that a murder{b}
+occurred in it.{nextpage_button}
+
+{{91}}
+{ponteiro: 60288,4096}{bloco: 44}{name: 3}{color: 0}
+............{wait: 16}{b}
+{desconhecido_0E: 2, 23, 255, 1}That's harsh, sir...{nextpage_button}
+
+{{92}}
+{ponteiro: 60516,23536}{bloco: 86}{name: 2}{color: 4}
+(I have to admit the desk has{b}
+never looked better, so I{b}
+guess I can't dock his pay.){nextpage_button}
+
+{{93}}
+{ponteiro: 60696,5608}{bloco: 51}{name: 2}{color: 0}
+This is clearly where the{b}
+{shake: 1, 1}contradiction lies!{nextpage_button}
+
+{{94}}
+{ponteiro: 61060,7220}{bloco: 57}{name: 3}{color: 0}
+I don't really see what's{b}
+so wrong with that spot{desconhecido_20: 10}...{nextpage_button}
+
+{{95}}
+{ponteiro: 61484,17180}{bloco: 78}{name: 2}{color: 0}
+Hah.{wait: 16}{speed: 2} You don't understand?{wait: 16}{b}
+You see, therein lies the{b}
+contradiction.{nextpage_button}
+
+{{96}}
+{ponteiro: 61908,27660}{bloco: 92}{name: 3}{color: 0}
+Mr. Edgeworth, sir{desconhecido_20: 10}...{wait: 12}{desconhecido_1F: 10}{speed: 2} It'd be{b}
+nice if you'd just admit when{b}
+you're wrong{desconhecido_20: 10}...{nextpage_button}
+
+{{97}}
+{ponteiro: 62368,2444}{bloco: 34}{name: 2}{color: 0}
+Th-{wait: 8}{shake: 1, 1}That wasn't a mistake!{nextpage_button}
+
+{{98}}
+{ponteiro: 62652,6528}{bloco: 54}{name: 2}{color: 0}
+{shake: 1, 1}That was me keeping you on{b}
+your toes, Detective!{nextpage_button}
+
+{{99}}
+{ponteiro: 62964,3564}{bloco: 41}{name: 3}{color: 0}
+Your files are all over the{b}
+floor, sir.{nextpage_button}
+
+{{100}}
+{ponteiro: 63136,19568}{bloco: 81}{name: 2}{color: 0}
+They probably fell during {color: 3}the{b}
+struggle between the victim{b}
+and his killer{color: 0}.{nextpage_nobutton}
+
+{{101}}
+{ponteiro: 63304,19652}{bloco: 81}{name: 2}{color: 2}
+They probably fell during {color: 3}the{b}
+struggle between the victim{b}
+and his killer{color: 0}.{nextpage_button}
+
+{{102}}
+{ponteiro: 63480,20828}{bloco: 83}{name: 3}{color: 0}
+{desconhecido_0E: 2, 23, 255, 1}Aww, and I tried so hard to{b}
+keep this place spotless while{b}
+you were away...{nextpage_button}
+
+{{103}}
+{ponteiro: 63724,27564}{bloco: 92}{name: 3}{color: 0}
+{flash: 0, 1}{shake: 2, 2}{desconhecido_0E: 2, 11, 64, 1}I mean, this just rendered all{b}
+the time and {shake: 1, 1}effort I put in{b}
+pointless!Q{nextpage_button}
+
+{{104}}
+{ponteiro: 63968,7160}{bloco: 57}{name: 2}{color: 0}
+{flash: 0, 1}{sfx: 19}I don't recall ever asking{b}
+you to clean my room!{nextpage_button}
+
+{{105}}
+{ponteiro: 64212,16940}{bloco: 78}{name: 3}{color: 0}
+{flash: 0, 0}{shake: 0, 2}Well, I watered the flowers{b}
+every day, just like you{b}
+requested, sir.{nextpage_button}
+
+{{106}}
+{ponteiro: 64440,11992}{bloco: 68}{name: 3}{color: 0}
+I just added cleaning to the{b}
+list as a{flash: 0, 1}{sfx: 21}{shake: 1, 1} weekend special!{nextpage_button}
+
+{{107}}
+{ponteiro: 64668,31504}{bloco: 101}{name: 3}{color: 0}
+For about half a day every{b}
+Saturday,{shake: 2, 2}{flash: 0, 1}{sfx: 29} I'd come in and clean{b}
+this place until it sparkled!{nextpage_button}
+
+{{108}}
+{ponteiro: 64896,1632}{bloco: 27}{name: 2}{color: 4}
+(Does he have a life...?){nextpage_button}
+
+{{109}}
+{ponteiro: 65552,14048}{bloco: 73}{name: 2}{color: 0}
+Well, it's a good thing {desconhecido_18: 0, 25, 0}my{b}
+Steel Samurai doll was spared{b}
+any harm.{nextpage_button}
+
+{{110}}
+{ponteiro: 65796,21248}{bloco: 84}{name: 3}{color: 0}
+Speaking of which, I still{b}
+haven't actually sat down and{b}
+watched any of that show.{nextpage_button}
+
+{{111}}
+{ponteiro: 66048,1296}{bloco: 24}{name: 3}{color: 0}
+What's it about again?{nextpage_button}
+
+{{112}}
+{ponteiro: 66320,4932}{bloco: 49}{name: 2}{color: 0}
+Well, I don't know much about{b}
+it myself, but...{nextpage_button}
+
+{{113}}
+{ponteiro: 66548,30888}{bloco: 99}{name: 2}{color: 0}
+{desconhecido_0E: 1, 23, 255, 1}...the hero of "The Steel{b}
+Samurai:{wait: 8}{speed: 2} Warrior of Neo Olde{b}
+Tokyo" is the Steel Samurai...{nextpage_button}
+
+{{114}}
+{ponteiro: 66776,29100}{bloco: 95}{name: 2}{color: 0}
+{desconhecido_0E: 1, 25, 255, 1}...and his goal is to defeat{b}
+the Evil Magistrate.{wait: 16} It's a{b}
+show geared towards kids...{nextpage_button}
+
+{{115}}
+{ponteiro: 67004,28620}{bloco: 94}{name: 2}{color: 0}
+...however its high production{b}
+values and riveting plot draws{b}
+in a number of adults as well.{nextpage_button}
+
+{{116}}
+{ponteiro: 67232,32856}{bloco: 105}{name: 2}{color: 0}
+Spin-offs like {desconhecido_0E: 1, 26, 255, 1}"Pink Princess:{wait: 8}{b}
+Warrior of Little Olde Tokyo"{wait: 8}{b}
+and {wait: 8}"The Nickel Samurai"...{nextpage_button}
+
+{{117}}
+{ponteiro: 67460,24776}{bloco: 88}{name: 2}{color: 0}
+...along with the deluge of{b}
+merchandise, and even a new{b}
+stage show, gives it presence.{nextpage_button}
+
+{{118}}
+{ponteiro: 67744,31816}{bloco: 102}{name: 3}{color: 0}
+You{speed: 6}... {speed: 3}sure know a lot.{wait: 16}{b}
+{speed: 2}{wait: 16}{flash: 0, 1}{sfx: 19}{shake: 1, 1}Are you sure you're not some{b}
+sort of rabid fanboy?{nextpage_button}
+
+{{119}}
+{ponteiro: 67972,34748}{bloco: 116}{name: 2}{color: 0}
+...{shake: 1, 1}{desconhecido_0E: 1, 8, 255, 1}{flash: 0, 1}{sfx: 23}{shake: 2, 2}!{wait: 16}{speed: 1} O-{wait: 8}Of course not!{wait: 16} Anyone{b}
+that keeps up with society{b}
+knows at least this much!{nextpage_button}
+
+{{120}}
+{ponteiro: 68200,32128}{bloco: 103}{name: 2}{color: 0}
+And that {shake: 1, 1}conversation lasted{b}
+longer than expected.{wait: 16}{shake: 1, 1}{shake: 1, 1} Let us{b}
+return to the investigation!{nextpage_button}
+
+{{121}}
+{ponteiro: 68460,20408}{bloco: 82}{name: 2}{color: 0}
+{flash: 0, 0}{sfx: 21}What have we here...?{wait: 16}{b}
+{speed: 2}{color: 2}(Could this perhaps be the{b}
+murder weapon?){nextpage_button}
+
+{{122}}
+{ponteiro: 68884,28044}{bloco: 93}{name: 2}{color: 4}
+(If so, it would mean that the{b}
+killer made their escape after{b}
+disposing of their gun here.){nextpage_button}
+
+{{123}}
+{ponteiro: 69276,8000}{bloco: 59}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 19}I think I've seen one of{b}
+these before...{wait: 16}{b}
+Hmm...{nextpage_button}
+
+{{124}}
+{ponteiro: 69520,2768}{bloco: 35}{name: 2}{color: 0}
+Care to enlighten me as to{b}
+where?{nextpage_button}
+
+{{125}}
+{ponteiro: 69748,2372}{bloco: 33}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 21}{desconhecido_0E: 2, 7, 255, 1}Oh!{wait: 16} {shake: 1, 1}I know!{nextpage_button}
+
+{{126}}
+{ponteiro: 69976,14428}{bloco: 74}{name: 3}{color: 0}
+{shake: 2, 2}{desconhecido_0E: 2, 22, 255, 1}I was issued the exact same{b}
+model!{wait: 16}{b}
+{speed: 4}.........{flash: 0, 0}I think.{nextpage_button}
+
+{{127}}
+{ponteiro: 70204,1352}{bloco: 24}{name: 2}{color: 0}
+*sigh*{wait: 16}{b}
+Detective...{nextpage_button}
+
+{{128}}
+{ponteiro: 70432,25512}{bloco: 89}{name: 3}{color: 0}
+I don't really like guns all{b}
+that much. {wait: 16}{flash: 0, 1}{sfx: 21}{shake: 1, 1}I mean, they're{b}
+really dangerous!{nextpage_button}
+
+{{129}}
+{ponteiro: 70660,23096}{bloco: 86}{name: 3}{color: 0}
+But now that I think about it,{b}
+you do see this model around{b}
+the precinct a lot, sir.{nextpage_button}
+
+{{130}}
+{ponteiro: 70888,26988}{bloco: 92}{name: 3}{color: 0}
+{desconhecido_0E: 2, 22, 255, 1}I don't use mine much, except{b}
+in emergencies, so that's why{b}
+I didn't recognize it...{nextpage_button}
+
+{{131}}
+{ponteiro: 71132,28140}{bloco: 93}{name: 2}{color: 4}
+(So it's the same type of{b}
+{color: 3}revolver{color: 2} as the ones used by{b}
+this precinct's detectives...){nextpage_nobutton}
+
+{{132}}
+{ponteiro: 71256,29388}{bloco: 96}{name: 2}{color: 2}
+{color: 2}(So it's the same type of{b}
+{color: 3}revolver{color: 2} as the ones used by{b}
+this precinct's detectives...){nextpage_button}
+
+{{133}}
+{ponteiro: 72148,16460}{bloco: 78}{name: 3}{color: 0}
+{flash: 0, 1}{shake: 1, 1}{sfx: 23}Ah!{desconhecido_15: 10}{wait: 16} Your jacket, sir!{wait: 16}{b}
+{shake: 1, 1}What's it doing on the floor!?{nextpage_button}
+
+{{134}}
+{ponteiro: 72320,26248}{bloco: 90}{name: 2}{color: 0}
+It must have fallen off the{b}
+wall when the killer tried to{b}
+threaten me by firing a round.{nextpage_button}
+
+{{135}}
+{ponteiro: 72492,27276}{bloco: 92}{name: 3}{color: 0}
+{flash: 0, 0}{sfx: 23}{shake: 0, 2}So the killer not only shot{b}
+the victim, {shake: 1, 1}but they shot your{b}
+jacket as well!?{nextpage_button}
+
+{{136}}
+{ponteiro: 72664,29196}{bloco: 95}{name: 3}{color: 0}
+{flash: 0, 0}They dared to shoot the ultra-{b}
+special jacket that you made{b}
+your prosecutorial debut in!?{nextpage_button}
+
+{{137}}
+{ponteiro: 72836,17740}{bloco: 79}{name: 3}{color: 0}
+{flash: 0, 0}{sfx: 29}{shake: 0, 2}What if they had shot through{b}
+it!?{wait: 16} It would've been a disaster!{nextpage_button}
+
+{{138}}
+{ponteiro: 73008,30988}{bloco: 99}{name: 2}{color: 0}
+It's not worth getting worked{b}
+up over, Detective. {wait: 16}{flash: 0, 1}{sfx: 19}Not when{b}
+there's something more here.{nextpage_button}
+
+{{139}}
+{ponteiro: 73508,1576}{bloco: 27}{name: 3}{color: 0}
+{flash: 0, 0}{sfx: 21}Huh?{wait: 16} Like what?{nextpage_button}
+
+{{140}}
+{ponteiro: 73736,5296}{bloco: 50}{name: 2}{color: 0}
+I take it you haven't noticed{b}
+it yet, Detective.{nextpage_button}
+
+{{141}}
+{ponteiro: 73964,19064}{bloco: 81}{name: 2}{color: 0}
+{music: 3}There is {wait: 8}{sfx: 19}{flash: 0, 1}{speed: 2}a giant{color: 1} contradiction{color: 0}{b}
+right here in front of us.{nextpage_button}
+
+{{142}}
+{ponteiro: 74192,304}{bloco: 17}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 19}Really!?{nextpage_button}
+
+{{143}}
+{ponteiro: 74572,33072}{bloco: 106}{name: 2}{color: 4}
+(Did I say "{color: 1}contradiction{color: 2}"?{wait: 16} He{b}
+must be rubbing off on me.{wait: 16} I'm{b}
+starting to sound like him...){nextpage_button}
+
+{{144}}
+{ponteiro: 74800,14960}{bloco: 75}{name: 2}{color: 4}
+(But I have my own methods{b}
+and I will conduct this{b}
+investigation my way.){nextpage_button}
+
+{{145}}
+{ponteiro: 75028,15500}{bloco: 76}{name: 2}{color: 4}
+(When the scene before me{b}
+contradicts a piece of{b}
+evidence or seems off...){nextpage_button}
+
+{{146}}
+{ponteiro: 75256,8120}{bloco: 60}{name: 2}{color: 4}
+(...that's when my {color: 1}deductive{color: 2}{b}
+skills come into play.){nextpage_button}
+
+{{147}}
+{ponteiro: 75744,29688}{bloco: 96}{name: 2}{color: 4}
+(Now the crime scene is as it{b}
+was at the time of the murder.{wait: 16}{b}
+Time to give it another look.){nextpage_button}
+
+{{148}}
+{ponteiro: 76748,10752}{bloco: 66}{name: 2}{color: 0}
+There must be some reason as{b}
+to why the victim's body was{b}
+moved.{nextpage_button}
+
+{{149}}
+{ponteiro: 76920,32336}{bloco: 103}{name: 2}{color: 0}
+But there is no time to ponder{b}
+that now.{wait: 16} {sfx: 21}{flash: 0, 1}Let us continue with{b}
+our investigation, Detective.{nextpage_button}
+
+{{150}}
+{ponteiro: 77092,6416}{bloco: 54}{name: 3}{color: 0}
+{shake: 2, 2}{flash: 0, 1}{sfx: 29}Roger that, sir!{wait: 12}{b}
+{shake: 1, 1}I'm raring to go!{nextpage_button}
+
+{{151}}
+{ponteiro: 77340,2044}{bloco: 30}{name: 2}{color: 0}
+Th-{sfx: 19}{flash: 0, 1}{desconhecido_15: 0}{wait: 8}{shake: 1, 1}This...!{nextpage_button}
+
+{{152}}
+{ponteiro: 77624,30788}{bloco: 98}{name: 3}{color: 0}
+These handprints belong to the{b}
+victim, right?{wait: 16} They make {shake: 1, 1}sense{b}
+with the {shake: 1, 1}body position.{nextpage_button}
+
+{{153}}
+{ponteiro: 77796,23448}{bloco: 86}{name: 2}{color: 0}
+Yes, he must have left them{b}
+when he was trying to support{b}
+himself after he was shot.{nextpage_button}
+
+{{154}}
+{ponteiro: 77968,12784}{bloco: 70}{name: 2}{color: 4}
+(However, the final position{b}
+of the body shows that it was{b}
+moved...){nextpage_button}
+
+{{155}}
+{ponteiro: 78140,17020}{bloco: 78}{name: 2}{color: 4}
+(I need to go over this crime{b}
+scene with a fine-toothed comb{b}
+one more time.){nextpage_button}
+
+{{156}}
+{ponteiro: 78388,15188}{bloco: 75}{name: 2}{color: 0}
+As I suspected...{wait: 16}{b}
+The bullet hole is now where{b}
+it should logically be.{nextpage_button}
+
+{{157}}
+{ponteiro: 78560,17100}{bloco: 78}{name: 3}{color: 0}
+And we figured out that the{b}
+killer went through your{b}
+bookshelf{flash: 0, 1}{sfx: 19} twice.{nextpage_button}
+
+{{158}}
+{ponteiro: 78732,16060}{bloco: 77}{name: 2}{color: 0}
+Indeed... {wait: 16}{speed: 2}There are many{b}
+things the killer did that{b}
+don't make sense.{nextpage_button}
+
+{{159}}
+{ponteiro: 78904,6696}{bloco: 55}{name: 2}{color: 0}
+But to figure out the whys,{b}
+we need more information.{nextpage_button}
+
+{{160}}
+{ponteiro: 79152,2660}{bloco: 35}{name: 2}{color: 0}
+There's nothing of interest{b}
+here.{nextpage_button}
+
+{{161}}
+{ponteiro: 79692,5400}{bloco: 51}{name: 3}{color: 0}
+By the way,{wait: 16}{sfx: 19}{flash: 0, 1} I noticed{b}
+something, sir...{nextpage_button}
+
+{{162}}
+{ponteiro: 79864,36}{bloco: 6}{name: 2}{color: 0}
+Yes?{nextpage_button}
+
+{{163}}
+{ponteiro: 80036,6752}{bloco: 55}{name: 3}{color: 0}
+What's that thing sticking out{b}
+from behind the frame?{nextpage_button}
+
+{{164}}
+{ponteiro: 80216,4576}{bloco: 47}{name: 2}{color: 0}
+Ah, that.{wait: 16}{b}
+It's a {flash: 0, 1}{sfx: 21}{color: 1}secret safe{color: 0}.{nextpage_button}
+
+{{165}}
+{ponteiro: 80716,10208}{bloco: 65}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 29}{shake: 2, 2}A s-{wait: 8}{color: 1}secret safe{color: 0}!?{b}
+{wait: 16}{shake: 2, 2}Oh, I smell money!{nextpage_button}
+
+{{166}}
+{ponteiro: 80944,33616}{bloco: 109}{name: 2}{color: 0}
+I'll spare us the trouble and{b}
+just say it.{wait: 16} {flash: 0, 1}{sfx: 29}{shake: 2, 2}Nothing{desconhecido_10: 10, 87, 0} like what{b}
+you're imagining is inside.{nextpage_button}
+
+{{167}}
+{ponteiro: 81180,7580}{bloco: 58}{name: 2}{color: 0}
+Now, if you could kindly move{b}
+this frame out of the way.{nextpage_button}
+
+{{168}}
+{ponteiro: 81408,492}{bloco: 23}{name: 3}{color: 0}
+{shake: 2, 2}{sfx: 29}{desconhecido_15: 80}Roger that!{nextpage_button}
+
+{{169}}
+{ponteiro: 81748,11160}{bloco: 67}{name: 3}{color: 0}
+*achoo*{shake: 1, 1}{flash: 0, 1}{sfx: 23}{wait: 16} *achoo*{shake: 1, 1}{flash: 0, 1}{sfx: 23}{wait: 16}{b}
+Talk about {shake: 1, 1}dusty!{nextpage_button}
+
+{{170}}
+{ponteiro: 81928,15820}{bloco: 77}{name: 2}{color: 0}
+I suppose that's what happens{b}
+when I'm not here to dust it{b}
+once in a while.{nextpage_button}
+
+{{171}}
+{ponteiro: 82100,25604}{bloco: 89}{name: 3}{color: 0}
+I had no idea there was a safe{b}
+here,{shake: 2, 2}{flash: 0, 1}{sfx: 29} or I'd have kept it{b}
+clean for you, sir!{nextpage_button}
+
+{{172}}
+{ponteiro: 82592,3828}{bloco: 43}{name: 3}{color: 0}
+So {sfx: 19}{flash: 0, 1}when did you put this{b}
+thing in?{nextpage_button}
+
+{{173}}
+{ponteiro: 82820,23624}{bloco: 87}{name: 2}{color: 0}
+It wasn't something I had{b}
+installed personally.{wait: 16} Every{b}
+prosecutor's office has one.{nextpage_button}
+
+{{174}}
+{ponteiro: 83048,3108}{bloco: 39}{name: 3}{color: 0}
+{sfx: 21}{flash: 0, 1}Really!?{wait: 16}{shake: 1, 1} I had no idea!{nextpage_button}
+
+{{175}}
+{ponteiro: 83276,14732}{bloco: 75}{name: 2}{color: 0}
+Well, only prosecutors are{b}
+supposed to have knowledge of{b}
+their existence.{nextpage_button}
+
+{{176}}
+{ponteiro: 83504,4984}{bloco: 49}{name: 3}{color: 0}
+So... {flash: 0, 1}{sfx: 29}{shake: 2, 2}what's inside,{b}
+Mr. Edgeworth!?{nextpage_button}
+
+{{177}}
+{ponteiro: 83732,1268}{bloco: 24}{name: 2}{color: 0}
+Right now?{wait: 16} Nothing.{nextpage_button}
+
+{{178}}
+{ponteiro: 83960,22128}{bloco: 85}{name: 2}{color: 0}
+We only use them to store{b}
+especially important evidence{b}
+when a trial is in session.{nextpage_button}
+
+{{179}}
+{ponteiro: 84188,14808}{bloco: 75}{name: 3}{color: 0}
+That's it...?{wait: 16}{b}
+{speed: 2}Talk about {sfx: 19}{flash: 0, 1}squashing my{b}
+hopes and dreams{desconhecido_20: 10}...{nextpage_button}
+
+{{180}}
+{ponteiro: 84388,4624}{bloco: 47}{name: 0}{color: 2}
+Secret Safe data jotted{b}
+down in my Organizer.{nextpage_button}
+
+{{181}}
+{ponteiro: 85732,6024}{bloco: 52}{name: 29}{color: 0}
+Why do all the good ones{b}
+{shake: 0, 2}always {shake: 0, 2}die young?{nextpage_button}
+
+{{182}}
+{ponteiro: 85912,14504}{bloco: 74}{name: 29}{color: 0}
+Surely you must ponder that{b}
+every once in a while,{b}
+{flash: 0, 1}{sfx: 21}Mr. Edgeworth.{nextpage_button}
+
+{{183}}
+{ponteiro: 86140,248}{bloco: 14}{name: 2}{color: 0}
+............{nextpage_button}
+
+{{184}}
+{ponteiro: 86312,11848}{bloco: 68}{name: 2}{color: 0}
+No matter how much we lament,{b}
+the dead will not come back to{b}
+life.{nextpage_button}
+
+{{185}}
+{ponteiro: 86548,3388}{bloco: 40}{name: 2}{color: 0}
+All we can do is search for{b}
+the truth.{nextpage_button}
+
+{{186}}
+{ponteiro: 86720,100}{bloco: 11}{name: 29}{color: 0}
+.........{nextpage_button}
+
+{{187}}
+{ponteiro: 87020,22216}{bloco: 85}{name: 29}{color: 0}
+{flash: 0, 0}And?{wait: 16} So what are we supposed{b}
+to do?{wait: 16} How do we go about{b}
+finding the truth?{nextpage_button}
+
+{{188}}
+{ponteiro: 87272,11296}{bloco: 67}{name: 2}{color: 0}
+{desconhecido_0E: 1, 34, 255, 1}First, we calmly restore the{b}
+files to their rightful place.{nextpage_button}
+
+{{189}}
+{ponteiro: 87500,6136}{bloco: 53}{name: 29}{color: 0}
+{sfx: 21}{flash: 0, 1}{shake: 1, 1}You got it!{wait: 16}{b}
+{speed: 2}{shake: 1, 1}Here, let me help!{nextpage_button}
+
+{{190}}
+{ponteiro: 87848,8184}{bloco: 60}{name: 3}{color: 0}
+Um,{speed: 2} so this file goes here,{b}
+and that book goes there...{nextpage_button}
+
+{{191}}
+{ponteiro: 88020,22304}{bloco: 85}{name: 29}{color: 0}
+You sure know a lot about{b}
+where things go, despite it{b}
+being Mr. Edgeworth's office.{nextpage_button}
+
+{{192}}
+{ponteiro: 88192,20660}{bloco: 83}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 29}{shake: 2, 2}Because I'm the one who{b}
+keeps it tidy, pal!{wait: 16}{b}
+{shake: 2, 2}{flash: 0, 1}{sfx: 29}OK!{wait: 16} Done!{nextpage_button}
+
+{{193}}
+{ponteiro: 88716,10004}{bloco: 64}{name: 2}{color: 0}
+It would appear that the{b}
+murder was definitely{b}
+committed here.{nextpage_button}
+
+{{194}}
+{ponteiro: 88888,12640}{bloco: 70}{name: 3}{color: 0}
+{shake: 1, 1}Unnngh...{wait: 12}{b}
+The bloodstains on the{b}
+bookshelf are still fresh...{nextpage_button}
+
+{{195}}
+{ponteiro: 89060,28236}{bloco: 93}{name: 2}{color: 0}
+I suspect that the victim was{b}
+killed in a standing position,{b}
+hence the prints on the shelf.{nextpage_button}
+
+{{196}}
+{ponteiro: 89232,33728}{bloco: 109}{name: 3}{color: 0}
+And then the guy fell onto the{b}
+floor, right?{wait: 12} {flash: 0, 0}{shake: 1, 1}The blood on the{b}
+floor's kinda {shake: 1, 1}grossing me out!{nextpage_button}
+
+{{197}}
+{ponteiro: 89404,22392}{bloco: 85}{name: 2}{color: 0}
+...Detective,{wait: 18}{speed: 3} I don't have the{b}
+time to deal with your weak{b}
+stomach right now.{nextpage_button}
+
+{{198}}
+{ponteiro: 89576,7520}{bloco: 58}{name: 3}{color: 0}
+{shake: 1, 1}Nnngh... But you know I'm no{b}
+good with blood, sir...{nextpage_button}
+
+{{199}}
+{ponteiro: 90008,18728}{bloco: 80}{name: 2}{color: 4}
+(I won't rest until I've{b}
+inspected every suspicious-{b}
+looking nook and cranny.){nextpage_button}
+
+{{200}}
+{ponteiro: 90196,18812}{bloco: 80}{name: 2}{color: 4}
+(I've already finished{b}
+examining this area, but it{b}
+never hurts to look again.){nextpage_button}
+
+{{201}}
+{ponteiro: 90812,32}{bloco: 2}{name: 0}{color: 0}
+{nextpage_nobutton}
+
+{{202}}
+{ponteiro: 91072,3740}{bloco: 42}{name: 2}{color: 4}
+(Hm...?{wait: 16}{b}
+Now this is {wait: 8}{flash: 0, 1}{sfx: 19}odd...){nextpage_button}
+
+{{203}}
+{ponteiro: 91244,1548}{bloco: 27}{name: 3}{color: 0}
+You found something, sir?{nextpage_button}
+
+{{204}}
+{ponteiro: 91416,8312}{bloco: 60}{name: 2}{color: 0}
+This keypad...{wait: 16}{b}
+Don't you find it to be{b}
+a bit too clean?{nextpage_button}
+
+{{205}}
+{ponteiro: 91588,32440}{bloco: 103}{name: 3}{color: 0}
+{sfx: 21}{shake: 1, 1}Yeah!{wait: 16}{flash: 0, 0}{speed: 2} There's a thick layer of{b}
+dust all around it, {shake: 1, 1}but not on{b}
+the keypad itself.{nextpage_button}
+
+{{206}}
+{ponteiro: 91988,3960}{bloco: 43}{name: 2}{color: 0}
+{shake: 1, 1}You there, the forensic{b}
+scientist!{wait: 60}{nextpage_button}
+
+{{207}}
+{ponteiro: 92216,424}{bloco: 19}{name: 30}{color: 0}
+{flash: 0, 0}{shake: 1, 1}Yes, sir!{nextpage_button}
+
+{{208}}
+{ponteiro: 92444,5348}{bloco: 51}{name: 2}{color: 0}
+Could you please dust this{b}
+area for fingerprints?{nextpage_button}
+
+{{209}}
+{ponteiro: 92672,1692}{bloco: 28}{name: 30}{color: 0}
+{sfx: 109}{shake: 1, 1}You got it, sir!{wait: 60}{nextpage_button}
+
+{{210}}
+{ponteiro: 93052,232}{bloco: 14}{name: 2}{color: 0}
+............{nextpage_button}
+
+{{211}}
+{ponteiro: 93232,28716}{bloco: 94}{name: 30}{color: 0}
+I couldn't find, let alone{b}
+lift, a single print.{wait: 16} Looks{b}
+like it was {color: 3}wiped down well{color: 0}.{nextpage_nobutton}
+
+{{212}}
+{ponteiro: 93356,26616}{bloco: 91}{name: 30}{color: 2}
+I couldn't find, let alone{b}
+lift, a single print. Looks{b}
+like it was {color: 3}wiped down well{color: 0}.{nextpage_button}
+
+{{213}}
+{ponteiro: 93396,4004}{bloco: 43}{name: 0}{color: 2}
+Secret Safe data updated{b}
+in my Organizer.{nextpage_button}
+
+{{214}}
+{ponteiro: 93504,444}{bloco: 20}{name: 2}{color: 0}
+As I thought{speed: 8}...{nextpage_button}
+
+{{215}}
+{ponteiro: 93676,12064}{bloco: 68}{name: 2}{color: 4}
+(It appears that {color: 1}Logic{color: 2} is the{b}
+only way around this setback.){nextpage_button}
+
+{{216}}
+{ponteiro: 93848,26708}{bloco: 91}{name: 2}{color: 4}
+(Time to rationally and calmly{b}
+play connect the dots with the{b}
+{color: 1}information{color: 2} we have.){nextpage_button}
+
+{{217}}
+{ponteiro: 94080,13072}{bloco: 71}{name: 2}{color: 0}
+There's dust on the rest of{b}
+the safe,{wait: 8} but not here on this{b}
+keypad.{nextpage_button}
+
+{{218}}
+{ponteiro: 94252,24328}{bloco: 87}{name: 3}{color: 0}
+According to the forensic{b}
+scientist, he couldn't find{b}
+a {flash: 0, 1}{sfx: 29}{shake: 2, 2}single print, sir.{nextpage_button}
+
+{{219}}
+{ponteiro: 94424,13440}{bloco: 72}{name: 2}{color: 0}
+That the keypad to the safe{b}
+was wiped down this{b}
+carefully... {wait: 16}Hmm...{nextpage_button}
+
+{{220}}
+{ponteiro: 94596,25788}{bloco: 89}{name: 2}{color: 0}
+Perhaps {sfx: 21}{flash: 0, 1}I should take a good{b}
+look at all the information{b}
+we've collected so far.{nextpage_button}
+
+{{221}}
+{ponteiro: 94844,8440}{bloco: 60}{name: 3}{color: 0}
+{shake: 2, 2}{flash: 0, 1}{sfx: 29}I never knew there was a safe{b}
+hidden back here!{nextpage_button}
+
+{{222}}
+{ponteiro: 95016,22832}{bloco: 85}{name: 2}{color: 0}
+Well, if detectives knew about{b}
+them, then they wouldn't be{b}
+"secret" now would they?{nextpage_button}
+
+{{223}}
+{ponteiro: 95188,9664}{bloco: 64}{name: 3}{color: 0}
+Are there {sfx: 19}{flash: 0, 1}any other secret,{b}
+hidden things in this room?{nextpage_button}
+
+{{224}}
+{ponteiro: 95360,24416}{bloco: 87}{name: 2}{color: 0}
+Even if there were, it would{b}
+defeat the purpose of them{b}
+being "hidden" if I told you.{nextpage_button}
+
+{{225}}
+{ponteiro: 95532,2804}{bloco: 35}{name: 2}{color: 0}
+So don't bother looking{b}
+for them.{nextpage_button}
+
+{{226}}
+{ponteiro: 95704,10820}{bloco: 66}{name: 3}{color: 0}
+S-{wait: 8}{flash: 0, 1}{sfx: 19}So there's no, like,{wait: 8} hidden{b}
+camera around, right?{nextpage_button}
+
+{{227}}
+{ponteiro: 95876,3652}{bloco: 41}{name: 2}{color: 0}
+{sfx: 19}{flash: 0, 1}Hm?{wait: 12}{b}
+And what if there was...?{nextpage_button}
+
+{{228}}
+{ponteiro: 96048,12568}{bloco: 69}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 23}{shake: 2, 2}A-{wait: 8}Ah!{wait: 16} No, it's nothing!{wait: 16}{b}
+Forget I said anything!{nextpage_button}
+
+{{229}}
+{ponteiro: 96220,20324}{bloco: 82}{name: 2}{color: 4}
+(Do I even want to ask what{b}
+he's been doing in my office{b}
+while I've been away!?){nextpage_button}
+
+{{230}}
+{ponteiro: 96468,2624}{bloco: 35}{name: 2}{color: 0}
+There's nothing of interest{b}
+here.{nextpage_button}
+
+{{231}}
+{ponteiro: 97508,9596}{bloco: 64}{name: 2}{color: 4}
+(First, I have to find the{b}
+spot that holds the{b}
+contradiction.){nextpage_button}
+
+{{232}}
+{ponteiro: 98408,15900}{bloco: 77}{name: 3}{color: 0}
+So the killer not only shot{b}
+the victim, but they shot your{b}
+jacket as well!?{nextpage_button}
+
+{{233}}
+{ponteiro: 98580,3872}{bloco: 43}{name: 2}{color: 0}
+To prove that the gun was{b}
+real, no doubt.{nextpage_button}
+
+{{234}}
+{ponteiro: 98752,17820}{bloco: 79}{name: 3}{color: 0}
+And two shots!{wait: 16} I'd have been{b}
+afraid of someone hearing{b}
+either one of them.{nextpage_button}
+
+{{235}}
+{ponteiro: 98924,23272}{bloco: 86}{name: 2}{color: 0}
+It's the middle of the night,{b}
+Detective.{wait: 16} Further, my office{b}
+walls are soundproof.{nextpage_button}
+
+{{236}}
+{ponteiro: 99096,11228}{bloco: 67}{name: 2}{color: 0}
+The culprit must have been{b}
+very confident that no one{b}
+would hear.{nextpage_button}
+
+{{237}}
+{ponteiro: 99344,5452}{bloco: 51}{name: 3}{color: 0}
+This jacket sure {sfx: 21}{flash: 0, 1}{shake: 1, 1}brings back{b}
+memories!{nextpage_button}
+
+{{238}}
+{ponteiro: 99516,29488}{bloco: 96}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 29}{shake: 2, 2}I remember you used to wear{b}
+this around the time you{b}
+became a certified prosecutor!{nextpage_button}
+
+{{239}}
+{ponteiro: 99688,2552}{bloco: 34}{name: 2}{color: 0}
+It was a present from my{b}
+mentor.{nextpage_button}
+
+{{240}}
+{ponteiro: 99860,4192}{bloco: 45}{name: 3}{color: 0}
+Prosecutor {sfx: 19}{flash: 0, 1}Manfred von Karma,{b}
+huh...{nextpage_button}
+
+{{241}}
+{ponteiro: 100032,21424}{bloco: 84}{name: 2}{color: 0}
+Yes...{wait: 12} I don't wear it{b}
+anymore,{wait: 8} yet I can't bring{b}
+myself to throw it away...{nextpage_button}
+
+{{242}}
+{ponteiro: 100204,23888}{bloco: 87}{name: 3}{color: 0}
+It must mean a lot to you...{wait: 12}{b}
+Even with the little bittersweet{b}
+memories it holds...{nextpage_button}
+
+{{243}}
+{ponteiro: 100376,24868}{bloco: 88}{name: 3}{color: 0}
+{sfx: 21}{flash: 0, 1}Ah, but you know, I've got an{b}
+old coat of mine hanging up {b}
+in my room too, sir!{nextpage_button}
+
+{{244}}
+{ponteiro: 100548,19232}{bloco: 81}{name: 3}{color: 0}
+...Yesterday was laundry day,{b}
+so it's just drying off, but{b}
+you get the picture.{nextpage_button}
+
+{{245}}
+{ponteiro: 100796,11432}{bloco: 67}{name: 3}{color: 0}
+Looks like your sofa was{b}
+spared!{shake: 2, 2}{flash: 0, 1}{sfx: 29} Talk about good luck!{nextpage_button}
+
+{{246}}
+{ponteiro: 100968,3308}{bloco: 39}{name: 2}{color: 0}
+And just what is so lucky{b}
+about that?{nextpage_button}
+
+{{247}}
+{ponteiro: 101140,9208}{bloco: 63}{name: 3}{color: 0}
+Well, I'd hate for my napping{b}
+spot to have a huge hole in{b}
+it.{nextpage_button}
+
+{{248}}
+{ponteiro: 101312,1436}{bloco: 25}{name: 2}{color: 0}
+...{flash: 0, 1}{sfx: 19}Napping spot?{nextpage_button}
+
+{{249}}
+{ponteiro: 101484,34516}{bloco: 113}{name: 3}{color: 0}
+{flash: 0, 1}{shake: 2, 2}{sfx: 37}J-{wait: 8}J-{wait: 8}Just joking, sir!{wait: 12} Honest!{wait: 16}{b}
+I wouldn't dream of sleeping{b}
+on such a nice, comfy sofa...{nextpage_button}
+
+{{250}}
+{ponteiro: 101656,15980}{bloco: 77}{name: 2}{color: 4}
+(He just keeps digging himself{b}
+deeper and deeper with each{b}
+passing word...){nextpage_button}
+
+{{251}}
+{ponteiro: 102104,5504}{bloco: 51}{name: 2}{color: 0}
+This bullet hole is the{b}
+{flash: 0, 1}{sfx: 21}{shake: 1, 1}contradiction!{nextpage_button}
+
+{{252}}
+{ponteiro: 102608,3696}{bloco: 42}{name: 3}{color: 0}
+Wh-{flash: 0, 1}{sfx: 19}{wait: 16}{shake: 1, 1}What do you mean, sir!?{nextpage_button}
+
+{{253}}
+{ponteiro: 102836,6980}{bloco: 56}{name: 2}{color: 0}
+It's elementary.{wait: 16}{b}
+Two shots were fired{b}
+in this room.{nextpage_button}
+
+{{254}}
+{ponteiro: 103284,2300}{bloco: 32}{name: 2}{color: 0}
+The first felled the victim...{nextpage_button}
+
+{{255}}
+{ponteiro: 103620,3068}{bloco: 38}{name: 2}{color: 0}
+...and the second felled{b}
+this frame.{nextpage_button}
+
+{{256}}
+{ponteiro: 104112,2268}{bloco: 31}{name: 3}{color: 0}
+{shake: 2, 2}{flash: 0, 1}{sfx: 29}Hey, that's right!{nextpage_button}
+
+{{257}}
+{ponteiro: 104440,3916}{bloco: 43}{name: 2}{color: 0}
+However,{wait: 16} this gun was only{b}
+fired once.{nextpage_button}
+
+{{258}}
+{ponteiro: 104832,2948}{bloco: 36}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 19}Hey, that's true, too{desconhecido_20: 10}...{nextpage_button}
+
+{{259}}
+{ponteiro: 105060,15036}{bloco: 75}{name: 2}{color: 0}
+Which means that one of these{b}
+two bullets was fired from a{b}
+different gun.{nextpage_button}
+
+{{260}}
+{ponteiro: 105408,10684}{bloco: 66}{name: 2}{color: 4}
+(Did the killer have {color: 3}another{b}
+gun{color: 2} prepared for tonight...?){nextpage_nobutton}
+
+{{261}}
+{ponteiro: 105532,12496}{bloco: 69}{name: 2}{color: 2}
+{color: 2}(Did the killer have {color: 3}another{b}
+gun{color: 2} prepared for tonight...?){nextpage_button}
+
+{{262}}
+{ponteiro: 105728,2876}{bloco: 35}{name: 2}{color: 0}
+There's nothing of interest{b}
+here.{nextpage_button}
+
+{{263}}
+{ponteiro: 106420,9936}{bloco: 64}{name: 0}{color: 6}
+{margem: 67}March 14, 2:56 AM{b}
+{margem: 36}High Prosecutors' Offices{b}
+{margem: 94}Room 1202{nextpage_button}
+
+{{264}}
+{ponteiro: 106668,124}{bloco: 11}{name: 2}{color: 0}
+.........{nextpage_button}
+
+{{265}}
+{ponteiro: 106848,9464}{bloco: 63}{name: 30}{color: 0}
+{desconhecido_0E: 8, 23, 160, 1}I've finished photographing{b}
+the victim's body,{shake: 1, 1} sir!{nextpage_button}
+
+{{266}}
+{ponteiro: 107076,5920}{bloco: 51}{name: 2}{color: 0}
+Very well.{wait: 16}{b}
+Please continue your{b}
+investigation.{nextpage_button}
+
+{{267}}
+{ponteiro: 107248,364}{bloco: 19}{name: 30}{color: 0}
+{flash: 0, 0}{shake: 1, 1}Yes, sir!{nextpage_button}
+
+{{268}}
+{ponteiro: 107724,76}{bloco: 11}{name: 2}{color: 0}
+.........{nextpage_button}
+
+{{269}}
+{ponteiro: 108092,4048}{bloco: 44}{name: 1}{color: 0}
+{shake: 3, 3}{flash: 0, 1}{sfx: 30}Aaaaaaaaaaaaaaaaaaaaaaaaaah!{wait: 40}{nextpage_nobutton}
+
+{{270}}
+{ponteiro: 108656,7760}{bloco: 58}{name: 1}{color: 0}
+{shake: 2, 2}Mr. Edgeworth, sir!!{wait: 16}{b}
+Are you OK,{shake: 2, 2}{flash: 0, 1}{sfx: 29} sir!?{nextpage_button}
+
+{{271}}
+{ponteiro: 108828,7880}{bloco: 58}{name: 2}{color: 0}
+{desconhecido_0E: 1, 23, 255, 1}Keep it down, Detective.{wait: 16}{b}
+This is a crime scene.{nextpage_button}
+
+{{272}}
+{ponteiro: 109524,32648}{bloco: 103}{name: 1}{color: 0}
+When I heard that a murder{b}
+had taken place in your office,{b}
+{speed: 1}{flash: 0, 1}{shake: 2, 2}{sfx: 29}I ran up here straight away!{nextpage_button}
+
+{{273}}
+{ponteiro: 109792,14200}{bloco: 73}{name: 2}{color: 4}
+(This is Dick Gumshoe.{wait: 16}{b}
+He is a detective with the{b}
+local precinct...){nextpage_button}
+
+{{274}}
+{ponteiro: 110040,18060}{bloco: 79}{name: 2}{color: 4}
+(...and the one they assigned{b}
+to handle this murder case for{b}
+the time being.){nextpage_button}
+
+{{275}}
+{ponteiro: 110476,11704}{bloco: 68}{name: 3}{color: 0}
+{flash: 0, 1}{shake: 2, 2}{sfx: 29}You're looking a little pale,{b}
+sir!{wait: 16}{speed: 1} Are you hurt!?{nextpage_button}
+
+{{276}}
+{ponteiro: 110704,4240}{bloco: 45}{name: 2}{color: 0}
+No, I'm perfectly fine.{wait: 16}{b}
+{speed: 5}However{desconhecido_20: 1}...{nextpage_button}
+
+{{277}}
+{ponteiro: 111220,32752}{bloco: 103}{name: 3}{color: 0}
+{shake: 2, 2}{sfx: 23}{flash: 0, 1}{desconhecido_0E: 2, 7, 96, 1}Ack!{wait: 16} Look what they did to{b}
+your office!{wait: 16} {speed: 3}{desconhecido_0E: 2, 11, 64, 1}It's totally{b}
+trashed!Q{desconhecido_0E: 2, 18, 255, 1}{nextpage_button}
+
+{{278}}
+{ponteiro: 111448,10956}{bloco: 66}{name: 2}{color: 0}
+I'll say.{wait: 16} The culprit sullied{b}
+my floor with dirt rather{b}
+well.{nextpage_button}
+
+{{279}}
+{ponteiro: 111676,7700}{bloco: 58}{name: 2}{color: 0}
+{desconhecido_0E: 1, 25, 255, 1}No one gets away with tracking{b}
+mud into my office.{nextpage_button}
+
+{{280}}
+{ponteiro: 111848,32964}{bloco: 105}{name: 3}{color: 0}
+{desconhecido_0E: 2, 7, 255, 1}{flash: 0, 1}{shake: 2, 2}{sfx: 23}Whoa!{wait: 16} Sounds like you're{b}
+getting really{shake: 2, 2}{flash: 0, 1}{sfx: 29} burned up over{b}
+this whole thing!{nextpage_button}
+
+{{281}}
+{ponteiro: 112384,18980}{bloco: 80}{name: 2}{color: 0}
+This crime was committed in my{b}
+office, so it is my responsibility{b}
+to solve it.{nextpage_button}
+
+{{282}}
+{ponteiro: 112788,6080}{bloco: 52}{name: 3}{color: 0}
+Ho ho!{wait: 16}{b}
+{shake: 1, 1}That's just like you,{b}
+Mr. Edgeworth!{nextpage_button}
+
+{{283}}
+{ponteiro: 113016,8888}{bloco: 61}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 29}{shake: 1, 1}OK!{wait: 16} {flash: 0, 1}{sfx: 29}{shake: 2, 2}Time to do some{b}
+investigating!{nextpage_button}
+
+{{284}}
+{ponteiro: 113256,26524}{bloco: 90}{name: 2}{color: 0}
+Agreed.{wait: 16} Our first course of{b}
+action is to gather relevant{b}
+{color: 1}facts{color: 0} and {color: 1}leads{color: 0}.{nextpage_button}
+
+{{285}}
+{ponteiro: 113636,21864}{bloco: 84}{name: 2}{color: 4}
+(We must not overlook{b}
+anything, no matter how small,{b}
+if we are to find the truth.){nextpage_button}
+
+{{286}}
+{ponteiro: 113864,23008}{bloco: 85}{name: 2}{color: 4}
+(So I'll keep any leads or{b}
+information we find etched{b}
+in the forefront of my mind.){nextpage_button}
+
+{{287}}
+{ponteiro: 114092,6304}{bloco: 53}{name: 2}{color: 0}
+Speaking of things that pique{b}
+my curiosity{speed: 6}{desconhecido_20: 1}...{nextpage_button}
+
+{{288}}
+{ponteiro: 114320,10480}{bloco: 66}{name: 2}{color: 0}
+Why of all places did the{b}
+{color: 3}murder{color: 0} occur in {color: 3}my office{color: 0}?{nextpage_nobutton}
+
+{{289}}
+{ponteiro: 114444,10888}{bloco: 66}{name: 2}{color: 2}
+Why of all places did the{b}
+{color: 3}murder{color: 0} occur in {color: 3}my office{color: 0}?{nextpage_button}
+
+{{290}}
+{ponteiro: 114620,27948}{bloco: 92}{name: 2}{color: 4}
+(Hmm...{wait: 16}{speed: 2} I get the nagging{b}
+feeling that this is something{b}
+important to keep in mind.){nextpage_button}
+
+{{291}}
+{ponteiro: 115064,4880}{bloco: 49}{name: 3}{color: 0}
+Yeah, I was wondering that{b}
+myself, sir{desconhecido_20: 10}{speed: 5}...{nextpage_button}
+
+{{292}}
+{ponteiro: 115292,12280}{bloco: 68}{name: 3}{color: 0}
+I mean, you can't really say{b}
+it's just a {flash: 0, 0}coincidence, can{b}
+you?{nextpage_button}
+
+{{293}}
+{ponteiro: 115640,10072}{bloco: 64}{name: 2}{color: 0}
+No, not really.{wait: 16}{b}
+{speed: 4}{desconhecido_10: 1, 14, 0}{wait: 8}{desconhecido_18: 2, 23, 0}Especially because of this.{nextpage_button}
+
+{{294}}
+{ponteiro: 116100,2204}{bloco: 31}{name: 3}{color: 0}
+The {color: 3}key to your office{color: 0}?{nextpage_nobutton}
+
+{{295}}
+{ponteiro: 116224,2236}{bloco: 31}{name: 3}{color: 2}
+The {color: 3}key to your office{color: 0}?{nextpage_button}
+
+{{296}}
+{ponteiro: 116400,1240}{bloco: 24}{name: 3}{color: 0}
+What do you mean, sir?{nextpage_button}
+
+{{297}}
+{ponteiro: 116812,28908}{bloco: 94}{name: 2}{color: 0}
+If you think about it{b}
+carefully and use {wait: 8}{color: 1}Logic{color: 0},{wait: 16}{speed: 2} it{b}
+should become clear to you.{nextpage_button}
+
+{{298}}
+{ponteiro: 117040,2172}{bloco: 30}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 19}{desconhecido_15: 0}{color: 1}Logic{color: 0}{desconhecido_20: 10}...?{nextpage_button}
+
+{{299}}
+{ponteiro: 117388,14276}{bloco: 73}{name: 2}{color: 0}
+By finding the connection{b}
+between {color: 1}two pieces of{b}
+information{color: 0}{desconhecido_20: 1}...{nextpage_button}
+
+{{300}}
+{ponteiro: 117616,12352}{bloco: 68}{name: 2}{color: 0}
+{desconhecido_20: 1}...{desconhecido_1F: 1}and {color: 1}connecting them{color: 0}, new{b}
+{color: 1}information{color: 0} is born.{nextpage_button}
+
+{{301}}
+{ponteiro: 117844,4432}{bloco: 46}{name: 2}{color: 0}
+That is the end result of{b}
+using {color: 1}Logic{color: 0}.{nextpage_button}
+
+{{302}}
+{ponteiro: 118268,1980}{bloco: 30}{name: 3}{color: 0}
+{flash: 0, 0}{sfx: 19}So how do you use it?{nextpage_button}
+
+{{303}}
+{ponteiro: 118692,33504}{bloco: 108}{name: 2}{color: 0}
+First, I recall {color: 1}information{color: 0}{b}
+through the {wait: 12}{color: 1}Logic Button{color: 0}, and{b}
+then {color: 1}Connect{color: 0} them together.{nextpage_button}
+
+{{304}}
+{ponteiro: 119008,13216}{bloco: 71}{name: 2}{color: 4}
+(Now, to touch the {wait: 8}{color: 1}Logic{b}
+Button{color: 2} and recall the {color: 1}facts{color: 2}.){nextpage_nobutton}
+
+{{305}}
+{ponteiro: 119680,10344}{bloco: 65}{name: 2}{color: 0}
+{desconhecido_0E: 1, 25, 255, 1}Well, let's get started with{b}
+our investigation, shall we?{nextpage_button}
+
+{{306}}
+{ponteiro: 119908,384}{bloco: 19}{name: 3}{color: 0}
+{flash: 0, 0}{shake: 2, 2}Yes, sir!{nextpage_button}
+
+{{307}}
+{ponteiro: 120080,4384}{bloco: 46}{name: 0}{color: 2}
+{margem: 36}High Prosecutors' Offices{b}
+{margem: 94}Room 1202{music: 4}{nextpage_button}
+
+{{308}}
+{ponteiro: 120376,25328}{bloco: 88}{name: 3}{color: 0}
+{shake: 1, 1}The basis of any good{b}
+investigation is to{b}
+{wait: 8}{shake: 1, 1}{color: 1}examine{color: 0}{wait: 8} everything, sir!{nextpage_button}
+
+{{309}}
+{ponteiro: 120620,34288}{bloco: 111}{name: 2}{color: 0}
+I know that.{wait: 16} And when I want{b}
+to {wait: 16}{desconhecido_0E: 1, 23, 255, 1}{color: 1}examine{color: 0} something, I simply{b}
+touch the {color: 1}Examine Button{color: 0}.{nextpage_button}
+
+{{310}}
+{ponteiro: 120848,30588}{bloco: 97}{name: 3}{color: 0}
+Oh, if you ever feel lost and{b}
+want to talk,{wait: 8} just touch the{b}
+{wait: 8}{shake: 1, 1}{color: 1}Partner Button{color: 0}, OK!?{nextpage_button}
+
+{{311}}
+{ponteiro: 121076,12856}{bloco: 70}{name: 3}{color: 0}
+{shake: 1, 1}I'll give you great, precise{b}
+advice as an Ace Investigator,{b}
+sir!{nextpage_button}
+
+{{312}}
+{ponteiro: 121360,12208}{bloco: 68}{name: 2}{color: 4}
+(*sigh*{wait: 16}{b}
+Something to try later if I{b}
+have free time, I suppose.){nextpage_button}
+
+{{313}}
+{ponteiro: 121616,23712}{bloco: 87}{name: 2}{color: 4}
+(They finished photographing{b}
+the body, so it should be{b}
+alright to examine this area.){nextpage_button}
+
+{{314}}
+{ponteiro: 122152,18224}{bloco: 80}{name: 2}{color: 4}
+(I won't rest until I've{b}
+inspected every suspicious-{b}
+looking nook and cranny.){nextpage_button}
+
+{{315}}
+{ponteiro: 122340,19148}{bloco: 81}{name: 2}{color: 4}
+(I already checked this area{b}
+earlier, but it never hurts{b}
+to take another look.){nextpage_button}
+
+{{316}}
+{ponteiro: 123716,404}{bloco: 19}{name: 2}{color: 0}
+Let's see here...{nextpage_button}
+
+{{317}}
+{ponteiro: 123888,12136}{bloco: 68}{name: 2}{color: 0}
+{flash: 0, 0}{sfx: 21}Hmm, there's blood all over{b}
+his {color: 1}lower abdominal area{color: 0}.{nextpage_button}
+
+{{318}}
+{ponteiro: 124060,15112}{bloco: 75}{name: 3}{color: 0}
+It looks like the bullet{b}
+passed clean through his{b}
+stomach area, sir{speed: 6}...{nextpage_button}
+
+{{319}}
+{ponteiro: 124232,2076}{bloco: 30}{name: 2}{color: 0}
+In other words, he was shot.{nextpage_button}
+
+{{320}}
+{ponteiro: 124404,22480}{bloco: 85}{name: 3}{color: 0}
+Yup.{wait: 16} And until the autopsy's{b}
+done, I don't think we'll know{b}
+much more than that.{nextpage_button}
+
+{{321}}
+{ponteiro: 124576,23800}{bloco: 87}{name: 2}{color: 0}
+Please have the body sent to{b}
+the morgue once they're done{b}
+processing the crime scene.{nextpage_button}
+
+{{322}}
+{ponteiro: 124664,4776}{bloco: 48}{name: 0}{color: 2}
+Crime Scene Notes jotted{b}
+down in my Organizer.{nextpage_button}
+
+{{323}}
+{ponteiro: 125128,13516}{bloco: 73}{name: 3}{color: 0}
+Are you going to be OK with{b}
+keeping track of the evidence{b}
+we find, sir?{nextpage_button}
+
+{{324}}
+{ponteiro: 125356,16540}{bloco: 78}{name: 2}{color: 0}
+Of course.{wait: 16}{speed: 2} This is the safest{b}
+way {desconhecido_10: 1, 26, 0}I know to keep track of{b}
+it all.{nextpage_button}
+
+{{325}}
+{ponteiro: 125584,1756}{bloco: 29}{name: 3}{color: 0}
+{shake: 1, 1}Alright, if you say so!{nextpage_button}
+
+{{326}}
+{ponteiro: 125964,13288}{bloco: 72}{name: 2}{color: 4}
+(I keep all the evidence I{b}
+find either in or with my{b}
+{color: 1}Organizer{color: 2}.){nextpage_button}
+
+{{327}}
+{ponteiro: 126192,23360}{bloco: 86}{name: 2}{color: 4}
+(When I want to re-examine a{b}
+piece, I have but to touch the{b}
+{color: 1}Organizer Button{color: 2}.){nextpage_button}
+
+{{328}}
+{ponteiro: 126420,30088}{bloco: 97}{name: 2}{color: 4}
+(But the {color: 1}Organizer{color: 2} isn't only{b}
+for evidence; I keep people's{b}
+profiles on hand in it, too.){nextpage_button}
+
+{{329}}
+{ponteiro: 126648,14580}{bloco: 74}{name: 2}{color: 4}
+(It's probably a good{b}
+idea to make a habit of{b}
+checking the facts often.){nextpage_button}
+
+{{330}}
+{ponteiro: 127168,1852}{bloco: 29}{name: 2}{color: 0}
+What do we have here{speed: 6}...?{nextpage_button}
+
+{{331}}
+{ponteiro: 127340,6472}{bloco: 54}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 19}Hey, I think I've seen one of{b}
+these before...{nextpage_button}
+
+{{332}}
+{ponteiro: 127512,2732}{bloco: 35}{name: 2}{color: 0}
+It's a police badge,{b}
+Detective...{nextpage_button}
+
+{{333}}
+{ponteiro: 127684,29588}{bloco: 96}{name: 3}{color: 0}
+{flash: 0, 1}{shake: 2, 2}{sfx: 21}Oh, hey!{wait: 16}{speed: 2} {shake: 1, 1}I have the exact{b}
+same thing, actually!{wait: 16}{shake: 1, 1} What{b}
+a coinkidink!{nextpage_button}
+
+{{334}}
+{ponteiro: 127856,3520}{bloco: 40}{name: 2}{color: 0}
+.........{wait: 16}{b}
+Let's take a look inside.{nextpage_button}
+
+{{335}}
+{ponteiro: 128184,1492}{bloco: 26}{name: 2}{color: 0}
+Mr. Buddy Faith{wait: 10}{speed: 3}...{nextpage_button}
+
+{{336}}
+{ponteiro: 128356,12928}{bloco: 71}{name: 2}{color: 0}
+It would appear that our{b}
+victim was a {color: 3}detective{color: 0},{b}
+just like you.{nextpage_nobutton}
+
+{{337}}
+{ponteiro: 128524,13000}{bloco: 71}{name: 2}{color: 2}
+It would appear that our{b}
+victim was a {color: 3}detective{color: 0},{b}
+just like you.{nextpage_button}
+
+{{338}}
+{ponteiro: 129172,2588}{bloco: 34}{name: 2}{color: 0}
+Let's give the body a once{b}
+over.{nextpage_button}
+
+{{339}}
+{ponteiro: 129344,8632}{bloco: 61}{name: 2}{color: 0}
+Hmm, there's blood all over{b}
+his {color: 1}lower abdominal area{color: 0}.{nextpage_button}
+
+{{340}}
+{ponteiro: 129516,13364}{bloco: 72}{name: 3}{color: 0}
+It looks like the bullet{b}
+passed clean through his{b}
+stomach area, sir...{nextpage_button}
+
+{{341}}
+{ponteiro: 129688,1916}{bloco: 30}{name: 2}{color: 0}
+In other words, he was shot.{nextpage_button}
+
+{{342}}
+{ponteiro: 129860,22568}{bloco: 85}{name: 3}{color: 0}
+Yup.{wait: 16} And until the autopsy's{b}
+done, I don't think we'll know{b}
+much more than that.{nextpage_button}
+
+{{343}}
+{ponteiro: 130032,23976}{bloco: 87}{name: 2}{color: 0}
+Please have the body sent to{b}
+the morgue once they're done{b}
+processing the crime scene.{nextpage_button}
+
+{{344}}
+{ponteiro: 130120,4724}{bloco: 48}{name: 0}{color: 2}
+Crime Scene Notes jotted{b}
+down in my Organizer.{nextpage_button}
+
+{{345}}
+{ponteiro: 130640,18392}{bloco: 80}{name: 2}{color: 0}
+The victim's badge.{wait: 16} It{b}
+probably fell out of his{b}
+pocket during the struggle.{nextpage_button}
+
+{{346}}
+{ponteiro: 130812,24064}{bloco: 87}{name: 3}{color: 0}
+Well, I always take extra care{b}
+to make sure mine doesn't fall{b}
+out of my pockets, sir!{nextpage_button}
+
+{{347}}
+{ponteiro: 130984,52}{bloco: 8}{name: 2}{color: 0}
+Oh...?{nextpage_button}
+
+{{348}}
+{ponteiro: 131156,31920}{bloco: 102}{name: 3}{color: 0}
+I always have it down at the{b}
+bottom of one of my super-{b}
+deep pockets!{wait: 16}{speed: 1}{flash: 0, 1}{sfx: 29}{shake: 2, 2} Without fail!{nextpage_button}
+
+{{349}}
+{ponteiro: 131328,24960}{bloco: 88}{name: 2}{color: 4}
+(Is it possible... {speed: 1}that he has{b}
+never taken his tattered coat{b}
+{shake: 1, 1}to the cleaners!?){nextpage_button}
+
+{{350}}
+{ponteiro: 131576,19316}{bloco: 81}{name: 2}{color: 0}
+Mr. Faith's holster...{wait: 16}{b}
+I bet he never thought he'd{b}
+be killed by his own gun.{nextpage_button}
+
+{{351}}
+{ponteiro: 131748,17900}{bloco: 79}{name: 3}{color: 0}
+Yeah...{wait: 16} Shot down by the very{b}
+thing that's supposed to{b}
+protect the people.{nextpage_button}
+
+{{352}}
+{ponteiro: 131920,34632}{bloco: 114}{name: 3}{color: 0}
+{sfx: 29}{shake: 2, 2}I just can't get over that,{b}
+sir!{wait: 16} {speed: 2}{shake: 2, 2}{flash: 0, 1}{sfx: 29}It's not right!{wait: 16} We're{b}
+gonna get the killer for this!{nextpage_button}
+
+{{353}}
+{ponteiro: 132092,7640}{bloco: 58}{name: 2}{color: 4}
+(Maybe it's because the victim{b}
+is a fellow detective...){nextpage_button}
+
+{{354}}
+{ponteiro: 132264,16700}{bloco: 78}{name: 2}{color: 4}
+(...but for a second, Gumshoe{b}
+sounded even more detective-{b}
+like than usual.){nextpage_button}
+
+{{355}}
+{ponteiro: 132512,25052}{bloco: 88}{name: 3}{color: 0}
+There's some blood on the{b}
+back of his pants...{wait: 16} Which{b}
+reminds me of this one time...{nextpage_button}
+
+{{356}}
+{ponteiro: 132684,27468}{bloco: 92}{name: 3}{color: 0}
+Back in elementary school, I{b}
+accidentally flopped onto this{b}
+chair that had a tack on it...{nextpage_button}
+
+{{357}}
+{ponteiro: 132856,34064}{bloco: 111}{name: 3}{color: 0}
+And oh man, {wait: 8}{shake: 2, 2}{flash: 0, 1}{sfx: 37}that thing stabbed{b}
+me good!{wait: 16} It even drew blood!{wait: 16}{b}
+Hurts just thinking about it.{nextpage_button}
+
+{{358}}
+{ponteiro: 133028,10548}{bloco: 66}{name: 2}{color: 4}
+(That story was so painful,{b}
+I spaced out in the middle{b}
+of it...){nextpage_button}
+
+{{359}}
+{ponteiro: 133276,3608}{bloco: 41}{name: 3}{color: 0}
+Your files are all over the{b}
+floor, sir.{nextpage_button}
+
+{{360}}
+{ponteiro: 133448,19400}{bloco: 81}{name: 2}{color: 0}
+They probably fell during {color: 3}the{b}
+struggle between the victim{b}
+and his killer{color: 0}.{nextpage_nobutton}
+
+{{361}}
+{ponteiro: 133616,19484}{bloco: 81}{name: 2}{color: 2}
+They probably fell during {color: 3}the{b}
+struggle between the victim{b}
+and his killer{color: 0}.{nextpage_button}
+
+{{362}}
+{ponteiro: 133736,18560}{bloco: 80}{name: 3}{color: 0}
+Aww, and I tried so hard to{b}
+keep this place spotless while{b}
+you were away{speed: 8}...{nextpage_button}
+
+{{363}}
+{ponteiro: 133908,20744}{bloco: 83}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 23}{shake: 2, 2}I mean, this just rendered all{b}
+the time and effort I put in{b}
+pointless!{nextpage_button}
+
+{{364}}
+{ponteiro: 134080,7340}{bloco: 57}{name: 2}{color: 0}
+{flash: 0, 1}{sfx: 19}I don't recall ever asking{b}
+you to clean my room!{nextpage_button}
+
+{{365}}
+{ponteiro: 134252,16780}{bloco: 78}{name: 3}{color: 0}
+Well, {flash: 0, 0}{shake: 0, 2}I watered the flowers{b}
+every day, just like you{b}
+requested, sir.{nextpage_button}
+
+{{366}}
+{ponteiro: 134424,11920}{bloco: 68}{name: 3}{color: 0}
+I just added cleaning to the{b}
+list as a {flash: 0, 1}{sfx: 21}{shake: 1, 1}weekend special!{nextpage_button}
+
+{{367}}
+{ponteiro: 134596,31400}{bloco: 101}{name: 3}{color: 0}
+For about half a day every{b}
+Saturday,{shake: 2, 2}{flash: 0, 1}{sfx: 29} I'd come in and clean{b}
+this place until it sparkled!{nextpage_button}
+
+{{368}}
+{ponteiro: 134768,1604}{bloco: 27}{name: 2}{color: 4}
+(Does he have a life...?){nextpage_button}
+
+{{369}}
+{ponteiro: 135352,22656}{bloco: 85}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 23}{shake: 2, 2}I don't believe it!{wait: 16}{b}
+I packed those files on these{b}
+shelves so tight...{nextpage_button}
+
+{{370}}
+{ponteiro: 135524,25144}{bloco: 88}{name: 3}{color: 0}
+...that not even an earthquake{b}
+could make them fall off,{speed: 1}{shake: 1, 1} but{b}
+just look at them!{nextpage_button}
+
+{{371}}
+{ponteiro: 135696,30188}{bloco: 97}{name: 3}{color: 0}
+At this rate, the rest of the{b}
+files won't be able to withstand{b}
+{flash: 0, 1}{shake: 2, 2}{sfx: 30}an earthquake at all!{nextpage_button}
+
+{{372}}
+{ponteiro: 135868,3188}{bloco: 39}{name: 2}{color: 0}
+...{shake: 1, 1}A-{wait: 8}{shake: 1, 1}A problem to be sure.{nextpage_button}
+
+{{373}}
+{ponteiro: 136040,15580}{bloco: 76}{name: 2}{color: 0}
+Well, once the investigation{b}
+is over, we'll put them back{b}
+up on the shelf.{nextpage_button}
+
+{{374}}
+{ponteiro: 136288,2840}{bloco: 35}{name: 2}{color: 0}
+There's nothing of interest{b}
+here.{nextpage_button}
+
+{{375}}
+{ponteiro: 136664,2912}{bloco: 35}{name: 2}{color: 0}
+There's nothing of interest{b}
+here.{nextpage_button}
+
+{{376}}
+{ponteiro: 137912,28524}{bloco: 93}{name: 2}{color: 4}
+(I guess this is about all{b}
+we're going to find out.{wait: 16} We{b}
+should send the body to aut{speed: 6}--){nextpage_button}
+
+{{377}}
+{ponteiro: 138156,64}{bloco: 10}{name: 1}{color: 0}
+{shake: 1, 1}Jim!{nextpage_button}
+
+{{378}}
+{ponteiro: 139140,25420}{bloco: 89}{name: 1}{color: 0}
+{shake: 1, 1}{sfx: 29}Why, oh why!?{wait: 16}{b}
+{flash: 0, 1}{shake: 2, 2}{flash: 0, 1}{sfx: 23}How could this have happened{b}
+to a guy like you!?{nextpage_button}
+
+{{379}}
+{ponteiro: 139368,88}{bloco: 11}{name: 2}{color: 0}
+.........{nextpage_button}
+
+{{380}}
+{ponteiro: 139596,344}{bloco: 18}{name: 2}{color: 0}
+Are you alright?{nextpage_button}
+
+{{381}}
+{ponteiro: 139824,31712}{bloco: 102}{name: 1}{color: 0}
+{flash: 0, 1}{shake: 0, 2}{sfx: 23}Don't touch me!{desconhecido_0E: 1, 1, 96, 1}{wait: 18}{b}
+{flash: 0, 1}{shake: 0, 2}{sfx: 23}Leave me alone!{wait: 20}{b}
+{flash: 0, 1}{shake: 0, 2}{sfx: 23}Q{desconhecido_0E: 24, 22, 64, 1}Just let me be!{nextpage_button}
+
+{{382}}
+{ponteiro: 140052,1788}{bloco: 29}{name: 2}{color: 0}
+Sorry, but I can't do that.{nextpage_button}
+
+{{383}}
+{ponteiro: 140280,17420}{bloco: 79}{name: 2}{color: 0}
+The investigation is still{b}
+ongoing, so please refrain{b}
+from touching the body.{nextpage_button}
+
+{{384}}
+{ponteiro: 140636,34400}{bloco: 112}{name: 1}{color: 0}
+{flash: 0, 0}{sfx: 19}{speed: 4}The "body"?{wait: 24}{speed: 1}{flash: 0, 1}{shake: 0, 2}{sfx: 23} The "BODY"!?{wait: 20}{b}
+Don't talk about him like{b}
+he's just some lump of flesh!{nextpage_button}
+
+{{385}}
+{ponteiro: 140864,18140}{bloco: 80}{name: 1}{color: 0}
+{desconhecido_0E: 24, 25, 160, 1}Look at him...{wait: 20}{b}
+{speed: 3}Jim looks like he's just{b}
+turned in for the night.Q{nextpage_button}
+
+{{386}}
+{ponteiro: 141092,5088}{bloco: 49}{name: 3}{color: 0}
+Um, sure.{wait: 16} Just in a{b}
+blood-stained suit, pal.{nextpage_button}
+
+{{387}}
+{ponteiro: 141788,516}{bloco: 23}{name: 1}{color: 0}
+Where are my manners?{nextpage_button}
+
+{{388}}
+{ponteiro: 142212,2408}{bloco: 34}{name: 2}{color: 0}
+Aren't you that prosecutor{speed: 6}...{nextpage_button}
+
+{{389}}
+{ponteiro: 142636,9732}{bloco: 64}{name: 29}{color: 0}
+{flash: 0, 1}{sfx: 21}Why, yes, I am!{wait: 12}{b}
+I'm Jacques Portsman,{wait: 16}{b}
+Prosecutor.{nextpage_button}
+
+{{390}}
+{ponteiro: 142884,5712}{bloco: 51}{name: 29}{color: 0}
+Jim here was {speed: 3}my partner in{b}
+crime busting{desconhecido_20: 10}...{nextpage_button}
+
+{{391}}
+{ponteiro: 143288,9016}{bloco: 63}{name: 2}{color: 0}
+I'm Miles Edgeworth,{wait: 16} and like{b}
+you, I am also a prosecutor.{nextpage_button}
+
+{{392}}
+{ponteiro: 143720,1948}{bloco: 30}{name: 3}{color: 0}
+Detective Dick Gumshoe, sir.{nextpage_button}
+
+{{393}}
+{ponteiro: 144152,26156}{bloco: 90}{name: 29}{color: 0}
+{flash: 0, 0}{sfx: 21}So you're Miles Edgeworth{desconhecido_20: 10}{speed: 3}...{wait: 20}{b}
+{speed: 2}{desconhecido_1F: 10}I guess this is{speed: 4} your{b}
+office{desconhecido_20: 10}...?{nextpage_button}
+
+{{394}}
+{ponteiro: 144380,1188}{bloco: 23}{name: 2}{color: 0}
+Yes, that is correct.{nextpage_button}
+
+{{395}}
+{ponteiro: 144728,15740}{bloco: 77}{name: 29}{color: 0}
+{flash: 0, 1}{sfx: 23}{shake: 2, 2}{desconhecido_15: 0}Then it was you!{wait: 24}{b}
+You're the one who {flash: 0, 1}{shake: 2, 2}{sfx: 17}killed Jim!{nextpage_button}
+
+{{396}}
+{ponteiro: 145132,29888}{bloco: 97}{name: 3}{color: 0}
+{shake: 2, 2}{flash: 0, 1}{sfx: 29}Hey, don't go around jumping{b}
+to conclusions, pal!{wait: 16}{b}
+{speed: 3}{shake: 2, 2}{flash: 0, 1}Just calm down, OK!?{nextpage_button}
+
+{{397}}
+{ponteiro: 145360,11024}{bloco: 67}{name: 29}{color: 0}
+{flash: 0, 1}{shake: 2, 2}{sfx: 23}I will not!{wait: 20}{b}
+I know how things work{b}
+{shake: 1, 1}around here!{nextpage_button}
+
+{{398}}
+{ponteiro: 145588,9528}{bloco: 64}{name: 29}{color: 0}
+High prosecutors' office{b}
+doors all have locks built{b}
+into them.{nextpage_button}
+
+{{399}}
+{ponteiro: 145816,33952}{bloco: 111}{name: 29}{color: 0}
+And only the owner of the{b}
+office has the key{flash: 0, 1}{shake: 1, 1}{sfx: 30}{desconhecido_10: 10, 53, 2}{speed: 1} to his or{b}
+her {shake: 1, 1}own office door{desconhecido_10: 10, 51, 2}!{wait: 1}{music: 14}{nextpage_button}
+
+{{400}}
+{ponteiro: 146248,15340}{bloco: 76}{name: 2}{color: 0}
+That is correct.{wait: 25}{speed: 3} However, I{b}
+was not the one who killed{b}
+your partner.{nextpage_button}
+
+{{401}}
+{ponteiro: 146680,20492}{bloco: 83}{name: 3}{color: 0}
+Yeah!{wait: 16} Mr. Edgeworth has been{b}
+overseas on a business trip{b}
+this whole time, pal.{nextpage_button}
+
+{{402}}
+{ponteiro: 146908,8060}{bloco: 59}{name: 3}{color: 0}
+And the key to the door was{b}
+with me the entire time, OK!?{nextpage_button}
+
+{{403}}
+{ponteiro: 147136,24592}{bloco: 88}{name: 3}{color: 0}
+So the only one who could get{b}
+in here was me!{wait: 16}{shake: 1, 1} Ho{wait: 8}{shake: 1, 1} ho{wait: 8}{shake: 1, 1} ho{wait: 8}{shake: 1, 1} ho.{nextpage_button}
+
+{{404}}
+{ponteiro: 147364,29004}{bloco: 95}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 19}...{desconhecido_1F: 1}{speed: 2}Wait,{wait: 20}{speed: 4} that means{desconhecido_20: 1}...{b}
+.........{wait: 16}{b}
+{desconhecido_1F: 1}{speed: 3}I'm not sure what that means.{nextpage_button}
+
+{{405}}
+{ponteiro: 147592,15420}{bloco: 76}{name: 29}{color: 0}
+{flash: 0, 1}{shake: 2, 2}{sfx: 23}{desconhecido_15: 0}So it was you, {shake: 2, 2}then!{wait: 20}{b}
+{flash: 0, 1}{shake: 2, 2}{sfx: 17}You're Jim's killer!!{nextpage_button}
+
+{{406}}
+{ponteiro: 147820,8824}{bloco: 61}{name: 3}{color: 0}
+{sfx: 23}{flash: 0, 1}{shake: 2, 2}No way, pal!{wait: 16}{desconhecido_15: 0}{b}
+{shake: 1, 1}You've got it all wrong!!{nextpage_button}
+
+{{407}}
+{ponteiro: 148124,2336}{bloco: 32}{name: 2}{color: 0}
+{flash: 0, 1}{shake: 3, 3}{sfx: 30}Everyone calm down!{nextpage_button}
+
+{{408}}
+{ponteiro: 148540,44}{bloco: 6}{name: 29}{color: 0}
+...!{nextpage_button}
+
+{{409}}
+{ponteiro: 148992,27084}{bloco: 92}{name: 2}{color: 0}
+Mr. Portsman, correct?{wait: 16} If you{b}
+are a real prosecutor, you{b}
+should know to stay collected.{nextpage_button}
+
+{{410}}
+{ponteiro: 149220,27180}{bloco: 92}{name: 2}{color: 0}
+The investigation has only{b}
+just begun.{wait: 16}{speed: 3} Isn't it too early{b}
+to be drawing conclusions?{nextpage_button}
+
+{{411}}
+{ponteiro: 149624,7460}{bloco: 58}{name: 29}{color: 0}
+{desconhecido_20: 10}...{desconhecido_1F: 10}{wait: 16}{speed: 4}{desconhecido_10: 10, 57, 2}{sfx: 21}{flash: 0, 1}{shake: 1, 1}Alright, I get the point.{nextpage_button}
+
+{{412}}
+{ponteiro: 149852,17500}{bloco: 79}{name: 29}{color: 0}
+You're right, my mistake.{wait: 16}{b}
+I tend to get a little too{b}
+hot-headed sometimes.{nextpage_button}
+
+{{413}}
+{ponteiro: 150080,6920}{bloco: 56}{name: 29}{color: 0}
+You sure are one cool{b}
+customer, though,{b}
+Mr. Edgeworth.{nextpage_button}
+
+{{414}}
+{ponteiro: 150308,112}{bloco: 11}{name: 2}{color: 0}
+.........{nextpage_button}
+
+{{415}}
+{ponteiro: 150536,17580}{bloco: 79}{name: 29}{color: 0}
+I've heard all the rumors{b}
+about you.{wait: 30} You're the great{b}
+"Genius Prosecutor".{nextpage_button}
+
+{{416}}
+{ponteiro: 150764,5660}{bloco: 51}{name: 29}{color: 0}
+{flash: 0, 1}{sfx: 21}{speed: 2}You're something of a legend,{b}
+you know.{nextpage_button}
+
+{{417}}
+{ponteiro: 150992,10140}{bloco: 65}{name: 29}{color: 0}
+{flash: 0, 1}{shake: 2, 2}{sfx: 29}Anyway!{wait: 16}{b}
+Let's call a truce and{b}
+work together, OK?{nextpage_button}
+
+{{418}}
+{ponteiro: 151220,9144}{bloco: 63}{name: 29}{color: 0}
+Now,{flash: 0, 1}{sfx: 21}{desconhecido_10: 10, 49, 2}{shake: 1, 1} how about a handshake{b}
+to seal the deal!?{nextpage_button}
+
+{{419}}
+{ponteiro: 151448,6584}{bloco: 54}{name: 2}{color: 0}
+............{wait: 40}{b}
+{speed: 5}{desconhecido_10: 1, 2, 0}A pleasure to work with you.{nextpage_button}
+
+{{420}}
+{ponteiro: 151940,24684}{bloco: 88}{name: 29}{color: 0}
+You guys were conducting your{b}
+investigation, right?{wait: 16} Sorry{b}
+for barging in like that.{nextpage_button}
+
+{{421}}
+{ponteiro: 152168,4480}{bloco: 47}{name: 29}{color: 0}
+Carry on, then.{wait: 30} It's your{b}
+room, after all.{nextpage_button}
+
+{{422}}
+{ponteiro: 152396,1380}{bloco: 25}{name: 2}{color: 0}
+Thank you, I intend to.{nextpage_button}
+
+{{423}}
+{ponteiro: 152624,11776}{bloco: 68}{name: 29}{color: 0}
+{flash: 0, 1}{sfx: 21}I just want {speed: 3}a little more time{b}
+to say good-bye to Jim...{nextpage_button}
+
+{{424}}
+{ponteiro: 152852,264}{bloco: 16}{name: 29}{color: 0}
+{shake: 2, 2}You there!{nextpage_button}
+
+{{425}}
+{ponteiro: 153088,152}{bloco: 13}{name: 30}{color: 0}
+{shake: 1, 1}{sfx: 109}Sir!{nextpage_button}
+
+{{426}}
+{ponteiro: 154136,6192}{bloco: 53}{name: 29}{color: 0}
+I want you to {speed: 3}capture this{b}
+scene on film for me.{nextpage_button}
+
+{{427}}
+{ponteiro: 154364,5244}{bloco: 50}{name: 29}{color: 0}
+{flash: 0, 1}{sfx: 21}My final farewell to my{b}
+partner Jim{speed: 5}...{nextpage_button}
+
+{{428}}
+{ponteiro: 154940,11092}{bloco: 67}{name: 2}{color: 0}
+............{wait: 30}{b}
+{speed: 2}{color: 2}(I should probably give{b}
+them some space...){nextpage_button}
+
+{{429}}
+{ponteiro: 155360,8376}{bloco: 60}{name: 2}{color: 4}
+(I'm certain there's something{b}
+wrong with this picture...){nextpage_button}
+
+{{430}}
+{ponteiro: 156272,1660}{bloco: 28}{name: 3}{color: 0}
+The victim's handprints...{nextpage_button}
+
+{{431}}
+{ponteiro: 156444,16140}{bloco: 77}{name: 2}{color: 0}
+He must have tried to support{b}
+himself with his hands here{b}
+after being shot.{nextpage_button}
+
+{{432}}
+{ponteiro: 156616,3028}{bloco: 37}{name: 3}{color: 0}
+There are prints on the floor,{b}
+too.{nextpage_button}
+
+{{433}}
+{ponteiro: 156788,20912}{bloco: 83}{name: 2}{color: 0}
+Those must have been made{b}
+when, unable to stay standing,{b}
+he dropped to the floor.{nextpage_button}
+
+{{434}}
+{ponteiro: 157036,16220}{bloco: 77}{name: 2}{color: 0}
+It appears that the victim was{b}
+in a sitting position here{b}
+after being shot.{nextpage_button}
+
+{{435}}
+{ponteiro: 157208,21600}{bloco: 84}{name: 3}{color: 0}
+{flash: 0, 1}{shake: 2, 2}{sfx: 21}Oh!{wait: 16}{speed: 2} So that's why the seat of{b}
+the victim's pants has blood{b}
+on it!{nextpage_button}
+
+{{436}}
+{ponteiro: 157380,3228}{bloco: 39}{name: 2}{color: 0}
+That would be the logical{b}
+conclusion.{nextpage_button}
+
+{{437}}
+{ponteiro: 157628,20240}{bloco: 82}{name: 3}{color: 0}
+So this is where the bullet{b}
+lodged itself after it went{b}
+through the victim, huh.{nextpage_button}
+
+{{438}}
+{ponteiro: 157800,8248}{bloco: 60}{name: 2}{color: 0}
+For the bullet to be lodged so{b}
+squarely in a file spine...{nextpage_button}
+
+{{439}}
+{ponteiro: 157972,26340}{bloco: 90}{name: 2}{color: 0}
+...indicates that the files{b}
+were ransacked {flash: 0, 1}{sfx: 21}{color: 1}after the{b}
+shooting had occurred{color: 0}.{nextpage_button}
+
+{{440}}
+{ponteiro: 158144,13744}{bloco: 73}{name: 3}{color: 0}
+Then I guess the victim was{b}
+moved because he was in the{b}
+killer's way...{nextpage_button}
+
+{{441}}
+{ponteiro: 158392,32544}{bloco: 103}{name: 3}{color: 0}
+{shake: 2, 2}{flash: 0, 1}{sfx: 29}I put them all back, just as{b}
+they should be, sir!{wait: 16} Doesn't{b}
+look like anything's missing!{nextpage_button}
+
+{{442}}
+{ponteiro: 158564,20996}{bloco: 83}{name: 2}{color: 0}
+Although, it does look like the{b}
+killer moved the body to flip{b}
+through my shelves.{nextpage_button}
+
+{{443}}
+{ponteiro: 158736,11364}{bloco: 67}{name: 2}{color: 4}
+(I wonder {wait: 16}{sfx: 19}{flash: 0, 1}if they found what{b}
+they were looking for...?){nextpage_button}
+
+{{444}}
+{ponteiro: 158984,13820}{bloco: 73}{name: 2}{color: 0}
+The killer moved the body{b}
+because it was leaning against{b}
+the bookshelf.{nextpage_button}
+
+{{445}}
+{ponteiro: 159156,11636}{bloco: 67}{name: 3}{color: 0}
+The blood on this guy's pants{b}
+{flash: 0, 1}{sfx: 29}{shake: 2, 2}proves that pretty well!{nextpage_button}
+
+{{446}}
+{ponteiro: 159328,1212}{bloco: 24}{name: 2}{color: 0}
+In a sense, I suppose.{nextpage_button}
+
+{{447}}
+{ponteiro: 159500,9336}{bloco: 63}{name: 3}{color: 0}
+See!{wait: 16} {flash: 0, 1}{sfx: 29}{shake: 2, 2}I'm not completely{b}
+useless, Mr. Edgeworth!{nextpage_button}
+
+{{448}}
+{ponteiro: 159884,13896}{bloco: 73}{name: 2}{color: 0}
+{flash: 0, 1}{shake: 2, 2}{sfx: 17}There is clearly a{b}
+contradiction here{b}
+with this bullet hole!{nextpage_button}
+
+{{449}}
+{ponteiro: 160056,3348}{bloco: 39}{name: 3}{color: 0}
+Wh-{flash: 0, 1}{sfx: 21}{shake: 2, 2}What do you mean, sir!?{nextpage_button}
+
+{{450}}
+{ponteiro: 160560,284}{bloco: 16}{name: 2}{color: 0}
+You don't see?{nextpage_button}
+
+{{451}}
+{ponteiro: 160788,6808}{bloco: 55}{name: 2}{color: 0}
+{desconhecido_10: 1, 26, 0}Quite simply, the bullet hole{b}
+itself is too low.{nextpage_button}
+
+{{452}}
+{ponteiro: 161016,15264}{bloco: 75}{name: 2}{color: 0}
+If the victim was shot in the{b}
+stomach, the hole should be{b}
+much higher up.{nextpage_button}
+
+{{453}}
+{ponteiro: 161244,15660}{bloco: 76}{name: 3}{color: 0}
+But what if the guy was {shake: 1, 1}shot{b}
+while he was sitting or lying{b}
+down, sir!?{nextpage_button}
+
+{{454}}
+{ponteiro: 161472,25880}{bloco: 89}{name: 2}{color: 0}
+That would be illogical.{wait: 16} The{b}
+victim leaned against this{b}
+shelf here after being shot.{nextpage_button}
+
+{{455}}
+{ponteiro: 161700,6864}{bloco: 55}{name: 2}{color: 0}
+Which suggests that he was{b}
+standing when he was shot.{nextpage_button}
+
+{{456}}
+{ponteiro: 161928,33840}{bloco: 109}{name: 3}{color: 0}
+{sfx: 21}{flash: 0, 1}{shake: 2, 2}Then that means{desconhecido_20: 10}...!{wait: 24}{b}
+{desconhecido_10: 10, 71, 0}{speed: 6}{desconhecido_20: 10}............{wait: 16}{desconhecido_1F: 10}{flash: 0, 1}{sfx: 19}{speed: 3}Wait, what does{b}
+that mean, sir?{nextpage_button}
+
+{{457}}
+{ponteiro: 162212,33288}{bloco: 106}{name: 2}{color: 0}
+{speed: 2}It means you need to use your{b}
+brain every once in a while{b}
+instead of mine, {shake: 2, 2}{flash: 0, 1}{sfx: 29}{desconhecido_10: 10, 87, 0}Detective.{nextpage_button}
+
+{{458}}
+{ponteiro: 162552,7400}{bloco: 57}{name: 2}{color: 0}
+In any case, it means someone{b}
+made a faulty assumption.{nextpage_button}
+
+{{459}}
+{ponteiro: 162780,29292}{bloco: 95}{name: 2}{color: 0}
+And it was from this {wait: 8}{flash: 0, 1}{sfx: 21}{shake: 2, 2}{color: 1}mistake{color: 0}{b}
+{shake: 0, 2}that our current contradiction{b}
+was born!{nextpage_button}
+
+{{460}}
+{ponteiro: 163124,25972}{bloco: 89}{name: 2}{color: 0}
+What is the faulty assumption{b}
+that caused this problem with{b}
+the bullet hole's position?{nextpage_nobutton}
+
+{{461}}
+{ponteiro: 163588,5816}{bloco: 51}{name: 2}{color: 0}
+If the victim was shot while{b}
+he was lying down...{nextpage_button}
+
+{{462}}
+{ponteiro: 163760,19736}{bloco: 81}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 21}Wait... {wait: 16}Didn't you just say{b}
+that line of reasoning is{b}
+illogical, sir?{nextpage_button}
+
+{{463}}
+{ponteiro: 163932,21688}{bloco: 84}{name: 3}{color: 0}
+You said, {shake: 2, 2}{flash: 0, 1}{sfx: 29}"The victim leaned{b}
+against this shelf here after{b}
+being shot."{nextpage_button}
+
+{{464}}
+{ponteiro: 164104,31192}{bloco: 100}{name: 2}{color: 0}
+...{wait: 16}I was trying to be nice and{b}
+explain my complex logic in an{b}
+easier way for you,{wait: 8} Detective.{nextpage_button}
+
+{{465}}
+{ponteiro: 164276,9800}{bloco: 64}{name: 3}{color: 0}
+{shake: 2, 2}{flash: 0, 1}{sfx: 29}Oh, really!?{wait: 16}{b}
+{shake: 2, 2}Thanks for thinking{b}
+of me, sir!{nextpage_button}
+
+{{466}}
+{ponteiro: 164484,5036}{bloco: 49}{name: 2}{color: 4}
+(...Good, I don't think he{b}
+noticed my mistake.){nextpage_button}
+
+{{467}}
+{ponteiro: 164756,9868}{bloco: 64}{name: 2}{color: 0}
+The position of the handprints{b}
+is what's causing this{b}
+problem.{nextpage_button}
+
+{{468}}
+{ponteiro: 164928,25236}{bloco: 88}{name: 2}{color: 0}
+{flash: 0, 1}{shake: 2, 2}{sfx: 21}We wouldn't be in this dilemma{b}
+if the handprints were closer{b}
+to the ground!{nextpage_button}
+
+{{469}}
+{ponteiro: 165100,8504}{bloco: 60}{name: 3}{color: 0}
+But the handprints are where{b}
+they are... {wait: 16}{sfx: 19}{flash: 0, 1}Up top.{nextpage_button}
+
+{{470}}
+{ponteiro: 165272,24504}{bloco: 87}{name: 2}{color: 0}
+...Yes, you are quite{b}
+perceptive!{wait: 16}{speed: 2} Which is why this{b}
+is not a viable hypothesis.{nextpage_button}
+
+{{471}}
+{ponteiro: 165444,18896}{bloco: 80}{name: 3}{color: 0}
+{flash: 0, 1}{shake: 2, 2}{sfx: 23}Oh, so it was just a "what{b}
+if"?{wait: 16}{speed: 2} Then what's the right{b}
+answer?{nextpage_button}
+
+{{472}}
+{ponteiro: 165616,17980}{bloco: 79}{name: 2}{color: 0}
+{shake: 1, 1}Hmph... {wait: 16}{speed: 2}You still can't figure{b}
+it out?{wait: 16} Then allow me to{b}
+explain.{nextpage_button}
+
+{{473}}
+{ponteiro: 165788,1884}{bloco: 30}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 29}{shake: 2, 2}Yes, please, sir!{nextpage_button}
+
+{{474}}
+{ponteiro: 165996,28428}{bloco: 93}{name: 2}{color: 4}
+(Guess he didn't notice the{b}
+slip-up.{wait: 16} Although, at this{b}
+point, I shouldn't be surprised.){nextpage_button}
+
+{{475}}
+{ponteiro: 166308,4828}{bloco: 48}{name: 2}{color: 0}
+I believe the order of the{b}
+files is a bit off.{nextpage_button}
+
+{{476}}
+{ponteiro: 166480,8952}{bloco: 62}{name: 3}{color: 0}
+You mean {sfx: 19}{flash: 0, 1}I put them back in{b}
+the wrong order just now?{nextpage_button}
+
+{{477}}
+{ponteiro: 166704,27756}{bloco: 92}{name: 3}{color: 0}
+{flash: 0, 1}{shake: 2, 2}{sfx: 21}{speed: 2}Hey!{wait: 16} Actually, {flash: 0, 1}{sfx: 29}{shake: 2, 2}I think the{b}
+labels on the files are{b}
+wrong, sir!{nextpage_button}
+
+{{478}}
+{ponteiro: 166876,136}{bloco: 12}{name: 2}{color: 0}
+{flash: 0, 1}{sfx: 19}Oh?{nextpage_button}
+
+{{479}}
+{ponteiro: 167048,27852}{bloco: 92}{name: 3}{color: 0}
+{shake: 1, 1}Yeah!{wait: 16} You see here how the{b}
+files that were shot begin{b}
+{flash: 0, 1}{sfx: 29}{shake: 2, 2}with the number 0?{nextpage_button}
+
+{{480}}
+{ponteiro: 167220,33396}{bloco: 107}{name: 3}{color: 0}
+What are those doing all the{b}
+way down there after 1,{wait: 4} 2,{wait: 4} and{b}
+3!?{wait: 16}{flash: 0, 1}{sfx: 29}{shake: 2, 2} That's really weird!!{nextpage_button}
+
+{{481}}
+{ponteiro: 167720,12712}{bloco: 70}{name: 2}{color: 0}
+Actually,{wait: 16}{speed: 2} the way they are{b}
+organized now is the correct{b}
+order.{nextpage_button}
+
+{{482}}
+{ponteiro: 167948,5192}{bloco: 50}{name: 2}{color: 0}
+They are exactly as I see them{b}
+in my mind's eye.{nextpage_button}
+
+{{483}}
+{ponteiro: 168176,4336}{bloco: 46}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 19}But the numbers are all out of{b}
+order.{nextpage_button}
+
+{{484}}
+{ponteiro: 168404,16380}{bloco: 77}{name: 2}{color: 0}
+Those white binders are special,{b}
+so they are arranged a little{b}
+differently.{nextpage_button}
+
+{{485}}
+{ponteiro: 168632,26432}{bloco: 90}{name: 2}{color: 0}
+But from this,{wait: 8} we know that{b}
+the files were not in this{b}
+order when the crime occurred.{nextpage_button}
+
+{{486}}
+{ponteiro: 168860,1820}{bloco: 29}{name: 2}{color: 4}
+{flash: 0, 1}{sfx: 21}(Aha! So that's it!){nextpage_button}
+
+{{487}}
+{ponteiro: 169088,22920}{bloco: 85}{name: 2}{color: 0}
+I believe the killer made the{b}
+same incorrect assumption as{b}
+you just did, Detective.{nextpage_button}
+
+{{488}}
+{ponteiro: 169316,13592}{bloco: 73}{name: 2}{color: 0}
+Let's re-arrange the files in{b}
+numerical order and see what{b}
+we find out.{nextpage_button}
+
+{{489}}
+{ponteiro: 169856,31296}{bloco: 100}{name: 3}{color: 0}
+{flash: 0, 1}{sfx: 29}{shake: 2, 2}Do you think it'd be OK to{b}
+prop the body {shake: 1, 1}back up to how{b}
+it was before it was moved?{nextpage_button}
+
+{{490}}
+{ponteiro: 170028,21952}{bloco: 84}{name: 2}{color: 0}
+They've finished processing{b}
+the crime scene,{wait: 16} so I don't{b}
+see why it wouldn't be.{nextpage_button}
+
+{{491}}
+{ponteiro: 170200,5140}{bloco: 50}{name: 2}{color: 0}
+{shake: 2, 2}{flash: 0, 1}{sfx: 29}If you please,{shake: 1, 1} Detective{b}
+Gumshoe!{nextpage_button}
+
+{{492}}
+{ponteiro: 170552,17340}{bloco: 78}{name: 2}{color: 0}
+As I suspected...{wait: 16}{speed: 2}{b}
+The bullet hole is now where{b}
+it should logically be.{nextpage_button}
+
+{{493}}
+{ponteiro: 170724,11568}{bloco: 67}{name: 2}{color: 0}
+The killer went through my{b}
+files first before shooting{b}
+Mr. Faith.{nextpage_button}
+
+{{494}}
+{ponteiro: 170896,7940}{bloco: 58}{name: 3}{color: 0}
+And then put the files back in{b}
+numerical order, I guess.{nextpage_button}
+
+{{495}}
+{ponteiro: 171068,6360}{bloco: 53}{name: 2}{color: 0}
+Exactly.{wait: 16}{b}
+And then proceeded to shoot{b}
+the victim.{nextpage_button}
+
+{{496}}
+{ponteiro: 171240,21164}{bloco: 83}{name: 3}{color: 0}
+But why would someone kill a{b}
+man and then look through {b}
+your files one more time?{nextpage_button}
+
+{{497}}
+{ponteiro: 171604,324}{bloco: 18}{name: 2}{color: 0}
+Puzzling indeed.{nextpage_button}
+
+{{498}}
+{ponteiro: 171832,30388}{bloco: 97}{name: 2}{color: 0}
+The files were {color: 3}thrown into{b}
+disarray twice{color: 0}, once before and{b}
+once after the crime. But why?{nextpage_nobutton}
+
+{{499}}
+{ponteiro: 171956,30488}{bloco: 97}{name: 2}{color: 2}
+The files were {color: 3}thrown into{b}
+disarray twice{color: 0}, once before and{b}
+once after the crime. But why?{nextpage_button}
+
+{{500}}
+{ponteiro: 172192,2696}{bloco: 35}{name: 2}{color: 0}
+There's nothing of interest{b}
+here.{nextpage_button}

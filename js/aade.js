@@ -305,6 +305,10 @@ function aade(){
 		
 		var testScripts = [
 			{
+				'filename': 'AAI Case 1 Beginning (DiegoHH and djmatheusito).txt',
+				'label': 'AAI Caso 1 Início (DiegoHH e djmatheusito).txt'
+			},
+			{
 				'filename': 'AA1 Accents (DiegoHH).txt',
 				'label': 'AA1 Acentos (DiegoHH).txt'
 			},
@@ -577,6 +581,7 @@ function aade(){
 		
 		var that = this;
 		var destinationTool = that.destinationTool;
+		var game = that.game;
 		
 		// Loading needed html files, before parsing the scripts
 		$.when(
@@ -713,7 +718,7 @@ function aade(){
 						}
 
 						// Detecting first alphanumeric char in a text block
-						var checkCharacterAlphanumeric = /^[a-zA-Z0-9ÀÁÃÂÇÉÊÍÏÓÔÕÚÜÑàáãâçéêíïóôõúüñ()]*$/.test(char);
+						var checkCharacterAlphanumeric = /^[a-zA-Z0-9ÀÁÃÂÇÉÊÍÏÓÔÕÚÜÑàáãâçéêíïóôõúüñ().]*$/.test(char);
 						if(checkFirstAlphanumericChar){
 							// Suppressing all line breaks after the first alphanumeric character
 							// That's done in order to have line breaks only after {b} tags
@@ -795,6 +800,23 @@ function aade(){
 						}
 					}
 				}
+				
+				// If the game is AAI, then delete empty blocks between each section
+				// in order to avoid visual pollution
+				if(game == 'aai'){
+					for(var sectionNumber in sectionBlocks){
+						var section = sectionBlocks[sectionNumber];
+						
+						for(var blockNumber in section){
+							var block = section[blockNumber];
+							
+							var text = $.trim( block['text'] );
+							if(text == ''){
+								delete sectionBlocks[sectionNumber][blockNumber];
+							}
+						}
+					}
+				}
 
 				// Loading dialog parser table
 				var $dialogParserTable = $divTabpanel.children('table');
@@ -843,8 +865,10 @@ function aade(){
 						$tbody.append($tr);
 						$textarea.html(text);
 
-						// Removing "add new block" button if there's an end tag inside the block
-						if(checkHasEndjmpTag){
+						// Removing "add new block" button on some specific contexts:
+						// 1. if there's an end tag inside the block
+						// 2. if the game is AAI
+						if(checkHasEndjmpTag || that.configs.game == 'aai'){
 							$tr.find('button.add-new-block').remove();
 						}
 
@@ -1325,12 +1349,14 @@ function aade(){
 		})
 	}
 	
-	this.updatePreview = function(field, previewFieldId, textType, sandbox, event, platform){
+	this.updatePreview = function(field, previewFieldId, textType, sandbox, event, game, platform){
 		if(typeof textType == 'undefined') textType = 't';
 		if(typeof sandbox == 'undefined') sandbox = true;
+		if(typeof game == 'undefined') game = this.configs.game;
 		if(typeof platform == 'undefined') platform = this.configs.platform;
 		
 		var checkPlatformDS = (platform == 'ds_jacutemsabao' || platform == 'ds_american' || platform == 'ds_european');
+		var checkGameIsAAI = (game == 'aai');
 		
 		var keyCode;
 		if(typeof event != 'undefined'){
@@ -1481,6 +1507,13 @@ function aade(){
 							} else {
 								$divTextWindow.removeClass('centered');
 							}
+						} else if(checkGameIsAAI && tagText.startsWith('margem:')){
+							var tmp = tagText.split(':');
+							var margin = parseInt(tmp.pop(), 10);
+							
+							$divTextWindow.append(
+								$('<span />').addClass('letter space ' + this.lastColor).html('&nbsp;').css('marginLeft', margin - 16)
+							);
 						} else if(tagText == 'p' || tagText == 'nextpage_button'){
 							$divTextWindow.remove('span.caret').append(
 								$('<span />').addClass('caret').html('&nbsp;')
@@ -1564,6 +1597,7 @@ function aade(){
 		var $radioGameFieldAA2 = $('#config-game-field-aa2');
 		var $radioGameFieldAA3 = $('#config-game-field-aa3');
 		var $radioGameFieldAA4 = $('#config-game-field-aa4');
+		var $radioGameFieldAAI = $('#config-game-field-aai');
 		var $radioNameTypeOriginal = $('#config-name-type-original');
 		var $radioNameTypeAdapted = $('#config-name-type-adapted');
 		var $radioPlatform3DS = $('#config-platform-3ds');
@@ -1577,7 +1611,9 @@ function aade(){
 		var $divColorpickerFields = $('div.colorpicker-component');
 		
 		// Checking default options for each field
-		if(this.configs.game == 'aa4'){
+		if(this.configs.game == 'aai'){
+			$radioGameFieldAAI.prop('checked', true);
+		} else if(this.configs.game == 'aa4'){
 			$radioGameFieldAA4.prop('checked', true);
 		} else if(this.configs.game == 'aa3'){
 			$radioGameFieldAA3.prop('checked', true);
@@ -1635,6 +1671,7 @@ function aade(){
 		var $radioGameFieldAA2 = $('#config-game-field-aa2');
 		var $radioGameFieldAA3 = $('#config-game-field-aa3');
 		var $radioGameFieldAA4 = $('#config-game-field-aa4');
+		var $radioGameFieldAAI = $('#config-game-field-aai');
 		var $radioNameTypeOriginal = $('#config-name-type-original');
 		var $radioNameTypeAdapted = $('#config-name-type-adapted');
 		var $radioPlatform3DS = $('#config-platform-3ds');
@@ -1648,7 +1685,9 @@ function aade(){
 		var $divColorpickerFields = $('div.colorpicker-component');
 		
 		// Checking default options for each field
-		if(this.defaultConfigs.game == 'aa4'){
+		if(this.defaultConfigs.game == 'aai'){
+			$radioGameFieldAAI.prop('checked', true);
+		} else if(this.defaultConfigs.game == 'aa4'){
 			$radioGameFieldAA4.prop('checked', true);
 		} else if(this.defaultConfigs.game == 'aa3'){
 			$radioGameFieldAA3.prop('checked', true);
@@ -2183,6 +2222,11 @@ function aade(){
 				'onclick': 'aade.removeDialogBlock(this)'
 			}).html('<span class="glyphicon glyphicon-minus"></span>');
 			$newButtonGroups.append($newButtonRemoveDialogBlock[0].outerHTML);
+			
+			// Removing add button if the game is AAI
+			if(that.configs.game = 'aai'){
+				$newTdPreviewConteiners.find('button.add-new-block').remove();
+			}
 
 			// Incrementing row counter in the footer of the table
 			that.changeTotalDialogsFooter('i');
@@ -2620,7 +2664,7 @@ function aade(){
 			// Sort all textareas by id attribute, to avoid messing
 			// with the order of dialogues
 			return parseFloat( $(a).attr('data-order') ) - parseFloat( $(b).attr('data-order') );
-		}).each(function(){
+		}).each(function(i){
 			var $textarea = $(this);
 			var section = $textarea.attr('data-section');
 			var text = $textarea.val();
@@ -2630,9 +2674,17 @@ function aade(){
 				scriptSections.push(section);
 				
 				if(destinationTool == 'opf'){
-					scriptText += ('\n\n<<' + section + '>>\n');
+					if(i > 0){
+						scriptText += ('\n<<' + section + '>>\n');
+					} else {
+						scriptText += ('<<' + section + '>>\n');
+					}
 				} else {
-					scriptText += ('\n\n{{' + section + '}}\n');
+					if(i > 0){
+						scriptText += ('\n{{' + section + '}}\n');
+					} else {
+						scriptText += ('{{' + section + '}}\n');
+					}
 				}
 			}
 
@@ -2904,7 +2956,9 @@ function aade(){
 		var message = '';
 		var that = this;
 		var platform = that.configs.platform;
+		var game = that.configs.game;
 		var checkPlatformDS = (platform == 'ds_jacutemsabao' || platform == 'ds_american' || platform == 'ds_european');
+		var checkGameIsAAI = (game == 'aai');
 		
 		var checkValidBlock = true;
 		var checkBlockWidthLastLineReduced = false;
@@ -2931,7 +2985,7 @@ function aade(){
 			
 			// For blocks with three lines, defining caret right padding
 			// and reducing block width with its value
-			if(checkHasCaret && lineNumber == 3 && !checkBlockWidthLastLineReduced){
+			if((checkGameIsAAI || (checkHasCaret && lineNumber == 3)) && !checkBlockWidthLastLineReduced){
 				if(checkCenteredBlock){
 					if(checkPlatformDS){
 						caretRightPadding = 15;
@@ -2946,6 +3000,7 @@ function aade(){
 					}
 				}
 				blockWidth -= caretRightPadding;
+				if(checkGameIsAAI) blockWidth -= 2;
 				checkBlockWidthLastLineReduced = true;
 			}
 			
@@ -2974,13 +3029,13 @@ function aade(){
 				}
 				
 				checkValidBlock = false;
-				if(checkInsideCaretArea){
+				if(checkInsideCaretArea && !checkGameIsAAI){
 					message = 'Texto sobrepondo a área do cursor da terceira linha!';
 				} else {
 					message = 'Largura da linha ultrapassa limite do bloco!';
 				}
 			}
-			if((that.configs.invalidateLargeLines) && (charactersPerLine > 32)){
+			if((that.configs.invalidateLargeLines && !checkGameIsAAI) && (charactersPerLine > 32)){
 				checkValidBlock = false;
 				message = 'Contém linhas com mais de 32 caracteres!';
 				return false; // Exit $.each
@@ -3559,14 +3614,26 @@ function aade(){
 	}
 	
 	this.getColorClass = function(colorCode){
-		if(colorCode == 1){
-			return 'color-orange';
-		} else if(colorCode == 2){
-			return 'color-blue';
-		} else if(colorCode == 3){
-			return 'color-green';
+		if(this.configs.game == 'aai'){
+			if(colorCode == 1 || colorCode == 2){
+				return 'color-orange';
+			} else if(colorCode == 4){
+				return 'color-blue';
+			} else if(colorCode == 3 || colorCode == 6){
+				return 'color-green';
+			} else {
+				return '';
+			}
 		} else {
-			return '';
+			if(colorCode == 1){
+				return 'color-orange';
+			} else if(colorCode == 2){
+				return 'color-blue';
+			} else if(colorCode == 3){
+				return 'color-green';
+			} else {
+				return '';
+			}
 		}
 	}
 	
