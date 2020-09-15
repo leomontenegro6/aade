@@ -525,6 +525,11 @@ input[type="radio"]:checked + label::before {
 	background:url(../images/radio_check.png) -57px top no-repeat;
 }
 
+input[type="checkbox"]:disabled + label,
+input[type="radio"]:disabled + label{
+	opacity: .3;
+}
+
 /* Select 2 fields*/
 .select2-container .select2-selection--single{
 	height: 34px;

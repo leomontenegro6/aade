@@ -166,6 +166,7 @@ function aade(){
 		$divDialogFileFormContainer.load('dialog-file-form.html', function(){
 			$divEquivalenceTableTab.load('equivalence-table.html', function(){
 				$divSandboxTab.load('sandbox.html', function(){
+					that.validateSelectedPlatformFromFileForm();
 					that.loadSandboxBackgroundImageOptions();
 					if(callback) callback();
 				});
@@ -286,13 +287,18 @@ function aade(){
 		})
 	}
 	
-	this.reinstantiateSelect2Fields = function(){
-		var $selectFields = $('select.form-control');
+	this.reinstantiateSelect2Fields = function(select){
+		var $select2Fields;
+		if(select){
+			$select2Fields = $(select).filter("[data-instantiated='true']");
+		} else {
+			$select2Fields = $("select.form-control[data-instantiated='true']");
+		}
 		
-		$selectFields.each(function(){
+		$select2Fields.each(function(){
 			var $select = $(this);
 			
-			$select.select2('destroy');
+			$select.select2('destroy').removeAttr('data-instantiated');
 		});
 		
 		this.instantiateSelect2Fields();
@@ -305,8 +311,8 @@ function aade(){
 		
 		var testScripts = [
 			{
-				'filename': 'AAI Case 1 Beginning (DiegoHH and djmatheusito).txt',
-				'label': 'AAI Caso 1 Início (DiegoHH e djmatheusito).txt'
+				'filename': 'AAI1 Case 1 Beginning (DiegoHH and djmatheusito).txt',
+				'label': 'AAI1 Caso 1 Início (DiegoHH e djmatheusito).txt'
 			},
 			{
 				'filename': 'AA1 Accents (DiegoHH).txt',
@@ -801,9 +807,9 @@ function aade(){
 					}
 				}
 				
-				// If the game is AAI, then delete empty blocks between each section
+				// If the game is AAI1, then delete empty blocks between each section
 				// in order to avoid visual pollution
-				if(game == 'aai'){
+				if(game == 'aai1'){
 					for(var sectionNumber in sectionBlocks){
 						var section = sectionBlocks[sectionNumber];
 						
@@ -867,8 +873,8 @@ function aade(){
 
 						// Removing "add new block" button on some specific contexts:
 						// 1. if there's an end tag inside the block
-						// 2. if the game is AAI
-						if(checkHasEndjmpTag || that.configs.game == 'aai'){
+						// 2. if the game is AAI1
+						if(checkHasEndjmpTag || that.configs.game == 'aai1'){
 							$tr.find('button.add-new-block').remove();
 						}
 
@@ -1356,7 +1362,7 @@ function aade(){
 		if(typeof platform == 'undefined') platform = this.configs.platform;
 		
 		var checkPlatformDS = (platform == 'ds_jacutemsabao' || platform == 'ds_american' || platform == 'ds_european');
-		var checkGameIsAAI = (game == 'aai');
+		var checkGameIsAAI1 = (game == 'aai1');
 		
 		var keyCode;
 		if(typeof event != 'undefined'){
@@ -1507,7 +1513,7 @@ function aade(){
 							} else {
 								$divTextWindow.removeClass('centered');
 							}
-						} else if(checkGameIsAAI && tagText.startsWith('margem:')){
+						} else if(checkGameIsAAI1 && tagText.startsWith('margem:')){
 							var tmp = tagText.split(':');
 							var margin = parseInt(tmp.pop(), 10);
 							
@@ -1590,6 +1596,9 @@ function aade(){
 		
 		// Loading configs into form
 		this.loadConfigsForm();
+		
+		// Validate "Platform" field
+		this.validateSelectedPlatformFromConfigSettings();
 	}
 	
 	this.loadConfigsForm = function(){
@@ -1597,7 +1606,7 @@ function aade(){
 		var $radioGameFieldAA2 = $('#config-game-field-aa2');
 		var $radioGameFieldAA3 = $('#config-game-field-aa3');
 		var $radioGameFieldAA4 = $('#config-game-field-aa4');
-		var $radioGameFieldAAI = $('#config-game-field-aai');
+		var $radioGameFieldAAI1 = $('#config-game-field-aai1');
 		var $radioNameTypeOriginal = $('#config-name-type-original');
 		var $radioNameTypeAdapted = $('#config-name-type-adapted');
 		var $radioPlatform3DS = $('#config-platform-3ds');
@@ -1611,8 +1620,8 @@ function aade(){
 		var $divColorpickerFields = $('div.colorpicker-component');
 		
 		// Checking default options for each field
-		if(this.configs.game == 'aai'){
-			$radioGameFieldAAI.prop('checked', true);
+		if(this.configs.game == 'aai1'){
+			$radioGameFieldAAI1.prop('checked', true);
 		} else if(this.configs.game == 'aa4'){
 			$radioGameFieldAA4.prop('checked', true);
 		} else if(this.configs.game == 'aa3'){
@@ -1622,11 +1631,13 @@ function aade(){
 		} else {
 			$radioGameFieldAA1.prop('checked', true);
 		}
+		
 		if(this.configs.nameType == this.defaultConfigs.nameType){
 			$radioNameTypeOriginal.prop('checked', true);
 		} else {
 			$radioNameTypeAdapted.prop('checked', true);
 		}
+		
 		if(this.configs.platform == 'ds_jacutemsabao'){
 			$radioPlatformDSJTS.prop('checked', true);
 		} else if(this.configs.platform == 'ds_american'){
@@ -1636,11 +1647,13 @@ function aade(){
 		} else {
 			$radioPlatform3DS.prop('checked', true);
 		}
+		
 		if(this.configs.invalidateLargeLines == this.defaultConfigs.invalidateLargeLines){
 			$radioInvalidateLargeLinesTrue.prop('checked', true);
 		} else {
 			$radioInvalidateLargeLinesFalse.prop('checked', true);
 		}
+		
 		if(this.configs.theme == this.defaultConfigs.theme){
 			$radioThemeLight.prop('checked', true);
 		} else {
@@ -1671,7 +1684,7 @@ function aade(){
 		var $radioGameFieldAA2 = $('#config-game-field-aa2');
 		var $radioGameFieldAA3 = $('#config-game-field-aa3');
 		var $radioGameFieldAA4 = $('#config-game-field-aa4');
-		var $radioGameFieldAAI = $('#config-game-field-aai');
+		var $radioGameFieldAAI1 = $('#config-game-field-aai1');
 		var $radioNameTypeOriginal = $('#config-name-type-original');
 		var $radioNameTypeAdapted = $('#config-name-type-adapted');
 		var $radioPlatform3DS = $('#config-platform-3ds');
@@ -1685,8 +1698,8 @@ function aade(){
 		var $divColorpickerFields = $('div.colorpicker-component');
 		
 		// Checking default options for each field
-		if(this.defaultConfigs.game == 'aai'){
-			$radioGameFieldAAI.prop('checked', true);
+		if(this.defaultConfigs.game == 'aai1'){
+			$radioGameFieldAAI1.prop('checked', true);
 		} else if(this.defaultConfigs.game == 'aa4'){
 			$radioGameFieldAA4.prop('checked', true);
 		} else if(this.defaultConfigs.game == 'aa3'){
@@ -1738,6 +1751,28 @@ function aade(){
 		
 		// Avoid form resetting default behaviour
 		return false;
+	}
+	
+	this.validateSelectedPlatformFromConfigSettings = function(){
+		var $radioGameFields = $("[name='config-game-field']");
+		var $radioPlatformFields = $("[name='config-platform']");
+		var $radioInvalidateLargeLinesFields = $("[name='invalidate-large-lines']");
+		var $checkedRadioGameField = $radioGameFields.filter(':checked');
+		var $checkedRadioPlatformField = $radioPlatformFields.filter(':checked');
+		var $radioPlatform3DS = $('#config-platform-3ds');
+		var $radioPlatformDSJTS = $('#config-platform-ds-jacutemsabao');
+		
+		var checkedGame = $checkedRadioGameField.val();
+		var checkedPlatform = $checkedRadioPlatformField.val();
+		
+		if(checkedGame == 'aai1'){
+			$radioInvalidateLargeLinesFields.attr('disabled', 'disabled').prop('checked', false);
+			if(checkedPlatform == '3ds') $radioPlatformDSJTS.prop('checked', true);
+			$radioPlatform3DS.attr('disabled', 'disabled');
+		} else {
+			$radioPlatform3DS.removeAttr('disabled', 'disabled');
+			$radioInvalidateLargeLinesFields.removeAttr('disabled').first().prop('checked', true);
+		}
 	}
 	
 	this.hideScriptConfigSettings = function(){
@@ -2223,8 +2258,8 @@ function aade(){
 			}).html('<span class="glyphicon glyphicon-minus"></span>');
 			$newButtonGroups.append($newButtonRemoveDialogBlock[0].outerHTML);
 			
-			// Removing add button if the game is AAI
-			if(that.configs.game = 'aai'){
+			// Removing add button if the game is AAI1
+			if(that.configs.game = 'aai1'){
 				$newTdPreviewConteiners.find('button.add-new-block').remove();
 			}
 
@@ -2958,7 +2993,7 @@ function aade(){
 		var platform = that.configs.platform;
 		var game = that.configs.game;
 		var checkPlatformDS = (platform == 'ds_jacutemsabao' || platform == 'ds_american' || platform == 'ds_european');
-		var checkGameIsAAI = (game == 'aai');
+		var checkGameIsAAI1 = (game == 'aai1');
 		
 		var checkValidBlock = true;
 		var checkBlockWidthLastLineReduced = false;
@@ -2985,7 +3020,7 @@ function aade(){
 			
 			// For blocks with three lines, defining caret right padding
 			// and reducing block width with its value
-			if((checkGameIsAAI || (checkHasCaret && lineNumber == 3)) && !checkBlockWidthLastLineReduced){
+			if((checkGameIsAAI1 || (checkHasCaret && lineNumber == 3)) && !checkBlockWidthLastLineReduced){
 				if(checkCenteredBlock){
 					if(checkPlatformDS){
 						caretRightPadding = 15;
@@ -3000,7 +3035,7 @@ function aade(){
 					}
 				}
 				blockWidth -= caretRightPadding;
-				if(checkGameIsAAI) blockWidth -= 2;
+				if(checkGameIsAAI1) blockWidth -= 2;
 				checkBlockWidthLastLineReduced = true;
 			}
 			
@@ -3029,13 +3064,13 @@ function aade(){
 				}
 				
 				checkValidBlock = false;
-				if(checkInsideCaretArea && !checkGameIsAAI){
+				if(checkInsideCaretArea && !checkGameIsAAI1){
 					message = 'Texto sobrepondo a área do cursor da terceira linha!';
 				} else {
 					message = 'Largura da linha ultrapassa limite do bloco!';
 				}
 			}
-			if((that.configs.invalidateLargeLines && !checkGameIsAAI) && (charactersPerLine > 32)){
+			if((that.configs.invalidateLargeLines && !checkGameIsAAI1) && (charactersPerLine > 32)){
 				checkValidBlock = false;
 				message = 'Contém linhas com mais de 32 caracteres!';
 				return false; // Exit $.each
@@ -3380,6 +3415,24 @@ function aade(){
 		this.changeDefaultGame($selectEquivalenceTable);
 	}
 	
+	this.validateSelectedPlatformFromFileForm = function(){
+		var $selectPlatform = $('#platform');
+		
+		var game = this.configs.game;
+		var platform = this.configs.platform;
+		
+		if(!platform) platform = this.defaultConfigs.platform;
+		
+		if(game == 'aai1'){
+			if(platform == '3ds') $selectPlatform.val('ds_jacutemsabao');
+			$selectPlatform.find("option[value='3ds']").attr('disabled', 'disabled');
+		} else {
+			$selectPlatform.find("option[value='3ds']").removeAttr('disabled');
+		}
+		$selectPlatform.trigger('change');
+		this.reinstantiateSelect2Fields($selectPlatform);
+	}
+	
 	this.addCharacterEquivalenceTable = function(){
 		var code = prompt('Digite o código do personagem');
 		if(code == null){
@@ -3614,12 +3667,12 @@ function aade(){
 	}
 	
 	this.getColorClass = function(colorCode){
-		if(this.configs.game == 'aai'){
-			if(colorCode == 1 || colorCode == 2){
+		if(this.configs.game == 'aai1'){
+			if(colorCode == 32770 || colorCode == 1){
 				return 'color-orange';
-			} else if(colorCode == 4){
+			} else if(colorCode == 32772 || colorCode == 2){
 				return 'color-blue';
-			} else if(colorCode == 3 || colorCode == 6){
+			} else if(colorCode == 32774 || colorCode == 3){
 				return 'color-green';
 			} else {
 				return '';

@@ -51,12 +51,12 @@
 							<div class="form-group">
 								<label for="game-field" style="display: block">Jogo:</label>
 								<select class="form-control" name="game-field" id="game-field" style="width: 100%"
-									onchange="aade.changeDefaultGame(this); aade.loadEquivalenceTableFromFileForm(this.value)">
+									onchange="aade.changeDefaultGame(this); aade.loadEquivalenceTableFromFileForm(this.value); aade.validateSelectedPlatformFromFileForm()">
 									<option value="aa1" selected>Phoenix Wright: Ace Attorney (AA1)</option>
 									<option value="aa2">Phoenix Wright: Ace Attorney - Justice For All (AA2)</option>
 									<option value="aa3">Phoenix Wright: Ace Attorney - Trials and Tribulations (AA3)</option>
 									<option value="aa4">Apollo Justice: Ace Attorney (AA4)</option>
-									<option value="aai">Ace Attorney Investigations: Miles Edgeworth (AAI)</option>
+									<option value="aai1">Ace Attorney Investigations: Miles Edgeworth (AAI1)</option>
 								</select>
 							</div>
 							<div class="form-group">

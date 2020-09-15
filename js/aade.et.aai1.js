@@ -1,4 +1,4 @@
-/* Javascript library containing equivalence table for AAI */
+/* Javascript library containing equivalence table for AAI1 */
 
 aade.equivalenceTable = {
 	0: {
