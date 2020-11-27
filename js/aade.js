@@ -1793,16 +1793,11 @@ function aade(){
 		var checkedGame = $checkedRadioGameField.val();
 		var checkedPlatform = $checkedRadioPlatformField.val();
 		
-		if(checkedGame == 'aai1'){
+		if(checkedGame == 'aai1' || checkedGame == 'aai2'){
 			$radioInvalidateLargeLinesFields.attr('disabled', 'disabled').prop('checked', false);
 			if(checkedPlatform == '3ds') $radioPlatformDSJTS.prop('checked', true);
 			$radioPlatform3DS.attr('disabled', 'disabled');
 		} 
-		else if(checkedGame == 'aai2'){
-			$radioInvalidateLargeLinesFields.attr('disabled', 'disabled').prop('checked', false);
-			if(checkedPlatform == '3ds') $radioPlatformDSJTS.prop('checked', true);
-			$radioPlatform3DS.attr('disabled', 'disabled');
-		}
 		else {
 			$radioPlatform3DS.removeAttr('disabled', 'disabled');
 			$radioInvalidateLargeLinesFields.removeAttr('disabled').first().prop('checked', true);

@@ -176,6 +176,10 @@ aade.equivalenceTable = {
 	43: {
 		'original': 'Driver',
 		'adapted': 'Motorista'
+	}	,
+	44: {
+		'original': 'Spada',
+		'adapted': 'Spada'
 	}	
 	
 };
