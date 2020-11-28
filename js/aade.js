@@ -315,6 +315,10 @@ function aade(){
 				'label': 'AAI1 Caso 1 Início (DiegoHH e djmatheusito).txt'
 			},
 			{
+				'filename': 'AAI2 Case 1 Beginning (DiegoHH and djmatheusito).txt',
+				'label': 'AAI2 Caso 1 Início (DiegoHH e djmatheusito).txt'
+			},
+			{
 				'filename': 'AA1 Accents (DiegoHH).txt',
 				'label': 'AA1 Acentos (DiegoHH).txt'
 			},
@@ -825,21 +829,6 @@ function aade(){
 					}
 				}
 				
-				/*if(game == 'aai2'){
-					for(var sectionNumber in sectionBlocks){
-						var section = sectionBlocks[sectionNumber];
-						
-						for(var blockNumber in section){
-							var block = section[blockNumber];
-							
-							var text = $.trim( block['text'] );
-							if(text == ''){
-								delete sectionBlocks[sectionNumber][blockNumber];
-							}
-						}
-					}
-				}
-*/
 				// Loading dialog parser table
 				var $dialogParserTable = $divTabpanel.children('table');
 				var $tbody = $dialogParserTable.children('tbody');

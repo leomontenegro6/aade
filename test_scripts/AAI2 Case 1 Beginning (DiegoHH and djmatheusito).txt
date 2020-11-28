@@ -1,0 +1,115 @@
+{{0}}
+{d_B4EE: 21931}{d_B4F2: 21846}{d_B4F2: 21931}{d_B481}{d_B4F1: 21674, 21762, 21930}{d_B4DD: 21931, 21931}{d_B4A7: 21930, 21930, 21934}{d_B4A4}{iniciarMusica: 21931, 21930}{janela: 21930}
+{name: 43605, 21995}
+{center_text: 1}{speed: 7}{color: 3}March 25, 2:46 PM{b}
+{center_text: 1}Gourd Lake Park{b}
+{center_text: 1}Audience Area{color: 0}{p}
+
+{janela: 21931}
+{d_B490: 21930, 21674, 21772, 21930, 21931, 21931}{d_B494: 21930}{animacaoPersonagem: 21894, 21939}{d_B4F0: 21931}{animacaoPersonagem: 21894, 21937}{d_B4F0: 21930}{wait: 60}{janela: 21930}
+{name: 1}
+{speed: 3}{color: 2}({speed: 7}...{speed: 3}Word of this must have{b}
+reached every corner of{b}
+the world by now.){color: 0}{p}
+
+{janela: 21931}
+{wait: 60}{d_B481}{d_B4EB: 21674, 21930, 21930, 21931}{d_B4A7: 21931, 21931, 21928}{d_B4A4}{d_B4EE: 21930}{definirFlag: 21931, 21899}{animacaoPersonagem: 21931, 21935}{animPersonMini2: 21894, 21930, 21931}{d_B4F1: 21674, 21870, 21930}{d_B4EB: 21674, 21794, 21930, 21931}{d_B4A7: 21930, 21931, 21929}{d_B4A4}{camerapanwait}{wait: 30}{janela: 21930}
+{name: 1}
+{speed: 4}{color: 2}(An assassination attempt{b}
+on the {color: 1}president {color: 2}of the{b}
+Republic of Zheng Fa{speed: 8}...){color: 0}{p}
+
+{janela: 21931}
+{d_B4A7: 21931, 21931, 21929}{d_B4A4}{d_B4E0: 21931, 21928, 21930}{d_B4E0: 21894, 21928, 21930}{d_B4E0: 21892, 21928, 21930}{d_B4E0: 21912, 21928, 21930}{d_B4BA: 21928, 21930}{d_B4E2: 21928, 21930}{d_B4E3}{d_B4BB: 21930, 21930, 21930, 21930, 21930, 21930}{tweencharwait: 21930}{d_B4A7: 21930, 21931, 21929}{d_B4A4}{wait: 30}{d_B7BB: 21930}{janela: 21930}
+{name: 44}
+{speed: 3}My name is Miles Edgeworth.{wait: 8}{b}
+I am a prosecutor.{p}
+
+{name: 44}
+I was asked to investigate{b}
+this grave incident, {wait: 8}but{b}
+upon my arrival{speed: 8}...{p}
+
+{janela: 21931}
+{d_B7BB: 21931}{d_B4A7: 21931, 21931, 21929}{d_B4A4}{d_B4B9: 21930, 21930, 21930}{tweencharwait: 21930}{d_B4A5: 21928, 21930}{d_B481}{d_B4F1: 21674, 21786, 21930}{d_B4E2: 21930, 21930}{d_B4E0: 21931, 21930, 21930}{d_B4E0: 21894, 21930, 21930}{d_B4E0: 21892, 21930, 21930}{d_B4E0: 21912, 21930, 21930}{d_B4E3}{d_B4A7: 21930, 21931, 21929}{d_B4A4}{wait: 30}{animacaoPersonagem: 21894, 21939}{animacaoPersonagem: 21892, 21936}{wait: 30}{animPersonMini2: 21931, 21930, 21934}{wait: 4}{animPersonMini2: 21931, 21930, 21929}{wait: 40}{animacaoPersonagem: 21931, 21938}{janela: 21930}
+{name: 43605, 21911}
+{speed: 2}{som: 21914, 21930}{pararMusica: 21930}{flash}Mr. Edgeworth!{p}
+
+{janela: 21931}
+{d_B496: 21931, 21674, 21861, 21930, 21928, 21931}{d_B494: 21931}{d_B496: 21931, 21674, 21713, 21930, 21928, 21931}{d_B494: 21931}{d_B4A7: 21931, 21931, 21928}{d_B4A4}{d_B4EE: 21931}{d_B412: 21944, 21930}{d_B480: 21930}{d_B4BA: 21928, 21930}{d_B4A7: 21930, 21931, 21928}{iniciarMusica: 21949, 21930}{d_B4A4}{d_B4BB: 21931, 21933, 21928, 21930, 21931, 21928}{tweencharwait: 21931}{janela: 21930}
+{name: 0}
+{slash}We've been waiting for you, sir!{p}
+
+{janela: 21931}
+{d_B4E2: 21928, 21929}{d_B4E3}{wait: 30}{janela: 21930}
+{name: 1}
+{speed: 3}{color: 2}(This man is Dick Gumshoe.){color: 0}{p}
+
+{color: 2}(He's a detective with the local{b}
+precinct who assists me on all{b}
+cases under my jurisdiction.){color: 0}{p}
+
+{janela: 21931}
+{d_B4E2: 21930, 21929}{d_B4E3}{d_B4BB: 21930, 21931, 21931, 21931, 21930, 21928}{d_B488: 21931, 21929, 21928}{tweencharwait: 21930}{tweencharwait: 21931}{janela: 21930}
+{name: 1}
+What is the president's{b}
+current condition?{p}
+
+{name: 2}
+{speed: 2}{shakel}I'm still not sure, sir!{p}
+
+{charpose: 21931, 21931}{name: 2}
+{speed: 3}The paramedics just entered{b}
+his plane a few moments ago{speed: 8}...{p}
+
+{name: 1}
+{speed: 4}I see{speed: 7}...{speed: 3}{wait: 8}{b}
+{color: 2}(I hope it's nothing too serious{speed: 8}...){color: 0}{p}
+
+{charpose: 21930, 21930}{name: 1}
+{speed: 3}Very well,{wait: 6} Detective.{wait: 13} Please show{b}
+me around the crime scene.{p}
+
+{charpose: 21931, 21928}{name: 2}
+{speed: 2}{slash}Roger that, sir!{p}
+
+{janela: 21931}
+{d_B43F: 21930}{d_B4A5: 21930, 21929}{d_B490: 21930, 21674, 21974, 21930, 21931, 21931}{d_B490: 21931, 21855, 22013, 21930, 21931, 21931}{wait: 30}{janela: 21930}
+{name: 43605, 21994}
+{som: 21918, 21930}{pararMusica: 21930}{shakeh}{flash}Hey, mister!{wait: 24}{b}
+{shakel}Just a minute,{wait: 8} I'm beggin' ya!{p}
+
+{janela: 21931}
+{d_B412: 21944, 21931}{animacaoPersonagem: 21944, 21938}{d_B494: 21944}{d_B402: 21944, 21931}{animacaoPersonagem: 21944, 21939}{d_B494: 21930}{d_B494: 21931}{animPersonMini2: 21930, 21930, 21930}{wait: 4}{animPersonMini2: 21930, 21930, 21931}{wait: 4}{animPersonMini2: 21930, 21930, 21928}{animPersonMini2: 21931, 21930, 21931}{wait: 4}{animPersonMini2: 21931, 21930, 21928}{wait: 4}{animPersonMini2: 21931, 21930, 21929}{d_B494: 21944}{janela: 21930}
+{name: 1}
+{speed: 3}{som: 21893, 21930}{flash}{color: 2}(Hm?{wait: 19} What's this?){color: 0}{p}
+
+{janela: 21931}
+{d_B402: 21944, 21928}{animacaoPersonagem: 21944, 21936}{d_B494: 21944}{animacaoPersonagem: 21944, 21937}{janela: 21930}
+{janela: 21931}
+{janela: 21930}
+{name: 43605, 21908}
+{speed: 3}Mister! {wait: 15}Yer the prosecutor in{b}
+charge 'round these parts,{wait: 8} right?{p}
+
+{name: 43605, 21908}
+Can I ask you a little{b}
+{speed: 2}{shakel}somethin' real quick?{p}
+
+{animacaoPersonagem: 21930, 21890}{name: 1}
+{speed: 3}{som: 21914, 21930}{flash}I'm afraid I must refrain{b}
+from commenting for now.{wait: 16}{b}
+{speed: 2}{animPersonMini2: 21930, 21930, 21930}Let's go,{wait: 8} {shakel}Detective!{p}
+
+{janela: 21931}
+{d_B494: 21944}{animacaoPersonagem: 21930, 21928}{animacaoPersonagem: 21931, 21929}{d_B490: 21930, 21674, 43594, 21930, 21931, 21931}{wait: 10}{d_B495: 21931, 21920, 21824, 22013, 21930, 21931, 21931}{d_B494: 21931}{animPersonMini2: 21931, 21930, 21928}{wait: 30}{animPersonMini2: 21931, 21930, 21931}{wait: 80}{animacaoPersonagem: 21944, 21941}{janela: 21930}
+{name: 43605, 21908}
+{speed: 3}{shakel}Hey!{wait: 8} Wait!{wait: 16} {speed: 2}{shakel}Mr. Prosecutor!{p}
+
+{animPersonMini2: 21931, 21930, 21930}{name: 2}
+{speed: 4}H-{wait: 7}Hold on, {wait: 8}{speed: 2}{slash}Mr. Edgeworth!{wait: 16}{b}
+Wait for me, sir!{p}
+
+{janela: 21931}
+{d_B496: 21931, 21855, 43594, 21930, 21928, 21931}{wait: 10}{d_B4A7: 21931, 21931, 21928}{d_B4A4}{definirFlag: 21931, 21896}{definirFlag: 21931, 21897}{definirFlag: 21931, 21802}{sptendjmp: 21930, 21930, 21928, 21930}
+
