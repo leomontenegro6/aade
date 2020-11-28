@@ -3441,7 +3441,7 @@ function aade(){
 		
 		if(!platform) platform = this.defaultConfigs.platform;
 		
-		if(game == 'aai1'){
+		if(game == 'aai1' || game == 'aai2'){
 			if(platform == '3ds') $selectPlatform.val('ds_jacutemsabao');
 			$selectPlatform.find("option[value='3ds']").attr('disabled', 'disabled');
 		} else {

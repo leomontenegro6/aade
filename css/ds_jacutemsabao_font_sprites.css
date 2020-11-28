@@ -2,18 +2,18 @@ div.text-window.ds_jacutemsabao span.letter{
 	display: inline-block;
 	width: 16px;
 	height: 16px;
-	background: url('../images/font_ds_american.png?v=1.0.0');
+	background: url('../images/font_ds_american.png?v=1.0.1');
 	background-position: 0 0;
 }
 
 div.text-window.ds_jacutemsabao span.letter.color-blue{
-	background-image: url('../images/font_ds_american_blue.png?v=1.0.0');
+	background-image: url('../images/font_ds_american_blue.png?v=1.0.1');
 }
 div.text-window.ds_jacutemsabao span.letter.color-orange{
-	background-image: url('../images/font_ds_american_orange.png?v=1.0.0');
+	background-image: url('../images/font_ds_american_orange.png?v=1.0.1');
 }
 div.text-window.ds_jacutemsabao span.letter.color-green{
-	background-image: url('../images/font_ds_american_green.png?v=1.0.0');
+	background-image: url('../images/font_ds_american_green.png?v=1.0.1');
 }
 
 div.text-window.ds_jacutemsabao span.caret{

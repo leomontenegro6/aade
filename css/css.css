@@ -295,7 +295,7 @@ td.form-fields textarea.text-field{
 .dialog-preview.text-only{
 	width: 320px;
 	height: 80px;
-	background: url('../images/dialog_box_3ds.png?v=1.0.0');
+	background: url('../images/dialog_box_3ds.png?v=1.0.1');
 	display: inline-block;
 	margin-top: 20px;
 }
@@ -306,7 +306,7 @@ td.form-fields textarea.text-field{
 .dialog-preview.ds.text-only{
 	width: 256px;
 	height: 64px;
-	background: url('../images/dialog_box_ds.png?v=1.0.0');
+	background: url('../images/dialog_box_ds.png?v=1.0.1');
 }
 .dialog-preview div.character-name{
 	position: absolute;
@@ -376,10 +376,10 @@ td.form-fields textarea.text-field{
 	left: 61px;
 }
 .dialog-preview.invalid{
-	background: url('../images/dialog_box_invalid_3ds.png?v=1.0.0');
+	background: url('../images/dialog_box_invalid_3ds.png?v=1.0.1');
 }
 .dialog-preview.ds.invalid{
-	background: url('../images/dialog_box_invalid_ds.png?v=1.0.0');
+	background: url('../images/dialog_box_invalid_ds.png?v=1.0.1');
 }
 .popover{
 	cursor: pointer;

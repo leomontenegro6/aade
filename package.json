@@ -1,6 +1,6 @@
 {
 	"name": "Ace Attorney Dialogue Editor",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Dialogue editor for Ace Attorney games, made in electron.js",
 	"main": "main.js",
 	"scripts": {
